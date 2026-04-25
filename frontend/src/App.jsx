@@ -23,6 +23,7 @@ export function App() {
   const [health, setHealth] = useState(null);
   const [selectedContractId, setSelectedContractId] = useState("");
   const [selectedMilestoneId, setSelectedMilestoneId] = useState("");
+  const [selectedWikiPath, setSelectedWikiPath] = useState("");
   const [citation, setCitation] = useState(null);
 
   function setPage(nextPage) {
@@ -36,12 +37,12 @@ export function App() {
 
   return (
     <Layout page={page} setPage={setPage} health={health}>
-      {page === "overview" ? <OverviewPage setPage={setPage} setSelectedContractId={setSelectedContractId} setCitation={setCitation} /> : null}
-      {page === "detail" ? <ContractDetailPage contractId={selectedContractId} setSelectedContractId={setSelectedContractId} setSelectedMilestoneId={setSelectedMilestoneId} setPage={setPage} setCitation={setCitation} /> : null}
-      {page === "milestone" ? <MilestoneDetailPage milestoneId={selectedMilestoneId} setSelectedMilestoneId={setSelectedMilestoneId} setCitation={setCitation} /> : null}
+      {page === "overview" ? <OverviewPage setPage={setPage} setSelectedContractId={setSelectedContractId} setSelectedWikiPath={setSelectedWikiPath} setCitation={setCitation} /> : null}
+      {page === "detail" ? <ContractDetailPage contractId={selectedContractId} setSelectedContractId={setSelectedContractId} setSelectedMilestoneId={setSelectedMilestoneId} setSelectedWikiPath={setSelectedWikiPath} setPage={setPage} setCitation={setCitation} /> : null}
+      {page === "milestone" ? <MilestoneDetailPage milestoneId={selectedMilestoneId} setSelectedMilestoneId={setSelectedMilestoneId} setSelectedWikiPath={setSelectedWikiPath} setPage={setPage} setCitation={setCitation} /> : null}
       {page === "workflow" ? <WorkflowPage contractId={selectedContractId} setSelectedContractId={setSelectedContractId} /> : null}
-      {page === "query" ? <QueryPage contractId={selectedContractId} setSelectedContractId={setSelectedContractId} setCitation={setCitation} /> : null}
-      {page === "wiki" ? <WikiPage setPage={setPage} /> : null}
+      {page === "query" ? <QueryPage contractId={selectedContractId} setSelectedContractId={setSelectedContractId} setSelectedWikiPath={setSelectedWikiPath} setPage={setPage} setCitation={setCitation} /> : null}
+      {page === "wiki" ? <WikiPage setPage={setPage} selectedWikiPath={selectedWikiPath} setSelectedWikiPath={setSelectedWikiPath} selectedContractId={selectedContractId} selectedMilestoneId={selectedMilestoneId} setSelectedContractId={setSelectedContractId} setSelectedMilestoneId={setSelectedMilestoneId} /> : null}
       {page === "graph" ? <GraphPage contractId={selectedContractId} milestoneId={selectedMilestoneId} setSelectedContractId={setSelectedContractId} setSelectedMilestoneId={setSelectedMilestoneId} setPage={setPage} /> : null}
       {page === "health" ? <HealthPage health={health} setHealth={setHealth} /> : null}
       <CitationDrawer citation={citation} onClose={() => setCitation(null)} />

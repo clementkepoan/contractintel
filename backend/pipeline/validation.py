@@ -12,7 +12,8 @@ def validate_contract_data(extracted: dict[str, Any]) -> list[dict[str, Any]]:
 
     if total_amount is not None and milestone_amounts:
         milestone_sum = sum(milestone_amounts)
-        if milestone_sum != total_amount:
+        delta = milestone_sum - total_amount
+        if abs(delta) > 1:
             citations: list[dict[str, Any]] = []
             for milestone in milestones:
                 if milestone.get("amount") is not None:
@@ -21,7 +22,7 @@ def validate_contract_data(extracted: dict[str, Any]) -> list[dict[str, Any]]:
                 {
                     "code": "amount_sum_mismatch",
                     "severity": "ERROR",
-                    "message": f"Milestone amounts sum to {milestone_sum}, expected {total_amount}.",
+                    "message": f"Milestone amounts sum to {milestone_sum}, contract total is {total_amount}, delta = {delta:+}.",
                     "citations": citations[:8],
                 }
             )
@@ -55,11 +56,12 @@ def validate_contract_data(extracted: dict[str, Any]) -> list[dict[str, Any]]:
                 continue
             expected_amount = round(total_amount * (percentage / 100))
             if abs(expected_amount - amount) > 1:
+                implied_percentage = round((amount / total_amount) * 100, 1) if total_amount else 0
                 warnings.append(
                     {
                         "code": "percentage_amount_inconsistency",
-                        "severity": "WARNING",
-                        "message": f'Milestone "{milestone["name"]}" amount {amount} does not align with {percentage}% of total {total_amount}.',
+                        "severity": "ERROR",
+                        "message": f'Milestone "{milestone["name"]}" states {percentage}% (expected {expected_amount}) but amount is {amount} (= {implied_percentage}%).',
                         "citations": milestone["citations"][:4],
                     }
                 )

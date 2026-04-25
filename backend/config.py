@@ -35,4 +35,8 @@ def ensure_runtime_dirs() -> None:
     settings.indexes_dir.mkdir(parents=True, exist_ok=True)
     settings.wiki_dir.mkdir(parents=True, exist_ok=True)
     (settings.wiki_dir / "contracts").mkdir(parents=True, exist_ok=True)
+    (settings.wiki_dir / "contract_versions").mkdir(parents=True, exist_ok=True)
+    (settings.wiki_dir / "sources").mkdir(parents=True, exist_ok=True)
     (settings.wiki_dir / "milestones").mkdir(parents=True, exist_ok=True)
+    (settings.wiki_dir / "milestone_versions").mkdir(parents=True, exist_ok=True)
+    (settings.wiki_dir / "queries").mkdir(parents=True, exist_ok=True)

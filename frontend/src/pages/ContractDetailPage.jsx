@@ -14,7 +14,7 @@ function metadataRows(contract) {
   ];
 }
 
-export function ContractDetailPage({ contractId, setSelectedContractId, setSelectedMilestoneId, setPage, setCitation }) {
+export function ContractDetailPage({ contractId, setSelectedContractId, setSelectedMilestoneId, setSelectedWikiPath, setPage, setCitation }) {
   const [contracts, setContracts] = useState([]);
   const [contract, setContract] = useState(null);
   const [financials, setFinancials] = useState(null);
@@ -64,7 +64,15 @@ export function ContractDetailPage({ contractId, setSelectedContractId, setSelec
         </div>
         <div className="button-row">
           <button type="button" className="ghost-button" onClick={loadRaw}><FileJson size={16} /> Raw JSON</button>
-          <button type="button" className="ghost-button" onClick={() => setPage("wiki")}><BookOpen size={16} /> Open in Wiki</button>
+          <button
+            type="button"
+            className="ghost-button"
+            onClick={async () => {
+              const paths = await api.wikiContract(contract.contract_id);
+              setSelectedWikiPath(paths.project_path);
+              setPage("wiki");
+            }}
+          ><BookOpen size={16} /> Open in Wiki</button>
           <button type="button" className="ghost-button" onClick={() => setPage("graph")}><Network size={16} /> View in Graph</button>
         </div>
       </div>

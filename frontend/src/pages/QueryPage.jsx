@@ -3,13 +3,14 @@ import { History, Paperclip, Search, Send } from "lucide-react";
 import { api, formatDate } from "../api/client.js";
 import { EmptyBlock, ErrorBlock, LoadingBlock } from "../components/Ui.jsx";
 
-export function QueryPage({ contractId, setSelectedContractId }) {
+export function QueryPage({ contractId, setSelectedContractId, setSelectedWikiPath, setPage }) {
   const [contracts, setContracts] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [messages, setMessages] = useState([]);
   const [chatSessionId, setChatSessionId] = useState("");
   const [query, setQuery] = useState("What are the specific limitation of liability caps mentioned across our standard MSAs?");
   const [topK, setTopK] = useState(5);
+  const [persistToWiki, setPersistToWiki] = useState(true);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
   const [asking, setAsking] = useState(false);
@@ -48,7 +49,13 @@ export function QueryPage({ contractId, setSelectedContractId }) {
     setAsking(true);
     setError(null);
     try {
-      const payload = await api.query({ query, top_k: Number(topK), contract_id: contractId || null, chat_session_id: chatSessionId || null });
+      const payload = await api.query({
+        query,
+        top_k: Number(topK),
+        contract_id: contractId || null,
+        chat_session_id: chatSessionId || null,
+        persist_to_wiki: persistToWiki,
+      });
       setResult(payload);
       setChatSessionId(payload.chat_session_id);
       const [sessionList, messageList] = await Promise.all([api.chatSessions(), api.chatMessages(payload.chat_session_id)]);
@@ -92,6 +99,7 @@ export function QueryPage({ contractId, setSelectedContractId }) {
             <span>Mode: {result?.retrieval_mode || "-"}</span>
             <span>Model: qwen2.5</span>
             <span>Session ID: {result?.chat_session_id || chatSessionId || "-"}</span>
+            {result?.wiki_path ? <button type="button" className="ghost-button" onClick={() => { setSelectedWikiPath(result.wiki_path); setPage("wiki"); }}>Open Wiki Note</button> : null}
           </div>
         </section>
         <section className="evidence-stack">
@@ -107,6 +115,12 @@ export function QueryPage({ contractId, setSelectedContractId }) {
                 <div className="evidence-score">Score · {citation.page_estimate || "-"}</div>
               </div>
               <div className="evidence-result-body">{citation.text_snippet}</div>
+              {citation.source_path ? (
+                <div className="evidence-result-actions">
+                  <button type="button" className="ghost-button" onClick={() => { setSelectedWikiPath(citation.source_path); setPage("wiki"); }}>Open Source Page</button>
+                  {citation.project_path ? <button type="button" className="ghost-button" onClick={() => { setSelectedWikiPath(citation.project_path); setPage("wiki"); }}>Open Project Page</button> : null}
+                </div>
+              ) : null}
             </article>
           ))}
         </section>
@@ -118,6 +132,7 @@ export function QueryPage({ contractId, setSelectedContractId }) {
             </select>
             <label>Top K Results: {topK}<input type="range" min="1" max="10" value={topK} onChange={(event) => setTopK(event.target.value)} /></label>
             <span className="composer-hybrid">Hybrid Search</span>
+            <label className="composer-toggle"><input type="checkbox" checked={persistToWiki} onChange={(event) => setPersistToWiki(event.target.checked)} /> File answer into wiki</label>
           </div>
           <div className="composer-input-row">
             <textarea value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Ask a question about the filtered contracts..." />

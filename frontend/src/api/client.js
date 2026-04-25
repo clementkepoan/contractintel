@@ -1,14 +1,38 @@
 const jsonHeaders = { "Content-Type": "application/json" };
 
-async function apiFetch(path, options = {}) {
-  const response = await fetch(path, options);
-  const contentType = response.headers.get("content-type") || "";
-  const payload = contentType.includes("application/json") ? await response.json() : await response.text();
-  if (!response.ok) {
-    const detail = typeof payload === "object" ? payload.detail || JSON.stringify(payload) : payload;
-    throw new Error(detail || `Request failed: ${response.status}`);
+const transientStatuses = new Set([502, 503, 504]);
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, ms);
+  });
+}
+
+function readableError(status, payload) {
+  if (transientStatuses.has(status)) {
+    return "Backend API is still starting. Refresh in a few seconds.";
   }
-  return payload;
+  if (typeof payload === "object") return payload.detail || JSON.stringify(payload);
+  if (typeof payload === "string" && payload.trim().startsWith("<html")) {
+    return `Request failed: ${status}`;
+  }
+  return payload || `Request failed: ${status}`;
+}
+
+async function apiFetch(path, options = {}) {
+  const retries = options.method ? 0 : 4;
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
+    const response = await fetch(path, options);
+    const contentType = response.headers.get("content-type") || "";
+    const payload = contentType.includes("application/json") ? await response.json() : await response.text();
+    if (response.ok) return payload;
+    if (transientStatuses.has(response.status) && attempt < retries) {
+      await sleep(500 * (attempt + 1));
+      continue;
+    }
+    throw new Error(readableError(response.status, payload));
+  }
+  throw new Error("Request failed.");
 }
 
 export const api = {
@@ -21,7 +45,10 @@ export const api = {
   milestoneStatus: (milestoneId) => apiFetch(`/api/milestones/${milestoneId}/status`),
   workflow: (milestoneId) => apiFetch(`/api/workflow/${milestoneId}`),
   wikiIndex: () => apiFetch("/api/wiki"),
-  wikiPage: (path) => apiFetch(`/api/wiki/${path.split("/").map(encodeURIComponent).join("/")}`),
+  wikiPage: (path) => apiFetch(`/api/wiki/page/${path.split("/").map(encodeURIComponent).join("/")}`),
+  wikiLint: () => apiFetch("/api/wiki/lint"),
+  wikiContract: (contractId) => apiFetch(`/api/wiki/contract/${contractId}`),
+  wikiMilestone: (milestoneId) => apiFetch(`/api/wiki/milestone/${milestoneId}`),
   graph: () => apiFetch("/api/kg/graph"),
   graphSvg: (contractId) => apiFetch(contractId ? `/api/kg/svg/${contractId}` : "/api/kg/svg"),
   graphAcceptedNotPaid: () => apiFetch("/api/kg/query/accepted-not-paid"),

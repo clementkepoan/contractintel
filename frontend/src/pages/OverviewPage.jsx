@@ -11,7 +11,7 @@ function workflowTone(milestones = []) {
   return "Active";
 }
 
-export function OverviewPage({ setPage, setSelectedContractId }) {
+export function OverviewPage({ setPage, setSelectedContractId, setSelectedWikiPath }) {
   const [contracts, setContracts] = useState([]);
   const [financials, setFinancials] = useState({});
   const [loading, setLoading] = useState(true);
@@ -62,7 +62,8 @@ export function OverviewPage({ setPage, setSelectedContractId }) {
       const result = await api.upload(file);
       await load();
       setSelectedContractId(result.contract_id);
-      setPage("detail");
+      setSelectedWikiPath("");
+      // Keep the user on the overview page after import so the new contract appears in-place.
     } catch (err) {
       setError(err);
     } finally {
@@ -153,7 +154,12 @@ export function OverviewPage({ setPage, setSelectedContractId }) {
                       <td>
                         <div className="action-icons">
                           <button type="button" className="ghost-button square" onClick={() => { setSelectedContractId(contract.contract_id); setPage("detail"); }}><Eye size={16} /></button>
-                          <button type="button" className="ghost-button square" onClick={() => { setSelectedContractId(contract.contract_id); setPage("wiki"); }}><BookOpen size={16} /></button>
+                          <button type="button" className="ghost-button square" onClick={async () => {
+                            setSelectedContractId(contract.contract_id);
+                            const paths = await api.wikiContract(contract.contract_id);
+                            setSelectedWikiPath(paths.project_path);
+                            setPage("wiki");
+                          }}><BookOpen size={16} /></button>
                           <button type="button" className="ghost-button square" onClick={() => { setSelectedContractId(contract.contract_id); setPage("graph"); }}><Network size={16} /></button>
                         </div>
                       </td>

@@ -17,6 +17,7 @@ class QueryPayload(BaseModel):
     top_k: int = 5
     contract_id: str | None = None
     chat_session_id: str | None = None
+    persist_to_wiki: bool = False
 
 
 @router.post("/query")
@@ -32,6 +33,7 @@ def query_documents(payload: QueryPayload) -> dict:
             contract_id=payload.contract_id,
             top_k=payload.top_k,
             chat_session_id=payload.chat_session_id,
+            persist_to_wiki=payload.persist_to_wiki,
         )
 
 

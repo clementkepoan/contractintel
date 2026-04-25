@@ -10,11 +10,12 @@ from langchain_ollama import ChatOllama
 from sqlmodel import select
 
 from backend.config import settings
-from backend.db.models import ChatMessage, ChatSession
+from backend.db.models import ChatMessage, ChatSession, Contract
 from backend.pipeline.embeddings import embedding_model_ready
 from backend.pipeline.indexer import hybrid_search_chunks
 from backend.pipeline.llm import llm_available
 from backend.pipeline.qdrant_store import qdrant_ready
+from backend.wiki.generator import append_query_note, resolve_contract_wiki_paths
 
 
 def ensure_chat_session(session: Any, chat_session_id: str | None, contract_id: str | None, first_query: str) -> ChatSession:
@@ -86,12 +87,19 @@ def answer_with_langchain(
     contract_id: str | None,
     top_k: int,
     chat_session_id: str | None,
+    persist_to_wiki: bool = False,
 ) -> dict[str, Any]:
     chat_session = ensure_chat_session(session, chat_session_id, contract_id, query)
     citations = []
     for current_contract_id in contract_ids:
+        contract = session.get(Contract, current_contract_id)
         for hit in hybrid_search_chunks(current_contract_id, query, top_k):
             hit["contract_id"] = current_contract_id
+            hit["source_file"] = contract.source_file if contract else None
+            try:
+                hit.update(resolve_contract_wiki_paths(session, current_contract_id))
+            except FileNotFoundError:
+                pass
             citations.append(hit)
     citations = sorted(citations, key=lambda item: item["retrieval_score"], reverse=True)[:top_k]
     if not citations:
@@ -104,6 +112,7 @@ def answer_with_langchain(
             "citations": [],
             "answer_method": "no_evidence",
             "retrieval_mode": retrieval_mode(),
+            "wiki_path": None,
         }
 
     evidence = format_evidence(citations)
@@ -138,10 +147,23 @@ def answer_with_langchain(
 
     append_message(session, chat_session.chat_session_id, "human", query)
     append_message(session, chat_session.chat_session_id, "ai", answer)
+    wiki_path = None
+    if persist_to_wiki:
+        wiki_path = append_query_note(
+            session=session,
+            chat_session_id=chat_session.chat_session_id,
+            contract_id=contract_id,
+            query=query,
+            answer=answer,
+            citations=citations,
+            answer_method="langchain_ollama" if llm_available() else "langchain_extractive_fallback",
+            retrieval_mode=retrieval_mode(),
+        )
     return {
         "chat_session_id": chat_session.chat_session_id,
         "answer": answer,
         "citations": citations,
         "answer_method": "langchain_ollama" if llm_available() else "langchain_extractive_fallback",
         "retrieval_mode": retrieval_mode(),
+        "wiki_path": wiki_path,
     }

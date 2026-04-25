@@ -6,7 +6,8 @@ services:
     ports:
       - "5173:80"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
 
   backend:
     build:
@@ -29,6 +30,12 @@ services:
       - QDRANT_COLLECTION_NAME=contract_chunks
     depends_on:
       - qdrant
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 15s
 
   qdrant:
     image: qdrant/qdrant:latest

@@ -12,6 +12,8 @@ def now_utc() -> datetime:
 
 class Contract(SQLModel, table=True):
     contract_id: str = Field(primary_key=True, index=True)
+    contract_key: str = Field(default="", index=True)
+    version_number: int = Field(default=1, index=True)
     contract_name: str
     source_file: str = Field(index=True)
     source_version: str = Field(default="v1")
@@ -26,6 +28,7 @@ class Contract(SQLModel, table=True):
     raw_json_path: str
     source_hash: str = Field(index=True)
     supersedes_contract_id: Optional[str] = Field(default=None, index=True)
+    superseded_by_contract_id: Optional[str] = Field(default=None, index=True)
     is_superseded: bool = Field(default=False)
     created_at: datetime = Field(default_factory=now_utc)
     updated_at: datetime = Field(default_factory=now_utc)
@@ -33,6 +36,7 @@ class Contract(SQLModel, table=True):
 
 class Milestone(SQLModel, table=True):
     milestone_id: str = Field(primary_key=True, index=True)
+    milestone_key: str = Field(default="", index=True)
     contract_id: str = Field(index=True)
     name: str
     source_order: int = Field(index=True)
@@ -110,4 +114,28 @@ class ChatMessage(SQLModel, table=True):
     chat_session_id: str = Field(index=True)
     role: str = Field(index=True)
     content: str
+    created_at: datetime = Field(default_factory=now_utc)
+
+
+class IngestEvent(SQLModel, table=True):
+    event_id: str = Field(primary_key=True, index=True)
+    contract_key: str = Field(index=True)
+    contract_id: Optional[str] = Field(default=None, index=True)
+    version_number: int = Field(default=1, index=True)
+    source_file: str = Field(index=True)
+    source_hash: str = Field(index=True)
+    action: str = Field(index=True)
+    diff_json: str = Field(default="[]")
+    created_pages_json: str = Field(default="[]")
+    created_at: datetime = Field(default_factory=now_utc)
+
+
+class FiledQuery(SQLModel, table=True):
+    query_id: str = Field(primary_key=True, index=True)
+    chat_session_id: str = Field(index=True)
+    question: str
+    answer: str
+    contract_scope_json: str = Field(default="[]")
+    citations_json: str = Field(default="[]")
+    wiki_path: str = Field(index=True)
     created_at: datetime = Field(default_factory=now_utc)

@@ -1,4 +1,5 @@
 from pathlib import Path
+from uuid import uuid4
 
 from fastapi.testclient import TestClient
 
@@ -24,8 +25,9 @@ def test_payment_request_requires_acceptance() -> None:
 def test_ingest_and_full_payment_flow() -> None:
     with TestClient(app) as client:
         sample = Path("Database/02XX專案.docx")
+        upload_name = f"flow_{uuid4().hex}_02XX專案.docx"
         with sample.open("rb") as handle:
-            ingest = client.post("/api/ingest", files={"file": (sample.name, handle, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")})
+            ingest = client.post("/api/ingest", files={"file": (upload_name, handle, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")})
         assert ingest.status_code == 200
         contract_id = ingest.json()["contract_id"]
 
@@ -64,8 +66,9 @@ def test_ingest_and_full_payment_flow() -> None:
 def test_query_endpoint_returns_citations() -> None:
     with TestClient(app) as client:
         sample = Path("Database/02XX專案.docx")
+        upload_name = f"query_{uuid4().hex}_02XX專案.docx"
         with sample.open("rb") as handle:
-            ingest = client.post("/api/ingest", files={"file": (sample.name, handle, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")})
+            ingest = client.post("/api/ingest", files={"file": (upload_name, handle, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")})
         assert ingest.status_code == 200
         contract_id = ingest.json()["contract_id"]
 
@@ -80,8 +83,9 @@ def test_query_endpoint_returns_citations() -> None:
 def test_query_endpoint_persists_chat_memory() -> None:
     with TestClient(app) as client:
         sample = Path("Database/02XX專案.docx")
+        upload_name = f"memory_{uuid4().hex}_02XX專案.docx"
         with sample.open("rb") as handle:
-            ingest = client.post("/api/ingest", files={"file": (sample.name, handle, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")})
+            ingest = client.post("/api/ingest", files={"file": (upload_name, handle, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")})
         assert ingest.status_code == 200
         contract_id = ingest.json()["contract_id"]
 
@@ -101,6 +105,66 @@ def test_query_endpoint_persists_chat_memory() -> None:
         payload = messages.json()
         assert len(payload) == 4
         assert [item["role"] for item in payload] == ["human", "ai", "human", "ai"]
+
+
+def test_wiki_manifest_and_query_note() -> None:
+    with TestClient(app) as client:
+        sample = Path("Database/02XX專案.docx")
+        upload_name = f"wiki_{uuid4().hex}_02XX專案.docx"
+        with sample.open("rb") as handle:
+            ingest = client.post("/api/ingest", files={"file": (upload_name, handle, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")})
+        assert ingest.status_code == 200
+        payload = ingest.json()
+        contract_id = payload["contract_id"]
+        assert payload["contract_key"].startswith("wiki-")
+        assert payload["version_number"] >= 1
+        assert payload["project_path"].startswith("contracts/")
+        assert payload["source_path"].startswith("sources/")
+
+        manifest = client.get("/api/wiki")
+        assert manifest.status_code == 200
+        pages = manifest.json()["pages"]
+        assert any(item["path"] == payload["project_path"] for item in pages)
+        assert any(item["path"] == payload["source_path"] for item in pages)
+
+        project_page = client.get(f"/api/wiki/page/{payload['project_path']}")
+        assert project_page.status_code == 200
+        assert project_page.json()["metadata"]["kind"] == "contract"
+
+        resolved = client.get(f"/api/wiki/contract/{contract_id}")
+        assert resolved.status_code == 200
+        assert resolved.json()["project_path"] == payload["project_path"]
+
+        query = client.post(
+            "/api/query",
+            json={"query": "第一期付款條件", "top_k": 2, "contract_id": contract_id, "persist_to_wiki": True},
+        )
+        assert query.status_code == 200
+        query_payload = query.json()
+        assert query_payload["wiki_path"]
+
+        note = client.get(f"/api/wiki/page/{query_payload['wiki_path']}")
+        assert note.status_code == 200
+        assert note.json()["metadata"]["kind"] == "query"
+
+        lint = client.get("/api/wiki/lint")
+        assert lint.status_code == 200
+        assert "findings" in lint.json()
+
+
+def test_ingest_is_idempotent_for_same_source_hash() -> None:
+    with TestClient(app) as client:
+        sample = Path("Database/02XX專案.docx")
+        upload_name = f"idempotent_{uuid4().hex}_02XX專案.docx"
+        with sample.open("rb") as handle:
+            first = client.post("/api/ingest", files={"file": (upload_name, handle, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")})
+        assert first.status_code == 200
+        with sample.open("rb") as handle:
+            second = client.post("/api/ingest", files={"file": (upload_name, handle, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")})
+        assert second.status_code == 200
+        assert second.json()["ingest_action"] == "noop"
+        assert second.json()["contract_id"] == first.json()["contract_id"]
+        assert second.json()["version_number"] == first.json()["version_number"]
 
 
 def test_batch_ingest_endpoint() -> None:

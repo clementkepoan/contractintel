@@ -57,13 +57,16 @@ def convert_doc_to_docx(path: Path) -> Path:
 
 def classify_document(paragraphs: list[str]) -> str:
     joined = "\n".join(paragraphs)
+    head = "\n".join(paragraphs[:12])
+    if "施工說明書" in head or ("施工名稱" in head and "施工地點" in head):
+        return "construction_instruction"
     if "契約" in joined or "承攬" in joined:
         return "contract"
     if ("專案名稱" in joined or "需求" in joined or "功能" in joined) and "總價" not in joined and "付款辦法" not in joined:
         return "rfp"
     if "招標" in joined or "規範" in joined:
         return "rfp"
-    if "施工說明" in joined or "施工規範" in joined:
+    if ("施工說明" in head or "施工規範" in head) and "付款辦法" not in joined and "契約總價" not in joined:
         return "construction_instruction"
     return "contract"
 
@@ -85,6 +88,22 @@ def load_document(path: Path | str) -> dict[str, Any]:
                 "text": text,
             }
         )
+    table_index_base = len(document.paragraphs)
+    for table_index, table in enumerate(document.tables):
+        for row_index, row in enumerate(table.rows):
+            cells = [cell.text.strip().replace("\n", " | ") for cell in row.cells if cell.text.strip()]
+            if not cells:
+                continue
+            block_index = table_index_base + len(paragraphs)
+            text = " | ".join(cells)
+            paragraphs.append(
+                {
+                    "paragraph_index": block_index,
+                    "page_estimate": (block_index // 15) + 1,
+                    "block_id": f"{working_path.stem}_table_{table_index:02d}_row_{row_index:03d}",
+                    "text": text,
+                }
+            )
     return {
         "source_file": path.name,
         "working_file": working_path.name,

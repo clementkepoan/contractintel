@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Quote } from "lucide-react";
+import { BookOpen, Quote } from "lucide-react";
 import { api, formatMoney } from "../api/client.js";
 import { EmptyBlock, ErrorBlock, LoadingBlock } from "../components/Ui.jsx";
 import { StatusBadge } from "../components/StatusBadge.jsx";
 
-export function MilestoneDetailPage({ milestoneId, setSelectedMilestoneId, setCitation }) {
+export function MilestoneDetailPage({ milestoneId, setSelectedMilestoneId, setSelectedWikiPath, setPage, setCitation }) {
   const [contracts, setContracts] = useState([]);
   const [milestone, setMilestone] = useState(null);
   const [contract, setContract] = useState(null);
@@ -49,6 +49,15 @@ export function MilestoneDetailPage({ milestoneId, setSelectedMilestoneId, setCi
         <select value={milestone.milestone_id} onChange={(event) => setSelectedMilestoneId(event.target.value)}>
           {options.map((item) => <option key={item.milestone_id} value={item.milestone_id}>{item.contract_name} / {item.name}</option>)}
         </select>
+        <button
+          type="button"
+          className="ghost-button"
+          onClick={async () => {
+            const path = await api.wikiMilestone(milestone.milestone_id);
+            setSelectedWikiPath(path.milestone_path);
+            setPage("wiki");
+          }}
+        ><BookOpen size={16} /> Open in Wiki</button>
       </div>
       <div className="milestone-layout">
         <div className="page-stack">
