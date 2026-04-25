@@ -1,0 +1,11 @@
+.git
+.DS_Store
+**/__pycache__/
+**/*.pyc
+.pytest_cache/
+.venv/
+frontend/node_modules/
+frontend/dist/
+data/
+wiki/
+stitch_contract_intel_dashboard/

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contract Intelligence - Foundational Pour Phase 1</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "primary-container": "#334155",
+                        "primary-fixed-dim": "#b9c7e0",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary-fixed": "#0d1c2d",
+                        "tertiary": "#1c2b3c",
+                        "on-secondary-container": "#54647a",
+                        "on-primary-container": "#9eadc5",
+                        "on-primary-fixed-variant": "#3a485c",
+                        "tertiary-container": "#334153",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary-container": "#9eadc2",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container": "#eceef0",
+                        "on-primary-fixed": "#0d1c2f",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-variant": "#e0e3e5",
+                        "surface-tint": "#515f74",
+                        "primary-fixed": "#d5e3fd",
+                        "on-background": "#191c1e",
+                        "error": "#ba1a1a",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed": "#0b1c30",
+                        "secondary": "#505f76",
+                        "surface-container-highest": "#e0e3e5",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#191c1e",
+                        "outline": "#75777d",
+                        "surface-container-low": "#f2f4f6",
+                        "tertiary-fixed-dim": "#b9c8de",
+                        "secondary-fixed": "#d3e4fe",
+                        "inverse-surface": "#2d3133",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#b9c7e0",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#44474c",
+                        "tertiary-fixed": "#d4e4fa",
+                        "on-secondary": "#ffffff",
+                        "primary": "#1d2b3e",
+                        "outline-variant": "#c5c6cd",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#d0e1fb",
+                        "surface": "#f7f9fb",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#39485a",
+                        "emerald-100": "#d1fae5",
+                        "emerald-900": "#064e3b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "drawer-width": "400px",
+                        "table-row-height": "36px",
+                        "container-margin": "24px",
+                        "sidebar-width": "240px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter", "sans-serif"],
+                        "code-snippet": ["monospace"],
+                        "h2": ["Inter", "sans-serif"],
+                        "data-table": ["Inter", "sans-serif"],
+                        "h1": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "code-snippet": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "h2": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "data-table": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "h1": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface h-screen flex overflow-hidden font-data-table selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar (Suppressed due to Context Drawer/Deep Linking pattern, though typically present on main dashboards. Assuming this is a detail view over the dashboard, we'll keep the side nav to match the JSON blueprint for context, but focus on the canvas). -->
+<!-- Applying SideNavBar JSON styling -->
+<nav class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans text-sm antialiased tracking-tight fixed left-0 top-0 h-screen w-[240px] border-r border-slate-200 dark:border-slate-800 flex flex-col py-4 overflow-y-auto z-50">
+<div class="px-6 pb-6 border-b border-slate-200 dark:border-slate-800 mb-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-DEFAULT bg-primary flex items-center justify-center text-on-primary font-bold">
+                    CI
+                </div>
+<div>
+<h1 class="text-lg font-bold tracking-tighter text-slate-900 dark:text-slate-50">Contract Intel</h1>
+<p class="text-slate-500 dark:text-slate-400 font-label-caps text-label-caps mt-1">Technical Audit v2.4</p>
+</div>
+</div>
+</div>
+<div class="flex-1 px-3 space-y-1">
+<a class="text-slate-900 dark:text-slate-50 bg-slate-100 dark:bg-slate-800 font-semibold border-r-2 border-slate-900 dark:border-slate-50 flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">description</span>
+                Contracts
+            </a>
+<a class="text-slate-500 dark:text-slate-400 flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+                Workflow
+            </a>
+<a class="text-slate-500 dark:text-slate-400 flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+                Query
+            </a>
+<a class="text-slate-500 dark:text-slate-400 flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+                Wiki
+            </a>
+<a class="text-slate-500 dark:text-slate-400 flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+                Knowledge Graph
+            </a>
+<a class="text-slate-500 dark:text-slate-400 flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="health_and_safety">health_and_safety</span>
+                System Health
+            </a>
+</div>
+<div class="px-3 pt-4 border-t border-slate-200 dark:border-slate-800 mt-auto">
+<div class="flex items-center gap-2 px-3 py-2 text-slate-500 dark:text-slate-400">
+<div class="w-2 h-2 rounded-full bg-[#0ea5e9]"></div>
+<span class="material-symbols-outlined text-[16px]" data-icon="cloud_off">cloud_off</span>
+<span class="font-label-caps text-label-caps">Offline Mode (3)</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 ml-[240px] flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-slate-900 dark:text-slate-100 font-sans text-sm font-medium sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 h-14">
+<div class="flex items-center gap-4">
+<div class="text-base font-bold text-slate-800 dark:text-slate-100">Contract Intelligence</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer opacity-90 hover:opacity-100 rounded-DEFAULT hover:bg-surface-container">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer opacity-90 hover:opacity-100 rounded-DEFAULT hover:bg-surface-container">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer opacity-90 hover:opacity-100 rounded-DEFAULT hover:bg-surface-container">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Canvas & Drawer Container -->
+<main class="flex-1 flex overflow-hidden mr-[400px]"> <!-- Margin right for fixed Drawer -->
+<!-- Main Content Scrollable Area -->
+<div class="flex-1 overflow-y-auto bg-surface p-container-margin">
+<!-- Breadcrumb & Actions -->
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-2 text-on-surface-variant font-data-table text-data-table">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+<span>Contracts</span>
+<span>/</span>
+<span>CTR-2024-892</span>
+<span>/</span>
+<span class="text-on-surface font-medium">Milestones</span>
+</div>
+</div>
+<!-- Milestone Header Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-6 mb-gutter">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<h2 class="font-h1 text-h1 text-on-surface">Foundational Pour Phase 1</h2>
+<span class="bg-emerald-100 text-emerald-900 px-2 py-0.5 rounded-DEFAULT font-label-caps text-label-caps border border-emerald-900/20">Accepted</span>
+</div>
+<div class="flex items-center gap-6 mt-4">
+<div>
+<span class="text-on-surface-variant font-label-caps text-label-caps block mb-1">AMOUNT</span>
+<span class="font-data-table text-data-table font-medium text-on-surface">$150,000.00</span>
+</div>
+<div class="w-px h-8 bg-outline-variant"></div>
+<div>
+<span class="text-on-surface-variant font-label-caps text-label-caps block mb-1">PERCENTAGE</span>
+<span class="font-data-table text-data-table font-medium text-on-surface">10%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Grid for Details -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-gutter mb-gutter">
+<!-- Work Items -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg flex flex-col">
+<div class="p-4 border-b border-outline-variant flex items-center justify-between bg-surface-bright">
+<h3 class="font-h2 text-h2 text-on-surface">Work Items</h3>
+</div>
+<div class="p-0 flex-1">
+<div class="px-4 py-3 border-b border-outline-variant/50 bg-white hover:bg-surface-container-low transition-colors flex items-start gap-3 group">
+<div class="mt-0.5 w-4 h-4 rounded-full border border-outline flex items-center justify-center shrink-0">
+<div class="w-2 h-2 bg-primary rounded-full hidden group-hover:block"></div>
+</div>
+<span class="font-data-table text-data-table text-on-surface-variant leading-relaxed">Site preparation and excavation grading to specified depths.</span>
+<button class="ml-auto w-6 h-6 rounded-DEFAULT bg-surface border border-outline-variant text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center justify-center shrink-0 transition-colors" title="View Citation">
+<span class="material-symbols-outlined text-[14px]">format_quote</span>
+</button>
+</div>
+<div class="px-4 py-3 border-b border-outline-variant/50 bg-white hover:bg-surface-container-low transition-colors flex items-start gap-3 group">
+<div class="mt-0.5 w-4 h-4 rounded-full border border-outline flex items-center justify-center shrink-0"></div>
+<span class="font-data-table text-data-table text-on-surface-variant leading-relaxed">Installation of rebar framework per structural drawings B-01.</span>
+<button class="ml-auto w-6 h-6 rounded-DEFAULT bg-surface border border-outline-variant text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center justify-center shrink-0 transition-colors" title="View Citation">
+<span class="material-symbols-outlined text-[14px]">format_quote</span>
+</button>
+</div>
+<div class="px-4 py-3 bg-white hover:bg-surface-container-low transition-colors flex items-start gap-3 group">
+<div class="mt-0.5 w-4 h-4 rounded-full border border-outline flex items-center justify-center shrink-0"></div>
+<span class="font-data-table text-data-table text-on-surface-variant leading-relaxed">Pouring of high-strength concrete mix (C-30) for foundational slab.</span>
+<button class="ml-auto w-6 h-6 rounded-DEFAULT bg-surface border border-outline-variant text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center justify-center shrink-0 transition-colors" title="View Citation">
+<span class="material-symbols-outlined text-[14px]">format_quote</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Acceptance Criteria -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg flex flex-col">
+<div class="p-4 border-b border-outline-variant flex items-center justify-between bg-surface-bright">
+<h3 class="font-h2 text-h2 text-on-surface">Acceptance Criteria</h3>
+<button class="w-6 h-6 rounded-DEFAULT bg-surface border border-outline-variant text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center justify-center shrink-0 transition-colors" title="View Citation">
+<span class="material-symbols-outlined text-[14px]">format_quote</span>
+</button>
+</div>
+<div class="p-4 flex-1 font-body-md text-body-md text-on-surface-variant space-y-2">
+<ul class="list-disc pl-5 space-y-2">
+<li>Concrete slump test must fall within 4-6 inches upon delivery.</li>
+<li>Rebar layout must pass independent inspection by structural engineer prior to pour.</li>
+<li>Core samples at 7 days must indicate a minimum compressive strength of 2200psi.</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Payment Conditions Markdown Area -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg">
+<div class="p-4 border-b border-outline-variant flex items-center justify-between bg-surface-bright">
+<h3 class="font-h2 text-h2 text-on-surface">Payment Conditions</h3>
+<button class="w-6 h-6 rounded-DEFAULT bg-primary-container border border-primary-container text-on-primary-container flex items-center justify-center shrink-0 shadow-[0_0_4px_rgba(0,0,0,0.1)] ring-2 ring-primary-container/20" title="Active Citation">
+<span class="material-symbols-outlined text-[14px]">format_quote</span>
+</button>
+</div>
+<div class="p-6 font-body-md text-body-md text-on-surface leading-relaxed max-w-prose">
+                        Payment for the Foundational Pour Phase 1 is strictly contingent upon meeting all physical acceptance criteria and successful submission of QA/QC documentation. The Contractor must provide certified test results from an approved third-party laboratory. 
+                        <br/><br/>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-1 py-0.5 rounded-DEFAULT font-medium">Crucially, concrete must reach 3000psi before payment is triggered</span>. Invoices submitted prior to achieving the 28-day 3000psi benchmark will be held in abeyance without incurring interest or penalty to the Owner.
+                    </div>
+</div>
+</div>
+</main>
+<!-- Right-Side Context Drawer (Citation) -->
+<aside class="fixed right-0 top-14 bottom-0 w-[400px] bg-surface-container-lowest border-l border-outline-variant shadow-[-2px_0_8px_-4px_rgba(0,0,0,0.1)] flex flex-col z-30">
+<!-- Pinned Header -->
+<div class="p-4 border-b border-outline-variant bg-surface-bright flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[18px]">find_in_page</span>
+<h3 class="font-h2 text-h2">Citation Evidence</h3>
+</div>
+<button class="p-1 text-on-surface-variant hover:text-on-surface rounded-DEFAULT hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex items-center gap-2 mt-2 bg-surface p-2 border border-outline-variant rounded-DEFAULT">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">description</span>
+<span class="font-data-table text-data-table font-medium text-on-surface truncate">spec_v2.docx</span>
+</div>
+</div>
+<!-- Scrollable Middle -->
+<div class="flex-1 overflow-y-auto p-4 space-y-6 bg-surface">
+<!-- Metadata Grid -->
+<div class="grid grid-cols-2 gap-4">
+<div>
+<span class="text-on-surface-variant font-label-caps text-label-caps block mb-1">LOCATION</span>
+<span class="font-data-table text-data-table text-on-surface">Page 4, Para 14-16</span>
+</div>
+<div>
+<span class="text-on-surface-variant font-label-caps text-label-caps block mb-1">BLOCK ID</span>
+<span class="font-code-snippet text-code-snippet text-on-surface bg-surface-container px-1 py-0.5 rounded-DEFAULT border border-outline-variant">452</span>
+</div>
+<div class="col-span-2">
+<span class="text-on-surface-variant font-label-caps text-label-caps block mb-1">EXTRACTION METHOD</span>
+<span class="inline-flex items-center gap-1 font-data-table text-data-table text-on-surface bg-secondary-container text-on-secondary-container px-2 py-1 rounded-DEFAULT border border-secondary-container/50">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+                            LLM-Extractive
+                        </span>
+</div>
+</div>
+<!-- Text Snippet Viewer -->
+<div>
+<span class="text-on-surface-variant font-label-caps text-label-caps block mb-2">SOURCE TEXT</span>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col">
+<div class="bg-surface-container-low px-3 py-2 border-b border-outline-variant flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">EXCERPT</span>
+<button class="text-on-surface-variant hover:text-on-surface" title="Copy Text">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+<div class="p-4 font-body-md text-body-md text-on-surface leading-relaxed bg-white">
+                            ...prior to authorization of disbursement for Phase 1 works, the structural integrity must be verified. 
+                            <mark class="bg-tertiary-fixed text-on-tertiary-fixed rounded-sm px-1 py-0.5">Concrete must reach 3000psi before payment is triggered</mark>. The Owner reserves the right to withhold funds if core samples tested at 28 days fail to meet this specification...
+                        </div>
+</div>
+</div>
+<!-- Audit Trail (Minimal) -->
+<div>
+<span class="text-on-surface-variant font-label-caps text-label-caps block mb-2">AUDIT TRAIL</span>
+<div class="border-l-2 border-outline-variant ml-2 pl-4 py-1 space-y-4">
+<div class="relative">
+<div class="absolute -left-[21px] top-1 w-2 h-2 rounded-full bg-primary ring-4 ring-surface"></div>
+<p class="font-data-table text-data-table text-on-surface">Extracted by System v2.4</p>
+<p class="font-code-snippet text-code-snippet text-on-surface-variant">2024-05-12 14:02:11 UTC</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[21px] top-1 w-2 h-2 rounded-full bg-outline-variant ring-4 ring-surface"></div>
+<p class="font-data-table text-data-table text-on-surface-variant">Document Uploaded</p>
+<p class="font-code-snippet text-code-snippet text-on-surface-variant">2024-05-12 14:00:05 UTC</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Pinned Footer Actions -->
+<div class="p-4 border-t border-outline-variant bg-surface-bright flex items-center gap-3">
+<button class="flex-1 bg-surface border border-outline-variant text-on-surface hover:bg-surface-container px-4 py-2 rounded-DEFAULT font-data-table text-data-table font-medium transition-colors">
+                    Report Issue
+                </button>
+<button class="flex-1 bg-primary text-on-primary hover:bg-primary/90 px-4 py-2 rounded-DEFAULT font-data-table text-data-table font-medium transition-colors shadow-sm">
+                    Verify Link
+                </button>
+</div>
+</aside>
+</div>
+</body></html>

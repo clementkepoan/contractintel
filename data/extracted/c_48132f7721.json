@@ -1,0 +1,1347 @@
+{
+  "contract_name": "Engineering contract",
+  "total_amount": 23830643,
+  "currency": "TWD",
+  "contract_type": "lump_sum",
+  "total_amount_is_tax_included": false,
+  "doc_category": "contract",
+  "milestones": [],
+  "citations": [
+    {
+      "field_name": "total_amount",
+      "source_file": "02XX專案.docx",
+      "para_start": 10,
+      "para_end": 10,
+      "page_estimate": 1,
+      "char_offset_start": 80,
+      "char_offset_end": 94,
+      "text_snippet": "NT$ 23,830,643",
+      "block_id": "02XX專案_block_0010",
+      "extraction_method": "regex",
+      "regex_pattern": "NT\\$\\s*([\\d,]+)"
+    }
+  ],
+  "validation": [
+    {
+      "code": "missing_milestones",
+      "severity": "WARNING",
+      "message": "No milestone blocks were extracted.",
+      "citations": []
+    }
+  ],
+  "extraction_method": "regex",
+  "confidence": 40,
+  "source_candidates": {
+    "total_amount_candidates": [
+      23830643
+    ]
+  },
+  "declared_installment_count": null,
+  "blocks": [
+    {
+      "block_id": "02XX專案_block_0000",
+      "text": "Engineering contract",
+      "para_start": 0,
+      "para_end": 0,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "02XX專案_block_0002",
+      "text": "Due to the business needs of Party A's client [ ] (hereinafter referred to as \"the Client\"), Party A entrusts Party B to undertake the contracted project. Both parties hereby enter into this contract and agree to abide by it, with the following terms and conditions:",
+      "para_start": 2,
+      "para_end": 2,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "02XX專案_block_0003",
+      "text": "Article 1 Project Name",
+      "para_start": 3,
+      "para_end": 3,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "02XX專案_block_0004",
+      "text": "Project Name: XX Project",
+      "para_start": 4,
+      "para_end": 4,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "02XX專案_block_0006",
+      "text": "The location of the second project.",
+      "para_start": 6,
+      "para_end": 6,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "02XX專案_block_0007",
+      "text": "The project location is:",
+      "para_start": 7,
+      "para_end": 7,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "02XX專案_block_0009",
+      "text": "Article 3 Total Project Price",
+      "para_start": 9,
+      "para_end": 9,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "02XX專案_block_0010",
+      "text": "The project adopts a cost-based pricing method, and the total contract price is NT$ 23,830,643. The contract price is RMB [amount in RMB] (including tax , the same below, see Attachment 4: Quotation ). Both parties shall calculate the total contract price based on the final acceptance and settlement quantity by the customer after completion. The unit price is detailed in Attachment 6: Quotation.",
+      "para_start": 10,
+      "para_end": 10,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "02XX專案_block_0011",
+      "text": "The unit prices listed in this detailed price list are the result of Party B's thorough review of the drawings, construction specifications and documents attached to this contract , and after conducting a site survey and fully considering any possible variations, weather conditions, construction conditions and risks of damaging nearby property or injuring the occupants of such property. The prices include all costs incurred in this project, including any taxes, fees, miscellaneous fees, facility fees, freight, water and electricity fees, telephone fees, insurance fees, site management fees, labor safety fees, environmental and sanitation fees, testing fees, shed fees and material costs. Party B agrees that it will not request additional payment for the project in the future based on differences in the current condition or omissions.",
+      "para_start": 11,
+      "para_end": 11,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "02XX專案_block_0012",
+      "text": "After the signing of this contract, Party B shall not request subsidies for the project cost or adjustments to the unit price of the contract due to price fluctuations, exchange rate changes, changes in laws and regulations, unclear drawings, incomplete valuation, or other reasons that violate the provisions of the contract .",
+      "para_start": 12,
+      "para_end": 12,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "02XX專案_block_0013",
+      "text": "This contract is quoted in New Taiwan Dollars and includes business tax. Party B shall bear all customs duties, commodity taxes, and business taxes incurred on imported construction or testing equipment, temporary facilities, equipment or materials required for manufacturing goods within Taiwan, and equipment or materials imported before replacement or supplementation. Party B shall also bear all taxes, fees, and customs duties incurred outside the Republic of China for imported goods or temporary facilities. Any other taxes arising from this contract under the law shall be handled in accordance with the relevant tax laws and interpretations.",
+      "para_start": 13,
+      "para_end": 13,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "02XX專案_block_0015",
+      "text": "Article 4 Scope of work",
+      "para_start": 15,
+      "para_end": 15,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0016",
+      "text": "Regarding the construction method of this project, Party B shall conduct the survey, design, construction, and completion testing of the project based on the location and scope provided by Party A. Other relevant design, construction drawings, and detailed project scope documents are attached as Appendix 1 , Project Scope Document. Party B shall submit any clarifications in writing beforehand; otherwise, even after Party A's approval, Party B shall still construct according to the drawings. Furthermore, Party A's approval of the project scope document does not relieve Party B of its responsibility to comply with the specifications and related drawings attached to this contract.",
+      "para_start": 16,
+      "para_end": 16,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0017",
+      "text": "all drawings, standard construction specifications, occupational safety and health manuals, traffic facility manuals, construction instructions, and all related attachments in this contract, and Party B shall not raise any objections during construction.",
+      "para_start": 17,
+      "para_end": 17,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0018",
+      "text": "For any items not specified in the drawings but necessary for construction technology, or reasonable inferences from the project and customary practices, Party B shall not refuse or demand additional payment for any reason. Party B must submit the construction drawings and relevant documents for formal written consent from both Party A and the client before any changes are made to the drawings. Otherwise, Party B shall be liable for any losses incurred as a result.",
+      "para_start": 18,
+      "para_end": 18,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0019",
+      "text": "Party A reserves the right to modify the contents of this contract at any time, and Party B shall unconditionally cooperate in the modification. If the modification involves an increase or decrease in the quantity of existing items, both parties agree to adjust the price based on the original order price. If the modification involves a new item, both parties agree to price it based on the unit price of similar specifications of goods or construction methods in this contract. If there are no similar items available for reference, the price shall be negotiated between the two parties.",
+      "para_start": 19,
+      "para_end": 19,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0020",
+      "text": "If Party B is required to discard a portion of the completed work or qualified materials already delivered due to changes made by Party A, Party A shall accept and pay the price based on the order price stipulated in this contract. However, if the changes are to the design, minor modifications or implementations, reasonable inferences about the construction process, or matters indispensable to engineering practices and construction techniques, even if not specified in the drawings and construction instructions, Party B agrees to unconditionally cooperate with Party A's instructions and will not make excuses or request additional payment.",
+      "para_start": 20,
+      "para_end": 20,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0021",
+      "text": "Article 5 Project Duration",
+      "para_start": 21,
+      "para_end": 21,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0022",
+      "text": "This project shall be completed on schedule in accordance with the schedule in Appendix 2. The construction period shall not be extended without the written consent of Party A. During the project, Party A and Party B may agree on the coordination period for each stage of construction. If Party B fails to participate in the consultation in a timely manner, Party B agrees to abide by all project deadlines approved by Party A.",
+      "para_start": 22,
+      "para_end": 22,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0023",
+      "text": "If this contract is to be completed in stages, and there are any delays in the construction progress of each stage, Party A may, in accordance with the contract, suspend pricing, and Party B shall not raise any objection.",
+      "para_start": 23,
+      "para_end": 23,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0024",
+      "text": "Extension of Construction Period: If the completion date needs to be extended due to obstacles not attributable to Party B, design changes, or other force majeure events such as natural disasters or man-made calamities, Party B may apply to Party A for approval of the extension period. Party A, after reviewing the circumstances, may approve the extension in writing. Party B agrees to abide by all matters related to the construction period approved by Party A, without objection, and shall not use this as grounds to claim compensation for losses or request settlement due to work stoppage.",
+      "para_start": 24,
+      "para_end": 24,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0025",
+      "text": "Article 6 Payment Method",
+      "para_start": 25,
+      "para_end": 25,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0026",
+      "text": "The following methods shall be used for requesting payment and determining the payment date :",
+      "para_start": 26,
+      "para_end": 26,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0027",
+      "text": "has been accepted by Party A and the client and Party A has received payment from the client for the work completed by Party B.",
+      "para_start": 27,
+      "para_end": 27,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0028",
+      "text": "Installment payments will be made after Party A has received payment from the client for each installment of the work completed by Party B, as follows:",
+      "para_start": 28,
+      "para_end": 28,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0029",
+      "text": "First installment: RMB 7,149,193 , representing 30% of the total amount, shall be paid upon signing this contract .",
+      "para_start": 29,
+      "para_end": 29,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "02XX專案_block_0030",
+      "text": "Second installment: Upon completion of the project stipulated in this contract and entry into system testing, RMB 9,532,257 will be paid , accounting for 40% of the total amount .",
+      "para_start": 30,
+      "para_end": 30,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "02XX專案_block_0031",
+      "text": "The third installment: RMB 7,149,193 , representing 30% of the total amount, shall be paid after the completion of all functions of the project as stipulated in this contract , the handover to Party A for testing for two weeks, and the acceptance and formal launch .",
+      "para_start": 31,
+      "para_end": 31,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "02XX專案_block_0032",
+      "text": "Other payment methods: _______________________________________________",
+      "para_start": 32,
+      "para_end": 32,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "02XX專案_block_0033",
+      "text": "In accordance with the foregoing agreement, Party B shall, upon meeting the payment request conditions, issue an invoice request voucher and relevant payment request documents to Party A for payment. Upon receiving the aforementioned documents and confirming their accuracy, Party A shall pay the amount due to Party B to the account designated by Party B within 30 days after the invoice date.",
+      "para_start": 33,
+      "para_end": 33,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "02XX專案_block_0034",
+      "text": "If Party A is unable to obtain full or current project payments from the client due to reasons attributable to Party B , Party B shall be liable for Party A's losses.",
+      "para_start": 34,
+      "para_end": 34,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "02XX專案_block_0036",
+      "text": "Article 7 Deposit Terms",
+      "para_start": 36,
+      "para_end": 36,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "02XX專案_block_0037",
+      "text": "Party B shall pay the security deposit in the following manner:",
+      "para_start": 37,
+      "para_end": 37,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "02XX專案_block_0038",
+      "text": "The second party is not required to pay a performance bond or a warranty bond.",
+      "para_start": 38,
+      "para_end": 38,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "02XX專案_block_0039",
+      "text": "Party B shall, upon receiving Party A's purchase order (PO)     Pay the total contract amount within the day.     A performance bond of % shall be given to Party A. Upon completion of the project, acceptance by both Party A and the client , and the client's return of the performance bond , the performance bond shall be refunded to Party B without interest.",
+      "para_start": 39,
+      "para_end": 39,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "02XX專案_block_0040",
+      "text": "Party B shall pay the total contract amount before the completion and acceptance of this project.      A certain percentage of the warranty deposit will be given to Party A, and will be refunded to Party B without interest after the warranty period expires and the customer returns the warranty deposit .",
+      "para_start": 40,
+      "para_end": 40,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "02XX專案_block_0041",
+      "text": "Party B shall, upon receiving Party A's purchase order (PO)     Pay the total contract amount within the day.     A performance bond of % will be given to Party A. After the project is completed and accepted by Party A, it will be converted into a warranty bond. After the warranty period expires and the customer returns the warranty bond , it will be refunded without interest.",
+      "para_start": 41,
+      "para_end": 41,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "02XX專案_block_0042",
+      "text": "Unless otherwise agreed by both parties, the deposit shall be made by Party B in the following manner:",
+      "para_start": 42,
+      "para_end": 42,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "02XX專案_block_0043",
+      "text": "Checks issued by the bank",
+      "para_start": 43,
+      "para_end": 43,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "02XX專案_block_0044",
+      "text": "The financial institution's fixed deposit certificate that is pledged to Party A",
+      "para_start": 44,
+      "para_end": 44,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "02XX專案_block_0045",
+      "text": "Cash remittance",
+      "para_start": 45,
+      "para_end": 45,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "02XX專案_block_0046",
+      "text": "A written joint and several guarantee from a financial institution covering the entire performance period or warranty period.",
+      "para_start": 46,
+      "para_end": 46,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "02XX專案_block_0047",
+      "text": "Other methods agreed upon by Party A:",
+      "para_start": 47,
+      "para_end": 47,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "02XX專案_block_0048",
+      "text": "If any part or all of this project suffers from movement, cracking, collapse, or other damage, and it is determined that this is due to poor workmanship or substandard materials, Party B shall be responsible for unconditional repair within the time limit specified by Party A, as stipulated in the contract. If Party B fails to repair the damage within the specified time limit after being notified, Party A may directly use the security deposit stipulated in this clause , and if insufficient, may seek compensation from Party B. The same applies if Party B fails to improve or complete the work within the time limit stipulated by Party A due to its inability to fulfill the contract or other reasons attributable to Party B.",
+      "para_start": 48,
+      "para_end": 48,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "02XX專案_block_0049",
+      "text": "If Party B fails to perform its obligations under the contract within the stipulated period, or if there is a risk that Party B will be unable to perform its obligations within the validity period of the guarantee, insurance policy, or guarantee letter due to reasons attributable to Party B, or if Party A is unable to complete the acceptance within the validity period of the guarantee, insurance policy, or guarantee letter, the validity period of the guarantee, insurance policy, or guarantee letter shall be extended by 10 working days from the date of delay. If Party B fails to extend the validity period as stipulated, Party A shall request payment for the amount of the guarantee, insurance policy, or guarantee letter before the expiration of the validity period and temporarily hold it in custody, with all expenses incurred borne by Party B. The same applies to any expenses or exchange rate losses incurred in returning the guarantee. If the bank cheque issued by the financial institution provided by Party B expires after one year from the invoice date, or if the performance period or warranty period is extended, resulting in the expiration of the guarantee period of the written joint and several guarantee of the financial institution while the performance period or warranty period has not yet expired, Party B shall, 10 working days before the expiration date of the aforementioned bank cheque from the invoice date , resubmit a valid bank cheque issued by a financial institution or a written joint and several guarantee of the financial institution covering the full performance period or warranty period; if Party B fails to submit such a resubmittance within the stipulated time, Party B shall be liable for compensation to Party A.",
+      "para_start": 49,
+      "para_end": 49,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "02XX專案_block_0050",
+      "text": "If Party B fails to pay the performance bond and warranty bond on time, Party A may, in addition to claiming late payment interest at an annual rate of 5%, apply for payment from the amount payable under this contract once Party B meets the payment conditions stipulated in Article 6 of this contract and issues an invoice and relevant payment documents . Party B agrees that Party A may deduct the amount from the amount payable under this contract upon Party B's confirmation that the payment is correct .",
+      "para_start": 50,
+      "para_end": 50,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "02XX專案_block_0052",
+      "text": "Article 8. Penalties for Delay",
+      "para_start": 52,
+      "para_end": 52,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "02XX專案_block_0053",
+      "text": "Unless otherwise agreed in this contract, if Party B fails to complete the project within the completion period, Party B shall pay Party A a punitive penalty calculated at one-thousandth of the total price of the project for each day of delay .",
+      "para_start": 53,
+      "para_end": 53,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "02XX專案_block_0054",
+      "text": "The maximum punitive damages shall be the total contract price of this project. This punitive damages shall not preclude Party A from exercising its right to claim other damages from Party B. If Party A is subject to penalties by the client due to reasons attributable to Party B, such penalties shall be borne by Party B.",
+      "para_start": 54,
+      "para_end": 54,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "02XX專案_block_0055",
+      "text": "If the delay in performance is attributable to Party B, and Party B fails to fulfill its obligations to complete this project after receiving written notice from Party A, Party A may immediately terminate or rescind this contract by written notice. In addition to the liquidated damages pursuant to Paragraph 1 of this Article , Party A has the right to seek other companies to undertake the project, and Party B shall return the fees already received proportionally. If Party A suffers further losses, Party B shall still be liable for damages.",
+      "para_start": 55,
+      "para_end": 55,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "02XX專案_block_0057",
+      "text": "Article 9 Project Quality and Management",
+      "para_start": 57,
+      "para_end": 57,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "02XX專案_block_0058",
+      "text": "Engineering quality",
+      "para_start": 58,
+      "para_end": 58,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "02XX專案_block_0059",
+      "text": "or the client upon completion of the project are new, of excellent quality, and free from any defects or violations of laws and regulations, unless otherwise stipulated in the contract.",
+      "para_start": 59,
+      "para_end": 59,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "02XX專案_block_0060",
+      "text": "During the construction period, the contractor shall cooperate with the client's regular or irregular inspections of the project quality.",
+      "para_start": 60,
+      "para_end": 60,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0061",
+      "text": "Party B shall construct in accordance with this contract, quotation, project schedule and attached drawings. If it is found that Party B has not constructed in accordance with the drawings or has taken improper measures that damage the quality of the project or endanger the safety of the project, Party A may order Party B to make immediate improvements. If the improvements cannot be made, Party B shall dismantle and redo the work. All costs and consequences arising therefrom shall be borne by Party B.",
+      "para_start": 61,
+      "para_end": 61,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0062",
+      "text": "If the construction project involves obvious phases or steps, or if it is customary to conduct inspections, tests, and measurements before proceeding, Party B must obtain approval from Party A and the client before commencing preliminary construction. If construction is carried out without approval, Party A may order the work to be demolished and rebuilt, and Party B shall bear all costs and consequences.",
+      "para_start": 62,
+      "para_end": 62,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0063",
+      "text": "Party B shall not request any compensation or apply for an extension of the construction period in exchange for cooperating with Party A or the client 's inspection and review work.",
+      "para_start": 63,
+      "para_end": 63,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0064",
+      "text": "Acceptance is a crucial aspect of quality control, and Party B shall provide Party A or the client with full assistance and convenience. Party B shall not shirk responsibility or demand compensation for any necessary and reasonable excavation, demolition, or repairs. If any discrepancies exist with the design, construction drawings, material specifications, or contract stipulations, Party B shall make the necessary modifications as required and then submit the revised documents to Party A and the client for re-inspection.",
+      "para_start": 64,
+      "para_end": 64,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0065",
+      "text": "Party B shall assign a dedicated person with sufficient experience to undertake similar projects to be stationed at the construction site to supervise the construction and accept instructions from Party A and the client .",
+      "para_start": 65,
+      "para_end": 65,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0066",
+      "text": "Party B and its employees enter the client's premises, they shall comply with the client's requirements and shall send sufficient personnel to carry out the construction of this project. If there are any deficiencies that affect the progress of the work and there is no improvement after being warned by Party A, Party A may hire additional personnel to carry out the work as needed. Party B shall not obstruct the work for any reason, and the resulting costs shall be deducted from the price of this project or the security deposit .",
+      "para_start": 66,
+      "para_end": 66,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0067",
+      "text": "During the course of this project, Party A and the client may send personnel to supervise and assess Party B's use of materials and construction at any time. If Party B's use of materials or construction is found to violate this contract, Party A and the client may immediately request Party B to dismantle and redo the work or suspend construction. Party B shall be responsible for any damages and expenses incurred due to the work stoppage. If Party B does not stop construction, Party A may terminate this contract and claim damages if Party A or the client suffers any losses as a result.",
+      "para_start": 67,
+      "para_end": 67,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0068",
+      "text": "Without the prior written consent of Party A, Party B shall not subcontract or sublet this project. If Party B violates this agreement, Party A shall not only terminate this contract, but also demand a punitive penalty of 20% of the total project price, which shall be deducted directly from the project payment or security deposit.",
+      "para_start": 68,
+      "para_end": 68,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0069",
+      "text": "Party B shall be solely responsible for the living, accommodation, medical care, and hygiene of its employees and those of its subcontractors and sub-contractors who have been approved by Party A. Any disputes arising from improper conduct or violation of laws shall be handled by Party B and shall not involve Party A.",
+      "para_start": 69,
+      "para_end": 69,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0070",
+      "text": "All materials, tools, and completed works on site shall be kept and maintained by Party B. In the event of any damage or shortage, Party B shall be responsible for repairing and replenishing them before the client notifies Party A of the formal acceptance. If Party B fails to repair and replenish them after notification, Party A may repair and replenish them by itself or by entrusting a third party, and Party B agrees to deduct the relevant costs from its unpaid project payment, retention money, or security deposit.",
+      "para_start": 70,
+      "para_end": 70,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0071",
+      "text": "Before the main project has been formally accepted by the client, if the client or the client needs to use it, the contractor shall not refuse. However, the relevant rights and obligations shall be determined by both parties through consultation before the client or the client takes over the use.",
+      "para_start": 71,
+      "para_end": 71,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0072",
+      "text": "Party B shall be responsible for all costs related to the transportation, assembly, and other labor and material handling for the completion of this project .",
+      "para_start": 72,
+      "para_end": 72,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0073",
+      "text": "All materials and equipment provided by Party A and clients to Party B shall be used with care, and any loss or damage shall be compensated at market price.",
+      "para_start": 73,
+      "para_end": 73,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0074",
+      "text": "If requested by Party A, Party B shall be responsible for informing Party A in writing of the names of personnel involved in this project, subcontractors (i.e., general contractors, hereinafter the same) or subcontractors.",
+      "para_start": 74,
+      "para_end": 74,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "02XX專案_block_0075",
+      "text": "If any of the personnel or manufacturers mentioned in the preceding paragraph are incompetent or have a poor track record in previous projects undertaken by Party A , its related companies , or clients , Party B shall be responsible for excluding them from participating in this project upon Party A's request, and Party A may also prohibit them from continuing to perform the work.",
+      "para_start": 75,
+      "para_end": 75,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "02XX專案_block_0076",
+      "text": "During the construction period and the term of this contract, Party B shall comply with the provisions of the \"Air Pollution Control Act,\" \"Noise Control Act,\" \"Waste Disposal Act,\" and other environmental protection and related laws and regulations, and shall take appropriate preventive measures. The disposal of waste shall be handled in accordance with the regulations of the local competent authority, and shall not be disposed of arbitrarily.",
+      "para_start": 76,
+      "para_end": 76,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "02XX專案_block_0077",
+      "text": "Any other damages caused to Party A, the client, or any third party as a result of this project, if attributable to Party B, shall be fully compensated by Party B.",
+      "para_start": 77,
+      "para_end": 77,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "02XX專案_block_0079",
+      "text": "Article 10 Construction Responsibilities",
+      "para_start": 79,
+      "para_end": 79,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "02XX專案_block_0080",
+      "text": "The contractor shall be responsible for cleaning up any waste generated during construction and shall not charge the client any fees. If the contractor fails to improve the situation after the client has given written notice, the client shall clean up or store the waste on the contractor's behalf, and the contractor shall pay all costs. The client shall also have the right to deduct such costs directly from the performance bond.",
+      "para_start": 80,
+      "para_end": 80,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "02XX專案_block_0081",
+      "text": "During the construction period, Party B shall maintain environmental cleanliness. All waste materials within the construction area shall be promptly removed in accordance with the Waste Disposal Act and relevant building management regulations. Party B shall also repair any damage to public facilities caused during the construction period. If Party B fails to comply with the agreement, Party A may hire workers to clean up or repair the damage, and all costs shall be borne by Party B. Party A also has the right to deduct such costs directly from the performance bond.",
+      "para_start": 81,
+      "para_end": 81,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "02XX專案_block_0082",
+      "text": "For any other works or temporary installations related to this contract, if they are handled by Party A or by other manufacturers entrusted by Party A, Party B shall be obligated to contact and coordinate with such manufacturers at any time. If the project is delayed due to reasons attributable to Party B, Article 8 of this contract shall still apply. In the event of any unforeseen circumstances, Party B shall be liable for all losses.",
+      "para_start": 82,
+      "para_end": 82,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "02XX專案_block_0084",
+      "text": "Article 11 Construction Site Safety",
+      "para_start": 84,
+      "para_end": 84,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "02XX專案_block_0085",
+      "text": "During the construction period of this contract, Party B shall comply with the Occupational Safety and Health Act and its Enforcement Rules, the Occupational Safety and Health Facilities Regulations, the Standards and Regulations for the Construction of Safety and Health Facilities, and relevant environmental protection laws and regulations. If any accident occurs or a fine is imposed by the competent authority due to Party B's failure to comply with the Occupational Safety and Health Act, Party B shall bear all legal responsibilities and compensation liabilities.",
+      "para_start": 85,
+      "para_end": 85,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "02XX專案_block_0086",
+      "text": "Party B guarantees that during the construction period, it will absolutely not employ child laborers, illegal residents, or workers of local or foreign nationality who are illegally prohibited from employment, or persons suspected of violating public order or wanted by the law enforcement authorities. Party B shall be solely responsible for verifying such cases. If any illegal employment is discovered, Party B shall immediately and unconditionally withdraw from the construction site and assume full legal responsibility (including but not limited to administrative, criminal, and civil liability) and accept disciplinary action from the relevant authorities. Party A shall bear no responsibility whatsoever.",
+      "para_start": 86,
+      "para_end": 86,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "02XX專案_block_0087",
+      "text": "Regarding the nature of this project's construction, construction operation specifications, work or workplace environment, potential hazards during construction operations, safety and health precautions during construction operations, how safety protection facilities should be set up and implemented in the work or workplace, and other safety and occupational safety and health management precautions, the person in charge of the work or workplace of Party A has fully and clearly informed them. Party B and its person in charge have also fully understood the relevant matters and regulations concerning hazard notification and are willing to promise to comply with the rules and regulations of Party A and the client in handling occupational safety and health management work and matters, and to comply with all occupational safety and health regulations.",
+      "para_start": 87,
+      "para_end": 87,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "02XX專案_block_0088",
+      "text": "During construction, attention should be paid to construction safety to prevent accidents. If an accident occurs due to the negligence of Party B or its employees, resulting in damage to the rights and interests of Party A or a third party, Party B shall be liable for compensation.",
+      "para_start": 88,
+      "para_end": 88,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "02XX專案_block_0089",
+      "text": "During the construction period, Party B shall take proper protection of the surrounding environment. If any damage is caused to nearby public or private property, buildings, roads, pipelines, or the life and property of third parties due to reasons attributable to Party B, Party B shall be responsible for repair and compensation.",
+      "para_start": 89,
+      "para_end": 89,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "02XX專案_block_0090",
+      "text": "All personnel of Party B entering the construction site shall wear safety helmets, shoes, and other protective equipment. When working in particularly hazardous areas, Party B shall have specific protective measures in accordance with relevant regulations to ensure safety. Party B shall be fully responsible for the safety of its personnel and the personnel of its general contractors or subcontractors. In the event of an accident, Party B shall be liable for compensation and shall submit a written report to Party A and shall not claim compensation from Party A.",
+      "para_start": 90,
+      "para_end": 90,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "02XX專案_block_0091",
+      "text": "In the event of any accident during this project that results in serious injury or death to three or more persons, Party B shall report the incident to the local labor inspection authority within 24 hours and notify Party A.",
+      "para_start": 91,
+      "para_end": 91,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "02XX專案_block_0092",
+      "text": "Party B shall ensure that its general contractor and subcontractors comply with the relevant regulations stipulated by Party A and the client during the course of this project.",
+      "para_start": 92,
+      "para_end": 92,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "02XX專案_block_0094",
+      "text": "Article 12 Acceptance, warranty period and liability for hazards",
+      "para_start": 94,
+      "para_end": 94,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "02XX專案_block_0095",
+      "text": "Upon completion of this project, Party B shall notify Party A for acceptance . If any part of the construction is defective or does not meet the specifications , Party B shall modify or redo it within the time limit specified by Party A before applying for Party A's re-inspection (Party B shall not request an increase in the project cost). If Party B fails to complete the modification or redo it within the time limit specified by Party A and pass the re-inspection, it shall be deemed as overdue and handled in accordance with the provisions of Article 8 of this contract .",
+      "para_start": 95,
+      "para_end": 95,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "02XX專案_block_0096",
+      "text": "The warranty period for this project is 2 years, commencing after acceptance by Party A and the client .",
+      "para_start": 96,
+      "para_end": 96,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "02XX專案_block_0097",
+      "text": "During the warranty period, if any equipment parts, components, or other defects such as cracks, defects, malfunctions, or other flaws occur in this project, or if the installation or construction techniques by Party B are lacking, or if any other defects do not meet the functional requirements stipulated in the contract, or if any other defects are not attributable to Party A's human factors, Party B shall repair or replace them and complete the repairs within the time limit specified by Party A. Party A shall not pay additional costs for materials, labor, or personnel. If Party B fails to complete the repairs within the time limit specified by Party A, Party A may directly hire workers to repair the repairs on its behalf, and all costs shall be borne by Party B without objection.",
+      "para_start": 97,
+      "para_end": 97,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "02XX專案_block_0098",
+      "text": "If Party B fails to complete the repair, replacement, or fulfill other warranty obligations within the time limit set by Party A during the warranty period, it shall be deemed as overdue and handled in accordance with the provisions of Article 8, Paragraph 1 of this Contract.",
+      "para_start": 98,
+      "para_end": 98,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "02XX專案_block_0099",
+      "text": "Dangerous burden:",
+      "para_start": 99,
+      "para_end": 99,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "02XX專案_block_0100",
+      "text": "Before the project is inspected, completed, and fully delivered to the client, Party B shall bear the risk of damage or loss of the project.",
+      "para_start": 100,
+      "para_end": 100,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "02XX專案_block_0101",
+      "text": "The risk of damage, loss or theft of all equipment and tools required for this project shall be borne by Party B and shall not be the responsibility of Party A.",
+      "para_start": 101,
+      "para_end": 101,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "02XX專案_block_0103",
+      "text": "Article Thirteen Confidentiality Duty",
+      "para_start": 103,
+      "para_end": 103,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "02XX專案_block_0104",
+      "text": "In this Agreement, \"Confidential Information\" means any non-public or generally unknown information, data, or information of a different nature (including but not limited to either party's trade secrets, business secrets, technical knowledge and information, supplier information, customer information, personnel information, business plans, promotional and marketing activities, financial status, and other business activities) that a party has learned of or possesses in connection with this Agreement or cooperation. Confidential Information may be presented in the following forms and media: documents, disks, optical discs, emails, electromagnetic records, reports, written correspondence, audio tapes, video tapes, notes, drawings, models, specifications, compilations, computer programs, and other tangible or intangible materials that present or store Confidential Information in other media.",
+      "para_start": 104,
+      "para_end": 104,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "02XX專案_block_0105",
+      "text": "\"Confidential Information\" in this Agreement also includes any form of information reproduced, created, compiled, or assembled by the disclosing party or the receiving party based on part or all of the Confidential Information; information, data, or information presented or provided orally is also considered Confidential Information. \"Confidential Information\" refers to information disclosed in writing, by email, or by presentation, and is marked with \"Confidential,\" \"Secret,\" \"Confidential,\" \"Proprietary,\" or similar terms at the time of disclosure; if the information is presented or provided orally, it must be declared as confidential at the time of disclosure, and within 15 days of disclosure, a written summary of the information, marked with the aforementioned confidential terminology, must be provided to the receiving party for confirmation.",
+      "para_start": 105,
+      "para_end": 105,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0106",
+      "text": "Unless otherwise agreed in writing by the parties, the following confidential information received by either party shall be kept confidential and shall not be disclosed to any other party:",
+      "para_start": 106,
+      "para_end": 106,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0107",
+      "text": "Any confidential information disclosed by either party.",
+      "para_start": 107,
+      "para_end": 107,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0108",
+      "text": "The company names of both parties and the names or identity information of the persons involved in this contract.",
+      "para_start": 108,
+      "para_end": 108,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0109",
+      "text": "The contents of this contract and its attachments.",
+      "para_start": 109,
+      "para_end": 109,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0110",
+      "text": "Both parties shall exercise the same level of care, no less than a reasonable level, to prevent the disclosure of their own confidential information and shall not use such confidential information or the aforementioned information for their own benefit or that of any third party. Neither party shall disclose such confidential information to any third party except to employees, agents, consultants, other employees, or persons involved in this Agreement who absolutely need to know it for the purposes of this Agreement. Both parties also agree not to reproduce such confidential information unnecessarily without the prior written permission of the other party, except for the purposes of this Agreement.",
+      "para_start": 110,
+      "para_end": 110,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0111",
+      "text": "Neither party shall be liable for the disclosure or use of confidential information in the following circumstances:",
+      "para_start": 111,
+      "para_end": 111,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0112",
+      "text": "Confidential information shall not be disclosed due to any breach of this Agreement by either party.",
+      "para_start": 112,
+      "para_end": 112,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0113",
+      "text": "The parties knew of this agreement before its signing, without any confidentiality.",
+      "para_start": 113,
+      "para_end": 113,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0114",
+      "text": "A third party who is not obligated to maintain confidentiality may lawfully disclose information to another party.",
+      "para_start": 114,
+      "para_end": 114,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0115",
+      "text": "The confidential information was developed by one party independently, without directly or indirectly using confidential information from another party .",
+      "para_start": 115,
+      "para_end": 115,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0116",
+      "text": "Based on applicable laws, regulations, instructions from competent authorities, orders from judicial organs, or consent obtained from the other party before disclosure.",
+      "para_start": 116,
+      "para_end": 116,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0117",
+      "text": "Each party shall ensure that its employees, agents or consultants authorized to use the confidential information strictly adhere to the confidentiality obligations set forth in this Agreement and take all possible measures to do so. Party B also agrees to be jointly and severally liable to Party A for the conduct of its main contractors and subcontractors.",
+      "para_start": 117,
+      "para_end": 117,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0118",
+      "text": "This confidentiality obligation shall remain in effect for three years after the termination or cancellation of this Agreement.",
+      "para_start": 118,
+      "para_end": 118,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0119",
+      "text": "Upon termination of this Agreement, the Receiving Party shall, within ten business days of receiving the Disclosing Party's written request, return, delete and destroy all of the Disclosing Party's confidential information, including originals and copies; and shall provide the Disclosing Party with written confirmation that all of the Disclosing Party's confidential information has been deleted and destroyed .",
+      "para_start": 119,
+      "para_end": 119,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "02XX專案_block_0121",
+      "text": "Article 14 Special Provisions",
+      "para_start": 121,
+      "para_end": 121,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "02XX專案_block_0122",
+      "text": "Party B shall not acquire any intellectual property rights that Party A acquired before this Agreement came into effect as a result of this Agreement.",
+      "para_start": 122,
+      "para_end": 122,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "02XX專案_block_0123",
+      "text": "Upon termination, cancellation, or expiration of this contract by Party A, Party A shall have the right to continue using, either as is or by another contractor, the equipment information, construction drawings, construction instructions, and other documents or computer software provided by Party B in connection with this project. Party B shall not use copyright or other intellectual property rights to prevent Party A from completing this project on-site. If the aforementioned documents or computer software have other rights holders, it shall be deemed that Party B has gratuitously transferred or authorized the right to use them to Party A or the contractor. Party B shall guarantee that the equipment information, construction drawings, construction instructions, and other documents or computer software delivered to Party A do not infringe upon the copyright or other intellectual property rights of others. If the original rights holder or other third party files a lawsuit against Party B for infringement of copyright or other rights, Party B shall be solely responsible, and Party A shall bear no responsibility whatsoever.",
+      "para_start": 123,
+      "para_end": 123,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "02XX專案_block_0124",
+      "text": "Upon termination, cancellation or expiration of this Contract, Party B shall not, for any reason or in any way, restrict the suppliers or other businesses of the main project and its maintenance materials from providing the project or maintenance materials services to Party A.",
+      "para_start": 124,
+      "para_end": 124,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "02XX專案_block_0125",
+      "text": "Articles 14, 16, 17, and 20(2) of this Agreement shall remain in force and effect upon termination of this Agreement.",
+      "para_start": 125,
+      "para_end": 125,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "02XX專案_block_0127",
+      "text": "Article 15 Insurance",
+      "para_start": 127,
+      "para_end": 127,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "02XX專案_block_0128",
+      "text": "All personnel directly employed by Party B, or construction workers of subcontractors and contractors, shall be insured with labor insurance and other insurance as required by government laws and regulations .",
+      "para_start": 128,
+      "para_end": 128,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "02XX專案_block_0129",
+      "text": "Party B shall purchase insurance from an insurance company at its own expense and shall comply with the following provisions, and shall provide Party A with the relevant insurance policy at the time of signing this contract.",
+      "para_start": 129,
+      "para_end": 129,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "02XX專案_block_0130",
+      "text": "Party B shall fully insure the value of the work already performed and the materials used in the project (including supplied materials) with \"Comprehensive Construction Insurance\", \"Third-Party Accident Liability Insurance\", \"Employer's Accident Liability Insurance\", and other insurances as instructed by Party A.",
+      "para_start": 130,
+      "para_end": 130,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "02XX專案_block_0131",
+      "text": "\"Comprehensive construction insurance\" should include, but is not limited to, comprehensive loss insurance and third-party liability insurance.",
+      "para_start": 131,
+      "para_end": 131,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "02XX專案_block_0132",
+      "text": "\"Third-Party Accident Liability Insurance\"; the coverage amount for each bodily injury or death shall not be less than ____ yuan, and the coverage amount for each property loss shall not be less than ____ yuan. The maximum liability during the insurance period shall not be limited.",
+      "para_start": 132,
+      "para_end": 132,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "02XX專案_block_0133",
+      "text": "The coverage amount for each individual injury or death under the \"Employer's Liability Insurance\" shall not be less than NT$_____, and the coverage amount for each property loss shall not be less than NT$______. The maximum liability during the insurance period shall not be limited.",
+      "para_start": 133,
+      "para_end": 133,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "02XX專案_block_0134",
+      "text": "If Party A's machinery and equipment are temporarily stored at Party B's premises, Party B shall take out appropriate fire and property insurance for the temporarily stored machinery and equipment and affix a replacement value claim clause. The insured amount shall not be less than NT$_______. Party B shall be solely responsible for the deductible and non-reimbursable amounts stipulated in the policy and shall not request Party A to bear or subsidize them.",
+      "para_start": 134,
+      "para_end": 134,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "02XX專案_block_0135",
+      "text": "Party B shall handle insurance in accordance with the foregoing provisions, and shall list Party A, Party B, the subcontractor, and the sub-contractor as insured persons and add a beneficiary clause designating Party A as the beneficiary.",
+      "para_start": 135,
+      "para_end": 135,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "02XX專案_block_0136",
+      "text": "Before Party B takes out insurance in accordance with the aforementioned provisions, the contents of the policy and any additional terms must be approved in writing by Party A in advance, and the same applies to any changes. Party B shall not refuse any requests from Party A to add or amend the policy contents or additional terms.",
+      "para_start": 136,
+      "para_end": 136,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "02XX專案_block_0137",
+      "text": "The insurance period must include the performance period stipulated in this contract. If there is an extension of the construction period or a delay in performance, the insurance period shall be extended accordingly.",
+      "para_start": 137,
+      "para_end": 137,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "02XX專案_block_0138",
+      "text": "As stipulated in the aforementioned beneficiary clause, if Party B has not handled any improper matters, Party A authorizes the insurance company to make direct payments to Party B.",
+      "para_start": 138,
+      "para_end": 138,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "02XX專案_block_0139",
+      "text": "If Party B fails to handle a disaster or handles it incompletely, Party A may directly collect its insurance claim to settle the matter, and Party B shall not object.",
+      "para_start": 139,
+      "para_end": 139,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "02XX專案_block_0140",
+      "text": "If Party B fails to take out insurance as agreed, the insurance coverage is insufficient, or Party B fails to obtain full compensation from the insurer, Party B shall bear the loss or damage compensation.",
+      "para_start": 140,
+      "para_end": 140,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "02XX專案_block_0142",
+      "text": "Article 16 Damages \nParty B shall be liable for all civil, criminal, and administrative damages or losses arising from the following:",
+      "para_start": 142,
+      "para_end": 142,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "02XX專案_block_0143",
+      "text": "Party B agrees to abide by the following:",
+      "para_start": 143,
+      "para_end": 143,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "02XX專案_block_0144",
+      "text": "Party B shall ensure that the hardware and software it provides, including but not limited to equipment, materials, parts, technology, or information, do not infringe upon the copyrights, trademark rights, or other intellectual property rights of others, or violate any other laws of the Republic of China . If any third party raises any claim, request, or demand against Party A (including Party A's clients) regarding the aforementioned intellectual property rights, initiates civil or criminal litigation, files a complaint with an administrative agency, or asserts any legal rights against Party A or its directors, supervisors, managers, employees, legal representatives, or agents due to the use of the aforementioned equipment or information provided by Party B, Party B shall handle the matter and be responsible for related defense or settlement matters, and shall bear full legal responsibility. Party B agrees to bear all losses and expenses (including but not limited to settlement payments, litigation costs, and attorney fees) incurred by Party A in resolving any claims or lawsuits related to infringement concerning the equipment or information under this contract. This clause shall remain in effect upon the expiration or termination of this contract.",
+      "para_start": 144,
+      "para_end": 144,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "02XX專案_block_0145",
+      "text": "If Party A, based on the legal opinion issued by its retained lawyer, determines that the third party's tort claim may be valid, Party B shall, as instructed by Party A, handle the matter in one of the following ways and compensate Party A for the damages suffered as a result:",
+      "para_start": 145,
+      "para_end": 145,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "02XX專案_block_0146",
+      "text": "Obtain the necessary authorization from a third party.",
+      "para_start": 146,
+      "para_end": 146,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "02XX專案_block_0147",
+      "text": "The parts suspected of infringing on the rights of others will be reworked or modified free of charge until they are completely free of infringement.",
+      "para_start": 147,
+      "para_end": 147,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "02XX專案_block_0148",
+      "text": "Any claim, complaint, prosecution, investigation or other assertion of any kind arising from any act or omission by Party B or its subcontractors or contractors in breach of this Agreement, which directly or indirectly causes actual or alleged pollution, public nuisance or private obstruction.",
+      "para_start": 148,
+      "para_end": 148,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "02XX專案_block_0149",
+      "text": "The liability of Party B includes, but is not limited to, all related expenses incurred in making requests, filing lawsuits, pursuing legal action, investigations, attorney fees, settlement fees, or any expenses and compensation determined by court judgment to be borne by Party B.",
+      "para_start": 149,
+      "para_end": 149,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "02XX專案_block_0150",
+      "text": "If the compensation provisions of this contract are inconsistent with the laws of the Republic of China, the applicable compensation obligations under this contract shall be interpreted to the maximum extent permitted by the applicable law.",
+      "para_start": 150,
+      "para_end": 150,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "02XX專案_block_0151",
+      "text": "Before the aforementioned liability for compensation owed by Party B is resolved through agreement or determined by court judgment, Party A has the right to withhold the amount payable to Party B up to the amount it reasonably believes can satisfy the aforementioned claim.",
+      "para_start": 151,
+      "para_end": 151,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "02XX專案_block_0152",
+      "text": "This project was undertaken by Party A in accordance with the client's needs. Party B shall bear all contractual and non-contractual liabilities incurred by Party A due to Party B's failure to fulfill its obligations under this contract. Party B shall also be liable for damages if Party B breaches this contract, resulting in losses to Party A.",
+      "para_start": 152,
+      "para_end": 152,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "02XX專案_block_0154",
+      "text": "Article 17 Termination and Rescission of Contract",
+      "para_start": 154,
+      "para_end": 154,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "02XX專案_block_0155",
+      "text": "If Party B's performance of this contract falls under any of the following circumstances, Party A may terminate or rescind this contract in whole or in part by giving written notice to Party B, without compensating Party B for any losses incurred as a result :",
+      "para_start": 155,
+      "para_end": 155,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "02XX專案_block_0156",
+      "text": "Due to reasons attributable to Party B, the performance period was delayed, and the progress of the performance was more than 20% behind schedule, and the number of days exceeded ten days.",
+      "para_start": 156,
+      "para_end": 156,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "02XX專案_block_0157",
+      "text": "Anyone who forges or alters contracts or performance-related documents, as verified by investigation.",
+      "para_start": 157,
+      "para_end": 157,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "02XX專案_block_0158",
+      "text": "Those who fail the inspection or acceptance and fail to comply with the regulations within the notified period.",
+      "para_start": 158,
+      "para_end": 158,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "02XX專案_block_0159",
+      "text": "Without the prior written consent of Party A, Party B may not subcontract or assign this project to a third party, and such actions are verified by Party A.",
+      "para_start": 159,
+      "para_end": 159,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "02XX專案_block_0160",
+      "text": "If Party B engages in shoddy workmanship or other fraudulent activities, and the circumstances are found to be serious.",
+      "para_start": 160,
+      "para_end": 160,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "02XX專案_block_0161",
+      "text": "The contractor (Party B) stopped work without cause despite repeated reminders.",
+      "para_start": 161,
+      "para_end": 161,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "02XX專案_block_0162",
+      "text": "When Party B is unable to fulfill its contractual obligations due to unforeseen circumstances.",
+      "para_start": 162,
+      "para_end": 162,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "02XX專案_block_0163",
+      "text": "If Party B fails to commence work within the stipulated period, or if the commencement of work is slow, or if there is a lack of workers, machinery, or equipment, and Party A deems it impossible to complete the work within the stipulated period.",
+      "para_start": 163,
+      "para_end": 163,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "02XX專案_block_0164",
+      "text": "Party A believes that Party B has violated the terms of this contract or failed to perform its obligations under this contract due to poor construction.",
+      "para_start": 164,
+      "para_end": 164,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "02XX專案_block_0165",
+      "text": "If Party B or its general contractor and subcontractors fail to heed the instructions of Party A's personnel and fail to effectively cooperate with the construction of the works related to this contract, and Party A's admonitions are ineffective.",
+      "para_start": 165,
+      "para_end": 165,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "02XX專案_block_0166",
+      "text": "The resolution of Party A's internal meeting shall be notified to Party B in writing.",
+      "para_start": 166,
+      "para_end": 166,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "02XX專案_block_0167",
+      "text": "The performance records provided by Party B are inconsistent.",
+      "para_start": 167,
+      "para_end": 167,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "02XX專案_block_0168",
+      "text": "If the materials and specifications used by Party B in the construction are not in accordance with the demonstration station or sample (if there are any differences, the better one shall be selected), and Party A has requested improvements in writing but still fails to achieve the desired results.",
+      "para_start": 168,
+      "para_end": 168,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "02XX專案_block_0169",
+      "text": "Those who violate environmental protection or occupational safety and health laws and regulations, and whose circumstances are serious.",
+      "para_start": 169,
+      "para_end": 169,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "02XX專案_block_0170",
+      "text": "Those who violate laws or other contractual provisions, and whose circumstances are serious.",
+      "para_start": 170,
+      "para_end": 170,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "02XX專案_block_0171",
+      "text": "If the contract between Party A and the client is terminated or dissolved in whole or in part, Party A may also terminate or dissolve part or all of this contract.",
+      "para_start": 171,
+      "para_end": 171,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "02XX專案_block_0172",
+      "text": "Upon termination or cancellation of this Contract as stipulated in the foregoing, Party A shall have the right to reclaim part or all of the unfinished work for its own operation or to solicit other contractors for the same work. Party B shall not raise any objections or requests and shall be liable for compensating Party A for all losses incurred as a result. Party A may retain all outstanding project payments for the portion of the work completed by Party B in accordance with the Contract. Any losses incurred by Party A in undertaking the work itself or soliciting other contractors after the termination or cancellation of this Contract shall be deducted from Party B's retained payments upon completion of the entire project. Any remaining amount shall be returned to Party B without interest. However, if there is still a shortfall, Party B shall unconditionally pay the difference.",
+      "para_start": 172,
+      "para_end": 172,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "02XX專案_block_0173",
+      "text": "Rights and obligations incurred prior to the termination of this contract shall not be affected.",
+      "para_start": 173,
+      "para_end": 173,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "02XX專案_block_0175",
+      "text": "Article 18 Force Majeure",
+      "para_start": 175,
+      "para_end": 175,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "02XX專案_block_0176",
+      "text": "If either party is unable to perform its obligations under this Contract on schedule due to force majeure events such as natural disasters, man-made disasters, unforeseen events, or changes in government laws, it shall be exempt from liability for delayed payment. However, after the aforementioned events have ended, the affected party shall continue to perform this Contract. However, if the aforementioned inability to perform or delay in performance due to force majeure has lasted for more than 30 days , Party A may terminate this Contract by giving written notice to Party B, without incurring any liability for damages. However, Party B shall refund all or part of the project payment already prepaid or overpaid by Party A to Party A within 30 days of Party A's termination of all or part of this Contract.",
+      "para_start": 176,
+      "para_end": 176,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "02XX專案_block_0178",
+      "text": "Article 19 Prohibition of Transfer",
+      "para_start": 178,
+      "para_end": 178,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "02XX專案_block_0179",
+      "text": "Without the prior written consent of both parties, neither party may assign its rights and obligations under this Agreement to a third party. In the event of any unauthorized assignment, the non-breaching party may terminate this Agreement by giving written notice.",
+      "para_start": 179,
+      "para_end": 179,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "02XX專案_block_0181",
+      "text": "Article 20 Other Provisions",
+      "para_start": 181,
+      "para_end": 181,
+      "page_estimate": 13
+    },
+    {
+      "block_id": "02XX專案_block_0182",
+      "text": "The governing law of this contract is the law of the Republic of China.",
+      "para_start": 182,
+      "para_end": 182,
+      "page_estimate": 13
+    },
+    {
+      "block_id": "02XX專案_block_0183",
+      "text": "All disputes arising from this Agreement shall be resolved by the parties in accordance with the principles of good faith, equality and mutual benefit; if the parties are unable to resolve the dispute by agreement, they agree that the Taipei District Court of Taiwan shall be the court of first instance.",
+      "para_start": 183,
+      "para_end": 183,
+      "page_estimate": 13
+    },
+    {
+      "block_id": "02XX專案_block_0184",
+      "text": "All notices for this project shall be in writing. Each party shall designate a contact person, and shall notify the other party immediately if the contact person of either party changes.",
+      "para_start": 184,
+      "para_end": 184,
+      "page_estimate": 13
+    },
+    {
+      "block_id": "02XX專案_block_0185",
+      "text": "The notices between the parties shall be based on the addresses set out in this Agreement. If either party changes its address, it shall immediately notify the other party in writing. If any subsequent change is not notified in writing and service is not possible or the notice is refused, the date of the first delivery by the post office shall be deemed the date of legal service, and the party that fails to notify the other party of the address change shall be solely responsible for all damages arising therefrom.",
+      "para_start": 185,
+      "para_end": 185,
+      "page_estimate": 13
+    },
+    {
+      "block_id": "02XX專案_block_0186",
+      "text": "This agreement shall become effective on the date of signing stated herein. Upon becoming effective, this agreement supersedes all prior oral or written suggestions or agreements between the parties .",
+      "para_start": 186,
+      "para_end": 186,
+      "page_estimate": 13
+    },
+    {
+      "block_id": "02XX專案_block_0187",
+      "text": "The list of attachments to this contract is as follows. In the event of any inconsistency or conflict between the attachments and the contract itself, the contract itself shall prevail:",
+      "para_start": 187,
+      "para_end": 187,
+      "page_estimate": 13
+    },
+    {
+      "block_id": "02XX專案_block_0188",
+      "text": "Appendix 1: Recommended Equipment List",
+      "para_start": 188,
+      "para_end": 188,
+      "page_estimate": 13
+    },
+    {
+      "block_id": "02XX專案_block_0189",
+      "text": "Appendix 2: List of Functions of the Property Management Platform",
+      "para_start": 189,
+      "para_end": 189,
+      "page_estimate": 13
+    },
+    {
+      "block_id": "02XX專案_block_0190",
+      "text": "Appendix 3: Schedule of Project Construction Phase",
+      "para_start": 190,
+      "para_end": 190,
+      "page_estimate": 13
+    },
+    {
+      "block_id": "02XX專案_block_0191",
+      "text": "Appendix 4: Quotation Sheet",
+      "para_start": 191,
+      "para_end": 191,
+      "page_estimate": 13
+    },
+    {
+      "block_id": "02XX專案_block_0192",
+      "text": "This contract is made in duplicate, with each party keeping one copy as proof.",
+      "para_start": 192,
+      "para_end": 192,
+      "page_estimate": 13
+    },
+    {
+      "block_id": "02XX專案_block_0193",
+      "text": "(The following blank space is for printing)",
+      "para_start": 193,
+      "para_end": 193,
+      "page_estimate": 13
+    },
+    {
+      "block_id": "02XX專案_block_0195",
+      "text": "Contracting parties:",
+      "para_start": 195,
+      "para_end": 195,
+      "page_estimate": 14
+    },
+    {
+      "block_id": "02XX專案_block_0197",
+      "text": "Party A:",
+      "para_start": 197,
+      "para_end": 197,
+      "page_estimate": 14
+    },
+    {
+      "block_id": "02XX專案_block_0198",
+      "text": "Representative :",
+      "para_start": 198,
+      "para_end": 198,
+      "page_estimate": 14
+    },
+    {
+      "block_id": "02XX專案_block_0199",
+      "text": "Unified Number:",
+      "para_start": 199,
+      "para_end": 199,
+      "page_estimate": 14
+    },
+    {
+      "block_id": "02XX專案_block_0200",
+      "text": "address:",
+      "para_start": 200,
+      "para_end": 200,
+      "page_estimate": 14
+    },
+    {
+      "block_id": "02XX專案_block_0202",
+      "text": "Party B:",
+      "para_start": 202,
+      "para_end": 202,
+      "page_estimate": 14
+    },
+    {
+      "block_id": "02XX專案_block_0203",
+      "text": "Representative :",
+      "para_start": 203,
+      "para_end": 203,
+      "page_estimate": 14
+    },
+    {
+      "block_id": "02XX專案_block_0204",
+      "text": "Unified Number:",
+      "para_start": 204,
+      "para_end": 204,
+      "page_estimate": 14
+    },
+    {
+      "block_id": "02XX專案_block_0205",
+      "text": "address:",
+      "para_start": 205,
+      "para_end": 205,
+      "page_estimate": 14
+    },
+    {
+      "block_id": "02XX專案_block_0218",
+      "text": "Republic of China Year Month Day",
+      "para_start": 218,
+      "para_end": 218,
+      "page_estimate": 15
+    }
+  ],
+  "raw_text_preview": "Engineering contract\nDue to the business needs of Party A's client [ ] (hereinafter referred to as \"the Client\"), Party A entrusts Party B to undertake the contracted project. Both parties hereby enter into this contract and agree to abide by it, with the following terms and conditions:\nArticle 1 Project Name\nProject Name: XX Project\nThe location of the second project.\nThe project location is:\nArticle 3 Total Project Price\nThe project adopts a cost-based pricing method, and the total contract price is NT$ 23,830,643. The contract price is RMB [amount in RMB] (including tax , the same below, see Attachment 4: Quotation ). Both parties shall calculate the total contract price based on the final acceptance and settlement quantity by the customer after completion. The unit price is detailed in Attachment 6: Quotation.\nThe unit prices listed in this detailed price list are the result of Party B's thorough review of the drawings, construction specifications and documents attached to this contract , and after conducting a site survey and fully considering any possible variations, weather conditions, construction conditions and risks of damaging nearby property or injuring the occupants of such property. The prices include all costs incurred in this project, including any taxes, fees, miscellaneous fees, facility fees, freight, water and electricity fees, telephone fees, insurance fees, site management fees, labor safety fees, environmental and sanitation fees, testing fees, shed fees and material costs. Party B agrees that it will not request additional payment for the project in the future based on differences in the current condition or omissions.\nAfter the signing of this contract, Party B shall not request subsidies for the project cost or adjustments to the unit price of the contract due to price fluctuations, exchange rate changes, changes in laws and regulations, unclear drawings, incomplete valuation, or other reasons that violate the provisions of the contract .\nThis contract is quoted in New Taiwan Dollars and includes business tax. Party B shall bear all customs duties, commodity taxes, and business taxes incurred on imported construction or testing equipment, temporary facilities, equipment or materials required for manufacturing goods within Taiwan, and equipment or materials imported before replacement or supplementation. Party B shall also bear all taxes, fees, and customs duties incurred outside the Republic of China for imported goods or temporary facilities. Any other taxes arising from this contract under the law shall be handled in accordance with the relevant tax laws and interpretations.\nArticle 4 Scope of work\nRegarding the construction method of this project, Party B shall conduct the survey, design, construction, and completion testing of the project based on the location and scope provided by Party A. Other relevant design, construction drawings, and detailed project scope documents are attached as Appendix 1 , Project Scope Document. Party B shall submit any clarifications in writing beforehand; otherwise, even after Party A's approval, Party B shall still construct according to the drawings. Furthermore, Party A's approval of the project scope document does not relieve Party B of its responsibility to comply with the specifications and related drawings attached to this contract.\nall drawings, standard construction specifications, occupational safety and health manuals, traffic facility manuals, construction instructions, and all related attachments in this contract, and Party B shall not raise any objections during construction.\nFor any items not specified in the drawings but necessary for construction technology, or reasonable inferences from the project and customary practices, Party B shall not refuse or demand additional payment for any reason. Party B must submit the construction drawings and relevant documents for formal written consent from both Party A and the client before any changes are made to the drawings. Otherwise, Party B shall be liable for any losses incurred as a result.\nParty A reserves the right to modify the contents of this contract at any time, and Party B shall unconditionally cooperate in the modification. If the modification involves an increase or decrease in the quantity of existing items, both parties agree to adjust the price based on the original order price. If the modification involves a new item, both parties agree to price it based on the unit price of similar specifications of goods or construction methods in this contract. If there are no similar items available for reference, the price shall be negotiated between the two parties.\nIf Party B is required to discard a portion of the completed work or qualified materials already delivered due to changes made by Party A, Party A shall accept and pay the price based on the order price stipulated in this contract. However, if the changes are to the design, minor modifications or implementations, reasonable inferences about the construction process, or matters indispensable to engineering practices and construction techniques, even if not specified in the drawings and construction instructions, Party B agrees to unconditionally cooperate with Party A's instructions and will not make excuses or request additional payment.\nArticle 5 Project Duration\nThis project shall be completed on schedule in accordance with the schedule in Appendix 2. The construction period shall not be extended without the written consent of Party A. During the project, Party A and Party B may agree on the coordination period for each stage of construction. If Party B fails to participate in the consultation in a timely manner, Party B agrees to abide by all project deadlines approved by Party A.\nIf this contract is to be completed in stages, and there are any delays in the construction progress of each stage, Party A may, in accordance with the contract, suspend pricing, and Party B shall not raise any objection.",
+  "validation_status": "passed",
+  "version_conflicts": []
+}

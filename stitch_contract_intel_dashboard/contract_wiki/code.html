@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contract Intelligence - Wiki</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "primary-container": "#334155",
+                        "primary-fixed-dim": "#b9c7e0",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary-fixed": "#0d1c2d",
+                        "tertiary": "#1c2b3c",
+                        "on-secondary-container": "#54647a",
+                        "on-primary-container": "#9eadc5",
+                        "on-primary-fixed-variant": "#3a485c",
+                        "tertiary-container": "#334153",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary-container": "#9eadc2",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container": "#eceef0",
+                        "on-primary-fixed": "#0d1c2f",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-variant": "#e0e3e5",
+                        "surface-tint": "#515f74",
+                        "primary-fixed": "#d5e3fd",
+                        "on-background": "#191c1e",
+                        "error": "#ba1a1a",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed": "#0b1c30",
+                        "secondary": "#505f76",
+                        "surface-container-highest": "#e0e3e5",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#191c1e",
+                        "outline": "#75777d",
+                        "surface-container-low": "#f2f4f6",
+                        "tertiary-fixed-dim": "#b9c8de",
+                        "secondary-fixed": "#d3e4fe",
+                        "inverse-surface": "#2d3133",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#b9c7e0",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#44474c",
+                        "tertiary-fixed": "#d4e4fa",
+                        "on-secondary": "#ffffff",
+                        "primary": "#1d2b3e",
+                        "outline-variant": "#c5c6cd",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#d0e1fb",
+                        "surface": "#f7f9fb",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#39485a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "drawer-width": "400px",
+                        "table-row-height": "36px",
+                        "container-margin": "24px",
+                        "sidebar-width": "240px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "code-snippet": ["monospace"],
+                        "h2": ["Inter"],
+                        "data-table": ["Inter"],
+                        "h1": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "code-snippet": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "h2": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "data-table": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "h1": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface overflow-hidden">
+<!-- Global Layout Wrapper -->
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<aside class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans text-sm antialiased tracking-tight fixed left-0 top-0 h-screen w-[240px] border-r border-slate-200 dark:border-slate-800 flex flex-col h-full py-4 overflow-y-auto z-50 shadow-none">
+<!-- Header -->
+<div class="px-6 pb-6 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center text-on-primary-container shrink-0">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<h1 class="text-lg font-bold tracking-tighter text-slate-900 dark:text-slate-50">Contract Intel</h1>
+<p class="text-xs text-slate-500">Technical Audit v2.4</p>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<nav class="flex-1 px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">description</span>
+                    Contracts
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+                    Workflow
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">search</span>
+                    Query
+                </a>
+<!-- Active Tab: Wiki -->
+<a class="flex items-center gap-3 px-3 py-2 rounded bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-50 font-semibold border-r-2 border-slate-900 dark:border-slate-50 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+                    Wiki
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">hub</span>
+                    Knowledge Graph
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">health_and_safety</span>
+                    System Health
+                </a>
+</nav>
+<!-- Footer Tab -->
+<div class="px-3 pt-4 border-t border-slate-200 dark:border-slate-800 mt-auto">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined text-[#0ea5e9]" style="font-variation-settings: 'FILL' 1;">cloud_off</span>
+                    Offline Mode
+                </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col ml-[240px] w-[calc(100%-240px)] h-screen overflow-hidden bg-surface-bright">
+<!-- TopNavBar -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-slate-900 dark:text-slate-100 font-sans text-sm font-medium sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 h-14 shadow-none">
+<!-- Left: Search Bar -->
+<div class="flex items-center flex-1 max-w-md">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-md pl-10 pr-4 py-1.5 text-sm focus:ring-1 focus:ring-slate-300 dark:focus:ring-slate-600 transition-shadow" placeholder="Search Knowledge Base..." type="text"/>
+</div>
+</div>
+<!-- Right: Trailing Icon Actions -->
+<div class="flex items-center gap-4 text-slate-500 dark:text-slate-400">
+<button class="cursor-pointer opacity-90 hover:opacity-100 hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="cursor-pointer opacity-90 hover:opacity-100 hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
+<span class="material-symbols-outlined text-xl">settings</span>
+</button>
+<button class="cursor-pointer opacity-90 hover:opacity-100 hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
+<span class="material-symbols-outlined text-xl">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Wiki Content Layout -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Inner Left Sidebar: File Tree -->
+<div class="w-64 flex-shrink-0 border-r border-outline-variant bg-surface-container-lowest flex flex-col overflow-y-auto">
+<div class="p-4 border-b border-outline-variant">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase">Repository</h2>
+</div>
+<div class="p-3 space-y-1 font-data-table text-data-table text-on-surface">
+<!-- File item -->
+<a class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-surface-variant group" href="#">
+<span class="material-symbols-outlined text-outline text-[18px] group-hover:text-primary transition-colors">article</span>
+<span class="truncate">index.md</span>
+</a>
+<!-- Folder item -->
+<div class="flex flex-col">
+<button class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-surface-variant group w-full text-left">
+<span class="material-symbols-outlined text-outline text-[18px] group-hover:text-primary transition-colors">folder_open</span>
+<span class="font-medium truncate">contracts/</span>
+</button>
+<div class="pl-6 flex flex-col gap-1 border-l border-outline-variant ml-4 mt-1">
+<a class="flex items-center gap-2 px-2 py-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" href="#">
+<span class="truncate">MSA_v2.md</span>
+</a>
+<a class="flex items-center gap-2 px-2 py-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" href="#">
+<span class="truncate">Vendor_Agreements.md</span>
+</a>
+</div>
+</div>
+<!-- Folder item -->
+<div class="flex flex-col mt-1">
+<button class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-surface-variant group w-full text-left">
+<span class="material-symbols-outlined text-outline text-[18px] group-hover:text-primary transition-colors">folder</span>
+<span class="truncate">milestones/</span>
+</button>
+</div>
+<!-- File item -->
+<a class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-surface-variant group mt-1 bg-surface-variant" href="#">
+<span class="material-symbols-outlined text-primary text-[18px]">article</span>
+<span class="truncate font-medium text-primary">log.md</span>
+</a>
+</div>
+</div>
+<!-- Main Document Viewer -->
+<div class="flex-1 overflow-y-auto bg-surface-container-lowest scroll-smooth">
+<div class="max-w-4xl mx-auto px-10 py-12">
+<!-- Document Header -->
+<div class="flex items-start justify-between mb-8 pb-6 border-b border-outline-variant">
+<div>
+<div class="flex items-center gap-2 mb-2 text-on-surface-variant font-label-caps text-label-caps">
+<span>contracts</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span>MSA_v2.md</span>
+</div>
+<h1 class="font-h1 text-h1 text-on-surface mb-2">Master Service Agreement Integration Logic</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Last updated 2 hours ago by System Bot</p>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded hover:bg-tertiary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">hub</span>
+<span class="font-label-caps text-label-caps">View Graph Node</span>
+</button>
+</div>
+<!-- Rendered Markdown Content -->
+<div class="space-y-6 font-body-md text-body-md text-on-surface leading-relaxed">
+<p>This document details the parsing algorithms and integration logic applied to the Master Service Agreement (MSA) corpus. The ingestion pipeline relies on regex matching to extract core entity obligations.</p>
+<h2 class="font-h2 text-h2 text-on-surface mt-8 mb-4 border-b border-outline-variant pb-2">1. Obligation Extraction</h2>
+<p>Upon detection of a mandatory modal verb (e.g., <code>shall</code>, <code>must</code>, <code>is required to</code>), the parser generates a localized AST node. The node is subsequently tagged with the relevant corporate entity ID.</p>
+<div class="bg-surface-container p-4 rounded-md border border-outline-variant font-code-snippet text-code-snippet overflow-x-auto text-on-surface-variant my-4">
+def extract_obligations(text_block):
+    pattern = r'(?i)\b(Vendor|Client)\b.*\b(shall|must|will)\b'
+    matches = re.finditer(pattern, text_block)
+    return [build_node(m.group()) for m in matches]
+                            </div>
+<p>Performance benchmarks indicate a 98.4% precision rate across the training set <button class="inline-flex items-center justify-center w-6 h-6 ml-1 border border-outline rounded bg-surface hover:bg-surface-variant cursor-pointer transition-colors" title="View Source Clause"><span class="material-symbols-outlined text-[14px]">format_quote</span></button>. However, edge cases remain concerning nested indemnification clauses.</p>
+<h2 class="font-h2 text-h2 text-on-surface mt-8 mb-4 border-b border-outline-variant pb-2">2. Liability Thresholds</h2>
+<p>The system normalizes financial caps into a standard USD integer format to allow for aggregate risk calculation across nested SOWs.</p>
+<!-- Contradiction/Conflict Block -->
+<div class="my-6 border-l-[3px] border-error bg-error-container p-4 rounded-r-md">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-on-error-container mt-0.5">warning</span>
+<div>
+<h3 class="font-h2 text-[15px] font-semibold text-on-error-container mb-1">Contradiction / Conflict Detected</h3>
+<p class="font-body-md text-body-md text-on-error-container/90 mb-2">
+                                            The parsed liability cap in Section 8.2 ($5,000,000) directly conflicts with the localized cap identified in Addendum B ($2,000,000) overriding the general terms.
+                                        </p>
+<a class="inline-flex items-center gap-1 font-label-caps text-label-caps text-on-error-container hover:underline mt-1" href="#">
+<span class="material-symbols-outlined text-[14px]">link</span>
+                                            Review Source Document Conflict
+                                        </a>
+</div>
+</div>
+</div>
+<p>Manual review is recommended whenever the Delta Engine flags a variance exceeding 15% between standard template clauses and negotiated redlines. The risk team should prioritize reviewing these flags before final execution.</p>
+<!-- Data Table -->
+<table class="w-full text-left border-collapse mt-6 mb-8 font-data-table text-data-table">
+<thead>
+<tr class="border-b-2 border-outline-variant">
+<th class="py-2 px-2 font-medium text-on-surface-variant">Entity</th>
+<th class="py-2 px-2 font-medium text-on-surface-variant">Extracted Cap</th>
+<th class="py-2 px-2 font-medium text-on-surface-variant">Confidence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low transition-colors h-[36px]">
+<td class="py-1 px-2">Vendor A</td>
+<td class="py-1 px-2">$5M USD</td>
+<td class="py-1 px-2 text-emerald-600 font-medium">99.1%</td>
+</tr>
+<tr class="border-b border-outline-variant bg-surface-container hover:bg-surface-container-low transition-colors h-[36px]">
+<td class="py-1 px-2">Client Holding</td>
+<td class="py-1 px-2">$2M USD</td>
+<td class="py-1 px-2 text-error font-medium">78.4%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

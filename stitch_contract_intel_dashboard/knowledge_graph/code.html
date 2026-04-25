@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contract Intel - Knowledge Graph</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "primary-container": "#334155",
+                        "primary-fixed-dim": "#b9c7e0",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary-fixed": "#0d1c2d",
+                        "tertiary": "#1c2b3c",
+                        "on-secondary-container": "#54647a",
+                        "on-primary-container": "#9eadc5",
+                        "on-primary-fixed-variant": "#3a485c",
+                        "tertiary-container": "#334153",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary-container": "#9eadc2",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container": "#eceef0",
+                        "on-primary-fixed": "#0d1c2f",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-variant": "#e0e3e5",
+                        "surface-tint": "#515f74",
+                        "primary-fixed": "#d5e3fd",
+                        "on-background": "#191c1e",
+                        "error": "#ba1a1a",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed": "#0b1c30",
+                        "secondary": "#505f76",
+                        "surface-container-highest": "#e0e3e5",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#191c1e",
+                        "outline": "#75777d",
+                        "surface-container-low": "#f2f4f6",
+                        "tertiary-fixed-dim": "#b9c8de",
+                        "secondary-fixed": "#d3e4fe",
+                        "inverse-surface": "#2d3133",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#b9c7e0",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#44474c",
+                        "tertiary-fixed": "#d4e4fa",
+                        "on-secondary": "#ffffff",
+                        "primary": "#1d2b3e",
+                        "outline-variant": "#c5c6cd",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#d0e1fb",
+                        "surface": "#f7f9fb",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#39485a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "drawer-width": "400px",
+                        "table-row-height": "36px",
+                        "container-margin": "24px",
+                        "sidebar-width": "240px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "code-snippet": ["monospace"],
+                        "h2": ["Inter"],
+                        "data-table": ["Inter"],
+                        "h1": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "code-snippet": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "h2": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "data-table": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "h1": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased overflow-hidden flex h-screen w-screen">
+<!-- SideNavBar -->
+<aside class="bg-white dark:bg-slate-900 fixed left-0 top-0 h-screen w-[240px] border-r border-slate-200 dark:border-slate-800 flex flex-col z-50">
+<div class="px-6 py-5 flex flex-col gap-1 border-b border-slate-200 dark:border-slate-800">
+<h1 class="text-lg font-bold tracking-tighter text-slate-900 dark:text-slate-50 font-h1 text-h1">Contract Intel</h1>
+<span class="text-xs text-slate-500 font-label-caps text-label-caps uppercase">Technical Audit v2.4</span>
+</div>
+<nav class="flex flex-col h-full py-4 overflow-y-auto gap-1 px-3">
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px]">description</span>
+<span class="font-data-table text-data-table font-medium">Contracts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+<span class="font-data-table text-data-table font-medium">Workflow</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px]">search</span>
+<span class="font-data-table text-data-table font-medium">Query</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px]">menu_book</span>
+<span class="font-data-table text-data-table font-medium">Wiki</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-50 font-semibold border-r-2 border-slate-900 dark:border-slate-50 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px] text-primary">hub</span>
+<span class="font-data-table text-data-table">Knowledge Graph</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px]">health_and_safety</span>
+<span class="font-data-table text-data-table font-medium">System Health</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-slate-200 dark:border-slate-800 p-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px] text-[#0ea5e9]">cloud_off</span>
+<span class="font-data-table text-data-table font-medium">Offline Mode</span>
+<span class="ml-auto flex items-center justify-center w-5 h-5 rounded-full bg-[#0ea5e9]/10 text-[#0ea5e9] text-[10px] font-bold">3</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col ml-[240px] h-screen bg-surface">
+<!-- TopNavBar -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 h-14">
+<div class="flex items-center gap-4">
+<span class="font-h2 text-h2 text-slate-800 dark:text-slate-100">Knowledge Graph</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer opacity-90 hover:opacity-100 rounded-DEFAULT">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer opacity-90 hover:opacity-100 rounded-DEFAULT">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer opacity-90 hover:opacity-100 rounded-DEFAULT">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Graph Workspace -->
+<main class="flex-1 flex overflow-hidden relative">
+<!-- Graph Canvas Area -->
+<div class="flex-1 flex flex-col relative bg-[#f8fafc] dark:bg-[#0f172a] overflow-hidden">
+<!-- Controls overlay -->
+<div class="absolute top-4 left-4 right-4 z-10 flex items-center justify-between pointer-events-none">
+<!-- Presets -->
+<div class="flex gap-2 pointer-events-auto bg-white/90 backdrop-blur-sm p-1.5 rounded-lg border border-slate-200 shadow-sm">
+<button class="px-3 py-1.5 text-xs font-medium rounded text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-colors flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                            Accepted but not paid
+                        </button>
+<button class="px-3 py-1.5 text-xs font-medium rounded text-slate-700 bg-white hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-colors flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-red-500"></span>
+                            High-risk clauses
+                        </button>
+<button class="px-3 py-1.5 text-xs font-medium rounded text-slate-700 bg-white hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-colors flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                            Milestone Dependencies
+                        </button>
+</div>
+<!-- Graph Tools -->
+<div class="flex flex-col gap-2 pointer-events-auto">
+<div class="bg-white/90 backdrop-blur-sm rounded-lg border border-slate-200 shadow-sm flex flex-col">
+<button class="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-t-lg transition-colors border-b border-slate-100">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+<button class="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors border-b border-slate-100">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+<button class="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-b-lg transition-colors">
+<span class="material-symbols-outlined text-[20px]">fit_screen</span>
+</button>
+</div>
+<div class="bg-white/90 backdrop-blur-sm rounded-lg border border-slate-200 shadow-sm flex flex-col">
+<button class="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Simulated Graph Canvas (SVG) -->
+<div class="w-full h-full relative" style="background-image: radial-gradient(circle at 2px 2px, #cbd5e1 1px, transparent 0); background-size: 32px 32px;">
+<!-- Nodes and Edges (Static Mockup) -->
+<svg class="absolute inset-0" height="100%" width="100%">
+<defs>
+<marker id="arrowhead" markerheight="7" markerwidth="10" orient="auto" refx="9" refy="3.5">
+<polygon fill="#94a3b8" points="0 0, 10 3.5, 0 7"></polygon>
+</marker>
+</defs>
+<!-- Edges -->
+<path d="M 300 200 L 450 300" fill="none" marker-end="url(#arrowhead)" stroke="#cbd5e1" stroke-width="2"></path>
+<path d="M 300 200 L 250 400" fill="none" marker-end="url(#arrowhead)" stroke="#cbd5e1" stroke-width="2"></path>
+<path d="M 450 300 L 600 250" fill="none" marker-end="url(#arrowhead)" stroke="#cbd5e1" stroke-width="2"></path>
+<path d="M 450 300 L 550 450" fill="none" marker-end="url(#arrowhead)" stroke="#cbd5e1" stroke-dasharray="4" stroke-width="2"></path>
+<!-- Nodes -->
+<!-- Contract Node -->
+<g transform="translate(300, 200)">
+<circle fill="#1e293b" r="24" stroke="#cbd5e1" stroke-width="2"></circle>
+<text class="material-symbols-outlined" dominant-baseline="central" fill="white" font-size="20" text-anchor="middle" x="0" y="0">description</text>
+<text class="font-data-table text-data-table font-medium" fill="#334155" text-anchor="middle" x="0" y="36">MSA-2023-08</text>
+</g>
+<!-- Milestone Node (Active/Selected) -->
+<g transform="translate(450, 300)">
+<circle fill="#e0f2fe" r="32" stroke="#0284c7" stroke-width="3"></circle>
+<circle fill="#0284c7" r="24"></circle>
+<text class="material-symbols-outlined" dominant-baseline="central" fill="white" font-size="20" text-anchor="middle" x="0" y="0">flag</text>
+<text class="font-data-table text-data-table font-semibold" fill="#0284c7" text-anchor="middle" x="0" y="44">Phase 1 Delivery</text>
+</g>
+<!-- WorkItem Node -->
+<g transform="translate(250, 400)">
+<circle fill="#f8fafc" r="20" stroke="#94a3b8" stroke-width="2"></circle>
+<text class="material-symbols-outlined" dominant-baseline="central" fill="#64748b" font-size="16" text-anchor="middle" x="0" y="0">task</text>
+<text class="font-data-table text-xs" fill="#64748b" text-anchor="middle" x="0" y="32">Auth Service</text>
+</g>
+<!-- Invoice Node (Warning) -->
+<g transform="translate(600, 250)">
+<circle fill="#fef2f2" r="20" stroke="#ef4444" stroke-width="2"></circle>
+<text class="material-symbols-outlined" dominant-baseline="central" fill="#ef4444" font-size="16" text-anchor="middle" x="0" y="0">receipt_long</text>
+<text class="font-data-table text-xs" fill="#ef4444" text-anchor="middle" x="0" y="32">INV-8821</text>
+</g>
+<!-- Clause Node -->
+<g transform="translate(550, 450)">
+<circle fill="#f8fafc" r="16" stroke="#94a3b8" stroke-dasharray="2" stroke-width="1"></circle>
+<text class="material-symbols-outlined" dominant-baseline="central" fill="#64748b" font-size="14" text-anchor="middle" x="0" y="0">article</text>
+<text class="font-data-table text-xs" fill="#64748b" text-anchor="middle" x="0" y="28">§ 4.2 Liability</text>
+</g>
+</svg>
+</div>
+</div>
+<!-- Right-Side Context Drawer (400px fixed width as per Style Guidance) -->
+<aside class="w-[400px] border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col flex-shrink-0 z-20">
+<!-- Drawer Header -->
+<div class="p-5 border-b border-slate-200 dark:border-slate-800 flex items-start justify-between bg-slate-50 dark:bg-slate-900/50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-DEFAULT bg-sky-100 flex items-center justify-center text-sky-700 border border-sky-200">
+<span class="material-symbols-outlined">flag</span>
+</div>
+<div>
+<span class="font-label-caps text-label-caps text-slate-500 uppercase tracking-wider block mb-1">Milestone</span>
+<h2 class="font-h2 text-h2 text-slate-900 font-semibold m-0 leading-tight">Phase 1 Delivery</h2>
+</div>
+</div>
+<button class="text-slate-400 hover:text-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Drawer Content - Scrollable -->
+<div class="flex-1 overflow-y-auto p-5 space-y-6">
+<!-- Status & Meta Bento Grid -->
+<div class="grid grid-cols-2 gap-3">
+<div class="border border-slate-200 rounded-DEFAULT p-3 bg-white">
+<span class="font-label-caps text-label-caps text-slate-500 block mb-1">Status</span>
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-sm bg-emerald-100 text-emerald-900 font-medium text-xs">
+                                Completed
+                            </div>
+</div>
+<div class="border border-slate-200 rounded-DEFAULT p-3 bg-white">
+<span class="font-label-caps text-label-caps text-slate-500 block mb-1">Target Date</span>
+<span class="font-data-table text-data-table text-slate-900">Oct 15, 2023</span>
+</div>
+<div class="border border-slate-200 rounded-DEFAULT p-3 bg-white col-span-2 flex justify-between items-center">
+<div>
+<span class="font-label-caps text-label-caps text-slate-500 block mb-1">Financial Value</span>
+<span class="font-code-snippet text-code-snippet text-slate-900 font-semibold">$145,000.00 USD</span>
+</div>
+<div class="text-right">
+<span class="font-label-caps text-label-caps text-slate-500 block mb-1">Invoiced</span>
+<span class="font-code-snippet text-code-snippet text-rose-600 font-semibold">$0.00 (0%)</span>
+</div>
+</div>
+</div>
+<!-- Connections Section -->
+<div>
+<h3 class="font-label-caps text-label-caps text-slate-900 uppercase border-b border-slate-200 pb-2 mb-3">Direct Relationships</h3>
+<div class="space-y-2">
+<!-- Connection Item 1 -->
+<div class="flex items-center gap-3 p-2.5 border border-slate-200 rounded-DEFAULT bg-slate-50 hover:bg-white transition-colors cursor-pointer group">
+<div class="w-8 h-8 rounded-sm bg-slate-200 flex items-center justify-center text-slate-600 flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</div>
+<div class="flex-1 min-w-0">
+<span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider block leading-none mb-1">Governing Contract</span>
+<span class="font-data-table text-data-table text-slate-900 truncate block">MSA-2023-08 Core Agreement</span>
+</div>
+<button class="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-slate-800 transition-all">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</div>
+<!-- Connection Item 2 -->
+<div class="flex items-center gap-3 p-2.5 border border-slate-200 rounded-DEFAULT bg-slate-50 hover:bg-white transition-colors cursor-pointer group">
+<div class="w-8 h-8 rounded-sm bg-rose-100 flex items-center justify-center text-rose-700 flex-shrink-0 border border-rose-200">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+</div>
+<div class="flex-1 min-w-0">
+<span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider block leading-none mb-1">Blocked By Invoice</span>
+<span class="font-data-table text-data-table text-rose-700 font-medium truncate block">INV-8821 (Disputed)</span>
+</div>
+<button class="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-slate-800 transition-all">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Clause Citations Markdown Area -->
+<div>
+<h3 class="font-label-caps text-label-caps text-slate-900 uppercase border-b border-slate-200 pb-2 mb-3 flex justify-between items-center">
+                            Relevant Clauses
+                            <button class="w-6 h-6 flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-sm border border-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[14px]">format_quote</span>
+</button>
+</h3>
+<div class="bg-white border border-slate-200 rounded-DEFAULT p-4 font-body-md text-sm text-slate-700 space-y-3">
+<p>Milestone payment is contingent upon successful UAT sign-off as defined in <a class="text-blue-600 hover:underline font-medium" href="#">§ 3.1.2 Acceptance Criteria</a>.</p>
+<div class="pl-3 border-l-2 border-slate-300 font-code-snippet text-xs text-slate-600 bg-slate-50 p-2 rounded-r-sm">
+                                "Client shall have five (5) business days to review deliverable..."
+                            </div>
+</div>
+</div>
+</div>
+<!-- Drawer Footer Actions -->
+<div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 flex gap-2">
+<button class="flex-1 px-4 py-2 bg-white border border-slate-300 text-slate-700 font-data-table font-medium rounded-DEFAULT hover:bg-slate-50 transition-colors">
+                        View Details
+                    </button>
+<button class="flex-1 px-4 py-2 bg-slate-900 text-white font-data-table font-medium rounded-DEFAULT hover:bg-slate-800 transition-colors">
+                        Run Query
+                    </button>
+</div>
+</aside>
+</main>
+</div>
+</body></html>

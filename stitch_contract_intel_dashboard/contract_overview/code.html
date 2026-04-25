@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contract Overview - Contract Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "primary-container": "#334155",
+                        "primary-fixed-dim": "#b9c7e0",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary-fixed": "#0d1c2d",
+                        "tertiary": "#1c2b3c",
+                        "on-secondary-container": "#54647a",
+                        "on-primary-container": "#9eadc5",
+                        "on-primary-fixed-variant": "#3a485c",
+                        "tertiary-container": "#334153",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary-container": "#9eadc2",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container": "#eceef0",
+                        "on-primary-fixed": "#0d1c2f",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-variant": "#e0e3e5",
+                        "surface-tint": "#515f74",
+                        "primary-fixed": "#d5e3fd",
+                        "on-background": "#191c1e",
+                        "error": "#ba1a1a",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed": "#0b1c30",
+                        "secondary": "#505f76",
+                        "surface-container-highest": "#e0e3e5",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#191c1e",
+                        "outline": "#75777d",
+                        "surface-container-low": "#f2f4f6",
+                        "tertiary-fixed-dim": "#b9c8de",
+                        "secondary-fixed": "#d3e4fe",
+                        "inverse-surface": "#2d3133",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#b9c7e0",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#44474c",
+                        "tertiary-fixed": "#d4e4fa",
+                        "on-secondary": "#ffffff",
+                        "primary": "#1d2b3e",
+                        "outline-variant": "#c5c6cd",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#d0e1fb",
+                        "surface": "#f7f9fb",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#39485a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "drawer-width": "400px",
+                        "table-row-height": "36px",
+                        "container-margin": "24px",
+                        "sidebar-width": "240px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter", "sans-serif"],
+                        "code-snippet": ["monospace"],
+                        "h2": ["Inter", "sans-serif"],
+                        "data-table": ["Inter", "sans-serif"],
+                        "h1": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "code-snippet": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "h2": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "data-table": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "h1": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface h-screen flex overflow-hidden font-body-md text-body-md antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-[240px] border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 z-50 flex flex-col py-4 overflow-y-auto font-sans text-sm antialiased tracking-tight">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 bg-slate-900 rounded flex items-center justify-center text-white shrink-0">
+<span class="material-symbols-outlined text-lg">assured_workload</span>
+</div>
+<div>
+<h1 class="text-lg font-bold tracking-tighter text-slate-900 dark:text-slate-50 leading-tight">Contract Intel</h1>
+<div class="text-xs text-slate-500">Technical Audit v2.4</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-50 font-semibold border-r-2 border-slate-900 dark:border-slate-50 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+                Contracts
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+                Workflow
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+                Query
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+                Wiki
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+                Knowledge Graph
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-150 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="health_and_safety">health_and_safety</span>
+                System Health
+            </a>
+</nav>
+<div class="px-6 mt-auto">
+<div class="flex items-center gap-2 text-xs font-medium text-[#0ea5e9]">
+<span class="material-symbols-outlined text-base" data-icon="cloud_off" style="font-variation-settings: 'FILL' 1;">cloud_off</span>
+                Offline Mode <span class="ml-auto text-[10px] bg-[#0ea5e9]/10 px-1.5 py-0.5 rounded text-[#0ea5e9]">3 Pending</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-[240px] flex flex-col min-w-0 bg-surface">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex items-center justify-between px-6 h-14 font-sans text-sm font-medium text-slate-900 dark:text-slate-100">
+<div class="flex items-center gap-4">
+<div class="font-h2 text-h2 text-slate-800">Contract Overview</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:text-slate-900 transition-colors cursor-pointer opacity-90 hover:opacity-100 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-500 hover:text-slate-900 transition-colors cursor-pointer opacity-90 hover:opacity-100 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="text-slate-500 hover:text-slate-900 transition-colors cursor-pointer opacity-90 hover:opacity-100 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-auto p-container-margin">
+<!-- Metrics Cards -->
+<div class="grid grid-cols-5 gap-4 mb-6">
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 flex flex-col justify-between">
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Total Contract Value</div>
+<div class="font-h1 text-h1 text-on-surface">$24.2M</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 flex flex-col justify-between">
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Payment Requested</div>
+<div class="font-h1 text-h1 text-on-surface">$4.1M</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 flex flex-col justify-between">
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Paid</div>
+<div class="font-h1 text-h1 text-on-surface">$3.2M</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 flex flex-col justify-between">
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Unpaid</div>
+<div class="font-h1 text-h1 text-on-surface">$21.0M</div>
+</div>
+<div class="bg-error-container border border-error/20 rounded p-4 flex flex-col justify-between">
+<div class="font-label-caps text-label-caps text-on-error-container uppercase mb-2">Validation Warnings</div>
+<div class="font-h1 text-h1 text-on-error-container flex items-center gap-2">
+                        14
+                        <span class="material-symbols-outlined text-lg" data-icon="warning">warning</span>
+</div>
+</div>
+</div>
+<!-- Toolbar -->
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant rounded px-3 py-1.5 font-data-table text-data-table">
+<span class="text-on-surface-variant font-medium">Type:</span>
+<select class="bg-transparent border-none text-on-surface focus:ring-0 p-0 text-sm cursor-pointer outline-none w-24">
+<option>All Types</option>
+<option>Contract</option>
+<option>RFP</option>
+<option>CI</option>
+</select>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant rounded px-3 py-1.5 font-data-table text-data-table">
+<span class="text-on-surface-variant font-medium">Validation:</span>
+<select class="bg-transparent border-none text-on-surface focus:ring-0 p-0 text-sm cursor-pointer outline-none w-28">
+<option>All Status</option>
+<option>Passed</option>
+<option>Warning</option>
+<option>Failed</option>
+</select>
+</div>
+</div>
+<div>
+<button class="bg-primary text-on-primary hover:bg-primary/90 px-4 py-2 rounded text-sm font-medium flex items-center gap-2 transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-sm" data-icon="upload_file">upload_file</span>
+                        Import .doc/.docx
+                    </button>
+</div>
+</div>
+<!-- Compact Data Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-container-low font-label-caps text-label-caps text-on-surface-variant uppercase">
+<th class="py-2 px-4 font-semibold whitespace-nowrap w-1/4">Contract Name</th>
+<th class="py-2 px-4 font-semibold whitespace-nowrap">Type</th>
+<th class="py-2 px-4 font-semibold whitespace-nowrap text-right">Amount</th>
+<th class="py-2 px-4 font-semibold whitespace-nowrap text-center">Milestones</th>
+<th class="py-2 px-4 font-semibold whitespace-nowrap text-center">Validation</th>
+<th class="py-2 px-4 font-semibold whitespace-nowrap text-center">Workflow</th>
+<th class="py-2 px-4 font-semibold whitespace-nowrap text-right">Updated</th>
+<th class="py-2 px-4 font-semibold whitespace-nowrap w-24 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-data-table text-data-table text-on-surface">
+<!-- Row 1 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors h-[36px]">
+<td class="py-1 px-4 truncate max-w-xs">
+<div class="font-medium">Alpha Engineering EPC</div>
+<div class="text-[11px] text-on-surface-variant truncate font-code-snippet">alpha_epc_v3.docx</div>
+</td>
+<td class="py-1 px-4">Contract</td>
+<td class="py-1 px-4 text-right tabular-nums">$12,400,000<span class="text-xs text-on-surface-variant ml-1">USD</span></td>
+<td class="py-1 px-4 text-center tabular-nums">4/12</td>
+<td class="py-1 px-4 text-center">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-900 border border-emerald-200">Passed</span>
+</td>
+<td class="py-1 px-4 text-center">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-900 border border-blue-200">Active</span>
+</td>
+<td class="py-1 px-4 text-right text-on-surface-variant text-xs">Today, 10:42 AM</td>
+<td class="py-1 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="w-6 h-6 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="View Contract"><span class="material-symbols-outlined text-[16px]" data-icon="visibility">visibility</span></button>
+<button class="w-6 h-6 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Open Wiki"><span class="material-symbols-outlined text-[16px]" data-icon="menu_book">menu_book</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-outline-variant bg-slate-50 hover:bg-surface-container-low transition-colors h-[36px]">
+<td class="py-1 px-4 truncate max-w-xs">
+<div class="font-medium">Beta Subsea Pipeline</div>
+<div class="text-[11px] text-on-surface-variant truncate font-code-snippet">beta_pipeline_rfp.docx</div>
+</td>
+<td class="py-1 px-4">RFP</td>
+<td class="py-1 px-4 text-right tabular-nums">$8,100,000<span class="text-xs text-on-surface-variant ml-1">USD</span></td>
+<td class="py-1 px-4 text-center tabular-nums">0/8</td>
+<td class="py-1 px-4 text-center">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-900 border border-amber-200">Warning</span>
+</td>
+<td class="py-1 px-4 text-center">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-slate-200 text-slate-800 border border-slate-300">Draft</span>
+</td>
+<td class="py-1 px-4 text-right text-on-surface-variant text-xs">Yesterday, 4:15 PM</td>
+<td class="py-1 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="w-6 h-6 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="View Contract"><span class="material-symbols-outlined text-[16px]" data-icon="visibility">visibility</span></button>
+<button class="w-6 h-6 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="View Graph"><span class="material-symbols-outlined text-[16px]" data-icon="hub">hub</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors h-[36px]">
+<td class="py-1 px-4 truncate max-w-xs">
+<div class="font-medium">Gamma Facility CI Agreement</div>
+<div class="text-[11px] text-on-surface-variant truncate font-code-snippet">gamma_fac_ci_final.docx</div>
+</td>
+<td class="py-1 px-4">CI</td>
+<td class="py-1 px-4 text-right tabular-nums">$3,700,000<span class="text-xs text-on-surface-variant ml-1">USD</span></td>
+<td class="py-1 px-4 text-center tabular-nums">2/5</td>
+<td class="py-1 px-4 text-center">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-900 border border-emerald-200">Passed</span>
+</td>
+<td class="py-1 px-4 text-center">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-purple-100 text-purple-900 border border-purple-200">Under Review</span>
+</td>
+<td class="py-1 px-4 text-right text-on-surface-variant text-xs">Oct 24, 2023</td>
+<td class="py-1 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="w-6 h-6 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="View Contract"><span class="material-symbols-outlined text-[16px]" data-icon="visibility">visibility</span></button>
+<button class="w-6 h-6 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Open Wiki"><span class="material-symbols-outlined text-[16px]" data-icon="menu_book">menu_book</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+</body></html>

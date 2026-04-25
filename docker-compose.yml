@@ -1,0 +1,43 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./wiki:/app/wiki
+      - huggingface-cache:/models/huggingface
+    environment:
+      - LOCAL_MODEL_BASE_URL=http://host.docker.internal:11434
+      - LOCAL_MODEL_NAME=qwen2.5:7b
+      - LOCAL_MODEL_NUM_CTX=8192
+      - HF_HOME=/models/huggingface
+      - TRANSFORMERS_CACHE=/models/huggingface
+      - SENTENCE_TRANSFORMERS_HOME=/models/huggingface
+      - QDRANT_URL=http://qdrant:6333
+      - QDRANT_COLLECTION_NAME=contract_chunks
+    depends_on:
+      - qdrant
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant-storage:/qdrant/storage
+
+volumes:
+  huggingface-cache:
+  qdrant-storage:

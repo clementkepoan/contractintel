@@ -1,0 +1,418 @@
+{
+  "nodes": [
+    {
+      "id": "c_5d64189910",
+      "type": "Contract",
+      "name": "施工說明書",
+      "status": "failed"
+    },
+    {
+      "id": "warning_15",
+      "type": "Clause",
+      "text": "No contract total amount was extracted.",
+      "risk_level": "error"
+    },
+    {
+      "id": "warning_16",
+      "type": "Clause",
+      "text": "No milestone blocks were extracted.",
+      "risk_level": "warning"
+    },
+    {
+      "id": "c_41afa405ff",
+      "type": "Contract",
+      "name": "XX專案",
+      "status": "passed"
+    },
+    {
+      "id": "m_1ab545c95d",
+      "type": "Milestone",
+      "name": "第一期：於本契約簽訂後",
+      "status": "pending_acceptance",
+      "amount": 7149193
+    },
+    {
+      "id": "m_381aac1fd3",
+      "type": "Milestone",
+      "name": "第二期：於完成本契約約定之項目並進入系統測試後",
+      "status": "pending_acceptance",
+      "amount": 9532257
+    },
+    {
+      "id": "m_21576ec720",
+      "type": "Milestone",
+      "name": "第三期：於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後",
+      "status": "pending_acceptance",
+      "amount": 7149193
+    },
+    {
+      "id": "warning_31",
+      "type": "Clause",
+      "text": "Milestone \"第一期：於本契約簽訂後\" has no extracted work items.",
+      "risk_level": "info"
+    },
+    {
+      "id": "warning_32",
+      "type": "Clause",
+      "text": "Milestone \"第二期：於完成本契約約定之項目並進入系統測試後\" has no extracted work items.",
+      "risk_level": "info"
+    },
+    {
+      "id": "warning_33",
+      "type": "Clause",
+      "text": "Milestone \"第三期：於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後\" has no extracted work items.",
+      "risk_level": "info"
+    },
+    {
+      "id": "c_6739ad6d21",
+      "type": "Contract",
+      "name": "XX專案",
+      "status": "failed"
+    },
+    {
+      "id": "warning_34",
+      "type": "Clause",
+      "text": "No contract total amount was extracted.",
+      "risk_level": "error"
+    },
+    {
+      "id": "warning_35",
+      "type": "Clause",
+      "text": "No milestone blocks were extracted.",
+      "risk_level": "warning"
+    },
+    {
+      "id": "c_63f11b72e5",
+      "type": "Contract",
+      "name": "XX專案",
+      "status": "passed"
+    },
+    {
+      "id": "m_b2db333958",
+      "type": "Milestone",
+      "name": "簽約金(20%)",
+      "status": "pending_acceptance",
+      "amount": 6457113
+    },
+    {
+      "id": "m_21e3f8b146",
+      "type": "Milestone",
+      "name": "工程設備款(20%)",
+      "status": "pending_acceptance",
+      "amount": 6457113
+    },
+    {
+      "id": "m_b4e26aba75",
+      "type": "Milestone",
+      "name": "設備安裝工程款(20%)",
+      "status": "pending_acceptance",
+      "amount": 6457113
+    },
+    {
+      "id": "m_8357ba4197",
+      "type": "Milestone",
+      "name": "功能檢測款(20%)",
+      "status": "pending_acceptance",
+      "amount": 6457113
+    },
+    {
+      "id": "m_24b32428f2",
+      "type": "Milestone",
+      "name": "功能整合款(20%)",
+      "status": "pending_acceptance",
+      "amount": 6457111
+    },
+    {
+      "id": "m_24b32428f2:work:4895615885858052143",
+      "type": "WorkItem",
+      "description": "二、 乙方應依前項約定，於各期符合請款條件時，開具請領發票憑證及相關請款文件向甲方請款。甲方於收到前述文件並確認無誤後，於發票日後45天內給付該期款項至乙方指定帳戶。如係因非可歸責於乙方之事由致甲方無法自客戶處取得全部或當期工程款，則乙方應對甲方之損失負責。"
+    },
+    {
+      "id": "m_24b32428f2:work:6309606756213197673",
+      "type": "WorkItem",
+      "description": "三、 乙方如有下列情形之一者，甲方有權暫行停止計價付款："
+    },
+    {
+      "id": "warning_36",
+      "type": "Clause",
+      "text": "Document declares 6 payment installments but 5 milestones were extracted.",
+      "risk_level": "warning"
+    },
+    {
+      "id": "warning_37",
+      "type": "Clause",
+      "text": "Milestone \"功能整合款(20%)\" amount 6457111 does not align with 20.0% of total 32285563.",
+      "risk_level": "warning"
+    },
+    {
+      "id": "warning_38",
+      "type": "Clause",
+      "text": "Milestone \"簽約金(20%)\" has no extracted work items.",
+      "risk_level": "info"
+    },
+    {
+      "id": "warning_39",
+      "type": "Clause",
+      "text": "Milestone \"工程設備款(20%)\" has no extracted work items.",
+      "risk_level": "info"
+    },
+    {
+      "id": "warning_40",
+      "type": "Clause",
+      "text": "Milestone \"設備安裝工程款(20%)\" has no extracted work items.",
+      "risk_level": "info"
+    },
+    {
+      "id": "warning_41",
+      "type": "Clause",
+      "text": "Milestone \"功能檢測款(20%)\" has no extracted work items.",
+      "risk_level": "info"
+    },
+    {
+      "id": "c_d02015ba2f",
+      "type": "Contract",
+      "name": "XX專案",
+      "status": "passed"
+    },
+    {
+      "id": "m_67e82b02aa",
+      "type": "Milestone",
+      "name": "第一期：乙方提交細部設計圖經甲方及客戶核定後",
+      "status": "pending_acceptance",
+      "amount": 3339000
+    },
+    {
+      "id": "m_b1fac8c0c8",
+      "type": "Milestone",
+      "name": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
+      "status": "pending_acceptance",
+      "amount": 5008500
+    },
+    {
+      "id": "m_025db8b0b8",
+      "type": "Milestone",
+      "name": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
+      "status": "pending_acceptance",
+      "amount": 5008500
+    },
+    {
+      "id": "m_b8d21421f5",
+      "type": "Milestone",
+      "name": "第四期：本工程全部經甲方及客戶驗收合格後",
+      "status": "pending_acceptance",
+      "amount": 3339000
+    },
+    {
+      "id": "m_b8d21421f5:work:3550289255866557972",
+      "type": "WorkItem",
+      "description": "二、 乙方應依前項約定，於符合請款條件時，開具請領發票憑證及相關請款文件向甲方請款。甲方於收到前述文件並確認無誤後，於發票日後 45 天內給付該期款項至乙方指定帳戶。"
+    },
+    {
+      "id": "m_b8d21421f5:work:5883392891754034018",
+      "type": "WorkItem",
+      "description": "三、 如因可歸責於乙方之事由，致甲方無法自客戶處取得全部或當期工程款，則乙方應對甲方之損失負責。"
+    },
+    {
+      "id": "m_b8d21421f5:work:6020886265917224452",
+      "type": "WorkItem",
+      "description": "一、 乙方應依以下之方式繳交保證金："
+    },
+    {
+      "id": "warning_42",
+      "type": "Clause",
+      "text": "Milestone \"第一期：乙方提交細部設計圖經甲方及客戶核定後\" has no extracted work items.",
+      "risk_level": "info"
+    },
+    {
+      "id": "warning_43",
+      "type": "Clause",
+      "text": "Milestone \"第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後\" has no extracted work items.",
+      "risk_level": "info"
+    },
+    {
+      "id": "warning_44",
+      "type": "Clause",
+      "text": "Milestone \"第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後\" has no extracted work items.",
+      "risk_level": "info"
+    }
+  ],
+  "edges": [
+    {
+      "source": "warning_15",
+      "target": "c_5d64189910",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_16",
+      "target": "c_5d64189910",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "c_41afa405ff",
+      "target": "m_1ab545c95d",
+      "type": "HAS_MILESTONE",
+      "order": 1
+    },
+    {
+      "source": "c_41afa405ff",
+      "target": "m_381aac1fd3",
+      "type": "HAS_MILESTONE",
+      "order": 2
+    },
+    {
+      "source": "c_41afa405ff",
+      "target": "m_21576ec720",
+      "type": "HAS_MILESTONE",
+      "order": 3
+    },
+    {
+      "source": "warning_31",
+      "target": "c_41afa405ff",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_32",
+      "target": "c_41afa405ff",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_33",
+      "target": "c_41afa405ff",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_34",
+      "target": "c_6739ad6d21",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_35",
+      "target": "c_6739ad6d21",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "c_63f11b72e5",
+      "target": "m_b2db333958",
+      "type": "HAS_MILESTONE",
+      "order": 1
+    },
+    {
+      "source": "c_63f11b72e5",
+      "target": "m_21e3f8b146",
+      "type": "HAS_MILESTONE",
+      "order": 2
+    },
+    {
+      "source": "c_63f11b72e5",
+      "target": "m_b4e26aba75",
+      "type": "HAS_MILESTONE",
+      "order": 3
+    },
+    {
+      "source": "c_63f11b72e5",
+      "target": "m_8357ba4197",
+      "type": "HAS_MILESTONE",
+      "order": 4
+    },
+    {
+      "source": "c_63f11b72e5",
+      "target": "m_24b32428f2",
+      "type": "HAS_MILESTONE",
+      "order": 5
+    },
+    {
+      "source": "m_24b32428f2",
+      "target": "m_24b32428f2:work:4895615885858052143",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_24b32428f2",
+      "target": "m_24b32428f2:work:6309606756213197673",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "warning_36",
+      "target": "c_63f11b72e5",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_37",
+      "target": "c_63f11b72e5",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_38",
+      "target": "c_63f11b72e5",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_39",
+      "target": "c_63f11b72e5",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_40",
+      "target": "c_63f11b72e5",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_41",
+      "target": "c_63f11b72e5",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "c_d02015ba2f",
+      "target": "m_67e82b02aa",
+      "type": "HAS_MILESTONE",
+      "order": 1
+    },
+    {
+      "source": "c_d02015ba2f",
+      "target": "m_b1fac8c0c8",
+      "type": "HAS_MILESTONE",
+      "order": 2
+    },
+    {
+      "source": "c_d02015ba2f",
+      "target": "m_025db8b0b8",
+      "type": "HAS_MILESTONE",
+      "order": 3
+    },
+    {
+      "source": "c_d02015ba2f",
+      "target": "m_b8d21421f5",
+      "type": "HAS_MILESTONE",
+      "order": 4
+    },
+    {
+      "source": "m_b8d21421f5",
+      "target": "m_b8d21421f5:work:3550289255866557972",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_b8d21421f5",
+      "target": "m_b8d21421f5:work:5883392891754034018",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_b8d21421f5",
+      "target": "m_b8d21421f5:work:6020886265917224452",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "warning_42",
+      "target": "c_d02015ba2f",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_43",
+      "target": "c_d02015ba2f",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_44",
+      "target": "c_d02015ba2f",
+      "type": "GOVERNS"
+    }
+  ]
+}

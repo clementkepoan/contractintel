@@ -1,0 +1,60 @@
+from __future__ import annotations
+
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
+
+from backend.api.contracts import router as contracts_router
+from backend.api.ingest import router as ingest_router
+from backend.api.kg import router as kg_router
+from backend.api.milestones import router as milestones_router
+from backend.api.query import router as query_router
+from backend.api.wiki import router as wiki_router
+from backend.api.workflow import router as workflow_router
+from backend.config import ensure_runtime_dirs
+from backend.config import settings
+from backend.db.database import init_db
+from backend.pipeline.embeddings import embedding_model_ready
+from backend.pipeline.llm import llm_available
+from backend.pipeline.qdrant_store import qdrant_ready
+from shutil import which
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    ensure_runtime_dirs()
+    init_db()
+    yield
+
+
+app = FastAPI(title="Contract RAG Backend", version="0.1.0", lifespan=lifespan)
+
+
+@app.get("/api/health")
+def health() -> dict:
+    return {
+        "status": "ok",
+        "offline_only": True,
+        "host_ollama_reachable": llm_available(),
+        "embedding_model_ready": embedding_model_ready(),
+        "qdrant_ready": qdrant_ready(),
+        "doc_conversion_available": which("soffice") is not None,
+        "infrastructure": {
+            "local_model_name": settings.local_model_name,
+            "local_model_num_ctx": settings.local_model_num_ctx,
+            "embedding_model_name": settings.embedding_model_name,
+            "qdrant_url": settings.qdrant_url,
+            "qdrant_collection_name": settings.qdrant_collection_name,
+            "api_docs_path": "/docs",
+            "qdrant_dashboard_url": "http://localhost:6333/dashboard",
+        },
+    }
+
+
+app.include_router(ingest_router)
+app.include_router(contracts_router)
+app.include_router(milestones_router)
+app.include_router(workflow_router)
+app.include_router(query_router)
+app.include_router(wiki_router)
+app.include_router(kg_router)
