@@ -4,6 +4,11 @@ import { api, formatMoney } from "../api/client.js";
 import { EmptyBlock, ErrorBlock, LoadingBlock } from "../components/Ui.jsx";
 import { StatusBadge } from "../components/StatusBadge.jsx";
 
+function findCitationIndex(citations = [], fieldNames = []) {
+  const names = Array.isArray(fieldNames) ? fieldNames : [fieldNames];
+  return citations.findIndex((citation) => names.includes(citation.field_name));
+}
+
 export function MilestoneDetailPage({ milestoneId, setSelectedMilestoneId, setSelectedWikiPath, setPage, setCitation }) {
   const [contracts, setContracts] = useState([]);
   const [milestone, setMilestone] = useState(null);
@@ -37,7 +42,12 @@ export function MilestoneDetailPage({ milestoneId, setSelectedMilestoneId, setSe
   }, [milestoneId, setSelectedMilestoneId]);
 
   const options = contracts.flatMap((item) => (item.milestones || []).map((milestoneItem) => ({ ...milestoneItem, contract_name: item.contract_name })));
-  const selectedCitation = milestone?.citations?.[selectedCitationIndex] || null;
+  const citations = milestone?.citations || [];
+  const paymentCitationIndex = findCitationIndex(citations, "milestone.payment_condition");
+  const acceptanceCitationIndex = findCitationIndex(citations, "milestone.acceptance_criteria");
+  const workItemCitationIndex = findCitationIndex(citations, "milestone.work_items");
+  const selectedCitation = citations[selectedCitationIndex] || citations[paymentCitationIndex] || citations[0] || null;
+  const paymentCitation = paymentCitationIndex === -1 ? null : citations[paymentCitationIndex];
 
   if (loading) return <LoadingBlock />;
   if (!milestone) return <EmptyBlock label="No milestone available." />;
@@ -79,22 +89,31 @@ export function MilestoneDetailPage({ milestoneId, setSelectedMilestoneId, setSe
                   <div className="milestone-list-item" key={`${item}-${index}`}>
                     <span className="milestone-radio" />
                     <p>{item}</p>
-                    <button type="button" className="ghost-button square" onClick={() => { setSelectedCitationIndex(index % (milestone.citations?.length || 1)); setCitation(milestone.citations?.[index % (milestone.citations?.length || 1)]); }}><Quote size={14} /></button>
+                    <button
+                      type="button"
+                      className="ghost-button square"
+                      disabled={workItemCitationIndex === -1}
+                      onClick={() => {
+                        if (workItemCitationIndex === -1) return;
+                        setSelectedCitationIndex(workItemCitationIndex);
+                        setCitation(citations[workItemCitationIndex]);
+                      }}
+                    ><Quote size={14} /></button>
                   </div>
                 )) : <div className="muted">No work list extracted.</div>}
               </div>
             </section>
             <section className="milestone-panel">
-              <div className="milestone-panel-header"><h3>Acceptance Criteria</h3><button type="button" className="ghost-button square" onClick={() => selectedCitation && setCitation(selectedCitation)}><Quote size={14} /></button></div>
+              <div className="milestone-panel-header"><h3>Acceptance Criteria</h3><button type="button" className="ghost-button square" disabled={acceptanceCitationIndex === -1} onClick={() => { if (acceptanceCitationIndex === -1) return; setSelectedCitationIndex(acceptanceCitationIndex); setCitation(citations[acceptanceCitationIndex]); }}><Quote size={14} /></button></div>
               <ul className="criteria-list">
                 {(milestone.acceptance_criteria || "Not extracted.").split(/[。\n]/).filter(Boolean).map((line, index) => <li key={`${line}-${index}`}>{line}</li>)}
               </ul>
             </section>
           </div>
           <section className="milestone-panel wide">
-            <div className="milestone-panel-header"><h3>Payment Conditions</h3><button type="button" className="ghost-button square" onClick={() => selectedCitation && setCitation(selectedCitation)}><Quote size={14} /></button></div>
+            <div className="milestone-panel-header"><h3>Payment Conditions</h3><button type="button" className="ghost-button square" disabled={paymentCitationIndex === -1} onClick={() => { if (paymentCitationIndex === -1) return; setSelectedCitationIndex(paymentCitationIndex); setCitation(citations[paymentCitationIndex]); }}><Quote size={14} /></button></div>
             <p className="payment-condition-copy">{milestone.payment_condition || "Not extracted."}</p>
-            {selectedCitation?.text_snippet ? <mark>{selectedCitation.text_snippet}</mark> : null}
+            {paymentCitation?.text_snippet ? <mark>{paymentCitation.text_snippet}</mark> : null}
           </section>
         </div>
         <aside className="evidence-panel">

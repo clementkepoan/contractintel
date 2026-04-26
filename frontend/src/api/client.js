@@ -8,9 +8,12 @@ function sleep(ms) {
   });
 }
 
-function readableError(status, payload) {
+function readableError(status, payload, options = {}) {
   if (transientStatuses.has(status)) {
-    return "Backend API is still starting. Refresh in a few seconds.";
+    if (options.method) {
+      return "The backend took too long to finish this request. The upload may still be processing; refresh the contract list in a moment or check backend logs.";
+    }
+    return "Backend API is unavailable or still starting. Refresh in a few seconds.";
   }
   if (typeof payload === "object") return payload.detail || JSON.stringify(payload);
   if (typeof payload === "string" && payload.trim().startsWith("<html")) {
@@ -30,7 +33,7 @@ async function apiFetch(path, options = {}) {
       await sleep(500 * (attempt + 1));
       continue;
     }
-    throw new Error(readableError(response.status, payload));
+    throw new Error(readableError(response.status, payload, options));
   }
   throw new Error("Request failed.");
 }
@@ -41,6 +44,7 @@ export const api = {
   contract: (contractId) => apiFetch(`/api/contracts/${contractId}`),
   financials: (contractId) => apiFetch(`/api/contracts/${contractId}/financials`),
   rawContract: (contractId) => apiFetch(`/api/contracts/${contractId}/raw`),
+  sourceBlock: (contractId, blockId) => apiFetch(`/api/contracts/${contractId}/source-block/${encodeURIComponent(blockId)}`),
   milestone: (milestoneId) => apiFetch(`/api/milestones/${milestoneId}`),
   milestoneStatus: (milestoneId) => apiFetch(`/api/milestones/${milestoneId}/status`),
   workflow: (milestoneId) => apiFetch(`/api/workflow/${milestoneId}`),
@@ -86,9 +90,10 @@ export const api = {
         resolve(payload);
         return;
       }
-      reject(new Error(readableError(xhr.status, payload)));
+      reject(new Error(readableError(xhr.status, payload, { method: "POST" })));
     });
     xhr.addEventListener("error", () => reject(new Error("Network error")));
+    xhr.timeout = 0;
     xhr.open("POST", "/api/ingest");
     xhr.send(form);
   }),
@@ -96,11 +101,19 @@ export const api = {
 
 export function formatMoney(value, currency = "TWD") {
   if (value === null || value === undefined || Number.isNaN(Number(value))) return "Not extracted";
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency,
-    maximumFractionDigits: 0,
-  }).format(Number(value));
+  const rawCurrency = String(currency || "TWD").toUpperCase();
+  const normalizedCurrency = rawCurrency === "NTD" ? "TWD" : rawCurrency;
+  const displayCurrency = normalizedCurrency === "MULTI" ? "TWD" : normalizedCurrency;
+  try {
+    const formatted = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: displayCurrency,
+      maximumFractionDigits: 0,
+    }).format(Number(value));
+    return normalizedCurrency === "MULTI" ? `${formatted} equiv.` : formatted;
+  } catch {
+    return `${rawCurrency} ${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(Number(value))}`;
+  }
 }
 
 export function formatDate(value) {

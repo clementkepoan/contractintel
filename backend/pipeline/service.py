@@ -220,6 +220,18 @@ def _store_contract(session: Any, extracted: dict[str, Any], source_file: str, s
 def _contract_to_dict(session: Any, contract: Contract) -> dict[str, Any]:
     milestones = session.exec(select(Milestone).where(Milestone.contract_id == contract.contract_id).order_by(Milestone.source_order)).all()
     warnings = session.exec(select(ValidationWarning).where(ValidationWarning.contract_id == contract.contract_id)).all()
+
+    def attach_contract_context(citations: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        return [
+            {
+                **citation,
+                "contract_id": contract.contract_id,
+                "contract_key": contract.contract_key,
+                "source_path": f"sources/{contract.contract_key}__v{contract.version_number}.md",
+            }
+            for citation in citations
+        ]
+
     result = {
         "contract_id": contract.contract_id,
         "contract_key": contract.contract_key,
@@ -246,7 +258,7 @@ def _contract_to_dict(session: Any, contract: Contract) -> dict[str, Any]:
                 "acceptance_criteria": milestone.acceptance_criteria,
                 "payment_condition": milestone.payment_condition,
                 "status": milestone.status,
-                "citations": json.loads(milestone.citations_json),
+                "citations": attach_contract_context(json.loads(milestone.citations_json)),
                 "source_order": milestone.source_order,
             }
         )
@@ -256,10 +268,33 @@ def _contract_to_dict(session: Any, contract: Contract) -> dict[str, Any]:
                 "code": warning.code,
                 "severity": warning.severity,
                 "message": warning.message,
-                "citations": json.loads(warning.citations_json),
+                "citations": attach_contract_context(json.loads(warning.citations_json)),
             }
         )
     return result
+
+
+def resolve_source_block(session: Any, contract_id: str, block_id: str) -> dict[str, Any] | None:
+    contract = session.get(Contract, contract_id)
+    if not contract:
+        return None
+    payload = _load_payload(contract.raw_json_path)
+    if not payload:
+        return None
+    for block in payload.get("blocks", []):
+        if block.get("block_id") == block_id:
+            return {
+                "contract_id": contract.contract_id,
+                "contract_key": contract.contract_key,
+                "source_file": contract.source_file,
+                "source_path": f"sources/{contract.contract_key}__v{contract.version_number}.md",
+                "block_id": block.get("block_id"),
+                "page_estimate": block.get("page_estimate"),
+                "para_start": block.get("para_start"),
+                "para_end": block.get("para_end"),
+                "text": block.get("text"),
+            }
+    return None
 
 
 def get_all_contracts(session: Any) -> list[dict[str, Any]]:

@@ -11,17 +11,18 @@ function workflowTone(milestones = []) {
   return "Active";
 }
 
-function UploadProgressBar({ stage, percent, filename }) {
+function UploadProgressBar({ stage, percent, filename, currentFile = 0, totalFiles = 0, completedFiles = 0 }) {
   if (stage === "idle") return null;
   const processing = stage === "processing";
+  const isBatch = totalFiles > 1;
   return (
     <div className={processing ? "upload-progress upload-progress--processing" : "upload-progress"}>
       <div className="upload-progress__header">
-        <strong>{filename || "Document upload"}</strong>
+        <strong>{isBatch ? `${filename || "Document"} (${currentFile}/${totalFiles})` : filename || "Document upload"}</strong>
         <span>
           {stage === "uploading" ? `Uploading... ${percent}%` : null}
           {stage === "processing" ? "Extracting and indexing..." : null}
-          {stage === "done" ? "Completed" : null}
+          {stage === "done" ? (isBatch ? `Completed ${completedFiles}/${totalFiles}` : "Completed") : null}
           {stage === "error" ? "Failed" : null}
         </span>
       </div>
@@ -43,10 +44,11 @@ function SkeletonCard() {
   );
 }
 
-function SkeletonMilestoneList() {
+function SkeletonMilestoneList({ count = 3 }) {
+  const skeletonCount = Math.max(1, Math.min(count, 12));
   return (
     <div className="skeleton-list">
-      {[1, 2, 3].map((index) => <SkeletonCard key={index} />)}
+      {Array.from({ length: skeletonCount }, (_, index) => <SkeletonCard key={index} />)}
     </div>
   );
 }
@@ -56,7 +58,15 @@ export function OverviewPage({ setPage, setSelectedContractId, setSelectedWikiPa
   const [financials, setFinancials] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [uploadState, setUploadState] = useState({ stage: "idle", percent: 0, filename: null, error: null });
+  const [uploadState, setUploadState] = useState({
+    stage: "idle",
+    percent: 0,
+    filename: null,
+    error: null,
+    totalFiles: 0,
+    currentFile: 0,
+    completedFiles: 0,
+  });
   const [typeFilter, setTypeFilter] = useState("all");
   const [validationFilter, setValidationFilter] = useState("all");
 
@@ -94,24 +104,42 @@ export function OverviewPage({ setPage, setSelectedContractId, setSelectedWikiPa
     return typeOk && validationOk;
   });
 
-  async function upload(file) {
-    if (!file) return;
-    setUploadState({ stage: "uploading", percent: 0, filename: file.name, error: null });
+  async function upload(files) {
+    const selectedFiles = Array.from(files || []).filter(Boolean);
+    if (!selectedFiles.length) return;
+    const totalFiles = selectedFiles.length;
+    const results = [];
+    setUploadState({ stage: "uploading", percent: 0, filename: selectedFiles[0].name, error: null, totalFiles, currentFile: 1, completedFiles: 0 });
     setError(null);
     try {
-      const result = await api.uploadWithProgress(file, ({ stage, percent }) => {
-        setUploadState((current) => ({ ...current, stage, percent }));
-      });
+      for (const [index, file] of selectedFiles.entries()) {
+        setUploadState((current) => ({
+          ...current,
+          stage: "uploading",
+          percent: 0,
+          filename: file.name,
+          currentFile: index + 1,
+        }));
+        const result = await api.uploadWithProgress(file, ({ stage, percent }) => {
+          setUploadState((current) => ({ ...current, stage, percent, filename: file.name, currentFile: index + 1 }));
+        });
+        results.push(result);
+        setUploadState((current) => ({ ...current, completedFiles: index + 1 }));
+      }
       await load();
-      setSelectedContractId(result.contract_id);
+      setSelectedContractId(results.at(-1)?.contract_id || "");
       setSelectedWikiPath("");
-      setUploadState((current) => ({ ...current, stage: "done", percent: 100 }));
+      setUploadState((current) => ({ ...current, stage: "done", percent: 100, completedFiles: totalFiles }));
     } catch (err) {
       setError(err);
       setUploadState((current) => ({ ...current, stage: "error", error: err.message || String(err) }));
     } finally {
       window.setTimeout(() => {
-        setUploadState((current) => (current.stage === "done" ? { stage: "idle", percent: 0, filename: null, error: null } : current));
+        setUploadState((current) => (
+          current.stage === "done"
+            ? { stage: "idle", percent: 0, filename: null, error: null, totalFiles: 0, currentFile: 0, completedFiles: 0 }
+            : current
+        ));
       }, 1200);
     }
   }
@@ -159,12 +187,28 @@ export function OverviewPage({ setPage, setSelectedContractId, setSelectedWikiPa
         </div>
         <label className="file-button dark">
           <Upload size={16} />
-          {uploadState.stage === "idle" ? "Import .doc/.docx" : "Importing..."}
-          <input type="file" accept=".doc,.docx" disabled={uploadState.stage === "uploading" || uploadState.stage === "processing"} onChange={(event) => upload(event.target.files?.[0])} />
+          {uploadState.stage === "idle" ? "Import .doc/.docx" : `Importing ${uploadState.currentFile || 1}/${uploadState.totalFiles || 1}`}
+          <input
+            type="file"
+            accept=".doc,.docx"
+            multiple
+            disabled={uploadState.stage === "uploading" || uploadState.stage === "processing"}
+            onChange={(event) => {
+              upload(event.target.files);
+              event.target.value = "";
+            }}
+          />
         </label>
       </div>
-      <UploadProgressBar stage={uploadState.stage} percent={uploadState.percent} filename={uploadState.filename} />
-      {uploadState.stage === "processing" ? <SkeletonMilestoneList /> : null}
+      <UploadProgressBar
+        stage={uploadState.stage}
+        percent={uploadState.percent}
+        filename={uploadState.filename}
+        currentFile={uploadState.currentFile}
+        totalFiles={uploadState.totalFiles}
+        completedFiles={uploadState.completedFiles}
+      />
+      {uploadState.stage === "processing" || uploadState.stage === "uploading" ? <SkeletonMilestoneList count={uploadState.totalFiles || 1} /> : null}
       {uploadState.stage === "error" && uploadState.error ? <ErrorBlock error={{ message: uploadState.error }} /> : null}
       {!filtered.length ? <EmptyBlock label="No contracts imported yet. Upload a .doc or .docx file to begin." /> : null}
       {filtered.length ? (

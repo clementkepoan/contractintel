@@ -8,7 +8,7 @@ from sqlmodel import select
 
 from backend.db.database import get_session
 from backend.db.models import AcceptanceRecord, Contract, Milestone, Payment, PaymentRequest
-from backend.pipeline.service import get_all_contracts, get_contract
+from backend.pipeline.service import get_all_contracts, get_contract, resolve_source_block
 
 router = APIRouter(prefix="/api/contracts", tags=["contracts"])
 
@@ -38,6 +38,15 @@ def contract_raw(contract_id: str) -> dict:
         if not path.exists():
             raise HTTPException(status_code=404, detail="Extracted JSON not found.")
         return json.loads(path.read_text(encoding="utf-8"))
+
+
+@router.get("/{contract_id}/source-block/{block_id}")
+def contract_source_block(contract_id: str, block_id: str) -> dict:
+    with get_session() as session:
+        source_block = resolve_source_block(session, contract_id, block_id)
+        if not source_block:
+            raise HTTPException(status_code=404, detail="Source block not found.")
+        return source_block
 
 
 @router.get("/{contract_id}/financials")

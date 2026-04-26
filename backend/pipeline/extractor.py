@@ -88,7 +88,7 @@ ACCEPTANCE_MARKERS = (
     "檢測",
     "複驗",
 )
-EXTRACTION_PIPELINE_VERSION = "2026-04-26-hybrid-context-v2"
+EXTRACTION_PIPELINE_VERSION = "2026-04-26-task-llm-v1"
 
 ZH_DIGITS = {
     "零": 0,
@@ -267,6 +267,21 @@ def derive_milestone_terms(title: str, joined_text: str) -> tuple[str | None, st
     if acceptance_criteria == payment_condition:
         acceptance_criteria = None
     return payment_condition, acceptance_criteria
+
+
+def derive_work_items_from_trigger(title: str, payment_condition: str | None) -> list[str]:
+    text = payment_condition or title
+    text = re.sub(r"^(?:\[V\d修訂\]\s*)?第[一二三四五六七八九十\d]+期款?[：:、）)]?\s*", "", text).strip()
+    text = re.split(r"[，,]?\s*(?:甲方|客戶)?(?:應)?(?:給付|付款|支付|撥付|請款)", text, maxsplit=1)[0].strip()
+    text = text.replace("乙方", "").strip()
+    text = re.sub(r"經(?:甲方|客戶|甲方及客戶|甲方與客戶)(?:核定|確認|驗收合格)後", "", text).strip()
+    text = re.sub(r"經(?:甲方|客戶|甲方及客戶|甲方與客戶)(?:核定|確認|驗收合格)", "", text).strip()
+    text = re.sub(r"後$", "", text).strip()
+    if not text:
+        return []
+    if "驗收合格" in title and "驗收合格" not in text:
+        text = f"{text}驗收合格"
+    return [text[:120]]
 
 
 def collect_related_paragraphs(paragraphs: list[dict[str, Any]], start_index: int, limit: int = 8) -> list[dict[str, Any]]:
@@ -594,6 +609,8 @@ def extract_milestones(source_file: str, paragraphs: list[dict[str, Any]]) -> li
         if acceptance_criteria:
             milestone_citations.append(build_citation(source_file, paragraph, acceptance_criteria, "milestone.acceptance_criteria", "stitched_clause"))
         work_items = extract_work_items(paragraphs, offset)
+        if not work_items:
+            work_items = derive_work_items_from_trigger(title, payment_condition)
         if work_items:
             work_item_text = "\n".join(work_items)[:300]
             milestone_citations.append(build_citation(source_file, paragraph, work_item_text, "milestone.work_items", None))
@@ -892,6 +909,113 @@ def build_locator_blocks(paragraphs: list[dict[str, Any]]) -> list[dict[str, Any
     return locator_blocks
 
 
+def compact_task_block(paragraph: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "block_id": paragraph["block_id"],
+        "paragraph_index": paragraph["paragraph_index"],
+        "page_estimate": paragraph["page_estimate"],
+        "text": paragraph["text"].strip(),
+    }
+
+
+def blocks_from_indices(paragraphs: list[dict[str, Any]], indices: set[int], *, limit: int, max_text: int = 420) -> list[dict[str, Any]]:
+    blocks: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for index in sorted(indices):
+        if index < 0 or index >= len(paragraphs):
+            continue
+        paragraph = paragraphs[index]
+        text = paragraph["text"].strip()
+        if not text or paragraph["block_id"] in seen:
+            continue
+        seen.add(paragraph["block_id"])
+        block = compact_task_block(paragraph)
+        block["text"] = block["text"][:max_text]
+        blocks.append(block)
+        if len(blocks) >= limit:
+            break
+    return blocks
+
+
+def collect_until_next_section(paragraphs: list[dict[str, Any]], start: int, *, max_blocks: int) -> set[int]:
+    indices: set[int] = set()
+    for index in range(start, min(len(paragraphs), start + max_blocks)):
+        if index != start and SECTION_HEADING_PATTERN.search(paragraphs[index]["text"]):
+            break
+        indices.add(index)
+    return indices
+
+
+def locate_total_task_blocks(paragraphs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    markers = ("總價", "契約總價", "承攬總價", "工程總價", "合約總價", "合約總額", "總額", "換算")
+    for index, paragraph in enumerate(paragraphs):
+        text = paragraph["text"]
+        if SECTION_HEADING_PATTERN.search(text) and any(marker in text for marker in markers):
+            return blocks_from_indices(paragraphs, collect_until_next_section(paragraphs, index, max_blocks=8), limit=8)
+    indices: set[int] = set()
+    for index, paragraph in enumerate(paragraphs):
+        text = paragraph["text"]
+        if is_payment_header(text) or ("%" in text and any(marker in text for marker in ("給付", "付款", "期款"))):
+            continue
+        if any(marker in text for marker in markers) and (
+            extract_amount_from_text(text) is not None or re.search(r"新[臺台]幣|NTD|TWD|NT\$|USD|美元", text, re.IGNORECASE)
+        ):
+            indices.update(range(max(0, index - 1), min(len(paragraphs), index + 2)))
+    return blocks_from_indices(paragraphs, indices, limit=10)
+
+
+def locate_payment_task_blocks(paragraphs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    payment_section_markers = ("付款辦法", "付款方式", "請款及付款", "分期付款", "付款條件", "付款時機")
+    indices: set[int] = set()
+    for index, paragraph in enumerate(paragraphs):
+        text = paragraph["text"]
+        if any(marker in text for marker in payment_section_markers):
+            indices.update(collect_until_next_section(paragraphs, max(0, index - 1), max_blocks=24))
+        if is_payment_header(text):
+            indices.update(range(max(0, index - 1), min(len(paragraphs), index + 4)))
+    filtered: set[int] = set()
+    for index in indices:
+        text = paragraphs[index]["text"]
+        if any(marker in text for marker in ("保密", "損害賠償", "不可抗力", "契約終止", "準據法")) and not any(
+            marker in text for marker in payment_section_markers
+        ):
+            continue
+        filtered.add(index)
+    return blocks_from_indices(paragraphs, filtered, limit=24)
+
+
+def locate_retention_task_blocks(paragraphs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    markers = ("保證金", "保固保證金", "履約保證金", "扣留", "保留款", "退還")
+    for index, paragraph in enumerate(paragraphs):
+        text = paragraph["text"]
+        if SECTION_HEADING_PATTERN.search(text) and any(marker in text for marker in ("保證金", "保留款")):
+            return blocks_from_indices(paragraphs, collect_until_next_section(paragraphs, index, max_blocks=10), limit=10)
+    indices: set[int] = set()
+    for index, paragraph in enumerate(paragraphs):
+        if any(marker in paragraph["text"] for marker in markers):
+            indices.update(range(max(0, index - 1), min(len(paragraphs), index + 3)))
+    return blocks_from_indices(paragraphs, indices, limit=12)
+
+
+def locate_version_task_blocks(paragraphs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    markers = ("V1", "V2", "V3", "修訂", "舊版", "廢除", "已廢除", "版本", "Version")
+    indices: set[int] = set()
+    for index, paragraph in enumerate(paragraphs):
+        if any(marker in paragraph["text"] for marker in markers):
+            indices.update(range(max(0, index - 1), min(len(paragraphs), index + 3)))
+    return blocks_from_indices(paragraphs, indices, limit=14)
+
+
+def build_llm_task_blocks(paragraphs: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
+    active_paragraphs = live_paragraphs(paragraphs)
+    return {
+        "total": locate_total_task_blocks(active_paragraphs),
+        "payment": locate_payment_task_blocks(active_paragraphs),
+        "retention": locate_retention_task_blocks(active_paragraphs),
+        "version": locate_version_task_blocks(paragraphs),
+    }
+
+
 def assemble_from_segment_map(
     segment_map: dict[str, Any],
     paragraphs: list[dict[str, Any]],
@@ -984,16 +1108,37 @@ def citations_from_block_ids(
     paragraph_map: dict[str, dict[str, Any]],
     block_ids: list[str],
     field_name: str,
+    allowed_block_ids: set[str] | None = None,
 ) -> list[dict[str, Any]]:
     citations: list[dict[str, Any]] = []
     seen: set[str] = set()
     for block_id in block_ids:
+        if allowed_block_ids is not None and block_id not in allowed_block_ids:
+            continue
         if block_id in seen or block_id not in paragraph_map:
             continue
         seen.add(block_id)
         paragraph = paragraph_map[block_id]
         citations.append(build_citation(source_file, paragraph, paragraph["text"][:200], field_name, "llm_locator"))
     return citations
+
+
+def dedupe_citations(citations: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    deduped: list[dict[str, Any]] = []
+    seen: set[tuple[str, str, str]] = set()
+    for citation in citations:
+        key = (citation.get("field_name", ""), citation.get("block_id", ""), citation.get("text_snippet", ""))
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(citation)
+    return deduped
+
+
+def choose_numeric_field(regex_value: int | float | None, llm_value: int | float | None) -> int | float | None:
+    if regex_value is not None:
+        return regex_value
+    return llm_value
 
 
 def regex_fallback_extraction(document: dict[str, Any]) -> dict[str, Any]:
@@ -1014,6 +1159,8 @@ def merge_llm_extraction(
     paragraphs = document["paragraphs"]
     paragraph_map = {paragraph["block_id"]: paragraph for paragraph in paragraphs}
     regex_milestones = {milestone["source_order"]: milestone for milestone in regex_result["milestones"]}
+    allowed_block_ids = set(llm_result.get("_allowed_block_ids", [])) or None
+    numeric_disagreement_warnings: list[dict[str, Any]] = []
     llm_milestones = llm_result.get("milestones") or [
         {
             "source_order": milestone["source_order"],
@@ -1032,21 +1179,38 @@ def merge_llm_extraction(
     for item in llm_milestones:
         fallback = regex_milestones.get(item["source_order"], {})
         evidence = item.get("evidence", {})
-        milestone_citations = []
-        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("name_block_ids", []), field_name="milestone.name"))
-        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("amount_block_ids", []), field_name="milestone.amount"))
-        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("percentage_block_ids", []), field_name="milestone.percentage"))
-        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("payment_block_ids", []), field_name="milestone.payment_condition"))
-        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("acceptance_block_ids", []), field_name="milestone.acceptance_criteria"))
-        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("work_item_block_ids", []), field_name="milestone.work_items"))
-        if not milestone_citations:
-            milestone_citations = fallback.get("citations", [])
+        if fallback.get("amount") is not None and item.get("amount") is not None and abs(fallback["amount"] - item["amount"]) > 1:
+            numeric_disagreement_warnings.append(
+                {
+                    "code": "llm_regex_amount_disagreement",
+                    "severity": "WARNING",
+                    "message": f'Milestone "{fallback.get("name") or item["name"]}" LLM amount {item["amount"]} disagreed with regex amount {fallback["amount"]}; regex value was used.',
+                    "citations": fallback.get("citations", [])[:2],
+                }
+            )
+        if fallback.get("percentage") is not None and item.get("percentage") is not None and abs(fallback["percentage"] - item["percentage"]) > 0.01:
+            numeric_disagreement_warnings.append(
+                {
+                    "code": "llm_regex_percentage_disagreement",
+                    "severity": "WARNING",
+                    "message": f'Milestone "{fallback.get("name") or item["name"]}" LLM percentage {item["percentage"]} disagreed with regex percentage {fallback["percentage"]}; regex value was used.',
+                    "citations": fallback.get("citations", [])[:2],
+                }
+            )
+        milestone_citations = list(fallback.get("citations", []))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("name_block_ids", []), field_name="milestone.name", allowed_block_ids=allowed_block_ids))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("amount_block_ids", []), field_name="milestone.amount", allowed_block_ids=allowed_block_ids))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("percentage_block_ids", []), field_name="milestone.percentage", allowed_block_ids=allowed_block_ids))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("payment_block_ids", []), field_name="milestone.payment_condition", allowed_block_ids=allowed_block_ids))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("acceptance_block_ids", []), field_name="milestone.acceptance_criteria", allowed_block_ids=allowed_block_ids))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("work_item_block_ids", []), field_name="milestone.work_items", allowed_block_ids=allowed_block_ids))
+        milestone_citations = dedupe_citations(milestone_citations)
         milestones.append(
             {
                 "milestone_id": fallback.get("milestone_id", f"m_{uuid4().hex[:10]}"),
-                "name": item["name"],
-                "amount": item.get("amount"),
-                "percentage": item.get("percentage"),
+                "name": fallback.get("name") or item["name"],
+                "amount": choose_numeric_field(fallback.get("amount"), item.get("amount")),
+                "percentage": choose_numeric_field(fallback.get("percentage"), item.get("percentage")),
                 "work_items": item.get("work_items") or fallback.get("work_items", []),
                 "acceptance_criteria": item.get("acceptance_criteria") or fallback.get("acceptance_criteria"),
                 "payment_condition": item.get("payment_condition") or fallback.get("payment_condition"),
@@ -1060,7 +1224,10 @@ def merge_llm_extraction(
         paragraph_map=paragraph_map,
         block_ids=llm_result.get("total_amount_block_ids", []),
         field_name="total_amount",
-    ) or [citation for citation in regex_result["citations"] if citation["field_name"] == "total_amount"]
+        allowed_block_ids=allowed_block_ids,
+    )
+    if regex_result["total_amount"] is not None or not total_citations:
+        total_citations = [citation for citation in regex_result["citations"] if citation["field_name"] == "total_amount"]
     progress_checkpoints = regex_result.get("progress_checkpoints", [])
     if llm_result.get("progress_checkpoints"):
         progress_checkpoints = []
@@ -1074,12 +1241,13 @@ def merge_llm_extraction(
                         paragraph_map=paragraph_map,
                         block_ids=item.get("evidence_block_ids", []),
                         field_name="progress_checkpoint.name",
+                        allowed_block_ids=allowed_block_ids,
                     ),
                     "source_order": item["source_order"],
                 }
             )
     retention = regex_result.get("retention")
-    if llm_result.get("retention"):
+    if llm_result.get("retention") and not retention:
         retention = {
             "type": "retention",
             "amount": llm_result["retention"].get("amount"),
@@ -1091,15 +1259,23 @@ def merge_llm_extraction(
                 paragraph_map=paragraph_map,
                 block_ids=llm_result["retention"].get("evidence_block_ids", []),
                 field_name="retention",
+                allowed_block_ids=allowed_block_ids,
             ),
         }
     doc_category = llm_result.get("doc_category") or regex_result["doc_category"]
-    total_amount = llm_result.get("total_amount")
-    if total_amount is None:
-        total_amount = regex_result["total_amount"]
+    total_amount = choose_numeric_field(regex_result["total_amount"], llm_result.get("total_amount"))
+    if regex_result["total_amount"] is not None and llm_result.get("total_amount") is not None and abs(regex_result["total_amount"] - llm_result["total_amount"]) > 1:
+        numeric_disagreement_warnings.append(
+            {
+                "code": "llm_regex_total_disagreement",
+                "severity": "WARNING",
+                "message": f'LLM total amount {llm_result["total_amount"]} disagreed with regex total amount {regex_result["total_amount"]}; regex value was used.',
+                "citations": total_citations[:2],
+            }
+        )
     if total_amount is None and not milestones and doc_category == "contract":
         doc_category = "rfp"
-    currency = llm_result.get("currency") or regex_result["currency"]
+    currency = regex_result["currency"] or llm_result.get("currency")
     payment_type = llm_result.get("payment_type") or regex_result["payment_type"]
     contract_type = llm_result.get("contract_type") or regex_result["contract_type"]
     validation = build_initial_validation(
@@ -1115,6 +1291,7 @@ def merge_llm_extraction(
         progress_checkpoints=progress_checkpoints,
         payment_type=payment_type,
     )
+    validation.extend(numeric_disagreement_warnings)
     all_citations = total_citations + [citation for milestone in milestones for citation in milestone["citations"]]
     return {
         **regex_result,
@@ -1129,11 +1306,11 @@ def merge_llm_extraction(
         "citations": all_citations,
         "validation": validation,
         "extraction_method": "hybrid_llm",
-        "confidence": compute_confidence(llm_result.get("total_amount"), milestones, "hybrid_llm"),
+        "confidence": compute_confidence(total_amount, milestones, "hybrid_llm"),
         "locator_blocks": locator_blocks,
         "pipeline_revision": EXTRACTION_PIPELINE_VERSION,
         "_meta": {
-            "extraction_path": "llm",
+            "extraction_path": llm_result.get("_meta", {}).get("extraction_path", "llm_tasks"),
             "fallback_reason": llm_result.get("_meta", {}).get("fallback_reason", "none"),
             "prompt_tokens": llm_result.get("_meta", {}).get("prompt_tokens", 0),
             "llm_ms": llm_result.get("_meta", {}).get("llm_ms", 0),
@@ -1161,6 +1338,7 @@ def extract_contract_data(document: dict[str, Any]) -> dict[str, Any]:
     if document["doc_category"] == "construction_instruction":
         return log_extraction(regex_result)
     locator_blocks = build_locator_blocks(document["paragraphs"])
+    task_blocks = build_llm_task_blocks(document["paragraphs"])
     validation_hints = validate_contract_data(copy.deepcopy(regex_result))
     llm_result = extract_contract_with_llm(
         source_file=document["source_file"],
@@ -1189,6 +1367,7 @@ def extract_contract_data(document: dict[str, Any]) -> dict[str, Any]:
             "progress_checkpoints": regex_result.get("progress_checkpoints", []),
         },
         validation_issues=[{"code": item["code"], "severity": item["severity"], "message": item["message"]} for item in validation_hints],
+        task_blocks=task_blocks,
     )
     if not llm_result:
         regex_result["locator_blocks"] = locator_blocks

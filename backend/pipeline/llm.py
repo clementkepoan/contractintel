@@ -23,16 +23,19 @@ def query_local_llm(prompt: str, timeout: float = 20.0) -> str | None:
     return result.get("response")
 
 
-def query_local_llm_detailed(prompt: str, timeout: float = 20.0) -> dict[str, Any]:
+def query_local_llm_detailed(prompt: str, timeout: float = 20.0, response_format: str | None = None) -> dict[str, Any]:
+    payload: dict[str, Any] = {
+        "model": settings.local_model_name,
+        "prompt": prompt,
+        "stream": False,
+        "options": {"num_ctx": settings.local_model_num_ctx},
+    }
+    if response_format:
+        payload["format"] = response_format
     try:
         response = requests.post(
             f"{settings.local_model_base_url}/api/generate",
-            json={
-                "model": settings.local_model_name,
-                "prompt": prompt,
-                "stream": False,
-                "options": {"num_ctx": settings.local_model_num_ctx},
-            },
+            json=payload,
             timeout=timeout,
         )
         if not response.ok:

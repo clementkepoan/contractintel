@@ -1,4 +1,6 @@
-import { X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ExternalLink, X } from "lucide-react";
+import { api } from "../api/client.js";
 
 export function citationLabel(citation) {
   if (!citation) return "No citation";
@@ -17,7 +19,27 @@ export function CitationButton({ citations = [], onOpen, label = "Citations" }) 
   );
 }
 
-export function CitationDrawer({ citation, onClose }) {
+export function CitationDrawer({ citation, onClose, onOpenSource }) {
+  const [sourceBlock, setSourceBlock] = useState(null);
+  const [sourceError, setSourceError] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    setSourceBlock(null);
+    setSourceError(null);
+    if (!citation?.contract_id || !citation?.block_id) return undefined;
+    api.sourceBlock(citation.contract_id, citation.block_id)
+      .then((block) => {
+        if (!cancelled) setSourceBlock(block);
+      })
+      .catch((err) => {
+        if (!cancelled) setSourceError(err.message || "Source block not found.");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [citation]);
+
   if (!citation) return null;
   return (
     <aside className="drawer" aria-label="Citation details">
@@ -51,6 +73,17 @@ export function CitationDrawer({ citation, onClose }) {
           <p className="label-caps">Extracted Snippet</p>
           <blockquote>{citation.text_snippet || "No snippet available."}</blockquote>
         </div>
+        <div className="snippet">
+          <p className="label-caps">Verified Source Block</p>
+          {sourceBlock ? <blockquote>{sourceBlock.text || "No source text available."}</blockquote> : null}
+          {!sourceBlock && !sourceError ? <blockquote>Loading source block...</blockquote> : null}
+          {sourceError ? <blockquote>{sourceError}</blockquote> : null}
+        </div>
+        {citation.source_path && onOpenSource ? (
+          <button className="ghost-button" type="button" onClick={() => onOpenSource(citation.source_path)}>
+            <ExternalLink size={16} /> Open Source Page
+          </button>
+        ) : null}
       </div>
     </aside>
   );

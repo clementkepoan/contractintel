@@ -5,6 +5,7 @@ import logging
 import time
 from typing import Any
 
+from backend.config import settings
 from backend.pipeline.llm import llm_available, query_local_llm_detailed
 
 logger = logging.getLogger(__name__)
@@ -20,10 +21,15 @@ _MAX_MILESTONES = 8
 _MAX_WORK_ITEMS = 3
 _MAX_TEXT = 400
 _MAX_CONTEXT_TEXT = 220
+_MAX_TASK_PROMPT_TOKENS = 2800
 
 
 def estimate_prompt_tokens(prompt: str) -> int:
-    return max(1, len(prompt) // 4) if prompt else 0
+    if not prompt:
+        return 0
+    cjk_chars = sum(1 for char in prompt if "\u3400" <= char <= "\u9fff")
+    non_cjk_chars = len(prompt) - cjk_chars
+    return max(1, cjk_chars + (non_cjk_chars // 4))
 
 
 def get_last_llm_attempt_meta() -> dict[str, Any]:
@@ -272,18 +278,21 @@ def _prompt_payload(
     regex_fallback: dict[str, Any],
     validation_issues: list[dict[str, Any]],
 ) -> str:
+    del regex_fallback
     payload = {
         "source_file": source_file,
         "doc_category": doc_category,
-        "task": "Extract a canonical contract structure from located evidence blocks.",
+        "task": "Extract a canonical contract structure directly from the located source evidence blocks.",
         "rules": [
             "Return JSON only. No markdown, no explanation.",
-            "Use only the provided locator blocks and regex fallback draft.",
+            "Use only the provided locator blocks. Do not infer facts from field names or examples.",
+            "Regex was used only to locate possible evidence blocks; you are responsible for extraction.",
             "Prefer explicit phased payment schedules over optional alternatives.",
             "Do not convert blank guarantee templates into active retention amounts.",
             "Retention is not a normal milestone unless the document explicitly defines it as a payment stage.",
             "If the evidence is ambiguous, keep the field null instead of guessing.",
             "Every extracted field must point to locator block ids in the evidence object.",
+            "payment_condition is the payment trigger or payment sentence; acceptance_criteria is the completion, approval, test, or acceptance requirement. Do not copy the same text into both unless the source only gives one mixed sentence.",
         ],
         "output_schema": {
             "doc_category": "contract|rfp|construction_instruction|null",
@@ -328,11 +337,108 @@ def _prompt_payload(
                 }
             ],
         },
-        "regex_fallback": _compact_regex_fallback(regex_fallback),
-        "validation_issues": validation_issues,
+        "validation_hints": validation_issues,
         "locator_blocks": _compact_locator_blocks(locator_blocks),
     }
     return json.dumps(payload, ensure_ascii=False)
+
+
+def _format_source_blocks(blocks: list[dict[str, Any]], *, max_text: int = 360) -> str:
+    lines: list[str] = []
+    for block in blocks:
+        block_id = block.get("block_id")
+        text = str(block.get("text", "")).replace("\n", " ").strip()[:max_text]
+        if block_id and text:
+            lines.append(f"[{block_id}] {text}")
+    return "\n".join(lines)
+
+
+def _task_prompt(task: str, blocks: list[dict[str, Any]]) -> str:
+    source = _format_source_blocks(blocks)
+    if task == "total":
+        return (
+            "你是契約總價抽取器。只使用來源區塊；不可猜測。"
+            "金額輸出整數，不含逗號；幣別用 TWD/NTD/USD/MULTI；未知填 null。"
+            "只輸出 JSON。\n"
+            '{"total_amount":null,"currency":null,"total_amount_block_ids":[]}\n'
+            f"來源:\n{source}"
+        )
+    if task == "payment":
+        return (
+            "你是付款里程碑抽取器。只使用來源區塊；不可猜測；只輸出 JSON。"
+            "抽取付款階段/期款/里程碑，不抽一般法律條款。"
+            "若金額或百分比分在相鄰區塊，必須合併判讀。"
+            "付款條件=含給付/付款/請款的句子；驗收條件=完成/核定/確認/驗收/測試通過條件。"
+            "若無條列工作項目，從每期觸發條件提取短工作項目。"
+            "金額整數不含逗號，百分比數字，未知 null。\n"
+            '{"payment_type":null,"milestones":[{"source_order":1,"name":"","amount":null,"percentage":null,'
+            '"work_items":[],"acceptance_criteria":null,"payment_condition":null,"status":"pending_acceptance",'
+            '"evidence":{"name_block_ids":[],"amount_block_ids":[],"percentage_block_ids":[],"work_item_block_ids":[],'
+            '"acceptance_block_ids":[],"payment_block_ids":[]}}],"progress_checkpoints":[]}\n'
+            f"來源:\n{source}"
+        )
+    if task == "retention":
+        return (
+            "你是保證金/保留款抽取器。只使用來源區塊；不可猜測；只輸出 JSON。"
+            "空白模板或明示無須繳納時 retention=null。"
+            "只有明確扣留/保固保證金/退還條件才抽取。\n"
+            '{"retention":null}\n'
+            "或\n"
+            '{"retention":{"amount":null,"percentage":null,"release_condition":null,"release_after_months":null,'
+            '"evidence_block_ids":[]}}\n'
+            f"來源:\n{source}"
+        )
+    if task == "version":
+        return (
+            "你是契約版本條款抽取器。只使用來源區塊；不可猜測；只輸出 JSON。"
+            "辨識修訂、舊版、廢除、V1/V2，標示是否有版本衝突。\n"
+            '{"has_version_conflict":false,"document_versions":[],"deprecated_block_ids":[]}\n'
+            f"來源:\n{source}"
+        )
+    raise ValueError(f"Unsupported LLM extraction task: {task}")
+
+
+def _call_json_task(task: str, blocks: list[dict[str, Any]], timeout: float = 120.0) -> tuple[dict[str, Any] | None, dict[str, Any]]:
+    if not blocks:
+        return None, {"task": task, "status": "skipped", "fallback_reason": "no_blocks", "prompt_tokens": 0, "llm_ms": 0}
+    prompt = _task_prompt(task, blocks)
+    prompt_tokens = estimate_prompt_tokens(prompt)
+    max_prompt_tokens = min(_MAX_TASK_PROMPT_TOKENS, max(1200, int(settings.local_model_num_ctx * 0.35)))
+    if prompt_tokens > max_prompt_tokens:
+        return None, {
+            "task": task,
+            "status": "fallback",
+            "fallback_reason": f"prompt_too_large:{prompt_tokens}>{max_prompt_tokens}",
+            "prompt_tokens": prompt_tokens,
+            "llm_ms": 0,
+        }
+
+    started = time.perf_counter()
+    llm_response = query_local_llm_detailed(prompt, timeout=timeout, response_format="json")
+    llm_ms = int((time.perf_counter() - started) * 1000)
+    raw = llm_response.get("response")
+    error = llm_response.get("error")
+    if error == "timeout":
+        return None, {"task": task, "status": "fallback", "fallback_reason": "timeout", "prompt_tokens": prompt_tokens, "llm_ms": llm_ms}
+    if not raw:
+        fallback_reason = "empty_response" if error is None else error
+        return None, {"task": task, "status": "fallback", "fallback_reason": fallback_reason, "prompt_tokens": prompt_tokens, "llm_ms": llm_ms}
+    parsed = _extract_json_object(raw)
+    if not parsed:
+        return None, {"task": task, "status": "fallback", "fallback_reason": "invalid_json", "prompt_tokens": prompt_tokens, "llm_ms": llm_ms}
+    return parsed, {"task": task, "status": "llm", "fallback_reason": "none", "prompt_tokens": prompt_tokens, "llm_ms": llm_ms}
+
+
+def _task_allowed_block_ids(task_blocks: dict[str, list[dict[str, Any]]]) -> list[str]:
+    allowed: list[str] = []
+    seen: set[str] = set()
+    for blocks in task_blocks.values():
+        for block in blocks:
+            block_id = block.get("block_id")
+            if isinstance(block_id, str) and block_id not in seen:
+                seen.add(block_id)
+                allowed.append(block_id)
+    return allowed
 
 
 def extract_contract_with_llm(
@@ -342,77 +448,73 @@ def extract_contract_with_llm(
     locator_blocks: list[dict[str, Any]],
     regex_fallback: dict[str, Any],
     validation_issues: list[dict[str, Any]],
+    task_blocks: dict[str, list[dict[str, Any]]] | None = None,
 ) -> dict[str, Any] | None:
-    prompt = _prompt_payload(
-        source_file=source_file,
-        doc_category=doc_category,
-        locator_blocks=locator_blocks,
-        regex_fallback=regex_fallback,
-        validation_issues=validation_issues,
-    )
-    prompt_tokens = estimate_prompt_tokens(prompt)
-
-    def log_attempt(*, llm_succeeded: bool, llm_ms: int, fallback_reason: str) -> None:
-        global _LAST_LLM_ATTEMPT_META
-        _LAST_LLM_ATTEMPT_META = {
-            "extraction_path": "llm" if llm_succeeded else "regex_fallback",
-            "fallback_reason": fallback_reason,
-            "prompt_tokens": prompt_tokens,
-            "llm_ms": llm_ms,
-        }
-        logger.info(
-            "[EXTRACTION] file=%s | path=%s | prompt_tokens=%s | llm_ms=%s | fallback_reason=%s",
-            source_file,
-            "llm" if llm_succeeded else "regex_fallback",
-            prompt_tokens,
-            llm_ms,
-            fallback_reason,
-        )
+    global _LAST_LLM_ATTEMPT_META
+    del locator_blocks, validation_issues
 
     if not llm_available():
-        log_attempt(llm_succeeded=False, llm_ms=0, fallback_reason="ollama_unavailable")
+        _LAST_LLM_ATTEMPT_META = {"extraction_path": "regex_fallback", "fallback_reason": "ollama_unavailable", "prompt_tokens": 0, "llm_ms": 0}
         return None
 
-    started = time.perf_counter()
-    llm_response = query_local_llm_detailed(prompt, timeout=120.0)
-    llm_ms = int((time.perf_counter() - started) * 1000)
-    raw = llm_response.get("response")
-    error = llm_response.get("error")
-    if error == "timeout":
-        log_attempt(llm_succeeded=False, llm_ms=llm_ms, fallback_reason="timeout")
+    task_blocks = task_blocks or {"payment": []}
+    task_meta: list[dict[str, Any]] = []
+    total_result, meta = _call_json_task("total", task_blocks.get("total", []))
+    task_meta.append(meta)
+    payment_result, meta = _call_json_task("payment", task_blocks.get("payment", []))
+    task_meta.append(meta)
+    retention_result, meta = _call_json_task("retention", task_blocks.get("retention", []))
+    task_meta.append(meta)
+    version_result, meta = _call_json_task("version", task_blocks.get("version", []), timeout=60.0)
+    task_meta.append(meta)
+
+    any_success = any(item["status"] == "llm" for item in task_meta)
+    total_prompt_tokens = sum(int(item.get("prompt_tokens", 0)) for item in task_meta)
+    total_llm_ms = sum(int(item.get("llm_ms", 0)) for item in task_meta)
+    fallback_reasons = [f'{item["task"]}:{item["fallback_reason"]}' for item in task_meta if item.get("fallback_reason") != "none"]
+    fallback_reason = ",".join(fallback_reasons) if fallback_reasons else "none"
+
+    _LAST_LLM_ATTEMPT_META = {
+        "extraction_path": "llm_tasks" if any_success else "regex_fallback",
+        "fallback_reason": fallback_reason,
+        "prompt_tokens": total_prompt_tokens,
+        "llm_ms": total_llm_ms,
+        "tasks": task_meta,
+    }
+    logger.info(
+        "[EXTRACTION] file=%s | path=%s | prompt_tokens=%s | llm_ms=%s | fallback_reason=%s",
+        source_file,
+        "llm_tasks" if any_success else "regex_fallback",
+        total_prompt_tokens,
+        total_llm_ms,
+        fallback_reason,
+    )
+    if not any_success:
         return None
-    if not raw:
-        fallback_reason = "empty_response" if error is None else "ollama_unavailable"
-        log_attempt(llm_succeeded=False, llm_ms=llm_ms, fallback_reason=fallback_reason)
-        return None
-    parsed = _extract_json_object(raw)
-    if not parsed:
-        log_attempt(llm_succeeded=False, llm_ms=llm_ms, fallback_reason="invalid_json")
-        return None
-    is_valid, _reason = validate_llm_response_schema(parsed)
-    if not is_valid:
-        log_attempt(llm_succeeded=False, llm_ms=llm_ms, fallback_reason="invalid_json")
-        return None
-    milestones = _normalize_milestones(parsed.get("milestones"))
-    total_amount = _coerce_int(parsed.get("total_amount"))
-    if total_amount is None and not milestones:
-        log_attempt(llm_succeeded=False, llm_ms=llm_ms, fallback_reason="empty_response")
-        return None
-    log_attempt(llm_succeeded=True, llm_ms=llm_ms, fallback_reason="none")
+
+    payment_result = payment_result or {}
+    total_result = total_result or {}
+    retention_result = retention_result or {}
+    version_result = version_result or {}
+    milestones = _normalize_milestones(payment_result.get("milestones"))
+    total_amount = _coerce_int(total_result.get("total_amount"))
     return {
-        "doc_category": _coerce_string(parsed.get("doc_category")),
-        "contract_type": _coerce_string(parsed.get("contract_type")) or "lump_sum",
-        "payment_type": _coerce_string(parsed.get("payment_type")),
+        "doc_category": doc_category,
+        "contract_type": _coerce_string(regex_fallback.get("contract_type")) or "lump_sum",
+        "payment_type": _coerce_string(payment_result.get("payment_type")),
         "total_amount": total_amount,
-        "currency": _coerce_string(parsed.get("currency")),
-        "total_amount_block_ids": _coerce_block_ids(parsed.get("total_amount_block_ids")),
+        "currency": _coerce_string(total_result.get("currency")),
+        "total_amount_block_ids": _coerce_block_ids(total_result.get("total_amount_block_ids")),
         "milestones": milestones,
-        "retention": _normalize_retention(parsed.get("retention")),
-        "progress_checkpoints": _normalize_progress_checkpoints(parsed.get("progress_checkpoints")),
+        "retention": _normalize_retention(retention_result.get("retention")),
+        "progress_checkpoints": _normalize_progress_checkpoints(payment_result.get("progress_checkpoints")),
+        "has_version_conflict": bool(version_result.get("has_version_conflict")) if isinstance(version_result, dict) else False,
+        "_allowed_block_ids": _task_allowed_block_ids(task_blocks),
         "_meta": {
-            "extraction_path": "llm",
-            "fallback_reason": "none",
-            "prompt_tokens": prompt_tokens,
-            "llm_ms": llm_ms,
+            "extraction_path": "llm_tasks",
+            "fallback_reason": fallback_reason,
+            "prompt_tokens": total_prompt_tokens,
+            "llm_ms": total_llm_ms,
+            "tasks": task_meta,
         },
     }
