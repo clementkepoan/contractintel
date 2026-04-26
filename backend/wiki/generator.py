@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 from collections import defaultdict
 from datetime import UTC, datetime
@@ -16,7 +17,7 @@ from sqlmodel import select
 
 from backend.config import settings
 from backend.db.models import Contract, FiledQuery, IngestEvent, Milestone, ValidationWarning
-from backend.pipeline.llm import llm_available
+from backend.pipeline.llm import llm_available, query_local_llm_detailed
 
 
 def slugify(value: str) -> str:
@@ -154,10 +155,12 @@ def format_money(value: int | None, currency: str) -> str:
     return f"{value:,} {currency}" if value is not None else f"N/A {currency}"
 
 
-def unique_lines(items: list[str], limit: int = 8) -> list[str]:
+def unique_lines(items: list[str | None], limit: int = 8) -> list[str]:
     seen: set[str] = set()
     result: list[str] = []
     for item in items:
+        if not item:
+            continue
         cleaned = item.strip()
         if not cleaned or cleaned in seen:
             continue
@@ -166,6 +169,482 @@ def unique_lines(items: list[str], limit: int = 8) -> list[str]:
         if len(result) >= limit:
             break
     return result
+
+
+def format_percentage(value: float | int | None) -> str:
+    if value is None:
+        return "N/A"
+    if isinstance(value, float) and value.is_integer():
+        return f"{int(value)}%"
+    return f"{value}%"
+
+
+def sentence_trim(value: str | None, limit: int = 160) -> str:
+    if not value:
+        return ""
+    cleaned = " ".join(value.strip().split())
+    return cleaned[:limit].rstrip() if len(cleaned) > limit else cleaned
+
+
+def normalize_warning_message(value: str) -> str:
+    return sentence_trim(value.replace("Milestone ", "").replace("contract total", "total"))
+
+
+def strip_clause_prefix(value: str | None) -> str:
+    if not value:
+        return ""
+    cleaned = " ".join(value.strip().split())
+    prefixes = (
+        "一、",
+        "二、",
+        "三、",
+        "四、",
+        "五、",
+        "六、",
+        "七、",
+        "八、",
+        "九、",
+        "十、",
+        "第十二條",
+        "第十一條",
+        "第十條",
+        "第九條",
+        "第八條",
+        "第七條",
+        "第六條",
+        "第五條",
+        "第四條",
+        "第三條",
+        "第二條",
+        "第一條",
+    )
+    for prefix in prefixes:
+        if cleaned.startswith(prefix):
+            cleaned = cleaned[len(prefix) :].strip()
+            break
+    return cleaned
+
+
+def first_meaningful_sentence(value: str | None, limit: int = 120) -> str:
+    cleaned = strip_clause_prefix(value)
+    if not cleaned:
+        return ""
+    for splitter in ("。", "；", "\n"):
+        if splitter in cleaned:
+            cleaned = cleaned.split(splitter, 1)[0]
+            break
+    return sentence_trim(cleaned, limit)
+
+
+def looks_like_summary_noise(value: str) -> bool:
+    markers = (
+        "營業稅",
+        "關稅",
+        "貨物稅",
+        "規費",
+        "甲方應給付",
+        "本契約總價",
+        "工程總價",
+        "懲罰性違約金",
+        "本契約係以新臺幣報價",
+        "甲方得暫停付款",
+    )
+    return any(marker in value for marker in markers)
+
+
+def looks_like_objective_noise(value: str) -> bool:
+    markers = (
+        "營業稅",
+        "關稅",
+        "保固保證金",
+        "履約保證金",
+        "不得要求加價",
+        "請求追加工程款",
+        "甲方應給付",
+        "本契約總價",
+        "工程總價",
+    )
+    return any(marker in value for marker in markers)
+
+
+def looks_like_heading(value: str) -> bool:
+    return (value.startswith("第") and len(value) <= 24) or bool(re.match(r"^第.+條$", value))
+
+
+def looks_like_acceptance_note(value: str) -> bool:
+    markers = ("驗收", "複驗", "測試", "核定", "確認", "交付", "完工")
+    return any(marker in value for marker in markers)
+
+
+def looks_like_payment_note(value: str) -> bool:
+    markers = ("請款", "發票", "付款", "匯款", "工作天", "收到", "給付")
+    return any(marker in value for marker in markers)
+
+
+def looks_like_warranty_or_security(value: str) -> bool:
+    markers = ("保固", "履約保證金", "保固保證金", "瑕疵", "修繕")
+    return any(marker in value for marker in markers)
+
+
+def collect_filtered_lines(
+    items: list[str | None],
+    *,
+    include: tuple[str, ...] = (),
+    exclude: tuple[str, ...] = (),
+    limit: int = 4,
+    sentence_limit: int = 140,
+) -> list[str]:
+    result: list[str] = []
+    seen: set[str] = set()
+    for item in items:
+        cleaned = first_meaningful_sentence(item, sentence_limit)
+        if not cleaned or cleaned in seen:
+            continue
+        if include and not any(marker in cleaned for marker in include):
+            continue
+        if exclude and any(marker in cleaned for marker in exclude):
+            continue
+        if cleaned in {"驗收、保固期間及危險負擔", "軟體保固規範"}:
+            continue
+        if looks_like_heading(cleaned):
+            continue
+        seen.add(cleaned)
+        result.append(cleaned)
+        if len(result) >= limit:
+            break
+    return result
+
+
+def summarize_intro_preview(raw_text_preview: str | None, contract_name: str) -> list[str]:
+    preview = " ".join((raw_text_preview or "").split())
+    if not preview:
+        return []
+    candidates: list[str] = []
+    if "茲因" in preview:
+        cleaned = preview.split("茲因", 1)[1]
+        for stopper in ("約定條款如下", "第一條", "第二條", "第三條"):
+            if stopper in cleaned:
+                cleaned = cleaned.split(stopper, 1)[0]
+                break
+        cleaned = sentence_trim("茲因" + cleaned, 140)
+        if cleaned:
+            candidates.append(cleaned)
+    range_match = re.search(r"工程範圍[：: ]?(.*?)(?:第五條|第四條|第三條|付款|驗收|保固|$)", preview)
+    if range_match:
+        cleaned = sentence_trim(range_match.group(1), 140)
+        if cleaned:
+            candidates.append(cleaned)
+    for sentence in preview.split("。"):
+        cleaned = sentence_trim(sentence, 140)
+        if not cleaned:
+            continue
+        if contract_name and contract_name in cleaned and ("委託" in cleaned or "承攬" in cleaned or "工程" in cleaned):
+            candidates.append(cleaned)
+        elif "工程範圍" in cleaned or "系統整合" in cleaned or "業務需要" in cleaned:
+            candidates.append(cleaned)
+        if len(candidates) >= 3:
+            break
+    return unique_lines(candidates, limit=2)
+
+
+def build_milestone_progress_sentence(milestones: list[dict[str, Any]]) -> str:
+    names = [normalize_summary_fragment(item.get("name", ""), 36) for item in milestones[:4] if item.get("name")]
+    names = [name for name in names if name]
+    if not names:
+        return ""
+    if len(names) == 1:
+        return names[0]
+    return " → ".join(names)
+
+
+def normalize_summary_fragment(value: str | None, limit: int = 100) -> str:
+    cleaned = first_meaningful_sentence(value, limit)
+    if not cleaned:
+        return ""
+    if "：" in cleaned:
+        head, tail = cleaned.split("：", 1)
+        if len(head) <= 30 and tail.strip():
+            cleaned = tail.strip()
+    cleaned = cleaned.lstrip("於")
+    return sentence_trim(cleaned, limit)
+
+
+def humanize_contract_purpose(facts: dict[str, Any], intro_notes: list[str]) -> str:
+    source_file = facts.get("source_file", "source")
+    contract_name = facts.get("contract_name", "this contract")
+    intro = intro_notes[0] if intro_notes else ""
+    if "機電工程" in intro and "系統整合" in intro:
+        return f"`{source_file}` is an engineering contract for `{contract_name}` covering system integration / access-control work within the project MEP scope."
+    if "機電工程" in intro:
+        return f"`{source_file}` is an engineering contract for `{contract_name}` within the project MEP scope."
+    if "委託" in intro and "承攬" in intro:
+        return f"`{source_file}` records that the project owner side commissions the contractor to undertake `{contract_name}`."
+    if facts.get("doc_category") == "rfp":
+        return f"`{source_file}` is an RFP / pre-award source describing `{contract_name}`."
+    return f"`{source_file}` is the active `{facts.get('doc_category', 'contract')}` source for `{contract_name}`."
+
+
+def derive_scope_context(facts: dict[str, Any], filtered_scope: list[str], intro_notes: list[str]) -> str:
+    for item in filtered_scope:
+        normalized = normalize_summary_fragment(item, 120)
+        if not normalized:
+            continue
+        if looks_like_objective_noise(normalized):
+            continue
+        if any(marker in normalized for marker in ("驗收", "複驗", "逾期", "保固", "給付", "付款")):
+            continue
+        return normalized
+    return ""
+
+
+def build_contract_summary_facts(
+    contract: Contract,
+    milestones: list[Milestone],
+    raw_payload: dict[str, Any],
+    warnings: list[ValidationWarning],
+    conflicts: list[str],
+) -> dict[str, Any]:
+    milestone_facts: list[dict[str, Any]] = []
+    for milestone in milestones[:6]:
+        raw_milestone = resolve_raw_milestone(contract, milestone) or {}
+        milestone_facts.append(
+            {
+                "order": milestone.source_order,
+                "name": milestone.name,
+                "amount": raw_milestone.get("amount", milestone.amount),
+                "percentage": raw_milestone.get("percentage", milestone.percentage),
+                "status": milestone.status,
+                "payment_condition": sentence_trim(raw_milestone.get("payment_condition", milestone.payment_condition or ""), 140),
+                "acceptance_criteria": sentence_trim(raw_milestone.get("acceptance_criteria", milestone.acceptance_criteria or ""), 140),
+                "work_items": unique_lines(raw_milestone.get("work_items") or json.loads(milestone.work_items_json), limit=3),
+            }
+        )
+    return {
+        "contract_name": contract.contract_name,
+        "source_file": contract.source_file,
+        "doc_category": contract.doc_category,
+        "contract_type": contract.contract_type,
+        "currency": contract.currency,
+        "total_amount": contract.total_amount,
+        "payment_type": raw_payload.get("payment_type"),
+        "retention": raw_payload.get("retention"),
+        "raw_text_preview": raw_payload.get("raw_text_preview", ""),
+        "milestones": milestone_facts,
+        "scope_items": unique_lines(raw_payload.get("scope_items", []), limit=4),
+        "acceptance_requirements": unique_lines(raw_payload.get("acceptance_requirements", []), limit=4),
+        "safety_requirements": unique_lines(raw_payload.get("safety_requirements", []), limit=3),
+        "warranty_requirements": unique_lines(raw_payload.get("warranty_requirements", []), limit=3),
+        "progress_checkpoints": unique_lines([item.get("name", "") for item in raw_payload.get("progress_checkpoints", [])], limit=4),
+        "warnings": unique_lines([normalize_warning_message(item.message) for item in warnings], limit=5),
+        "conflicts": unique_lines(conflicts, limit=5),
+    }
+
+
+def render_contract_summary(facts: dict[str, Any]) -> list[str]:
+    milestone_lines = []
+    for item in facts["milestones"]:
+        line = f"- {item['order']}. {item['name']} | {format_money(item['amount'], facts['currency'])} | {format_percentage(item['percentage'])} | `{item['status']}`"
+        milestone_lines.append(line)
+    if not milestone_lines:
+        milestone_lines = ["- No milestone schedule was extracted."]
+
+    intro_notes = summarize_intro_preview(facts.get("raw_text_preview"), facts["contract_name"])
+    filtered_scope = collect_filtered_lines(
+        facts["scope_items"],
+        exclude=("甲方應給付", "本契約總價", "工程總價", "營業稅", "保證金"),
+        limit=3,
+        sentence_limit=150,
+    )
+    objective_lines: list[str] = []
+    for item in [*intro_notes, *filtered_scope]:
+        if looks_like_objective_noise(item):
+            continue
+        cleaned = sentence_trim(item, 150)
+        if cleaned and cleaned not in objective_lines:
+            objective_lines.append(cleaned)
+        if len(objective_lines) >= 2:
+            break
+
+    overview_lines = []
+    overview_lines = [f"- Contract purpose: {humanize_contract_purpose(facts, intro_notes)}"]
+    scope_context = derive_scope_context(facts, filtered_scope, intro_notes)
+    if scope_context:
+        overview_lines.append(f"- Scope context: {scope_context}")
+    overview_lines.extend(
+        [
+            f"- Commercial structure: `{facts['contract_type']}` / payment mode `{facts['payment_type'] or 'unknown'}` / current value {format_money(facts['total_amount'], facts['currency'])}.",
+            f"- Active milestone count: {len(facts['milestones'])}.",
+        ]
+    )
+    progress_sentence = build_milestone_progress_sentence(facts["milestones"])
+    if progress_sentence:
+        overview_lines.append(f"- Milestone progression: {progress_sentence}.")
+    if facts["progress_checkpoints"]:
+        overview_lines.append(f"- Progress checkpoints mentioned: {', '.join(facts['progress_checkpoints'])}.")
+
+    delivery_notes: list[str] = []
+    for milestone in facts["milestones"][:4]:
+        work_items = [normalize_summary_fragment(item, 80) for item in milestone["work_items"][:2]]
+        work_items = [item for item in work_items if item]
+        acceptance = normalize_summary_fragment(milestone["acceptance_criteria"], 100)
+        if work_items:
+            line = f"- {milestone['name']}: 主要交付為 {'；'.join(work_items)}"
+            if acceptance:
+                line += f"；驗收重點為 {acceptance}"
+            delivery_notes.append(line)
+        elif acceptance:
+            delivery_notes.append(f"- {milestone['name']}: 驗收重點為 {acceptance}")
+
+    acceptance_notes = collect_filtered_lines(
+        facts["acceptance_requirements"],
+        include=("驗收", "複驗", "測試", "交付", "核定", "確認"),
+        exclude=("營業稅", "關稅", "貨物稅", "規費", "本契約總價", "契約總價", "工程總價"),
+        limit=3,
+        sentence_limit=130,
+    )
+    for item in acceptance_notes:
+        if len(delivery_notes) >= 5:
+            break
+        delivery_notes.append(f"- Contract-level acceptance note: {normalize_summary_fragment(item, 130)}")
+    if not delivery_notes:
+        delivery_notes = ["- No structured delivery or acceptance notes were extracted."]
+
+    payment_notes: list[str] = []
+    for milestone in facts["milestones"][:4]:
+        payment = first_meaningful_sentence(milestone["payment_condition"], 140)
+        if payment:
+            payment_notes.append(f"- {milestone['name']}: {payment}")
+
+    global_payment_candidates = [
+        *facts["acceptance_requirements"],
+        *facts["scope_items"],
+        *facts["safety_requirements"],
+        *facts["warranty_requirements"],
+    ]
+    global_payment_notes = collect_filtered_lines(
+        global_payment_candidates,
+        include=("請款", "發票", "付款", "匯款", "工作天", "收到"),
+        exclude=("甲方應給付本契約總價", "甲方應給付工程總價", "即 ", "20%", "30%", "40%", "50%"),
+        limit=2,
+        sentence_limit=140,
+    )
+    for item in global_payment_notes:
+        if item not in payment_notes:
+            payment_notes.append(f"- Global procedure: {normalize_summary_fragment(item, 140)}")
+    if facts["retention"]:
+        payment_notes.append(
+            f"- Retention: {format_money(facts['retention'].get('amount'), facts['currency'])} / {format_percentage(facts['retention'].get('percentage'))}."
+        )
+    if not payment_notes:
+        payment_notes = ["- No structured payment conditions were extracted."]
+
+    risk_notes: list[str] = []
+    for item in facts["warnings"][:4]:
+        risk_notes.append(f"- {item}")
+    for item in facts["conflicts"][:2]:
+        risk_notes.append(f"- Version note: {sentence_trim(item)}")
+    warranty_notes = collect_filtered_lines(
+        facts["warranty_requirements"],
+        include=("保固", "履約保證金", "保固保證金", "瑕疵", "修繕"),
+        exclude=("營業稅", "關稅", "貨物稅", "規費"),
+        limit=2,
+        sentence_limit=140,
+    )
+    for item in warranty_notes:
+        risk_notes.append(f"- Warranty / security: {item}")
+    if not risk_notes:
+        safety_notes = collect_filtered_lines(
+            facts["safety_requirements"],
+            include=("安全", "危及", "改善", "重做", "賠償"),
+            exclude=("營業稅", "關稅", "貨物稅", "規費"),
+            limit=2,
+            sentence_limit=140,
+        )
+        for item in safety_notes:
+            risk_notes.append(f"- Execution risk: {item}")
+    if not risk_notes:
+        risk_notes = ["- No active validation warnings or version conflicts are open."]
+
+    return [
+        "## Contract Summary",
+        "### At A Glance",
+        *overview_lines,
+        "",
+        "### Milestone And Payment Structure",
+        *milestone_lines,
+        "",
+        "### Delivery And Acceptance",
+        *delivery_notes,
+        "",
+        "### Payment Procedures And Commercial Notes",
+        *payment_notes,
+        "",
+        "### Risks And Open Issues",
+        *risk_notes,
+    ]
+
+
+def build_llm_summary_prompt(facts: dict[str, Any]) -> str:
+    milestone_lines = [
+        f"{item['order']}. {item['name']} | 金額={item['amount']} | 比例={item['percentage']} | 付款={item['payment_condition'] or 'N/A'} | 驗收={item['acceptance_criteria'] or 'N/A'} | 工作={'; '.join(item['work_items']) or 'N/A'}"
+        for item in facts["milestones"][:6]
+    ]
+    note_lines = []
+    for label, key in (
+        ("範圍", "scope_items"),
+        ("驗收", "acceptance_requirements"),
+        ("安全", "safety_requirements"),
+        ("保固", "warranty_requirements"),
+    ):
+        for item in facts[key][:3]:
+            note_lines.append(f"{label}: {sentence_trim(item, 120)}")
+    warning_lines = [sentence_trim(item, 120) for item in facts["warnings"][:4]]
+    prompt = "\n".join(
+        [
+            "你是離線契約摘要器。只根據提供事實，用繁體中文輸出 Markdown。不要捏造。",
+            "目標：讓讀者快速理解這份契約在做什麼、怎麼付款、怎麼驗收、有哪些風險。",
+            "格式固定：",
+            "### 契約目的",
+            "- 2點內",
+            "### 商務與付款",
+            "- 4點內",
+            "### 交付與驗收",
+            "- 4點內",
+            "### 風險與注意事項",
+            "- 4點內",
+            "整體保持精簡，避免重複，不要輸出程式碼區塊。",
+            "",
+            f"契約名稱: {facts['contract_name']}",
+            f"來源檔案: {facts['source_file']}",
+            f"文件類型: {facts['doc_category']}",
+            f"契約型態: {facts['contract_type']}",
+            f"總金額: {facts['total_amount']} {facts['currency']}",
+            f"付款模式: {facts['payment_type'] or 'unknown'}",
+            "里程碑:",
+            *milestone_lines,
+            "補充事實:",
+            *(note_lines or ["無"]),
+            "警示:",
+            *(warning_lines or ["無"]),
+        ]
+    )
+    return prompt[:6000]
+
+
+def render_llm_contract_summary(facts: dict[str, Any]) -> list[str]:
+    if not llm_available():
+        return ["## LLM Summary", "- Local LLM unavailable; no comparative LLM summary was generated."]
+    prompt = build_llm_summary_prompt(facts)
+    response = query_local_llm_detailed(prompt, timeout=60.0)
+    content = (response.get("response") or "").strip()
+    if not content:
+        return [f"## LLM Summary", f"- LLM summary generation failed: `{response.get('error') or 'empty_response'}`."]
+    lines = [line.rstrip() for line in content.splitlines() if line.strip()]
+    if not lines:
+        return ["## LLM Summary", "- LLM returned an empty summary."]
+    if lines[0] != "## LLM Summary":
+        lines = ["## LLM Summary", *lines]
+    return lines
 
 
 def summarize_page(content: str) -> str:
@@ -215,8 +694,9 @@ def generate_contract_page(contract_key: str, contracts: list[Contract], session
     related.append(wiki_relative(contract_version_page_path(contract_key, active_contract.version_number)))
     source_rows = []
     conflict_lines: list[str] = []
-    note_lines: list[str] = []
     warning_lines: list[str] = []
+    active_warnings = load_validation_rows(session, active_contract.contract_id)
+    active_raw_payload = load_raw_payload(active_contract)
 
     for contract in sorted(contracts, key=lambda item: item.version_number, reverse=True):
         source_path = source_page_path(contract)
@@ -227,8 +707,6 @@ def generate_contract_page(contract_key: str, contracts: list[Contract], session
         raw_payload = load_raw_payload(contract)
         for conflict in raw_payload.get("version_conflicts", []):
             conflict_lines.append(f"- v{contract.version_number} `{conflict['field']}` changed from `{conflict['old']}` to `{conflict['new']}`.")
-        for note in raw_payload.get("scope_items", []) + raw_payload.get("acceptance_requirements", []) + raw_payload.get("safety_requirements", []):
-            note_lines.append(f"- {note}")
         for warning in load_validation_rows(session, contract.contract_id):
             warning_lines.append(f"- v{contract.version_number} [{warning.severity}] {warning.message}")
 
@@ -255,6 +733,15 @@ def generate_contract_page(contract_key: str, contracts: list[Contract], session
             "tags": ["contract", active_contract.doc_category, f"v{active_contract.version_number}"],
         }
     )
+    summary_facts = build_contract_summary_facts(
+        active_contract,
+        active_milestones,
+        active_raw_payload,
+        active_warnings,
+        unique_lines(conflict_lines),
+    )
+    deterministic_summary = render_contract_summary(summary_facts)
+    llm_summary = render_llm_contract_summary(summary_facts)
     return "\n".join(
         [
             metadata,
@@ -282,8 +769,9 @@ def generate_contract_page(contract_key: str, contracts: list[Contract], session
             "## Contradictions And Version Changes",
             *(unique_lines(conflict_lines) or ["- No version conflicts have been recorded yet."]),
             "",
-            "## Maintained Synthesis",
-            *(unique_lines(note_lines) or ["- No supporting technical or acceptance notes were extracted yet."]),
+            *deterministic_summary,
+            "",
+            *llm_summary,
             "",
             "## Open Questions",
             *(unique_lines(warning_lines) or ["- No validation warnings are currently open."]),

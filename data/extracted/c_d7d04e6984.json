@@ -1,0 +1,2374 @@
+{
+  "contract_name": "工程承攬契約書",
+  "total_amount": 8500000,
+  "currency": "TWD",
+  "contract_type": "lump_sum",
+  "payment_type": "installment",
+  "total_amount_is_tax_included": true,
+  "doc_category": "contract",
+  "milestones": [
+    {
+      "milestone_id": "m_c0240a7945d8",
+      "name": "第一期　簽約款（30%）：",
+      "amount": 2550000,
+      "percentage": 30.0,
+      "work_items": [
+        "完成施工計畫書提交",
+        "完成材料送審",
+        "完成工程保險投保"
+      ],
+      "acceptance_criteria": null,
+      "payment_condition": "第一期　簽約款（30%）： 本合約簽訂後 7 個工作天內，甲方給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "06XX專案.docx",
+          "para_start": 30,
+          "para_end": 30,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 13,
+          "text_snippet": "第一期　簽約款（30%）：",
+          "block_id": "06XX專案_block_0030",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "06XX專案.docx",
+          "para_start": 30,
+          "para_end": 30,
+          "page_estimate": 3,
+          "char_offset_start": 8,
+          "char_offset_end": 11,
+          "text_snippet": "30%",
+          "block_id": "06XX專案_block_0030",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "06XX專案.docx",
+          "para_start": 31,
+          "para_end": 31,
+          "page_estimate": 3,
+          "char_offset_start": 32,
+          "char_offset_end": 44,
+          "text_snippet": "NT$2,550,000",
+          "block_id": "06XX專案_block_0031",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "06XX專案.docx",
+          "para_start": 30,
+          "para_end": 30,
+          "page_estimate": 3,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "第一期　簽約款（30%）： 本合約簽訂後 7 個工作天內，甲方給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）",
+          "block_id": "06XX專案_block_0030",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "06XX專案.docx",
+          "para_start": 30,
+          "para_end": 30,
+          "page_estimate": 3,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "完成施工計畫書提交\n完成材料送審\n完成工程保險投保",
+          "block_id": "06XX專案_block_0030",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 1,
+      "milestone_key": "m001"
+    },
+    {
+      "milestone_id": "m_fa343473d2db",
+      "name": "第二期　設備進場款（30%）：",
+      "amount": 2550000,
+      "percentage": 30.0,
+      "work_items": [
+        "BAS主機及操作站設備進場",
+        "門禁系統硬體設備進場",
+        "CCTV設備進場",
+        "停車場設備進場"
+      ],
+      "acceptance_criteria": null,
+      "payment_condition": "第二期　設備進場款（30%）： 乙方完成主要設備進場，經甲方確認後，給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "06XX專案.docx",
+          "para_start": 37,
+          "para_end": 37,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 15,
+          "text_snippet": "第二期　設備進場款（30%）：",
+          "block_id": "06XX專案_block_0037",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "06XX專案.docx",
+          "para_start": 37,
+          "para_end": 37,
+          "page_estimate": 3,
+          "char_offset_start": 10,
+          "char_offset_end": 13,
+          "text_snippet": "30%",
+          "block_id": "06XX專案_block_0037",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "06XX專案.docx",
+          "para_start": 38,
+          "para_end": 38,
+          "page_estimate": 3,
+          "char_offset_start": 33,
+          "char_offset_end": 45,
+          "text_snippet": "NT$2,550,000",
+          "block_id": "06XX專案_block_0038",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "06XX專案.docx",
+          "para_start": 37,
+          "para_end": 37,
+          "page_estimate": 3,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "第二期　設備進場款（30%）： 乙方完成主要設備進場，經甲方確認後，給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）",
+          "block_id": "06XX專案_block_0037",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "06XX專案.docx",
+          "para_start": 37,
+          "para_end": 37,
+          "page_estimate": 3,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "BAS主機及操作站設備進場\n門禁系統硬體設備進場\nCCTV設備進場\n停車場設備進場",
+          "block_id": "06XX專案_block_0037",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 2,
+      "milestone_key": "m002"
+    },
+    {
+      "milestone_id": "m_643048f5e1aa",
+      "name": "第三期　安裝完成款（20%）：",
+      "amount": 2200000,
+      "percentage": 20.0,
+      "work_items": [
+        "BAS系統安裝完成及單機測試通過",
+        "門禁系統安裝完成",
+        "CCTV系統安裝完成",
+        "停車場系統安裝完成"
+      ],
+      "acceptance_criteria": "第三期　安裝完成款（20%）： 乙方完成所有設備安裝及單機測試，經甲方驗收合格後",
+      "payment_condition": "第三期　安裝完成款（20%）： 乙方完成所有設備安裝及單機測試，經甲方驗收合格後，給付新台幣 貳佰貳拾萬元整（NT$2,200,000，含稅）",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "06XX專案.docx",
+          "para_start": 45,
+          "para_end": 45,
+          "page_estimate": 4,
+          "char_offset_start": 0,
+          "char_offset_end": 15,
+          "text_snippet": "第三期　安裝完成款（20%）：",
+          "block_id": "06XX專案_block_0045",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "06XX專案.docx",
+          "para_start": 45,
+          "para_end": 45,
+          "page_estimate": 4,
+          "char_offset_start": 10,
+          "char_offset_end": 13,
+          "text_snippet": "20%",
+          "block_id": "06XX專案_block_0045",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "06XX專案.docx",
+          "para_start": 46,
+          "para_end": 46,
+          "page_estimate": 4,
+          "char_offset_start": 39,
+          "char_offset_end": 51,
+          "text_snippet": "NT$2,200,000",
+          "block_id": "06XX專案_block_0046",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "06XX專案.docx",
+          "para_start": 45,
+          "para_end": 45,
+          "page_estimate": 4,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "第三期　安裝完成款（20%）： 乙方完成所有設備安裝及單機測試，經甲方驗收合格後，給付新台幣 貳佰貳拾萬元整（NT$2,200,000，含稅）",
+          "block_id": "06XX專案_block_0045",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "06XX專案.docx",
+          "para_start": 45,
+          "para_end": 45,
+          "page_estimate": 4,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "第三期　安裝完成款（20%）： 乙方完成所有設備安裝及單機測試，經甲方驗收合格後",
+          "block_id": "06XX專案_block_0045",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "06XX專案.docx",
+          "para_start": 45,
+          "para_end": 45,
+          "page_estimate": 4,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "BAS系統安裝完成及單機測試通過\n門禁系統安裝完成\nCCTV系統安裝完成\n停車場系統安裝完成",
+          "block_id": "06XX專案_block_0045",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 3,
+      "milestone_key": "m003"
+    },
+    {
+      "milestone_id": "m_1054d4f670be",
+      "name": "第四期　驗收尾款（20%）：",
+      "amount": 1500000,
+      "percentage": 20.0,
+      "work_items": [
+        "系統整合測試完成（BAS+門禁+CCTV+停車場）",
+        "操作訓練完成",
+        "完工圖說及操作手冊提交"
+      ],
+      "acceptance_criteria": "第四期　驗收尾款（20%）： 乙方完成系統整合測試，取得甲方及業主驗收合格證明後",
+      "payment_condition": "第四期　驗收尾款（20%）： 乙方完成系統整合測試，取得甲方及業主驗收合格證明後，給付新台幣 壹佰伍拾萬元整（NT$1,500,000，含稅）",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "06XX專案.docx",
+          "para_start": 53,
+          "para_end": 53,
+          "page_estimate": 4,
+          "char_offset_start": 0,
+          "char_offset_end": 14,
+          "text_snippet": "第四期　驗收尾款（20%）：",
+          "block_id": "06XX專案_block_0053",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "06XX專案.docx",
+          "para_start": 53,
+          "para_end": 53,
+          "page_estimate": 4,
+          "char_offset_start": 9,
+          "char_offset_end": 12,
+          "text_snippet": "20%",
+          "block_id": "06XX專案_block_0053",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "06XX專案.docx",
+          "para_start": 54,
+          "para_end": 54,
+          "page_estimate": 4,
+          "char_offset_start": 40,
+          "char_offset_end": 52,
+          "text_snippet": "NT$1,500,000",
+          "block_id": "06XX專案_block_0054",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "06XX專案.docx",
+          "para_start": 53,
+          "para_end": 53,
+          "page_estimate": 4,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "第四期　驗收尾款（20%）： 乙方完成系統整合測試，取得甲方及業主驗收合格證明後，給付新台幣 壹佰伍拾萬元整（NT$1,500,000，含稅）",
+          "block_id": "06XX專案_block_0053",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "06XX專案.docx",
+          "para_start": 53,
+          "para_end": 53,
+          "page_estimate": 4,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "第四期　驗收尾款（20%）： 乙方完成系統整合測試，取得甲方及業主驗收合格證明後",
+          "block_id": "06XX專案_block_0053",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "06XX專案.docx",
+          "para_start": 53,
+          "para_end": 53,
+          "page_estimate": 4,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "系統整合測試完成（BAS+門禁+CCTV+停車場）\n操作訓練完成\n完工圖說及操作手冊提交",
+          "block_id": "06XX專案_block_0053",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 4,
+      "milestone_key": "m004"
+    }
+  ],
+  "superseded_milestones": [],
+  "has_version_conflict": false,
+  "document_versions": [],
+  "currency_breakdown": [],
+  "retention": null,
+  "progress_checkpoints": [],
+  "citations": [
+    {
+      "field_name": "total_amount",
+      "source_file": "06XX專案.docx",
+      "para_start": 10,
+      "para_end": 10,
+      "page_estimate": 1,
+      "char_offset_start": 20,
+      "char_offset_end": 32,
+      "text_snippet": "NT$8,500,000",
+      "block_id": "06XX專案_block_0010",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "NT\\$\\s*([\\d,]+)"
+    },
+    {
+      "field_name": "total_amount",
+      "source_file": "06XX專案.docx",
+      "para_start": 10,
+      "para_end": 10,
+      "page_estimate": 1,
+      "char_offset_start": 12,
+      "char_offset_end": 17,
+      "text_snippet": "捌佰伍拾萬",
+      "block_id": "06XX專案_block_0010",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "[零一二三四五六七八九十百千萬億壹貳參肆伍陸柒捌玖拾佰仟兩]+"
+    },
+    {
+      "field_name": "milestone.name",
+      "source_file": "06XX專案.docx",
+      "para_start": 30,
+      "para_end": 30,
+      "page_estimate": 3,
+      "char_offset_start": 0,
+      "char_offset_end": 13,
+      "text_snippet": "第一期　簽約款（30%）：",
+      "block_id": "06XX專案_block_0030",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+    },
+    {
+      "field_name": "milestone.percentage",
+      "source_file": "06XX專案.docx",
+      "para_start": 30,
+      "para_end": 30,
+      "page_estimate": 3,
+      "char_offset_start": 8,
+      "char_offset_end": 11,
+      "text_snippet": "30%",
+      "block_id": "06XX專案_block_0030",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "([\\d.]+)\\s*[％%]"
+    },
+    {
+      "field_name": "milestone.amount",
+      "source_file": "06XX專案.docx",
+      "para_start": 31,
+      "para_end": 31,
+      "page_estimate": 3,
+      "char_offset_start": 32,
+      "char_offset_end": 44,
+      "text_snippet": "NT$2,550,000",
+      "block_id": "06XX專案_block_0031",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+    },
+    {
+      "field_name": "milestone.payment_condition",
+      "source_file": "06XX專案.docx",
+      "para_start": 30,
+      "para_end": 30,
+      "page_estimate": 3,
+      "char_offset_start": -1,
+      "char_offset_end": -1,
+      "text_snippet": "第一期　簽約款（30%）： 本合約簽訂後 7 個工作天內，甲方給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）",
+      "block_id": "06XX專案_block_0030",
+      "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.work_items",
+      "source_file": "06XX專案.docx",
+      "para_start": 30,
+      "para_end": 30,
+      "page_estimate": 3,
+      "char_offset_start": -1,
+      "char_offset_end": -1,
+      "text_snippet": "完成施工計畫書提交\n完成材料送審\n完成工程保險投保",
+      "block_id": "06XX專案_block_0030",
+      "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    },
+    {
+      "field_name": "milestone.name",
+      "source_file": "06XX專案.docx",
+      "para_start": 37,
+      "para_end": 37,
+      "page_estimate": 3,
+      "char_offset_start": 0,
+      "char_offset_end": 15,
+      "text_snippet": "第二期　設備進場款（30%）：",
+      "block_id": "06XX專案_block_0037",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+    },
+    {
+      "field_name": "milestone.percentage",
+      "source_file": "06XX專案.docx",
+      "para_start": 37,
+      "para_end": 37,
+      "page_estimate": 3,
+      "char_offset_start": 10,
+      "char_offset_end": 13,
+      "text_snippet": "30%",
+      "block_id": "06XX專案_block_0037",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "([\\d.]+)\\s*[％%]"
+    },
+    {
+      "field_name": "milestone.amount",
+      "source_file": "06XX專案.docx",
+      "para_start": 38,
+      "para_end": 38,
+      "page_estimate": 3,
+      "char_offset_start": 33,
+      "char_offset_end": 45,
+      "text_snippet": "NT$2,550,000",
+      "block_id": "06XX專案_block_0038",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+    },
+    {
+      "field_name": "milestone.payment_condition",
+      "source_file": "06XX專案.docx",
+      "para_start": 37,
+      "para_end": 37,
+      "page_estimate": 3,
+      "char_offset_start": -1,
+      "char_offset_end": -1,
+      "text_snippet": "第二期　設備進場款（30%）： 乙方完成主要設備進場，經甲方確認後，給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）",
+      "block_id": "06XX專案_block_0037",
+      "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.work_items",
+      "source_file": "06XX專案.docx",
+      "para_start": 37,
+      "para_end": 37,
+      "page_estimate": 3,
+      "char_offset_start": -1,
+      "char_offset_end": -1,
+      "text_snippet": "BAS主機及操作站設備進場\n門禁系統硬體設備進場\nCCTV設備進場\n停車場設備進場",
+      "block_id": "06XX專案_block_0037",
+      "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    },
+    {
+      "field_name": "milestone.name",
+      "source_file": "06XX專案.docx",
+      "para_start": 45,
+      "para_end": 45,
+      "page_estimate": 4,
+      "char_offset_start": 0,
+      "char_offset_end": 15,
+      "text_snippet": "第三期　安裝完成款（20%）：",
+      "block_id": "06XX專案_block_0045",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+    },
+    {
+      "field_name": "milestone.percentage",
+      "source_file": "06XX專案.docx",
+      "para_start": 45,
+      "para_end": 45,
+      "page_estimate": 4,
+      "char_offset_start": 10,
+      "char_offset_end": 13,
+      "text_snippet": "20%",
+      "block_id": "06XX專案_block_0045",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "([\\d.]+)\\s*[％%]"
+    },
+    {
+      "field_name": "milestone.amount",
+      "source_file": "06XX專案.docx",
+      "para_start": 46,
+      "para_end": 46,
+      "page_estimate": 4,
+      "char_offset_start": 39,
+      "char_offset_end": 51,
+      "text_snippet": "NT$2,200,000",
+      "block_id": "06XX專案_block_0046",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+    },
+    {
+      "field_name": "milestone.payment_condition",
+      "source_file": "06XX專案.docx",
+      "para_start": 45,
+      "para_end": 45,
+      "page_estimate": 4,
+      "char_offset_start": -1,
+      "char_offset_end": -1,
+      "text_snippet": "第三期　安裝完成款（20%）： 乙方完成所有設備安裝及單機測試，經甲方驗收合格後，給付新台幣 貳佰貳拾萬元整（NT$2,200,000，含稅）",
+      "block_id": "06XX專案_block_0045",
+      "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "06XX專案.docx",
+      "para_start": 45,
+      "para_end": 45,
+      "page_estimate": 4,
+      "char_offset_start": -1,
+      "char_offset_end": -1,
+      "text_snippet": "第三期　安裝完成款（20%）： 乙方完成所有設備安裝及單機測試，經甲方驗收合格後",
+      "block_id": "06XX專案_block_0045",
+      "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.work_items",
+      "source_file": "06XX專案.docx",
+      "para_start": 45,
+      "para_end": 45,
+      "page_estimate": 4,
+      "char_offset_start": -1,
+      "char_offset_end": -1,
+      "text_snippet": "BAS系統安裝完成及單機測試通過\n門禁系統安裝完成\nCCTV系統安裝完成\n停車場系統安裝完成",
+      "block_id": "06XX專案_block_0045",
+      "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    },
+    {
+      "field_name": "milestone.name",
+      "source_file": "06XX專案.docx",
+      "para_start": 53,
+      "para_end": 53,
+      "page_estimate": 4,
+      "char_offset_start": 0,
+      "char_offset_end": 14,
+      "text_snippet": "第四期　驗收尾款（20%）：",
+      "block_id": "06XX專案_block_0053",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+    },
+    {
+      "field_name": "milestone.percentage",
+      "source_file": "06XX專案.docx",
+      "para_start": 53,
+      "para_end": 53,
+      "page_estimate": 4,
+      "char_offset_start": 9,
+      "char_offset_end": 12,
+      "text_snippet": "20%",
+      "block_id": "06XX專案_block_0053",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "([\\d.]+)\\s*[％%]"
+    },
+    {
+      "field_name": "milestone.amount",
+      "source_file": "06XX專案.docx",
+      "para_start": 54,
+      "para_end": 54,
+      "page_estimate": 4,
+      "char_offset_start": 40,
+      "char_offset_end": 52,
+      "text_snippet": "NT$1,500,000",
+      "block_id": "06XX專案_block_0054",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+    },
+    {
+      "field_name": "milestone.payment_condition",
+      "source_file": "06XX專案.docx",
+      "para_start": 53,
+      "para_end": 53,
+      "page_estimate": 4,
+      "char_offset_start": -1,
+      "char_offset_end": -1,
+      "text_snippet": "第四期　驗收尾款（20%）： 乙方完成系統整合測試，取得甲方及業主驗收合格證明後，給付新台幣 壹佰伍拾萬元整（NT$1,500,000，含稅）",
+      "block_id": "06XX專案_block_0053",
+      "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "06XX專案.docx",
+      "para_start": 53,
+      "para_end": 53,
+      "page_estimate": 4,
+      "char_offset_start": -1,
+      "char_offset_end": -1,
+      "text_snippet": "第四期　驗收尾款（20%）： 乙方完成系統整合測試，取得甲方及業主驗收合格證明後",
+      "block_id": "06XX專案_block_0053",
+      "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.work_items",
+      "source_file": "06XX專案.docx",
+      "para_start": 53,
+      "para_end": 53,
+      "page_estimate": 4,
+      "char_offset_start": -1,
+      "char_offset_end": -1,
+      "text_snippet": "系統整合測試完成（BAS+門禁+CCTV+停車場）\n操作訓練完成\n完工圖說及操作手冊提交",
+      "block_id": "06XX專案_block_0053",
+      "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    }
+  ],
+  "validation": [
+    {
+      "code": "amount_sum_mismatch",
+      "severity": "ERROR",
+      "message": "Milestone amounts sum to 8800000, contract total is 8500000, delta = +300000.",
+      "citations": [
+        {
+          "field_name": "milestone.amount",
+          "source_file": "06XX專案.docx",
+          "para_start": 31,
+          "para_end": 31,
+          "page_estimate": 3,
+          "char_offset_start": 32,
+          "char_offset_end": 44,
+          "text_snippet": "NT$2,550,000",
+          "block_id": "06XX專案_block_0031",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "06XX專案.docx",
+          "para_start": 38,
+          "para_end": 38,
+          "page_estimate": 3,
+          "char_offset_start": 33,
+          "char_offset_end": 45,
+          "text_snippet": "NT$2,550,000",
+          "block_id": "06XX專案_block_0038",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "06XX專案.docx",
+          "para_start": 46,
+          "para_end": 46,
+          "page_estimate": 4,
+          "char_offset_start": 39,
+          "char_offset_end": 51,
+          "text_snippet": "NT$2,200,000",
+          "block_id": "06XX專案_block_0046",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "06XX專案.docx",
+          "para_start": 54,
+          "para_end": 54,
+          "page_estimate": 4,
+          "char_offset_start": 40,
+          "char_offset_end": 52,
+          "text_snippet": "NT$1,500,000",
+          "block_id": "06XX專案_block_0054",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        }
+      ]
+    },
+    {
+      "code": "percentage_amount_inconsistency",
+      "severity": "ERROR",
+      "message": "Milestone \"第三期　安裝完成款（20%）：\" states 20.0% (expected 1700000) but amount is 2200000 (= 25.9%).",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "06XX專案.docx",
+          "para_start": 45,
+          "para_end": 45,
+          "page_estimate": 4,
+          "char_offset_start": 0,
+          "char_offset_end": 15,
+          "text_snippet": "第三期　安裝完成款（20%）：",
+          "block_id": "06XX專案_block_0045",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "06XX專案.docx",
+          "para_start": 45,
+          "para_end": 45,
+          "page_estimate": 4,
+          "char_offset_start": 10,
+          "char_offset_end": 13,
+          "text_snippet": "20%",
+          "block_id": "06XX專案_block_0045",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "06XX專案.docx",
+          "para_start": 46,
+          "para_end": 46,
+          "page_estimate": 4,
+          "char_offset_start": 39,
+          "char_offset_end": 51,
+          "text_snippet": "NT$2,200,000",
+          "block_id": "06XX專案_block_0046",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "06XX專案.docx",
+          "para_start": 45,
+          "para_end": 45,
+          "page_estimate": 4,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "第三期　安裝完成款（20%）： 乙方完成所有設備安裝及單機測試，經甲方驗收合格後，給付新台幣 貳佰貳拾萬元整（NT$2,200,000，含稅）",
+          "block_id": "06XX專案_block_0045",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        }
+      ]
+    },
+    {
+      "code": "percentage_amount_inconsistency",
+      "severity": "ERROR",
+      "message": "Milestone \"第四期　驗收尾款（20%）：\" states 20.0% (expected 1700000) but amount is 1500000 (= 17.6%).",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "06XX專案.docx",
+          "para_start": 53,
+          "para_end": 53,
+          "page_estimate": 4,
+          "char_offset_start": 0,
+          "char_offset_end": 14,
+          "text_snippet": "第四期　驗收尾款（20%）：",
+          "block_id": "06XX專案_block_0053",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "06XX專案.docx",
+          "para_start": 53,
+          "para_end": 53,
+          "page_estimate": 4,
+          "char_offset_start": 9,
+          "char_offset_end": 12,
+          "text_snippet": "20%",
+          "block_id": "06XX專案_block_0053",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "06XX專案.docx",
+          "para_start": 54,
+          "para_end": 54,
+          "page_estimate": 4,
+          "char_offset_start": 40,
+          "char_offset_end": 52,
+          "text_snippet": "NT$1,500,000",
+          "block_id": "06XX專案_block_0054",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "06XX專案.docx",
+          "para_start": 53,
+          "para_end": 53,
+          "page_estimate": 4,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "第四期　驗收尾款（20%）： 乙方完成系統整合測試，取得甲方及業主驗收合格證明後，給付新台幣 壹佰伍拾萬元整（NT$1,500,000，含稅）",
+          "block_id": "06XX專案_block_0053",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        }
+      ]
+    }
+  ],
+  "extraction_method": "hybrid_llm",
+  "confidence": 100,
+  "source_candidates": {
+    "total_amount_candidates": [
+      8500000,
+      8500000
+    ]
+  },
+  "declared_installment_count": null,
+  "blocks": [
+    {
+      "block_id": "06XX專案_block_0000",
+      "text": "工程承攬契約書",
+      "para_start": 0,
+      "para_end": 0,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "06XX專案_block_0001",
+      "text": "合約編號：PROJ-2024-06-BMS",
+      "para_start": 1,
+      "para_end": 1,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "06XX專案_block_0003",
+      "text": "第一條　工程名稱",
+      "para_start": 3,
+      "para_end": 3,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "06XX專案_block_0004",
+      "text": "本工程案名稱：06XX專案－建築智慧管理系統統包工程",
+      "para_start": 4,
+      "para_end": 4,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "06XX專案_block_0006",
+      "text": "第二條　工程地點",
+      "para_start": 6,
+      "para_end": 6,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "06XX專案_block_0007",
+      "text": "工程地點：新北市板橋區○○路○○號",
+      "para_start": 7,
+      "para_end": 7,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "06XX專案_block_0009",
+      "text": "第三條　承攬總價",
+      "para_start": 9,
+      "para_end": 9,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "06XX專案_block_0010",
+      "text": "本工程承攬總價為新台幣 捌佰伍拾萬元整（NT$8,500,000，含稅）。",
+      "para_start": 10,
+      "para_end": 10,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "06XX專案_block_0011",
+      "text": "採固定總價方式承攬，乙方不得以任何理由要求追加工程款。",
+      "para_start": 11,
+      "para_end": 11,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "06XX專案_block_0013",
+      "text": "第四條　工程期限",
+      "para_start": 13,
+      "para_end": 13,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "06XX專案_block_0014",
+      "text": "本工程分三階段完成：",
+      "para_start": 14,
+      "para_end": 14,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "06XX專案_block_0015",
+      "text": "第一階段：自簽約日起 60 日曆天內完成設備採購及進場。",
+      "para_start": 15,
+      "para_end": 15,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "06XX專案_block_0016",
+      "text": "第二階段：第一階段完成後 90 日曆天內完成設備安裝及單機測試。",
+      "para_start": 16,
+      "para_end": 16,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "06XX專案_block_0017",
+      "text": "第三階段：第二階段完成後 45 日曆天內完成系統整合測試及驗收。",
+      "para_start": 17,
+      "para_end": 17,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "06XX專案_block_0019",
+      "text": "第五條　工程範圍",
+      "para_start": 19,
+      "para_end": 19,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "06XX專案_block_0020",
+      "text": "本工程施工範圍包含下列各項系統：",
+      "para_start": 20,
+      "para_end": 20,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "06XX專案_block_0021",
+      "text": "一、建築自動化系統（BAS）：含中央監控主機、操作站、通訊網路設備。",
+      "para_start": 21,
+      "para_end": 21,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "06XX專案_block_0022",
+      "text": "二、門禁管制系統：讀卡機、控制器、電鎖、緊急按鈕等。",
+      "para_start": 22,
+      "para_end": 22,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "06XX專案_block_0023",
+      "text": "三、監視系統（CCTV）：IP攝影機、NVR、顯示器及相關線材。",
+      "para_start": 23,
+      "para_end": 23,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "06XX專案_block_0024",
+      "text": "四、停車場管理系統：入出口設備、車牌辨識系統。",
+      "para_start": 24,
+      "para_end": 24,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "06XX專案_block_0025",
+      "text": "五、系統整合工程：各子系統整合至BMS平台，提供統一監控介面。",
+      "para_start": 25,
+      "para_end": 25,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "06XX專案_block_0027",
+      "text": "第六條　付款辦法",
+      "para_start": 27,
+      "para_end": 27,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "06XX專案_block_0028",
+      "text": "甲方依下列里程碑分期給付工程款：",
+      "para_start": 28,
+      "para_end": 28,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "06XX專案_block_0030",
+      "text": "第一期　簽約款（30%）：",
+      "para_start": 30,
+      "para_end": 30,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "06XX專案_block_0031",
+      "text": "本合約簽訂後 7 個工作天內，甲方給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）。",
+      "para_start": 31,
+      "para_end": 31,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "06XX專案_block_0032",
+      "text": "工作項目：",
+      "para_start": 32,
+      "para_end": 32,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "06XX專案_block_0033",
+      "text": "完成施工計畫書提交",
+      "para_start": 33,
+      "para_end": 33,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "06XX專案_block_0034",
+      "text": "完成材料送審",
+      "para_start": 34,
+      "para_end": 34,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "06XX專案_block_0035",
+      "text": "完成工程保險投保",
+      "para_start": 35,
+      "para_end": 35,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "06XX專案_block_0037",
+      "text": "第二期　設備進場款（30%）：",
+      "para_start": 37,
+      "para_end": 37,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "06XX專案_block_0038",
+      "text": "乙方完成主要設備進場，經甲方確認後，給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）。",
+      "para_start": 38,
+      "para_end": 38,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "06XX專案_block_0039",
+      "text": "工作項目：",
+      "para_start": 39,
+      "para_end": 39,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "06XX專案_block_0040",
+      "text": "BAS主機及操作站設備進場",
+      "para_start": 40,
+      "para_end": 40,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "06XX專案_block_0041",
+      "text": "門禁系統硬體設備進場",
+      "para_start": 41,
+      "para_end": 41,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "06XX專案_block_0042",
+      "text": "CCTV設備進場",
+      "para_start": 42,
+      "para_end": 42,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "06XX專案_block_0043",
+      "text": "停車場設備進場",
+      "para_start": 43,
+      "para_end": 43,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "06XX專案_block_0045",
+      "text": "第三期　安裝完成款（20%）：",
+      "para_start": 45,
+      "para_end": 45,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "06XX專案_block_0046",
+      "text": "乙方完成所有設備安裝及單機測試，經甲方驗收合格後，給付新台幣 貳佰貳拾萬元整（NT$2,200,000，含稅）。",
+      "para_start": 46,
+      "para_end": 46,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "06XX專案_block_0047",
+      "text": "工作項目：",
+      "para_start": 47,
+      "para_end": 47,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "06XX專案_block_0048",
+      "text": "BAS系統安裝完成及單機測試通過",
+      "para_start": 48,
+      "para_end": 48,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "06XX專案_block_0049",
+      "text": "門禁系統安裝完成",
+      "para_start": 49,
+      "para_end": 49,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "06XX專案_block_0050",
+      "text": "CCTV系統安裝完成",
+      "para_start": 50,
+      "para_end": 50,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "06XX專案_block_0051",
+      "text": "停車場系統安裝完成",
+      "para_start": 51,
+      "para_end": 51,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "06XX專案_block_0053",
+      "text": "第四期　驗收尾款（20%）：",
+      "para_start": 53,
+      "para_end": 53,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "06XX專案_block_0054",
+      "text": "乙方完成系統整合測試，取得甲方及業主驗收合格證明後，給付新台幣 壹佰伍拾萬元整（NT$1,500,000，含稅）。",
+      "para_start": 54,
+      "para_end": 54,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "06XX專案_block_0055",
+      "text": "工作項目：",
+      "para_start": 55,
+      "para_end": 55,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "06XX專案_block_0056",
+      "text": "系統整合測試完成（BAS+門禁+CCTV+停車場）",
+      "para_start": 56,
+      "para_end": 56,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "06XX專案_block_0057",
+      "text": "操作訓練完成",
+      "para_start": 57,
+      "para_end": 57,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "06XX專案_block_0058",
+      "text": "完工圖說及操作手冊提交",
+      "para_start": 58,
+      "para_end": 58,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "06XX專案_block_0060",
+      "text": "【備註】各期付款合計應與契約總價相符，如有出入依甲方解釋為準。",
+      "para_start": 60,
+      "para_end": 60,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "06XX專案_block_0062",
+      "text": "第七條　驗收標準",
+      "para_start": 62,
+      "para_end": 62,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "06XX專案_block_0063",
+      "text": "各里程碑驗收條件如下：",
+      "para_start": 63,
+      "para_end": 63,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "06XX專案_block_0064",
+      "text": "設備進場驗收：乙方提供設備出廠證明、型錄及數量清冊，甲方確認與報價單相符。",
+      "para_start": 64,
+      "para_end": 64,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "06XX專案_block_0065",
+      "text": "安裝完成驗收：依各子系統功能測試項目逐一測試，測試合格率須達 100%。",
+      "para_start": 65,
+      "para_end": 65,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "06XX專案_block_0066",
+      "text": "系統整合驗收：整合平台須通過連續 72 小時穩定運行測試。",
+      "para_start": 66,
+      "para_end": 66,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "06XX專案_block_0068",
+      "text": "第八條　保固期限",
+      "para_start": 68,
+      "para_end": 68,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "06XX專案_block_0069",
+      "text": "本工程自業主驗收合格日起，保固期限為二年。保固期間如發生非人為損壞之故障，乙方應於接獲通知後 8 小時內派員到場處理。",
+      "para_start": 69,
+      "para_end": 69,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "06XX專案_block_0071",
+      "text": "第九條　違約罰則",
+      "para_start": 71,
+      "para_end": 71,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "06XX專案_block_0072",
+      "text": "乙方如有下列情事，甲方得按日扣罰違約金：",
+      "para_start": 72,
+      "para_end": 72,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "06XX專案_block_0073",
+      "text": "工程進度落後超過 10% 者，每日按契約總價 0.1% 扣罰。",
+      "para_start": 73,
+      "para_end": 73,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "06XX專案_block_0074",
+      "text": "驗收未通過且逾期改善者，每日按該期金額 0.2% 扣罰。",
+      "para_start": 74,
+      "para_end": 74,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "06XX專案_block_0076",
+      "text": "第十條　其他約定",
+      "para_start": 76,
+      "para_end": 76,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "06XX專案_block_0077",
+      "text": "本契約一式二份，雙方各執一份為憑。",
+      "para_start": 77,
+      "para_end": 77,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "06XX專案_block_0079",
+      "text": "立契約書人",
+      "para_start": 79,
+      "para_end": 79,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "06XX專案_block_0080",
+      "text": "甲方：___________________　　代表人：___________________",
+      "para_start": 80,
+      "para_end": 80,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "06XX專案_block_0081",
+      "text": "乙方：___________________　　代表人：___________________",
+      "para_start": 81,
+      "para_end": 81,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "06XX專案_block_0082",
+      "text": "中華民國　　　年　　月　　日",
+      "para_start": 82,
+      "para_end": 82,
+      "page_estimate": 6
+    }
+  ],
+  "raw_text_preview": "工程承攬契約書\n合約編號：PROJ-2024-06-BMS\n第一條　工程名稱\n本工程案名稱：06XX專案－建築智慧管理系統統包工程\n第二條　工程地點\n工程地點：新北市板橋區○○路○○號\n第三條　承攬總價\n本工程承攬總價為新台幣 捌佰伍拾萬元整（NT$8,500,000，含稅）。\n採固定總價方式承攬，乙方不得以任何理由要求追加工程款。\n第四條　工程期限\n本工程分三階段完成：\n第一階段：自簽約日起 60 日曆天內完成設備採購及進場。\n第二階段：第一階段完成後 90 日曆天內完成設備安裝及單機測試。\n第三階段：第二階段完成後 45 日曆天內完成系統整合測試及驗收。\n第五條　工程範圍\n本工程施工範圍包含下列各項系統：\n一、建築自動化系統（BAS）：含中央監控主機、操作站、通訊網路設備。\n二、門禁管制系統：讀卡機、控制器、電鎖、緊急按鈕等。\n三、監視系統（CCTV）：IP攝影機、NVR、顯示器及相關線材。\n四、停車場管理系統：入出口設備、車牌辨識系統。",
+  "pipeline_revision": "2026-04-27-citation-summary-v1",
+  "_meta": {
+    "extraction_path": "llm_tasks",
+    "fallback_reason": "retention:no_blocks,version:no_blocks",
+    "prompt_tokens": 843,
+    "llm_ms": 69774,
+    "pipeline_revision": "2026-04-27-citation-summary-v1"
+  },
+  "segment_map": {
+    "payment_header_offsets": [
+      23,
+      29,
+      36,
+      43
+    ],
+    "checkpoint_offsets": [],
+    "work_item_label_offsets": [
+      25,
+      31,
+      38,
+      45
+    ],
+    "amount_block_ids": [
+      "06XX專案_block_0031",
+      "06XX專案_block_0038",
+      "06XX專案_block_0046",
+      "06XX專案_block_0054"
+    ],
+    "percentage_block_ids": [
+      "06XX專案_block_0030",
+      "06XX專案_block_0037",
+      "06XX專案_block_0045",
+      "06XX專案_block_0053",
+      "06XX專案_block_0065",
+      "06XX專案_block_0073",
+      "06XX專案_block_0074"
+    ],
+    "deprecated_block_ids": []
+  },
+  "scope_items": [
+    "本工程案名稱：06XX專案－建築智慧管理系統統包工程",
+    "第三階段：第二階段完成後 45 日曆天內完成系統整合測試及驗收。",
+    "本工程施工範圍包含下列各項系統：",
+    "一、建築自動化系統（BAS）：含中央監控主機、操作站、通訊網路設備。"
+  ],
+  "acceptance_requirements": [
+    "第二階段：第一階段完成後 90 日曆天內完成設備安裝及單機測試。",
+    "第三階段：第二階段完成後 45 日曆天內完成系統整合測試及驗收。",
+    "乙方完成所有設備安裝及單機測試，經甲方驗收合格後，給付新台幣 貳佰貳拾萬元整（NT$2,200,000，含稅）。",
+    "BAS系統安裝完成及單機測試通過",
+    "第四期　驗收尾款（20%）：",
+    "乙方完成系統整合測試，取得甲方及業主驗收合格證明後，給付新台幣 壹佰伍拾萬元整（NT$1,500,000，含稅）。",
+    "系統整合測試完成（BAS+門禁+CCTV+停車場）",
+    "完工圖說及操作手冊提交"
+  ],
+  "safety_requirements": [],
+  "warranty_requirements": [
+    "第八條　保固期限",
+    "本工程自業主驗收合格日起，保固期限為二年。保固期間如發生非人為損壞之故障，乙方應於接獲通知後 8 小時內派員到場處理。"
+  ],
+  "normalization": {
+    "llm_attempted": true,
+    "llm_applied": true
+  },
+  "locator_blocks": [
+    {
+      "block_id": "06XX專案_block_0007",
+      "paragraph_index": 7,
+      "page_estimate": 1,
+      "labels": [
+        "context"
+      ],
+      "text": "工程地點：新北市板橋區○○路○○號",
+      "context_before": [
+        "第二條　工程地點"
+      ],
+      "context_after": [
+        "第三條　承攬總價",
+        "本工程承攬總價為新台幣 捌佰伍拾萬元整（NT$8,500,000，含稅）。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0009",
+      "paragraph_index": 9,
+      "page_estimate": 1,
+      "labels": [
+        "total_amount"
+      ],
+      "text": "第三條　承攬總價",
+      "context_before": [
+        "工程地點：新北市板橋區○○路○○號"
+      ],
+      "context_after": [
+        "本工程承攬總價為新台幣 捌佰伍拾萬元整（NT$8,500,000，含稅）。",
+        "採固定總價方式承攬，乙方不得以任何理由要求追加工程款。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0010",
+      "paragraph_index": 10,
+      "page_estimate": 1,
+      "labels": [
+        "total_amount"
+      ],
+      "text": "本工程承攬總價為新台幣 捌佰伍拾萬元整（NT$8,500,000，含稅）。",
+      "context_before": [
+        "第三條　承攬總價"
+      ],
+      "context_after": [
+        "採固定總價方式承攬，乙方不得以任何理由要求追加工程款。",
+        "第四條　工程期限"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0011",
+      "paragraph_index": 11,
+      "page_estimate": 1,
+      "labels": [
+        "total_amount"
+      ],
+      "text": "採固定總價方式承攬，乙方不得以任何理由要求追加工程款。",
+      "context_before": [
+        "本工程承攬總價為新台幣 捌佰伍拾萬元整（NT$8,500,000，含稅）。"
+      ],
+      "context_after": [
+        "第四條　工程期限",
+        "本工程分三階段完成："
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0013",
+      "paragraph_index": 13,
+      "page_estimate": 1,
+      "labels": [
+        "context"
+      ],
+      "text": "第四條　工程期限",
+      "context_before": [
+        "採固定總價方式承攬，乙方不得以任何理由要求追加工程款。"
+      ],
+      "context_after": [
+        "本工程分三階段完成：",
+        "第一階段：自簽約日起 60 日曆天內完成設備採購及進場。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0014",
+      "paragraph_index": 14,
+      "page_estimate": 1,
+      "labels": [
+        "context"
+      ],
+      "text": "本工程分三階段完成：",
+      "context_before": [
+        "第四條　工程期限"
+      ],
+      "context_after": [
+        "第一階段：自簽約日起 60 日曆天內完成設備採購及進場。",
+        "第二階段：第一階段完成後 90 日曆天內完成設備安裝及單機測試。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0016",
+      "paragraph_index": 16,
+      "page_estimate": 2,
+      "labels": [
+        "context"
+      ],
+      "text": "第二階段：第一階段完成後 90 日曆天內完成設備安裝及單機測試。",
+      "context_before": [
+        "第一階段：自簽約日起 60 日曆天內完成設備採購及進場。"
+      ],
+      "context_after": [
+        "第三階段：第二階段完成後 45 日曆天內完成系統整合測試及驗收。",
+        "第五條　工程範圍"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0017",
+      "paragraph_index": 17,
+      "page_estimate": 2,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "第三階段：第二階段完成後 45 日曆天內完成系統整合測試及驗收。",
+      "context_before": [
+        "第二階段：第一階段完成後 90 日曆天內完成設備安裝及單機測試。"
+      ],
+      "context_after": [
+        "第五條　工程範圍",
+        "本工程施工範圍包含下列各項系統："
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0019",
+      "paragraph_index": 19,
+      "page_estimate": 2,
+      "labels": [
+        "context"
+      ],
+      "text": "第五條　工程範圍",
+      "context_before": [
+        "第三階段：第二階段完成後 45 日曆天內完成系統整合測試及驗收。"
+      ],
+      "context_after": [
+        "本工程施工範圍包含下列各項系統：",
+        "一、建築自動化系統（BAS）：含中央監控主機、操作站、通訊網路設備。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0020",
+      "paragraph_index": 20,
+      "page_estimate": 2,
+      "labels": [
+        "context"
+      ],
+      "text": "本工程施工範圍包含下列各項系統：",
+      "context_before": [
+        "第五條　工程範圍"
+      ],
+      "context_after": [
+        "一、建築自動化系統（BAS）：含中央監控主機、操作站、通訊網路設備。",
+        "二、門禁管制系統：讀卡機、控制器、電鎖、緊急按鈕等。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0021",
+      "paragraph_index": 21,
+      "page_estimate": 2,
+      "labels": [
+        "work_item"
+      ],
+      "text": "一、建築自動化系統（BAS）：含中央監控主機、操作站、通訊網路設備。",
+      "context_before": [
+        "本工程施工範圍包含下列各項系統："
+      ],
+      "context_after": [
+        "二、門禁管制系統：讀卡機、控制器、電鎖、緊急按鈕等。",
+        "三、監視系統（CCTV）：IP攝影機、NVR、顯示器及相關線材。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0022",
+      "paragraph_index": 22,
+      "page_estimate": 2,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、門禁管制系統：讀卡機、控制器、電鎖、緊急按鈕等。",
+      "context_before": [
+        "一、建築自動化系統（BAS）：含中央監控主機、操作站、通訊網路設備。"
+      ],
+      "context_after": [
+        "三、監視系統（CCTV）：IP攝影機、NVR、顯示器及相關線材。",
+        "四、停車場管理系統：入出口設備、車牌辨識系統。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0023",
+      "paragraph_index": 23,
+      "page_estimate": 2,
+      "labels": [
+        "work_item"
+      ],
+      "text": "三、監視系統（CCTV）：IP攝影機、NVR、顯示器及相關線材。",
+      "context_before": [
+        "二、門禁管制系統：讀卡機、控制器、電鎖、緊急按鈕等。"
+      ],
+      "context_after": [
+        "四、停車場管理系統：入出口設備、車牌辨識系統。",
+        "五、系統整合工程：各子系統整合至BMS平台，提供統一監控介面。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0024",
+      "paragraph_index": 24,
+      "page_estimate": 2,
+      "labels": [
+        "work_item"
+      ],
+      "text": "四、停車場管理系統：入出口設備、車牌辨識系統。",
+      "context_before": [
+        "三、監視系統（CCTV）：IP攝影機、NVR、顯示器及相關線材。"
+      ],
+      "context_after": [
+        "五、系統整合工程：各子系統整合至BMS平台，提供統一監控介面。",
+        "第六條　付款辦法"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0025",
+      "paragraph_index": 25,
+      "page_estimate": 2,
+      "labels": [
+        "work_item"
+      ],
+      "text": "五、系統整合工程：各子系統整合至BMS平台，提供統一監控介面。",
+      "context_before": [
+        "四、停車場管理系統：入出口設備、車牌辨識系統。"
+      ],
+      "context_after": [
+        "第六條　付款辦法",
+        "甲方依下列里程碑分期給付工程款："
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0027",
+      "paragraph_index": 27,
+      "page_estimate": 2,
+      "labels": [
+        "payment"
+      ],
+      "text": "第六條　付款辦法",
+      "context_before": [
+        "五、系統整合工程：各子系統整合至BMS平台，提供統一監控介面。"
+      ],
+      "context_after": [
+        "甲方依下列里程碑分期給付工程款：",
+        "第一期　簽約款（30%）："
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0028",
+      "paragraph_index": 28,
+      "page_estimate": 2,
+      "labels": [
+        "payment"
+      ],
+      "text": "甲方依下列里程碑分期給付工程款：",
+      "context_before": [
+        "第六條　付款辦法"
+      ],
+      "context_after": [
+        "第一期　簽約款（30%）：",
+        "本合約簽訂後 7 個工作天內，甲方給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0030",
+      "paragraph_index": 30,
+      "page_estimate": 3,
+      "labels": [
+        "milestone_header",
+        "percentage"
+      ],
+      "text": "第一期　簽約款（30%）：",
+      "context_before": [
+        "甲方依下列里程碑分期給付工程款："
+      ],
+      "context_after": [
+        "本合約簽訂後 7 個工作天內，甲方給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）。",
+        "工作項目："
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0031",
+      "paragraph_index": 31,
+      "page_estimate": 3,
+      "labels": [
+        "amount",
+        "payment"
+      ],
+      "text": "本合約簽訂後 7 個工作天內，甲方給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）。",
+      "context_before": [
+        "第一期　簽約款（30%）："
+      ],
+      "context_after": [
+        "工作項目：",
+        "完成施工計畫書提交"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0032",
+      "paragraph_index": 32,
+      "page_estimate": 3,
+      "labels": [
+        "work_item"
+      ],
+      "text": "工作項目：",
+      "context_before": [
+        "本合約簽訂後 7 個工作天內，甲方給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）。"
+      ],
+      "context_after": [
+        "完成施工計畫書提交",
+        "完成材料送審"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0033",
+      "paragraph_index": 33,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "完成施工計畫書提交",
+      "context_before": [
+        "工作項目："
+      ],
+      "context_after": [
+        "完成材料送審",
+        "完成工程保險投保"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0034",
+      "paragraph_index": 34,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "完成材料送審",
+      "context_before": [
+        "完成施工計畫書提交"
+      ],
+      "context_after": [
+        "完成工程保險投保",
+        "第二期　設備進場款（30%）："
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0035",
+      "paragraph_index": 35,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "完成工程保險投保",
+      "context_before": [
+        "完成材料送審"
+      ],
+      "context_after": [
+        "第二期　設備進場款（30%）：",
+        "乙方完成主要設備進場，經甲方確認後，給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0037",
+      "paragraph_index": 37,
+      "page_estimate": 3,
+      "labels": [
+        "milestone_header",
+        "percentage"
+      ],
+      "text": "第二期　設備進場款（30%）：",
+      "context_before": [
+        "完成工程保險投保"
+      ],
+      "context_after": [
+        "乙方完成主要設備進場，經甲方確認後，給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）。",
+        "工作項目："
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0038",
+      "paragraph_index": 38,
+      "page_estimate": 3,
+      "labels": [
+        "amount",
+        "payment"
+      ],
+      "text": "乙方完成主要設備進場，經甲方確認後，給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）。",
+      "context_before": [
+        "第二期　設備進場款（30%）："
+      ],
+      "context_after": [
+        "工作項目：",
+        "BAS主機及操作站設備進場"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0039",
+      "paragraph_index": 39,
+      "page_estimate": 3,
+      "labels": [
+        "work_item"
+      ],
+      "text": "工作項目：",
+      "context_before": [
+        "乙方完成主要設備進場，經甲方確認後，給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）。"
+      ],
+      "context_after": [
+        "BAS主機及操作站設備進場",
+        "門禁系統硬體設備進場"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0040",
+      "paragraph_index": 40,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "BAS主機及操作站設備進場",
+      "context_before": [
+        "工作項目："
+      ],
+      "context_after": [
+        "門禁系統硬體設備進場",
+        "CCTV設備進場"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0041",
+      "paragraph_index": 41,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "門禁系統硬體設備進場",
+      "context_before": [
+        "BAS主機及操作站設備進場"
+      ],
+      "context_after": [
+        "CCTV設備進場",
+        "停車場設備進場"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0043",
+      "paragraph_index": 43,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "停車場設備進場",
+      "context_before": [
+        "CCTV設備進場"
+      ],
+      "context_after": [
+        "第三期　安裝完成款（20%）：",
+        "乙方完成所有設備安裝及單機測試，經甲方驗收合格後，給付新台幣 貳佰貳拾萬元整（NT$2,200,000，含稅）。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0045",
+      "paragraph_index": 45,
+      "page_estimate": 4,
+      "labels": [
+        "milestone_header",
+        "percentage"
+      ],
+      "text": "第三期　安裝完成款（20%）：",
+      "context_before": [
+        "停車場設備進場"
+      ],
+      "context_after": [
+        "乙方完成所有設備安裝及單機測試，經甲方驗收合格後，給付新台幣 貳佰貳拾萬元整（NT$2,200,000，含稅）。",
+        "工作項目："
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0046",
+      "paragraph_index": 46,
+      "page_estimate": 4,
+      "labels": [
+        "acceptance",
+        "amount",
+        "payment"
+      ],
+      "text": "乙方完成所有設備安裝及單機測試，經甲方驗收合格後，給付新台幣 貳佰貳拾萬元整（NT$2,200,000，含稅）。",
+      "context_before": [
+        "第三期　安裝完成款（20%）："
+      ],
+      "context_after": [
+        "工作項目：",
+        "BAS系統安裝完成及單機測試通過"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0047",
+      "paragraph_index": 47,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "工作項目：",
+      "context_before": [
+        "乙方完成所有設備安裝及單機測試，經甲方驗收合格後，給付新台幣 貳佰貳拾萬元整（NT$2,200,000，含稅）。"
+      ],
+      "context_after": [
+        "BAS系統安裝完成及單機測試通過",
+        "門禁系統安裝完成"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0048",
+      "paragraph_index": 48,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "BAS系統安裝完成及單機測試通過",
+      "context_before": [
+        "工作項目："
+      ],
+      "context_after": [
+        "門禁系統安裝完成",
+        "CCTV系統安裝完成"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0049",
+      "paragraph_index": 49,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "門禁系統安裝完成",
+      "context_before": [
+        "BAS系統安裝完成及單機測試通過"
+      ],
+      "context_after": [
+        "CCTV系統安裝完成",
+        "停車場系統安裝完成"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0051",
+      "paragraph_index": 51,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "停車場系統安裝完成",
+      "context_before": [
+        "CCTV系統安裝完成"
+      ],
+      "context_after": [
+        "第四期　驗收尾款（20%）：",
+        "乙方完成系統整合測試，取得甲方及業主驗收合格證明後，給付新台幣 壹佰伍拾萬元整（NT$1,500,000，含稅）。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0053",
+      "paragraph_index": 53,
+      "page_estimate": 4,
+      "labels": [
+        "acceptance",
+        "milestone_header",
+        "percentage"
+      ],
+      "text": "第四期　驗收尾款（20%）：",
+      "context_before": [
+        "停車場系統安裝完成"
+      ],
+      "context_after": [
+        "乙方完成系統整合測試，取得甲方及業主驗收合格證明後，給付新台幣 壹佰伍拾萬元整（NT$1,500,000，含稅）。",
+        "工作項目："
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0054",
+      "paragraph_index": 54,
+      "page_estimate": 4,
+      "labels": [
+        "acceptance",
+        "amount",
+        "payment"
+      ],
+      "text": "乙方完成系統整合測試，取得甲方及業主驗收合格證明後，給付新台幣 壹佰伍拾萬元整（NT$1,500,000，含稅）。",
+      "context_before": [
+        "第四期　驗收尾款（20%）："
+      ],
+      "context_after": [
+        "工作項目：",
+        "系統整合測試完成（BAS+門禁+CCTV+停車場）"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0055",
+      "paragraph_index": 55,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "工作項目：",
+      "context_before": [
+        "乙方完成系統整合測試，取得甲方及業主驗收合格證明後，給付新台幣 壹佰伍拾萬元整（NT$1,500,000，含稅）。"
+      ],
+      "context_after": [
+        "系統整合測試完成（BAS+門禁+CCTV+停車場）",
+        "操作訓練完成"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0056",
+      "paragraph_index": 56,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "系統整合測試完成（BAS+門禁+CCTV+停車場）",
+      "context_before": [
+        "工作項目："
+      ],
+      "context_after": [
+        "操作訓練完成",
+        "完工圖說及操作手冊提交"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0057",
+      "paragraph_index": 57,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "操作訓練完成",
+      "context_before": [
+        "系統整合測試完成（BAS+門禁+CCTV+停車場）"
+      ],
+      "context_after": [
+        "完工圖說及操作手冊提交",
+        "【備註】各期付款合計應與契約總價相符，如有出入依甲方解釋為準。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0058",
+      "paragraph_index": 58,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "完工圖說及操作手冊提交",
+      "context_before": [
+        "操作訓練完成"
+      ],
+      "context_after": [
+        "【備註】各期付款合計應與契約總價相符，如有出入依甲方解釋為準。",
+        "第七條　驗收標準"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0060",
+      "paragraph_index": 60,
+      "page_estimate": 5,
+      "labels": [
+        "payment",
+        "total_amount"
+      ],
+      "text": "【備註】各期付款合計應與契約總價相符，如有出入依甲方解釋為準。",
+      "context_before": [
+        "完工圖說及操作手冊提交"
+      ],
+      "context_after": [
+        "第七條　驗收標準",
+        "各里程碑驗收條件如下："
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0062",
+      "paragraph_index": 62,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "第七條　驗收標準",
+      "context_before": [
+        "【備註】各期付款合計應與契約總價相符，如有出入依甲方解釋為準。"
+      ],
+      "context_after": [
+        "各里程碑驗收條件如下：",
+        "設備進場驗收：乙方提供設備出廠證明、型錄及數量清冊，甲方確認與報價單相符。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0063",
+      "paragraph_index": 63,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "各里程碑驗收條件如下：",
+      "context_before": [
+        "第七條　驗收標準"
+      ],
+      "context_after": [
+        "設備進場驗收：乙方提供設備出廠證明、型錄及數量清冊，甲方確認與報價單相符。",
+        "安裝完成驗收：依各子系統功能測試項目逐一測試，測試合格率須達 100%。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0064",
+      "paragraph_index": 64,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "設備進場驗收：乙方提供設備出廠證明、型錄及數量清冊，甲方確認與報價單相符。",
+      "context_before": [
+        "各里程碑驗收條件如下："
+      ],
+      "context_after": [
+        "安裝完成驗收：依各子系統功能測試項目逐一測試，測試合格率須達 100%。",
+        "系統整合驗收：整合平台須通過連續 72 小時穩定運行測試。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0065",
+      "paragraph_index": 65,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance",
+        "percentage"
+      ],
+      "text": "安裝完成驗收：依各子系統功能測試項目逐一測試，測試合格率須達 100%。",
+      "context_before": [
+        "設備進場驗收：乙方提供設備出廠證明、型錄及數量清冊，甲方確認與報價單相符。"
+      ],
+      "context_after": [
+        "系統整合驗收：整合平台須通過連續 72 小時穩定運行測試。",
+        "第八條　保固期限"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0066",
+      "paragraph_index": 66,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "系統整合驗收：整合平台須通過連續 72 小時穩定運行測試。",
+      "context_before": [
+        "安裝完成驗收：依各子系統功能測試項目逐一測試，測試合格率須達 100%。"
+      ],
+      "context_after": [
+        "第八條　保固期限",
+        "本工程自業主驗收合格日起，保固期限為二年。保固期間如發生非人為損壞之故障，乙方應於接獲通知後 8 小時內派員到場處理。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0068",
+      "paragraph_index": 68,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "第八條　保固期限",
+      "context_before": [
+        "系統整合驗收：整合平台須通過連續 72 小時穩定運行測試。"
+      ],
+      "context_after": [
+        "本工程自業主驗收合格日起，保固期限為二年。保固期間如發生非人為損壞之故障，乙方應於接獲通知後 8 小時內派員到場處理。",
+        "第九條　違約罰則"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0069",
+      "paragraph_index": 69,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "本工程自業主驗收合格日起，保固期限為二年。保固期間如發生非人為損壞之故障，乙方應於接獲通知後 8 小時內派員到場處理。",
+      "context_before": [
+        "第八條　保固期限"
+      ],
+      "context_after": [
+        "第九條　違約罰則",
+        "乙方如有下列情事，甲方得按日扣罰違約金："
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0071",
+      "paragraph_index": 71,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "第九條　違約罰則",
+      "context_before": [
+        "本工程自業主驗收合格日起，保固期限為二年。保固期間如發生非人為損壞之故障，乙方應於接獲通知後 8 小時內派員到場處理。"
+      ],
+      "context_after": [
+        "乙方如有下列情事，甲方得按日扣罰違約金：",
+        "工程進度落後超過 10% 者，每日按契約總價 0.1% 扣罰。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0072",
+      "paragraph_index": 72,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "乙方如有下列情事，甲方得按日扣罰違約金：",
+      "context_before": [
+        "第九條　違約罰則"
+      ],
+      "context_after": [
+        "工程進度落後超過 10% 者，每日按契約總價 0.1% 扣罰。",
+        "驗收未通過且逾期改善者，每日按該期金額 0.2% 扣罰。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0073",
+      "paragraph_index": 73,
+      "page_estimate": 5,
+      "labels": [
+        "percentage",
+        "total_amount"
+      ],
+      "text": "工程進度落後超過 10% 者，每日按契約總價 0.1% 扣罰。",
+      "context_before": [
+        "乙方如有下列情事，甲方得按日扣罰違約金："
+      ],
+      "context_after": [
+        "驗收未通過且逾期改善者，每日按該期金額 0.2% 扣罰。",
+        "第十條　其他約定"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0074",
+      "paragraph_index": 74,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance",
+        "percentage"
+      ],
+      "text": "驗收未通過且逾期改善者，每日按該期金額 0.2% 扣罰。",
+      "context_before": [
+        "工程進度落後超過 10% 者，每日按契約總價 0.1% 扣罰。"
+      ],
+      "context_after": [
+        "第十條　其他約定",
+        "本契約一式二份，雙方各執一份為憑。"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0076",
+      "paragraph_index": 76,
+      "page_estimate": 6,
+      "labels": [
+        "context"
+      ],
+      "text": "第十條　其他約定",
+      "context_before": [
+        "驗收未通過且逾期改善者，每日按該期金額 0.2% 扣罰。"
+      ],
+      "context_after": [
+        "本契約一式二份，雙方各執一份為憑。",
+        "立契約書人"
+      ]
+    },
+    {
+      "block_id": "06XX專案_block_0077",
+      "paragraph_index": 77,
+      "page_estimate": 6,
+      "labels": [
+        "context"
+      ],
+      "text": "本契約一式二份，雙方各執一份為憑。",
+      "context_before": [
+        "第十條　其他約定"
+      ],
+      "context_after": [
+        "立契約書人",
+        "甲方：___________________　　代表人：___________________"
+      ]
+    }
+  ],
+  "validation_status": "failed",
+  "contract_key": "06xx專案",
+  "version_number": 1,
+  "version_conflicts": []
+}

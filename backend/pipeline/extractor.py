@@ -88,7 +88,7 @@ ACCEPTANCE_MARKERS = (
     "檢測",
     "複驗",
 )
-EXTRACTION_PIPELINE_VERSION = "2026-04-26-task-llm-v1"
+EXTRACTION_PIPELINE_VERSION = "2026-04-27-citation-summary-v1"
 
 ZH_DIGITS = {
     "零": 0,
@@ -302,27 +302,42 @@ def collect_related_paragraphs(paragraphs: list[dict[str, Any]], start_index: in
 
 
 def extract_amount_from_text(text: str) -> int | None:
+    amount, _snippet = extract_amount_evidence(text)
+    return amount
+
+
+def extract_amount_evidence(text: str) -> tuple[int | None, str | None]:
     match = AMOUNT_PATTERN.search(text)
     if match:
-        return clean_number(match.group(1))
+        return clean_number(match.group(1)), match.group(0)
     if any(marker in text for marker in ("給付", "付款", "金額", "保固保證金", "合約總價")):
         any_match = ANY_AMOUNT_PATTERN.search(text)
         if any_match:
-            return clean_number(any_match.group(1) or any_match.group(2))
-    return None
+            return clean_number(any_match.group(1) or any_match.group(2)), any_match.group(0)
+    return None, None
 
 
-def build_citation(source_file: str, paragraph: dict[str, Any], snippet: str, field_name: str, regex_pattern: str | None) -> dict[str, Any]:
+def build_citation(
+    source_file: str,
+    paragraph: dict[str, Any],
+    snippet: str,
+    field_name: str,
+    regex_pattern: str | None,
+    citation_mode: str | None = None,
+) -> dict[str, Any]:
+    exact_index = paragraph["text"].find(snippet) if snippet else -1
+    exact_match = exact_index >= 0
     return {
         "field_name": field_name,
         "source_file": source_file,
         "para_start": paragraph["paragraph_index"],
         "para_end": paragraph["paragraph_index"],
         "page_estimate": paragraph["page_estimate"],
-        "char_offset_start": max(paragraph["text"].find(snippet), 0),
-        "char_offset_end": max(paragraph["text"].find(snippet), 0) + len(snippet),
+        "char_offset_start": exact_index if exact_match else -1,
+        "char_offset_end": (exact_index + len(snippet)) if exact_match else -1,
         "text_snippet": snippet[:300],
         "block_id": paragraph["block_id"],
+        "citation_mode": citation_mode or ("exact_span" if exact_match else "block_support"),
         "extraction_method": "regex",
         "regex_pattern": regex_pattern,
     }
@@ -576,10 +591,10 @@ def extract_milestones(source_file: str, paragraphs: list[dict[str, Any]]) -> li
         joined_text = stitch_paragraph_texts(related_paragraphs)
         for related in related_paragraphs:
             related_text = related["text"]
-            parsed_amount = extract_amount_from_text(related_text)
+            parsed_amount, amount_snippet = extract_amount_evidence(related_text)
             if parsed_amount is not None and amount is None:
                 amount = parsed_amount
-                milestone_citations.append(build_citation(source_file, related, str(parsed_amount), "milestone.amount", AMOUNT_PATTERN.pattern))
+                milestone_citations.append(build_citation(source_file, related, amount_snippet or str(parsed_amount), "milestone.amount", AMOUNT_PATTERN.pattern))
             percent_match = PERCENT_PATTERN.search(related_text)
             if percent_match and percentage is None:
                 if related is paragraph or any(marker in related_text for marker in ("付款比例", "占合約總價", "合約總價之")):
@@ -609,11 +624,23 @@ def extract_milestones(source_file: str, paragraphs: list[dict[str, Any]]) -> li
         if acceptance_criteria:
             milestone_citations.append(build_citation(source_file, paragraph, acceptance_criteria, "milestone.acceptance_criteria", "stitched_clause"))
         work_items = extract_work_items(paragraphs, offset)
+        work_items_derived = False
         if not work_items:
             work_items = derive_work_items_from_trigger(title, payment_condition)
+            work_items_derived = bool(work_items)
         if work_items:
             work_item_text = "\n".join(work_items)[:300]
-            milestone_citations.append(build_citation(source_file, paragraph, work_item_text, "milestone.work_items", None))
+            work_item_snippet = paragraph["text"][:200] if work_items_derived else work_item_text
+            milestone_citations.append(
+                build_citation(
+                    source_file,
+                    paragraph,
+                    work_item_snippet,
+                    "milestone.work_items",
+                    None,
+                    citation_mode="derived_from_block" if work_items_derived else None,
+                )
+            )
         if key not in milestones_by_key:
             milestones_by_key[key] = {
                 "milestone_id": f"m_{uuid4().hex[:10]}",
@@ -1141,6 +1168,33 @@ def choose_numeric_field(regex_value: int | float | None, llm_value: int | float
     return llm_value
 
 
+def llm_field_has_evidence(evidence: dict[str, Any], key: str) -> bool:
+    value = evidence.get(key, [])
+    return isinstance(value, list) and bool(value)
+
+
+def looks_like_generic_milestone_name(value: str | None) -> bool:
+    if not value:
+        return False
+    return bool(re.fullmatch(r"(第[一二三四五六七八九十\d]+期|里程碑[一二三四五六七八九十A-Z\d]+|工程節點[一二三四五六七八九十\d]+)", value.strip()))
+
+
+def choose_text_field(
+    *,
+    fallback_value: str | None,
+    llm_value: str | None,
+    has_llm_evidence: bool,
+    allow_generic_override: bool = False,
+) -> str | None:
+    if fallback_value and not has_llm_evidence:
+        return fallback_value
+    if fallback_value and llm_value:
+        if not allow_generic_override and looks_like_generic_milestone_name(llm_value) and len(fallback_value) > len(llm_value):
+            return fallback_value
+        return llm_value
+    return llm_value or fallback_value
+
+
 def regex_fallback_extraction(document: dict[str, Any]) -> dict[str, Any]:
     source_file = document["source_file"]
     paragraphs = document["paragraphs"]
@@ -1159,25 +1213,33 @@ def merge_llm_extraction(
     paragraphs = document["paragraphs"]
     paragraph_map = {paragraph["block_id"]: paragraph for paragraph in paragraphs}
     regex_milestones = {milestone["source_order"]: milestone for milestone in regex_result["milestones"]}
+    llm_milestone_map = {milestone["source_order"]: milestone for milestone in (llm_result.get("milestones") or [])}
     allowed_block_ids = set(llm_result.get("_allowed_block_ids", [])) or None
     numeric_disagreement_warnings: list[dict[str, Any]] = []
-    llm_milestones = llm_result.get("milestones") or [
-        {
-            "source_order": milestone["source_order"],
-            "name": milestone["name"],
-            "amount": milestone["amount"],
-            "percentage": milestone["percentage"],
-            "work_items": milestone["work_items"],
-            "acceptance_criteria": milestone["acceptance_criteria"],
-            "payment_condition": milestone["payment_condition"],
-            "status": milestone["status"],
+    milestones: list[dict[str, Any]] = []
+    milestone_orders = sorted(set(regex_milestones) | set(llm_milestone_map))
+    if regex_milestones and len(llm_milestone_map) < len(regex_milestones):
+        numeric_disagreement_warnings.append(
+            {
+                "code": "llm_partial_schedule_fallback",
+                "severity": "WARNING",
+                "message": f"LLM extracted only {len(llm_milestone_map)} milestones while regex extracted {len(regex_milestones)}; regex schedule completeness was preserved.",
+                "citations": [],
+            }
+        )
+    for order in milestone_orders:
+        fallback = regex_milestones.get(order, {})
+        item = llm_milestone_map.get(order) or {
+            "source_order": order,
+            "name": fallback.get("name"),
+            "amount": fallback.get("amount"),
+            "percentage": fallback.get("percentage"),
+            "work_items": fallback.get("work_items", []),
+            "acceptance_criteria": fallback.get("acceptance_criteria"),
+            "payment_condition": fallback.get("payment_condition"),
+            "status": fallback.get("status", "pending_acceptance"),
             "evidence": {},
         }
-        for milestone in regex_result["milestones"]
-    ]
-    milestones: list[dict[str, Any]] = []
-    for item in llm_milestones:
-        fallback = regex_milestones.get(item["source_order"], {})
         evidence = item.get("evidence", {})
         if fallback.get("amount") is not None and item.get("amount") is not None and abs(fallback["amount"] - item["amount"]) > 1:
             numeric_disagreement_warnings.append(
@@ -1205,18 +1267,39 @@ def merge_llm_extraction(
         milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("acceptance_block_ids", []), field_name="milestone.acceptance_criteria", allowed_block_ids=allowed_block_ids))
         milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("work_item_block_ids", []), field_name="milestone.work_items", allowed_block_ids=allowed_block_ids))
         milestone_citations = dedupe_citations(milestone_citations)
+        llm_name_has_evidence = llm_field_has_evidence(evidence, "name_block_ids")
+        llm_payment_has_evidence = llm_field_has_evidence(evidence, "payment_block_ids")
+        llm_acceptance_has_evidence = llm_field_has_evidence(evidence, "acceptance_block_ids")
+        llm_work_items_have_evidence = llm_field_has_evidence(evidence, "work_item_block_ids")
+        work_items = fallback.get("work_items", [])
+        if item.get("work_items") and llm_work_items_have_evidence:
+            work_items = item["work_items"]
         milestones.append(
             {
                 "milestone_id": fallback.get("milestone_id", f"m_{uuid4().hex[:10]}"),
-                "name": fallback.get("name") or item["name"],
+                "name": choose_text_field(
+                    fallback_value=fallback.get("name"),
+                    llm_value=item.get("name"),
+                    has_llm_evidence=llm_name_has_evidence,
+                ),
                 "amount": choose_numeric_field(fallback.get("amount"), item.get("amount")),
                 "percentage": choose_numeric_field(fallback.get("percentage"), item.get("percentage")),
-                "work_items": item.get("work_items") or fallback.get("work_items", []),
-                "acceptance_criteria": item.get("acceptance_criteria") or fallback.get("acceptance_criteria"),
-                "payment_condition": item.get("payment_condition") or fallback.get("payment_condition"),
+                "work_items": work_items,
+                "acceptance_criteria": choose_text_field(
+                    fallback_value=fallback.get("acceptance_criteria"),
+                    llm_value=item.get("acceptance_criteria"),
+                    has_llm_evidence=llm_acceptance_has_evidence,
+                    allow_generic_override=True,
+                ),
+                "payment_condition": choose_text_field(
+                    fallback_value=fallback.get("payment_condition"),
+                    llm_value=item.get("payment_condition"),
+                    has_llm_evidence=llm_payment_has_evidence,
+                    allow_generic_override=True,
+                ),
                 "status": item.get("status") or fallback.get("status", "pending_acceptance"),
                 "citations": milestone_citations,
-                "source_order": item["source_order"],
+                "source_order": order,
             }
         )
     total_citations = citations_from_block_ids(

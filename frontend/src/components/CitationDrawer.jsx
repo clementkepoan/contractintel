@@ -41,6 +41,7 @@ export function CitationDrawer({ citation, onClose, onOpenSource }) {
   }, [citation]);
 
   if (!citation) return null;
+  const hasOffsets = (citation.char_offset_start ?? -1) >= 0 && (citation.char_offset_end ?? -1) >= 0;
   return (
     <aside className="drawer" aria-label="Citation details">
       <div className="drawer-header">
@@ -63,7 +64,9 @@ export function CitationDrawer({ citation, onClose, onOpenSource }) {
           <dt>Block</dt>
           <dd>{citation.block_id || "-"}</dd>
           <dt>Offsets</dt>
-          <dd>{citation.char_offset_start ?? "-"}-{citation.char_offset_end ?? "-"}</dd>
+          <dd>{hasOffsets ? `${citation.char_offset_start}-${citation.char_offset_end}` : "-"}</dd>
+          <dt>Mode</dt>
+          <dd>{citation.citation_mode || "exact_span"}</dd>
           <dt>Method</dt>
           <dd>{citation.extraction_method || "-"}</dd>
           <dt>Pattern</dt>
