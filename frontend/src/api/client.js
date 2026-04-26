@@ -65,6 +65,33 @@ export const api = {
     form.append("file", file);
     return apiFetch("/api/ingest", { method: "POST", body: form });
   },
+  uploadWithProgress: (file, onProgress) => new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    const form = new FormData();
+    form.append("file", file);
+
+    xhr.upload.addEventListener("progress", (event) => {
+      if (event.lengthComputable) {
+        const percent = Math.round((event.loaded / event.total) * 100);
+        onProgress?.({ stage: "uploading", percent });
+      }
+    });
+    xhr.upload.addEventListener("load", () => {
+      onProgress?.({ stage: "processing", percent: 100 });
+    });
+    xhr.addEventListener("load", () => {
+      const contentType = xhr.getResponseHeader("content-type") || "";
+      const payload = contentType.includes("application/json") ? JSON.parse(xhr.responseText || "{}") : xhr.responseText;
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(payload);
+        return;
+      }
+      reject(new Error(readableError(xhr.status, payload)));
+    });
+    xhr.addEventListener("error", () => reject(new Error("Network error")));
+    xhr.open("POST", "/api/ingest");
+    xhr.send(form);
+  }),
 };
 
 export function formatMoney(value, currency = "TWD") {

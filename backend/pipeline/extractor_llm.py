@@ -1,15 +1,33 @@
 from __future__ import annotations
 
 import json
+import logging
+import time
 from typing import Any
 
-from backend.pipeline.llm import llm_available, query_local_llm
+from backend.pipeline.llm import llm_available, query_local_llm_detailed
+
+logger = logging.getLogger(__name__)
+_LAST_LLM_ATTEMPT_META: dict[str, Any] = {
+    "extraction_path": "regex_fallback",
+    "fallback_reason": "none",
+    "prompt_tokens": 0,
+    "llm_ms": 0,
+}
 
 _MAX_LOCATOR_BLOCKS = 24
 _MAX_MILESTONES = 8
 _MAX_WORK_ITEMS = 3
 _MAX_TEXT = 400
 _MAX_CONTEXT_TEXT = 220
+
+
+def estimate_prompt_tokens(prompt: str) -> int:
+    return max(1, len(prompt) // 4) if prompt else 0
+
+
+def get_last_llm_attempt_meta() -> dict[str, Any]:
+    return dict(_LAST_LLM_ATTEMPT_META)
 
 
 def _coerce_int(value: Any) -> int | None:
@@ -70,6 +88,25 @@ def _extract_json_object(raw: str) -> dict[str, Any] | None:
         return parsed if isinstance(parsed, dict) else None
     except json.JSONDecodeError:
         return None
+
+
+def validate_llm_response_schema(parsed: dict[str, Any]) -> tuple[bool, str]:
+    required_top_level = ["milestones"]
+    for field in required_top_level:
+        if field not in parsed:
+            return False, f"missing_field:{field}"
+    if not isinstance(parsed["milestones"], list):
+        return False, "milestones_not_array"
+    for index, milestone in enumerate(parsed["milestones"]):
+        if not isinstance(milestone, dict):
+            return False, f"milestone_{index}_not_object"
+        if "name" not in milestone:
+            return False, f"milestone_{index}_missing_name"
+        if "amount" in milestone and milestone["amount"] is not None and not isinstance(milestone["amount"], (int, float)):
+            return False, f"milestone_{index}_amount_wrong_type"
+        if "percentage" in milestone and milestone["percentage"] is not None and not isinstance(milestone["percentage"], (int, float)):
+            return False, f"milestone_{index}_percentage_wrong_type"
+    return True, "ok"
 
 
 def _coerce_block_ids(value: Any) -> list[str]:
@@ -306,8 +343,6 @@ def extract_contract_with_llm(
     regex_fallback: dict[str, Any],
     validation_issues: list[dict[str, Any]],
 ) -> dict[str, Any] | None:
-    if not llm_available():
-        return None
     prompt = _prompt_payload(
         source_file=source_file,
         doc_category=doc_category,
@@ -315,16 +350,55 @@ def extract_contract_with_llm(
         regex_fallback=regex_fallback,
         validation_issues=validation_issues,
     )
-    raw = query_local_llm(prompt, timeout=90.0)
+    prompt_tokens = estimate_prompt_tokens(prompt)
+
+    def log_attempt(*, llm_succeeded: bool, llm_ms: int, fallback_reason: str) -> None:
+        global _LAST_LLM_ATTEMPT_META
+        _LAST_LLM_ATTEMPT_META = {
+            "extraction_path": "llm" if llm_succeeded else "regex_fallback",
+            "fallback_reason": fallback_reason,
+            "prompt_tokens": prompt_tokens,
+            "llm_ms": llm_ms,
+        }
+        logger.info(
+            "[EXTRACTION] file=%s | path=%s | prompt_tokens=%s | llm_ms=%s | fallback_reason=%s",
+            source_file,
+            "llm" if llm_succeeded else "regex_fallback",
+            prompt_tokens,
+            llm_ms,
+            fallback_reason,
+        )
+
+    if not llm_available():
+        log_attempt(llm_succeeded=False, llm_ms=0, fallback_reason="ollama_unavailable")
+        return None
+
+    started = time.perf_counter()
+    llm_response = query_local_llm_detailed(prompt, timeout=120.0)
+    llm_ms = int((time.perf_counter() - started) * 1000)
+    raw = llm_response.get("response")
+    error = llm_response.get("error")
+    if error == "timeout":
+        log_attempt(llm_succeeded=False, llm_ms=llm_ms, fallback_reason="timeout")
+        return None
     if not raw:
+        fallback_reason = "empty_response" if error is None else "ollama_unavailable"
+        log_attempt(llm_succeeded=False, llm_ms=llm_ms, fallback_reason=fallback_reason)
         return None
     parsed = _extract_json_object(raw)
     if not parsed:
+        log_attempt(llm_succeeded=False, llm_ms=llm_ms, fallback_reason="invalid_json")
+        return None
+    is_valid, _reason = validate_llm_response_schema(parsed)
+    if not is_valid:
+        log_attempt(llm_succeeded=False, llm_ms=llm_ms, fallback_reason="invalid_json")
         return None
     milestones = _normalize_milestones(parsed.get("milestones"))
     total_amount = _coerce_int(parsed.get("total_amount"))
     if total_amount is None and not milestones:
+        log_attempt(llm_succeeded=False, llm_ms=llm_ms, fallback_reason="empty_response")
         return None
+    log_attempt(llm_succeeded=True, llm_ms=llm_ms, fallback_reason="none")
     return {
         "doc_category": _coerce_string(parsed.get("doc_category")),
         "contract_type": _coerce_string(parsed.get("contract_type")) or "lump_sum",
@@ -335,4 +409,10 @@ def extract_contract_with_llm(
         "milestones": milestones,
         "retention": _normalize_retention(parsed.get("retention")),
         "progress_checkpoints": _normalize_progress_checkpoints(parsed.get("progress_checkpoints")),
+        "_meta": {
+            "extraction_path": "llm",
+            "fallback_reason": "none",
+            "prompt_tokens": prompt_tokens,
+            "llm_ms": llm_ms,
+        },
     }

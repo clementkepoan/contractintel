@@ -1167,6 +1167,102 @@ td strong, td small {
   background: #18253a;
 }
 
+.upload-progress {
+  background: white;
+  border: 1px solid var(--surface-line);
+  border-radius: 4px;
+  padding: 16px 18px;
+}
+
+.upload-progress__header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.upload-progress__header strong {
+  font-size: 14px;
+}
+
+.upload-progress__header span {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.upload-progress__track {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.upload-progress__fill {
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.upload-progress--processing .upload-progress__fill {
+  width: 100% !important;
+  animation: indeterminate 1.5s ease-in-out infinite;
+  background: linear-gradient(90deg, #3b82f6 0%, #93c5fd 50%, #3b82f6 100%);
+  background-size: 200% 100%;
+}
+
+.skeleton-list {
+  display: grid;
+  gap: 12px;
+}
+
+.skeleton-card {
+  padding: 16px;
+  border: 1px solid var(--surface-line);
+  border-radius: 4px;
+  background: white;
+}
+
+.skeleton-line {
+  height: 14px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-line--title {
+  width: 60%;
+  height: 18px;
+}
+
+.skeleton-line--short {
+  width: 35%;
+}
+
+@keyframes indeterminate {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 .overview-table-card, .deliverables-card, .warning-board, .contract-title-card, .contract-meta-card, .milestone-hero-card, .milestone-panel, .evidence-panel, .workflow-board, .financial-summary-card, .acceptance-form-card, .session-history-card, .analysis-card, .evidence-result-card, .query-composer, .wiki-tree-card, .wiki-content-panel {
   background: white;
   border: 1px solid var(--surface-line);
@@ -2027,6 +2123,11 @@ td strong, td small {
   }
 
   .overview-toolbar, .detail-header-bar, .workflow-headline, .wiki-content-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .upload-progress__header {
     align-items: flex-start;
     flex-direction: column;
   }

@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import json
+import logging
 from pathlib import Path
 from typing import Any
 from uuid import NAMESPACE_URL, uuid4, uuid5
 
+from sqlalchemy import delete
 from fastapi import UploadFile
 from sqlmodel import select
 
@@ -16,6 +18,8 @@ from backend.pipeline.ingestion import compute_sha256, load_document, persist_up
 from backend.pipeline.validation import validate_contract_data
 from backend.kg.graph import build_graph
 from backend.wiki.generator import rebuild_contract_artifacts, resolve_contract_wiki_paths
+
+logger = logging.getLogger(__name__)
 
 
 def persist_extracted_json(contract_id: str, extracted: dict[str, Any]) -> Path:
@@ -110,6 +114,79 @@ def expected_wiki_pages(contract_key: str, version_number: int, milestones: list
     return pages
 
 
+def _store_contract_children(session: Any, contract_id: str, extracted: dict[str, Any]) -> None:
+    for milestone in extracted["milestones"]:
+        session.add(
+            Milestone(
+                milestone_id=milestone["milestone_id"],
+                milestone_key=milestone["milestone_key"],
+                contract_id=contract_id,
+                name=milestone["name"],
+                source_order=milestone["source_order"],
+                amount=milestone["amount"],
+                percentage=milestone["percentage"],
+                work_items_json=json.dumps(milestone["work_items"], ensure_ascii=False),
+                acceptance_criteria=milestone["acceptance_criteria"],
+                payment_condition=milestone["payment_condition"],
+                status=milestone["status"],
+                citations_json=json.dumps(milestone["citations"], ensure_ascii=False),
+            )
+        )
+    for citation in extracted["citations"]:
+        session.add(
+            Citation(
+                contract_id=contract_id,
+                milestone_id=None,
+                field_name=citation["field_name"],
+                source_file=citation["source_file"],
+                para_start=citation["para_start"],
+                para_end=citation["para_end"],
+                page_estimate=citation["page_estimate"],
+                char_offset_start=citation["char_offset_start"],
+                char_offset_end=citation["char_offset_end"],
+                text_snippet=citation["text_snippet"],
+                block_id=citation["block_id"],
+                extraction_method=citation["extraction_method"],
+                regex_pattern=citation["regex_pattern"],
+            )
+        )
+    for milestone in extracted["milestones"]:
+        for citation in milestone["citations"]:
+            session.add(
+                Citation(
+                    contract_id=contract_id,
+                    milestone_id=milestone["milestone_id"],
+                    field_name=citation["field_name"],
+                    source_file=citation["source_file"],
+                    para_start=citation["para_start"],
+                    para_end=citation["para_end"],
+                    page_estimate=citation["page_estimate"],
+                    char_offset_start=citation["char_offset_start"],
+                    char_offset_end=citation["char_offset_end"],
+                    text_snippet=citation["text_snippet"],
+                    block_id=citation["block_id"],
+                    extraction_method=citation["extraction_method"],
+                    regex_pattern=citation["regex_pattern"],
+                )
+            )
+    for warning in extracted["validation"]:
+        session.add(
+            ValidationWarning(
+                contract_id=contract_id,
+                code=warning["code"],
+                severity=warning["severity"],
+                message=warning["message"],
+                citations_json=json.dumps(warning["citations"], ensure_ascii=False),
+            )
+        )
+
+
+def _clear_contract_children(session: Any, contract_id: str) -> None:
+    session.exec(delete(Citation).where(Citation.contract_id == contract_id))
+    session.exec(delete(ValidationWarning).where(ValidationWarning.contract_id == contract_id))
+    session.exec(delete(Milestone).where(Milestone.contract_id == contract_id))
+
+
 def _store_contract(session: Any, extracted: dict[str, Any], source_file: str, source_hash: str, raw_json_path: Path) -> Contract:
     contract_id = f"c_{uuid4().hex[:10]}"
     contract_key = extracted.get("contract_key") or contract_key_from_source(source_file)
@@ -134,51 +211,7 @@ def _store_contract(session: Any, extracted: dict[str, Any], source_file: str, s
     )
     session.add(contract)
     session.flush()
-    for milestone in extracted["milestones"]:
-        session.add(
-            Milestone(
-                milestone_id=milestone["milestone_id"],
-                milestone_key=milestone["milestone_key"],
-                contract_id=contract.contract_id,
-                name=milestone["name"],
-                source_order=milestone["source_order"],
-                amount=milestone["amount"],
-                percentage=milestone["percentage"],
-                work_items_json=json.dumps(milestone["work_items"], ensure_ascii=False),
-                acceptance_criteria=milestone["acceptance_criteria"],
-                payment_condition=milestone["payment_condition"],
-                status=milestone["status"],
-                citations_json=json.dumps(milestone["citations"], ensure_ascii=False),
-            )
-        )
-    for citation in extracted["citations"]:
-        session.add(
-            Citation(
-                contract_id=contract.contract_id,
-                milestone_id=None,
-                field_name=citation["field_name"],
-                source_file=citation["source_file"],
-                para_start=citation["para_start"],
-                para_end=citation["para_end"],
-                page_estimate=citation["page_estimate"],
-                char_offset_start=citation["char_offset_start"],
-                char_offset_end=citation["char_offset_end"],
-                text_snippet=citation["text_snippet"],
-                block_id=citation["block_id"],
-                extraction_method=citation["extraction_method"],
-                regex_pattern=citation["regex_pattern"],
-            )
-        )
-    for warning in extracted["validation"]:
-        session.add(
-            ValidationWarning(
-                contract_id=contract.contract_id,
-                code=warning["code"],
-                severity=warning["severity"],
-                message=warning["message"],
-                citations_json=json.dumps(warning["citations"], ensure_ascii=False),
-            )
-        )
+    _store_contract_children(session, contract.contract_id, extracted)
     session.commit()
     session.refresh(contract)
     return contract
@@ -269,6 +302,84 @@ def compute_version_conflicts(previous: dict[str, Any] | None, current: dict[str
         if milestone_key not in current_milestones:
             conflicts.append({"field": f"milestones.{milestone_key}", "old": milestone.get("name"), "new": None})
     return conflicts
+
+
+def _load_payload(path: Path | str) -> dict[str, Any] | None:
+    target = Path(path)
+    if not target.exists():
+        return None
+    return json.loads(target.read_text(encoding="utf-8"))
+
+
+def _apply_contract_refresh(
+    session: Any,
+    *,
+    contract: Contract,
+    extracted: dict[str, Any],
+    source_hash: str,
+    action: str,
+    version_conflicts: list[dict[str, Any]],
+    old_revision: str | None,
+) -> dict[str, Any]:
+    raw_json_path = persist_extracted_json(contract.contract_id, extracted)
+    contract.contract_name = extracted["contract_name"]
+    contract.doc_category = extracted["doc_category"]
+    contract.contract_type = extracted["contract_type"]
+    contract.currency = extracted["currency"]
+    contract.total_amount = extracted["total_amount"]
+    contract.total_amount_is_tax_included = extracted["total_amount_is_tax_included"]
+    contract.extraction_method = extracted["extraction_method"]
+    contract.validation_status = extracted["validation_status"]
+    contract.raw_json_path = str(raw_json_path)
+    contract.source_hash = source_hash
+    session.add(contract)
+    _clear_contract_children(session, contract.contract_id)
+    _store_contract_children(session, contract.contract_id, extracted)
+    write_ingest_event(
+        session,
+        contract_key=contract.contract_key,
+        contract_id=contract.contract_id,
+        version_number=contract.version_number,
+        source_file=contract.source_file,
+        source_hash=source_hash,
+        action=action,
+        diff=version_conflicts,
+        pages=expected_wiki_pages(contract.contract_key, contract.version_number, extracted["milestones"]),
+    )
+    session.commit()
+    write_chunk_index(contract.contract_id, extracted)
+    rebuild_contract_artifacts(
+        session,
+        latest_contract_id=contract.contract_id,
+        source_file=contract.source_file,
+        version_conflicts=version_conflicts,
+        action=action,
+    )
+    build_graph(session)
+    wiki_paths = resolve_contract_wiki_paths(session, contract.contract_id)
+    logger.info(
+        "[REPROCESS] file=%s | old_revision=%s | new_revision=%s | path=%s",
+        contract.source_file,
+        old_revision or "-",
+        extracted.get("pipeline_revision", EXTRACTION_PIPELINE_VERSION),
+        extracted.get("_meta", {}).get("extraction_path", extracted.get("extraction_method", "regex_fallback")),
+    )
+    return {
+        "contract_id": contract.contract_id,
+        "contract_key": contract.contract_key,
+        "version_number": contract.version_number,
+        "contract_name": contract.contract_name,
+        "total_amount": contract.total_amount,
+        "currency": contract.currency,
+        "milestones_extracted": len(extracted["milestones"]),
+        "validation_warnings": extracted["validation"],
+        "citations_generated": len(extracted["citations"]) + sum(len(item["citations"]) for item in extracted["milestones"]),
+        "wiki_updated": True,
+        "ingest_action": action,
+        "doc_category": extracted["doc_category"],
+        "version_conflicts": version_conflicts,
+        **wiki_paths,
+    }
 
 
 def ingest_upload(session: Any, upload: UploadFile) -> dict[str, Any]:
@@ -463,3 +574,86 @@ def ingest_upload(session: Any, upload: UploadFile) -> dict[str, Any]:
         "version_conflicts": extracted["version_conflicts"],
         **wiki_paths,
     }
+
+
+def reprocess_contract(
+    session: Any,
+    contract: Contract,
+) -> dict[str, Any]:
+    source_path = settings.uploads_dir / contract.source_file
+    if not source_path.exists():
+        raise FileNotFoundError(source_path)
+    content = source_path.read_bytes()
+    source_hash = compute_sha256(content)
+    previous_payload = _load_payload(contract.raw_json_path)
+    old_revision = previous_payload.get("pipeline_revision") if previous_payload else None
+    if source_hash == contract.source_hash and old_revision == EXTRACTION_PIPELINE_VERSION:
+        logger.info(
+            "[REPROCESS] file=%s | old_revision=%s | new_revision=%s | path=%s",
+            contract.source_file,
+            old_revision or "-",
+            EXTRACTION_PIPELINE_VERSION,
+            "skip",
+        )
+        return {"status": "skipped", "file": contract.source_file, "reason": "up_to_date"}
+    document = load_document(source_path)
+    extracted = extract_contract_data(document)
+    validate_contract_data(extracted)
+    apply_stable_milestone_identity(contract.contract_id, extracted)
+    extracted["contract_key"] = contract.contract_key
+    extracted["version_number"] = contract.version_number
+    previous_contract = session.get(Contract, contract.supersedes_contract_id) if contract.supersedes_contract_id else None
+    previous_version_payload = _load_payload(previous_contract.raw_json_path) if previous_contract else None
+    extracted["version_conflicts"] = compute_version_conflicts(previous_version_payload, extracted)
+    result = _apply_contract_refresh(
+        session,
+        contract=contract,
+        extracted=extracted,
+        source_hash=source_hash,
+        action="reprocessed",
+        version_conflicts=extracted["version_conflicts"],
+        old_revision=old_revision,
+    )
+    return {"status": "processed", "file": contract.source_file, "result": result}
+
+
+def reprocess_documents(
+    session: Any,
+    *,
+    target: str,
+    filename: str | None = None,
+    revision: str | None = None,
+) -> dict[str, Any]:
+    contracts = session.exec(select(Contract).where(Contract.is_superseded == False).order_by(Contract.created_at.desc())).all()  # noqa: E712
+    selected: list[Contract] = []
+    if target == "all":
+        selected = contracts
+    elif target == "file":
+        selected = [contract for contract in contracts if contract.source_file == filename]
+    elif target == "since_revision":
+        selected = [
+            contract
+            for contract in contracts
+            if (_load_payload(contract.raw_json_path) or {}).get("pipeline_revision") != revision
+        ]
+    else:
+        raise ValueError(f"Unsupported reprocess target: {target}")
+
+    processed = 0
+    failed: list[dict[str, str]] = []
+    skipped: list[str] = []
+    items: list[dict[str, Any]] = []
+    if target == "file" and not selected and filename:
+        failed.append({"file": filename, "error": "active_contract_not_found"})
+        return {"processed": 0, "failed": failed, "skipped": [], "items": []}
+    for contract in selected:
+        try:
+            outcome = reprocess_contract(session, contract)
+            items.append(outcome)
+            if outcome["status"] == "processed":
+                processed += 1
+            else:
+                skipped.append(contract.source_file)
+        except Exception as exc:
+            failed.append({"file": contract.source_file, "error": str(exc)})
+    return {"processed": processed, "failed": failed, "skipped": skipped, "items": items}

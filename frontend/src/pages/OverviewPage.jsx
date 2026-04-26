@@ -11,12 +11,52 @@ function workflowTone(milestones = []) {
   return "Active";
 }
 
+function UploadProgressBar({ stage, percent, filename }) {
+  if (stage === "idle") return null;
+  const processing = stage === "processing";
+  return (
+    <div className={processing ? "upload-progress upload-progress--processing" : "upload-progress"}>
+      <div className="upload-progress__header">
+        <strong>{filename || "Document upload"}</strong>
+        <span>
+          {stage === "uploading" ? `Uploading... ${percent}%` : null}
+          {stage === "processing" ? "Extracting and indexing..." : null}
+          {stage === "done" ? "Completed" : null}
+          {stage === "error" ? "Failed" : null}
+        </span>
+      </div>
+      <div className="upload-progress__track">
+        <div className="upload-progress__fill" style={{ width: processing ? "100%" : `${percent}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function SkeletonCard() {
+  return (
+    <div className="skeleton-card">
+      <div className="skeleton-line skeleton-line--title" />
+      <div className="skeleton-line skeleton-line--short" />
+      <div className="skeleton-line" />
+      <div className="skeleton-line skeleton-line--short" />
+    </div>
+  );
+}
+
+function SkeletonMilestoneList() {
+  return (
+    <div className="skeleton-list">
+      {[1, 2, 3].map((index) => <SkeletonCard key={index} />)}
+    </div>
+  );
+}
+
 export function OverviewPage({ setPage, setSelectedContractId, setSelectedWikiPath }) {
   const [contracts, setContracts] = useState([]);
   const [financials, setFinancials] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [uploading, setUploading] = useState(false);
+  const [uploadState, setUploadState] = useState({ stage: "idle", percent: 0, filename: null, error: null });
   const [typeFilter, setTypeFilter] = useState("all");
   const [validationFilter, setValidationFilter] = useState("all");
 
@@ -56,18 +96,23 @@ export function OverviewPage({ setPage, setSelectedContractId, setSelectedWikiPa
 
   async function upload(file) {
     if (!file) return;
-    setUploading(true);
+    setUploadState({ stage: "uploading", percent: 0, filename: file.name, error: null });
     setError(null);
     try {
-      const result = await api.upload(file);
+      const result = await api.uploadWithProgress(file, ({ stage, percent }) => {
+        setUploadState((current) => ({ ...current, stage, percent }));
+      });
       await load();
       setSelectedContractId(result.contract_id);
       setSelectedWikiPath("");
-      // Keep the user on the overview page after import so the new contract appears in-place.
+      setUploadState((current) => ({ ...current, stage: "done", percent: 100 }));
     } catch (err) {
       setError(err);
+      setUploadState((current) => ({ ...current, stage: "error", error: err.message || String(err) }));
     } finally {
-      setUploading(false);
+      window.setTimeout(() => {
+        setUploadState((current) => (current.stage === "done" ? { stage: "idle", percent: 0, filename: null, error: null } : current));
+      }, 1200);
     }
   }
 
@@ -114,10 +159,13 @@ export function OverviewPage({ setPage, setSelectedContractId, setSelectedWikiPa
         </div>
         <label className="file-button dark">
           <Upload size={16} />
-          {uploading ? "Importing..." : "Import .doc/.docx"}
-          <input type="file" accept=".doc,.docx" disabled={uploading} onChange={(event) => upload(event.target.files?.[0])} />
+          {uploadState.stage === "idle" ? "Import .doc/.docx" : "Importing..."}
+          <input type="file" accept=".doc,.docx" disabled={uploadState.stage === "uploading" || uploadState.stage === "processing"} onChange={(event) => upload(event.target.files?.[0])} />
         </label>
       </div>
+      <UploadProgressBar stage={uploadState.stage} percent={uploadState.percent} filename={uploadState.filename} />
+      {uploadState.stage === "processing" ? <SkeletonMilestoneList /> : null}
+      {uploadState.stage === "error" && uploadState.error ? <ErrorBlock error={{ message: uploadState.error }} /> : null}
       {!filtered.length ? <EmptyBlock label="No contracts imported yet. Upload a .doc or .docx file to begin." /> : null}
       {filtered.length ? (
         <div className="overview-table-card">

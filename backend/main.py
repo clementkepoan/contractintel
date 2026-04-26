@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from backend.api.admin import router as admin_router
 from backend.api.contracts import router as contracts_router
 from backend.api.ingest import router as ingest_router
 from backend.api.kg import router as kg_router
@@ -52,6 +53,7 @@ def health() -> dict:
 
 
 app.include_router(ingest_router)
+app.include_router(admin_router)
 app.include_router(contracts_router)
 app.include_router(milestones_router)
 app.include_router(workflow_router)

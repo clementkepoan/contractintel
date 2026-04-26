@@ -3,6 +3,7 @@ import pytest
 from backend.pipeline import extractor as extractor_module
 from backend.pipeline import extractor_llm
 from backend.pipeline.extractor import extract_contract_data, zh_to_int
+from backend.pipeline.extractor_llm import validate_llm_response_schema
 from backend.pipeline.ingestion import classify_document, load_document
 from backend.pipeline.indexer import reciprocal_rank_fusion
 from backend.pipeline.validation import validate_contract_data
@@ -36,7 +37,21 @@ def test_extract_contract_data_returns_milestones_and_validation() -> None:
     assert len(extracted["milestones"]) == 2
     assert extracted["milestones"][0]["amount"] == 500000
     assert extracted["milestones"][0]["citations"]
+    assert extracted["_meta"]["extraction_path"] == "regex_fallback"
+    assert extracted["_meta"]["pipeline_revision"]
     assert not any(item["code"] == "missing_total_amount" for item in warnings)
+
+
+def test_validate_llm_response_schema_rejects_bad_types() -> None:
+    valid, reason = validate_llm_response_schema({"milestones": [{"name": "第一期", "amount": "500000"}]})
+    assert valid is False
+    assert reason == "milestone_0_amount_wrong_type"
+
+
+def test_validate_llm_response_schema_accepts_minimal_shape() -> None:
+    valid, reason = validate_llm_response_schema({"milestones": [{"name": "第一期", "amount": 500000, "percentage": 50.0}]})
+    assert valid is True
+    assert reason == "ok"
 
 
 def test_real_sample_01_is_treated_as_reference_document() -> None:
@@ -288,7 +303,7 @@ def test_hybrid_path_fills_missing_fields_from_llm(monkeypatch) -> None:
 
 def test_llm_normalization_fallback_when_unavailable(monkeypatch) -> None:
     monkeypatch.setattr(extractor_llm, "llm_available", lambda: False)
-    monkeypatch.setattr(extractor_llm, "query_local_llm", lambda *_args, **_kwargs: "{\"total_amount\": 1}")
+    monkeypatch.setattr(extractor_llm, "query_local_llm_detailed", lambda *_args, **_kwargs: {"response": "{\"total_amount\": 1}", "error": None})
     normalized = extractor_llm.extract_contract_with_llm(
         source_file="fallback.docx",
         doc_category="contract",
