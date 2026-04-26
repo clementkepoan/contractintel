@@ -10,7 +10,7 @@ from sqlmodel import select
 
 from backend.config import settings
 from backend.db.models import Citation, Contract, IngestEvent, Milestone, ValidationWarning
-from backend.pipeline.extractor import extract_contract_data, serialize_json
+from backend.pipeline.extractor import EXTRACTION_PIPELINE_VERSION, extract_contract_data, serialize_json
 from backend.pipeline.indexer import write_chunk_index
 from backend.pipeline.ingestion import compute_sha256, load_document, persist_upload
 from backend.pipeline.validation import validate_contract_data
@@ -277,7 +277,13 @@ def ingest_upload(session: Any, upload: UploadFile) -> dict[str, Any]:
     source_hash = compute_sha256(content)
     contract_key = contract_key_from_source(upload.filename)
     previous_contract = active_contract_for_key(session, contract_key)
-    if previous_contract and previous_contract.source_hash == source_hash:
+    previous_payload = None
+    if previous_contract:
+        previous_path = Path(previous_contract.raw_json_path)
+        if previous_path.exists():
+            previous_payload = json.loads(previous_path.read_text(encoding="utf-8"))
+    current_pipeline_revision = previous_payload.get("pipeline_revision") if previous_payload else None
+    if previous_contract and previous_contract.source_hash == source_hash and current_pipeline_revision == EXTRACTION_PIPELINE_VERSION:
         write_ingest_event(
             session,
             contract_key=contract_key,
@@ -321,11 +327,6 @@ def ingest_upload(session: Any, upload: UploadFile) -> dict[str, Any]:
     document = load_document(persisted_path)
     extracted = extract_contract_data(document)
     validate_contract_data(extracted)
-    previous_payload = None
-    if previous_contract:
-        previous_path = Path(previous_contract.raw_json_path)
-        if previous_path.exists():
-            previous_payload = json.loads(previous_path.read_text(encoding="utf-8"))
     contract_id = f"c_{uuid4().hex[:10]}"
     latest_contract = latest_contract_for_key(session, contract_key)
     version_number = (latest_contract.version_number + 1) if latest_contract else 1

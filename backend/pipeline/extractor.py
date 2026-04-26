@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import copy
 import json
 import re
 from typing import Any
 from uuid import uuid4
 
 from backend.config import settings
+from backend.pipeline.extractor_llm import extract_contract_with_llm
+from backend.pipeline.validation import validate_contract_data
 
 TOTAL_PATTERNS = [
     re.compile(r"新[臺台]幣\s*(?:[零一二三四五六七八九十百千萬億壹貳參肆伍陸柒捌玖拾佰仟兩]+)?\s*[（(]?(?:NT\$|NTD|TWD)?\s*([\d,]+)\s*[）)]?\s*元?"),
@@ -28,6 +31,50 @@ CHINESE_NUMERAL_PATTERN = re.compile(r"[零一二三四五六七八九十百千�
 INSTALLMENT_PATTERN = re.compile(r"分([一二三四五六七八九十\d]+)期")
 SECTION_HEADING_PATTERN = re.compile(r"^第[一二三四五六七八九十\d]+條")
 CHECKPOINT_PATTERN = re.compile(r"(查驗點[一二三四五六七八九十\d]+[^\n，。]*)")
+WORK_ITEM_LABELS = {"工作項目", "完成條件"}
+ADMINISTRATIVE_WORK_ITEM_MARKERS = (
+    "乙方應依前項約定",
+    "開具請領發票",
+    "請領發票憑證",
+    "相關請款文件",
+    "發票日後",
+    "給付該期款項",
+    "取得全部或當期工程款",
+    "暫行停止計價付款",
+    "暫停付款",
+    "甲方有權暫行停止計價付款",
+    "甲方有權暫停付款",
+    "付款條件",
+    "付款辦法",
+    "請款及付款日期",
+)
+WORK_ITEM_STOP_MARKERS = (
+    "付款時機",
+    "付款金額",
+    "驗收條件",
+    "甲方應給付",
+    "本契約總價",
+    "工程總價",
+    "契約總價",
+)
+TASKISH_MARKERS = (
+    "完成",
+    "提交",
+    "送審",
+    "投保",
+    "進場",
+    "安裝",
+    "測試",
+    "整合",
+    "交貨",
+    "提出",
+    "訓練",
+    "圖說",
+    "手冊",
+    "建置",
+    "驗收",
+)
+EXTRACTION_PIPELINE_VERSION = "2026-04-26-hybrid-context-v2"
 
 ZH_DIGITS = {
     "零": 0,
@@ -125,6 +172,62 @@ def milestone_term_type(text: str) -> str | None:
 
 def clean_work_item(text: str) -> str:
     return re.sub(r"^(?:[\-•●‧\s]*|\d+[.、\s]+|[一二三四五六七八九十]+[.、\s]+)", "", text.strip()).strip()
+
+
+def is_administrative_payment_text(text: str) -> bool:
+    return any(marker in text for marker in ADMINISTRATIVE_WORK_ITEM_MARKERS)
+
+
+def looks_like_task_item(text: str) -> bool:
+    if is_administrative_payment_text(text):
+        return False
+    if is_payment_header(text) or SECTION_HEADING_PATTERN.search(text):
+        return False
+    return any(marker in text for marker in TASKISH_MARKERS) or len(text) <= 48
+
+
+def stitch_paragraph_texts(paragraphs: list[dict[str, Any]]) -> str:
+    parts: list[str] = []
+    for paragraph in paragraphs:
+        text = paragraph["text"].strip()
+        if not text:
+            continue
+        if not parts:
+            parts.append(text)
+            continue
+        previous = parts[-1]
+        if previous.endswith(("總", "金", "價", "合", "第", "期", "款", "之")) and len(text) <= 40:
+            parts[-1] = previous + text
+        elif len(previous) <= 20 and not previous.endswith(("。", "；", "：", ":")) and len(text) <= 40:
+            parts[-1] = f"{previous}{text}"
+        else:
+            parts.append(text)
+    return " ".join(parts)
+
+
+def trim_payment_clause_text(text: str) -> str:
+    trimmed = text
+    for marker in ("工作項目：", "工作項目:", "【備註】"):
+        if marker in trimmed:
+            trimmed = trimmed.split(marker, 1)[0].strip()
+    return trimmed
+
+
+def collect_related_paragraphs(paragraphs: list[dict[str, Any]], start_index: int, limit: int = 8) -> list[dict[str, Any]]:
+    related: list[dict[str, Any]] = []
+    for related_paragraph in paragraphs[start_index : start_index + limit]:
+        if related_paragraph is not paragraphs[start_index] and is_payment_header(related_paragraph["text"]):
+            break
+        if related_paragraph is not paragraphs[start_index] and SECTION_HEADING_PATTERN.search(related_paragraph["text"]):
+            break
+        if related_paragraph is not paragraphs[start_index]:
+            related_text = related_paragraph["text"].strip()
+            if is_administrative_payment_text(related_text):
+                break
+            if WORK_ITEM_PATTERN.search(related_text) and extract_amount_from_text(related_text) is None and not PERCENT_PATTERN.search(related_text):
+                break
+        related.append(related_paragraph)
+    return related
 
 
 def extract_amount_from_text(text: str) -> int | None:
@@ -259,8 +362,10 @@ def extract_total_amount(source_file: str, paragraphs: list[dict[str, Any]]) -> 
 def extract_work_items(paragraphs: list[dict[str, Any]], start_index: int) -> list[str]:
     work_items: list[str] = []
     start_text = paragraphs[start_index]["text"]
-    collecting = milestone_term_type(start_text) in {"工程節點", "phase"}
-    for paragraph in paragraphs[start_index + 1 :]:
+    collecting = False
+    explicit_label = False
+    implicit_mode = milestone_term_type(start_text) in {"工程節點", "phase"}
+    for offset, paragraph in enumerate(paragraphs[start_index + 1 :], start=1):
         text = paragraph["text"].strip()
         if not text:
             if collecting:
@@ -268,17 +373,47 @@ def extract_work_items(paragraphs: list[dict[str, Any]], start_index: int) -> li
             continue
         if is_payment_header(text) or SECTION_HEADING_PATTERN.search(text):
             break
-        if text.rstrip("：:") in {"工作項目", "完成條件"}:
+        if text.rstrip("：:") in WORK_ITEM_LABELS:
             collecting = True
+            explicit_label = True
             continue
-        if collecting and (text.startswith("【") or text.startswith("附件") or "付款比例" in text or "付款金額" in text or "付款時機" in text or "合計" in text):
+        if collecting and (
+            text.startswith("【")
+            or text.startswith("附件")
+            or "付款比例" in text
+            or "付款金額" in text
+            or "付款時機" in text
+            or "合計" in text
+            or any(marker in text for marker in WORK_ITEM_STOP_MARKERS)
+            or is_administrative_payment_text(text)
+        ):
             break
-        if WORK_ITEM_PATTERN.search(text) or collecting:
-            if any(marker in text for marker in ("付款時機", "付款金額", "驗收條件")) and not WORK_ITEM_PATTERN.search(text):
+        if not collecting:
+            if WORK_ITEM_PATTERN.search(text):
+                if is_administrative_payment_text(text):
+                    break
+                if offset <= 2 and (implicit_mode or looks_like_task_item(clean_work_item(text))):
+                    collecting = True
+                else:
+                    break
+            elif implicit_mode and offset <= 2 and looks_like_task_item(text):
+                collecting = True
+        if not collecting:
+            continue
+        if explicit_label and not WORK_ITEM_PATTERN.search(text) and not looks_like_task_item(text):
+            break
+        if WORK_ITEM_PATTERN.search(text) or explicit_label:
+            if any(marker in text for marker in WORK_ITEM_STOP_MARKERS) and not WORK_ITEM_PATTERN.search(text):
                 break
             cleaned = clean_work_item(text)
-            if cleaned:
+            if cleaned and not is_administrative_payment_text(cleaned):
                 work_items.append(cleaned)
+                continue
+        if implicit_mode and looks_like_task_item(text) and not is_administrative_payment_text(text):
+            work_items.append(text)
+            continue
+        if not explicit_label:
+            break
     return work_items
 
 
@@ -350,14 +485,8 @@ def extract_milestones(source_file: str, paragraphs: list[dict[str, Any]]) -> li
         percentage = None
         payment_condition = None
         acceptance_criteria = None
-        related_paragraphs: list[dict[str, Any]] = []
-        for related in paragraphs[offset : offset + 8]:
-            if related is not paragraph and is_payment_header(related["text"]):
-                break
-            if related is not paragraph and SECTION_HEADING_PATTERN.search(related["text"]):
-                break
-            related_paragraphs.append(related)
-        joined_text = " ".join(item["text"] for item in related_paragraphs)
+        related_paragraphs = collect_related_paragraphs(paragraphs, offset)
+        joined_text = stitch_paragraph_texts(related_paragraphs)
         for related in related_paragraphs:
             related_text = related["text"]
             parsed_amount = extract_amount_from_text(related_text)
@@ -373,7 +502,7 @@ def extract_milestones(source_file: str, paragraphs: list[dict[str, Any]]) -> li
             if payment_match and payment_condition is None:
                 payment_condition = payment_match.group(0)
                 milestone_citations.append(build_citation(source_file, related, payment_condition, "milestone.payment_condition", PAYMENT_PATTERN.pattern))
-            if "驗收" in related_text and acceptance_criteria is None:
+            if "驗收" in related_text and acceptance_criteria is None and "給付" not in related_text:
                 acceptance_criteria = related_text[:300]
                 milestone_citations.append(build_citation(source_file, related, acceptance_criteria, "milestone.acceptance_criteria", None))
         if amount is None:
@@ -394,6 +523,18 @@ def extract_milestones(source_file: str, paragraphs: list[dict[str, Any]]) -> li
                     if related_percent_match:
                         milestone_citations.append(build_citation(source_file, related, related_percent_match.group(0), "milestone.percentage", PERCENT_PATTERN.pattern))
                         break
+        normalized_joined_text = trim_payment_clause_text(joined_text)
+        if amount is not None and any(token in normalized_joined_text for token in ("給付", "付款", "支付")) and len(normalized_joined_text) <= 300:
+            payment_condition = normalized_joined_text
+            milestone_citations.append(build_citation(source_file, paragraph, payment_condition, "milestone.payment_condition", "stitched_clause"))
+        elif payment_condition is None and any(token in normalized_joined_text for token in ("給付", "付款", "支付")):
+            payment_condition = normalized_joined_text[:300]
+            milestone_citations.append(build_citation(source_file, paragraph, payment_condition, "milestone.payment_condition", "stitched_clause"))
+        elif payment_condition and len(normalized_joined_text) <= 300:
+            payment_condition = normalized_joined_text
+        if acceptance_criteria is None and "驗收合格" in joined_text and len(joined_text) <= 300:
+            acceptance_criteria = joined_text
+            milestone_citations.append(build_citation(source_file, paragraph, acceptance_criteria, "milestone.acceptance_criteria", "stitched_clause"))
         work_items = extract_work_items(paragraphs, offset)
         if work_items:
             work_item_text = "\n".join(work_items)[:300]
@@ -447,12 +588,30 @@ def extract_progress_checkpoints(source_file: str, paragraphs: list[dict[str, An
 
 
 def detect_payment_type(paragraphs: list[dict[str, Any]]) -> str:
+    installment_count = 0
+    for paragraph in paragraphs:
+        text = paragraph["text"]
+        if is_payment_header(text) and (extract_amount_from_text(text) is not None or PERCENT_PATTERN.search(text)):
+            installment_count += 1
+    if installment_count >= 2:
+        return "installment"
     joined = "\n".join(paragraph["text"] for paragraph in paragraphs)
     if "非分期付款" in joined or "一次付款" in joined or "一次性付款" in joined:
         if "保固保證金" in joined or "扣留" in joined:
             return "single_with_retention"
         return "single_payment"
     return "installment"
+
+
+def has_explicit_retention_terms(text: str) -> bool:
+    stripped = text.strip()
+    if "無須繳納" in stripped:
+        return False
+    if "保固保證金" not in stripped:
+        return False
+    if "____" in stripped or "_____" in stripped or "     " in stripped:
+        return False
+    return extract_amount_from_text(stripped) is not None or PERCENT_PATTERN.search(stripped) is not None
 
 
 def build_single_payment_milestones(source_file: str, paragraphs: list[dict[str, Any]], total_amount: int | None) -> tuple[list[dict[str, Any]], dict[str, Any] | None]:
@@ -477,12 +636,13 @@ def build_single_payment_milestones(source_file: str, paragraphs: list[dict[str,
                 "citations": [build_citation(source_file, paragraph, text[:120], "milestone.payment_condition", None)],
                 "source_order": 1,
             }
-        if retention is None and "保固保證金" in text:
+        if retention is None and has_explicit_retention_terms(text):
             amount = extract_amount_from_text(text) or round(total_amount * 0.05)
+            percent_match = PERCENT_PATTERN.search(text)
             retention = {
                 "type": "retention",
                 "amount": amount,
-                "percentage": 5.0,
+                "percentage": float(percent_match.group(1)) if percent_match else 5.0,
                 "release_condition": "保固期屆滿且無未解決瑕疵",
                 "release_after_months": 24 if "2年" in text or "24" in text else None,
                 "citations": [build_citation(source_file, paragraph, text[:120], "retention", None)],
@@ -541,51 +701,27 @@ def build_blocks(paragraphs: list[dict[str, Any]]) -> list[dict[str, Any]]:
     ]
 
 
-def extract_contract_data(document: dict[str, Any]) -> dict[str, Any]:
-    source_file = document["source_file"]
-    paragraphs = document["paragraphs"]
-    active_paragraphs = live_paragraphs(paragraphs)
-    retired_paragraphs = deprecated_paragraphs(paragraphs)
-    doc_notes = extract_document_notes(active_paragraphs, document["doc_category"])
-    multi_total, multi_currency, multi_citations, multi_candidates, currency_breakdown = extract_multi_currency_total(source_file, active_paragraphs)
-    if multi_total is not None:
-        total_amount, total_citations, total_candidates = multi_total, multi_citations, multi_candidates
-        currency = multi_currency or "MULTI"
-    else:
-        total_amount, total_citations, total_candidates = extract_total_amount(source_file, active_paragraphs)
-        currency = settings.default_currency
-    payment_type = detect_payment_type(active_paragraphs)
-    if payment_type.startswith("single"):
-        milestones, retention = build_single_payment_milestones(source_file, active_paragraphs, total_amount)
-    else:
-        milestones = extract_milestones(source_file, active_paragraphs)
-        retention = None
-    superseded_milestones = extract_milestones(source_file, retired_paragraphs) if retired_paragraphs else []
-    progress_checkpoints = extract_progress_checkpoints(source_file, active_paragraphs)
-    declared_installment_count = extract_installment_count(active_paragraphs)
-    document_versions = extract_document_versions(source_file, paragraphs)
-    extraction_method = "regex"
+def build_initial_validation(
+    *,
+    source_file: str,
+    active_paragraphs: list[dict[str, Any]],
+    retired_paragraphs: list[dict[str, Any]],
+    document_category: str,
+    total_amount: int | None,
+    milestones: list[dict[str, Any]],
+    total_citations: list[dict[str, Any]],
+    currency: str,
+    currency_breakdown: list[dict[str, Any]],
+    progress_checkpoints: list[dict[str, Any]],
+    payment_type: str,
+) -> list[dict[str, Any]]:
     validation: list[dict[str, Any]] = []
-    confidence = 0
-    if total_amount is not None:
-        confidence += 40
-    if milestones:
-        confidence += 20
-    if all(m["amount"] is not None for m in milestones) and milestones:
-        confidence += 20
-    if any(m["percentage"] is not None for m in milestones):
-        confidence += 10
-    if any(m["payment_condition"] for m in milestones):
-        confidence += 10
-
     if total_amount is None:
         validation.append({"code": "missing_total_amount", "severity": "WARNING", "message": "No total contract amount found; document may be an RFP or pre-award document.", "citations": []})
     if not milestones:
         validation.append({"code": "missing_milestones", "severity": "WARNING", "message": "No milestone blocks were extracted.", "citations": []})
     if not total_citations and total_amount is not None:
         validation.append({"code": "missing_total_citation", "severity": "ERROR", "message": "Total amount lacks a traceable citation.", "citations": []})
-    if total_amount is None and not milestones and document["doc_category"] == "contract":
-        document["doc_category"] = "rfp"
     milestone_terms = {term for paragraph in active_paragraphs if is_payment_header(paragraph["text"]) and (term := milestone_term_type(paragraph["text"]))}
     if len(milestone_terms) > 1:
         validation.append(
@@ -616,6 +752,144 @@ def extract_contract_data(document: dict[str, Any]) -> dict[str, Any]:
                 "citations": [build_citation(source_file, paragraph, paragraph["text"][:120], "deprecated_clause", None) for paragraph in retired_paragraphs[:4]],
             }
         )
+    return validation
+
+
+def compute_confidence(total_amount: int | None, milestones: list[dict[str, Any]], extraction_method: str) -> int:
+    confidence = 0
+    if total_amount is not None:
+        confidence += 40
+    if milestones:
+        confidence += 20
+    if all(milestone["amount"] is not None for milestone in milestones) and milestones:
+        confidence += 20
+    if any(milestone["percentage"] is not None for milestone in milestones):
+        confidence += 10
+    if any(milestone["payment_condition"] for milestone in milestones):
+        confidence += 10
+    if extraction_method == "hybrid_llm":
+        confidence = min(100, confidence + 5)
+    return confidence
+
+
+def build_locator_blocks(paragraphs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    locator_blocks: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    marker_map = {
+        "total_amount": ("總價", "契約總價", "承攬總價", "工程總價", "合約總價"),
+        "payment": ("付款", "請款", "給付", "期款"),
+        "retention": ("保固保證金", "履約保證金", "扣留"),
+        "version": ("V1", "V2", "修訂", "已廢除", "舊版"),
+        "acceptance": ("驗收", "複驗", "查驗"),
+        "checkpoint": ("查驗點",),
+    }
+    labeled_indices: set[int] = set()
+
+    def labels_for_text(text: str) -> list[str]:
+        labels: list[str] = []
+        if is_payment_header(text):
+            labels.append("milestone_header")
+        if WORK_ITEM_PATTERN.search(text) or text.rstrip("：:") in WORK_ITEM_LABELS:
+            labels.append("work_item")
+        if extract_amount_from_text(text) is not None:
+            labels.append("amount")
+        if PERCENT_PATTERN.search(text):
+            labels.append("percentage")
+        for label, markers in marker_map.items():
+            if any(marker in text for marker in markers):
+                labels.append(label)
+        return sorted(set(labels))
+
+    for index, paragraph in enumerate(paragraphs):
+        text = paragraph["text"].strip()
+        if not text:
+            continue
+        labels = labels_for_text(text)
+        if not labels:
+            continue
+        labeled_indices.update(range(max(0, index - 1), min(len(paragraphs), index + 3)))
+
+    for index in sorted(labeled_indices):
+        paragraph = paragraphs[index]
+        text = paragraph["text"].strip()
+        if not text or paragraph["block_id"] in seen:
+            continue
+        seen.add(paragraph["block_id"])
+        labels = labels_for_text(text)
+        if not labels:
+            labels = ["context"]
+        context_before = [item["text"] for item in paragraphs[max(0, index - 1) : index] if item["text"].strip()]
+        context_after = [item["text"] for item in paragraphs[index + 1 : min(len(paragraphs), index + 3)] if item["text"].strip()]
+        locator_blocks.append(
+            {
+                "block_id": paragraph["block_id"],
+                "paragraph_index": paragraph["paragraph_index"],
+                "page_estimate": paragraph["page_estimate"],
+                "labels": sorted(set(labels)),
+                "text": text[:400],
+                "context_before": context_before[-1:] or [],
+                "context_after": context_after[:2],
+            }
+        )
+    return locator_blocks
+
+
+def citations_from_block_ids(
+    *,
+    source_file: str,
+    paragraph_map: dict[str, dict[str, Any]],
+    block_ids: list[str],
+    field_name: str,
+) -> list[dict[str, Any]]:
+    citations: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for block_id in block_ids:
+        if block_id in seen or block_id not in paragraph_map:
+            continue
+        seen.add(block_id)
+        paragraph = paragraph_map[block_id]
+        citations.append(build_citation(source_file, paragraph, paragraph["text"][:200], field_name, "llm_locator"))
+    return citations
+
+
+def regex_fallback_extraction(document: dict[str, Any]) -> dict[str, Any]:
+    source_file = document["source_file"]
+    paragraphs = document["paragraphs"]
+    active_paragraphs = live_paragraphs(paragraphs)
+    retired_paragraphs = deprecated_paragraphs(paragraphs)
+    doc_notes = extract_document_notes(active_paragraphs, document["doc_category"])
+    multi_total, multi_currency, multi_citations, multi_candidates, currency_breakdown = extract_multi_currency_total(source_file, active_paragraphs)
+    if multi_total is not None:
+        total_amount, total_citations, total_candidates = multi_total, multi_citations, multi_candidates
+        currency = multi_currency or "MULTI"
+    else:
+        total_amount, total_citations, total_candidates = extract_total_amount(source_file, active_paragraphs)
+        currency = settings.default_currency
+    payment_type = detect_payment_type(active_paragraphs)
+    if payment_type.startswith("single"):
+        milestones, retention = build_single_payment_milestones(source_file, active_paragraphs, total_amount)
+    else:
+        milestones = extract_milestones(source_file, active_paragraphs)
+        retention = None
+    superseded_milestones = extract_milestones(source_file, retired_paragraphs) if retired_paragraphs else []
+    progress_checkpoints = extract_progress_checkpoints(source_file, active_paragraphs)
+    declared_installment_count = extract_installment_count(active_paragraphs)
+    document_versions = extract_document_versions(source_file, paragraphs)
+    if total_amount is None and not milestones and document["doc_category"] == "contract":
+        document["doc_category"] = "rfp"
+    validation = build_initial_validation(
+        source_file=source_file,
+        active_paragraphs=active_paragraphs,
+        retired_paragraphs=retired_paragraphs,
+        document_category=document["doc_category"],
+        total_amount=total_amount,
+        milestones=milestones,
+        total_citations=total_citations,
+        currency=currency,
+        currency_breakdown=currency_breakdown,
+        progress_checkpoints=progress_checkpoints,
+        payment_type=payment_type,
+    )
 
     all_citations = total_citations + [citation for milestone in milestones for citation in milestone["citations"]]
     return {
@@ -635,14 +909,190 @@ def extract_contract_data(document: dict[str, Any]) -> dict[str, Any]:
         "progress_checkpoints": progress_checkpoints,
         "citations": all_citations,
         "validation": validation,
-        "extraction_method": extraction_method,
-        "confidence": confidence,
+        "extraction_method": "regex_fallback",
+        "confidence": compute_confidence(total_amount, milestones, "regex_fallback"),
         "source_candidates": {"total_amount_candidates": total_candidates},
         "declared_installment_count": declared_installment_count,
         "blocks": build_blocks(paragraphs),
         "raw_text_preview": "\n".join(item["text"] for item in paragraphs[:20]),
+        "pipeline_revision": EXTRACTION_PIPELINE_VERSION,
         **doc_notes,
     }
+
+
+def merge_llm_extraction(
+    *,
+    document: dict[str, Any],
+    regex_result: dict[str, Any],
+    llm_result: dict[str, Any],
+    locator_blocks: list[dict[str, Any]],
+) -> dict[str, Any]:
+    source_file = document["source_file"]
+    paragraphs = document["paragraphs"]
+    paragraph_map = {paragraph["block_id"]: paragraph for paragraph in paragraphs}
+    regex_milestones = {milestone["source_order"]: milestone for milestone in regex_result["milestones"]}
+    llm_milestones = llm_result.get("milestones") or [
+        {
+            "source_order": milestone["source_order"],
+            "name": milestone["name"],
+            "amount": milestone["amount"],
+            "percentage": milestone["percentage"],
+            "work_items": milestone["work_items"],
+            "acceptance_criteria": milestone["acceptance_criteria"],
+            "payment_condition": milestone["payment_condition"],
+            "status": milestone["status"],
+            "evidence": {},
+        }
+        for milestone in regex_result["milestones"]
+    ]
+    milestones: list[dict[str, Any]] = []
+    for item in llm_milestones:
+        fallback = regex_milestones.get(item["source_order"], {})
+        evidence = item.get("evidence", {})
+        milestone_citations = []
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("name_block_ids", []), field_name="milestone.name"))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("amount_block_ids", []), field_name="milestone.amount"))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("percentage_block_ids", []), field_name="milestone.percentage"))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("payment_block_ids", []), field_name="milestone.payment_condition"))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("acceptance_block_ids", []), field_name="milestone.acceptance_criteria"))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("work_item_block_ids", []), field_name="milestone.work_items"))
+        if not milestone_citations:
+            milestone_citations = fallback.get("citations", [])
+        milestones.append(
+            {
+                "milestone_id": fallback.get("milestone_id", f"m_{uuid4().hex[:10]}"),
+                "name": item["name"],
+                "amount": item.get("amount"),
+                "percentage": item.get("percentage"),
+                "work_items": item.get("work_items") or fallback.get("work_items", []),
+                "acceptance_criteria": item.get("acceptance_criteria") or fallback.get("acceptance_criteria"),
+                "payment_condition": item.get("payment_condition") or fallback.get("payment_condition"),
+                "status": item.get("status") or fallback.get("status", "pending_acceptance"),
+                "citations": milestone_citations,
+                "source_order": item["source_order"],
+            }
+        )
+    total_citations = citations_from_block_ids(
+        source_file=source_file,
+        paragraph_map=paragraph_map,
+        block_ids=llm_result.get("total_amount_block_ids", []),
+        field_name="total_amount",
+    ) or [citation for citation in regex_result["citations"] if citation["field_name"] == "total_amount"]
+    progress_checkpoints = regex_result.get("progress_checkpoints", [])
+    if llm_result.get("progress_checkpoints"):
+        progress_checkpoints = []
+        for item in llm_result["progress_checkpoints"]:
+            progress_checkpoints.append(
+                {
+                    "name": item["name"],
+                    "work_items": item.get("work_items", []),
+                    "citations": citations_from_block_ids(
+                        source_file=source_file,
+                        paragraph_map=paragraph_map,
+                        block_ids=item.get("evidence_block_ids", []),
+                        field_name="progress_checkpoint.name",
+                    ),
+                    "source_order": item["source_order"],
+                }
+            )
+    retention = regex_result.get("retention")
+    if llm_result.get("retention"):
+        retention = {
+            "type": "retention",
+            "amount": llm_result["retention"].get("amount"),
+            "percentage": llm_result["retention"].get("percentage"),
+            "release_condition": llm_result["retention"].get("release_condition"),
+            "release_after_months": llm_result["retention"].get("release_after_months"),
+            "citations": citations_from_block_ids(
+                source_file=source_file,
+                paragraph_map=paragraph_map,
+                block_ids=llm_result["retention"].get("evidence_block_ids", []),
+                field_name="retention",
+            ),
+        }
+    doc_category = llm_result.get("doc_category") or regex_result["doc_category"]
+    total_amount = llm_result.get("total_amount")
+    if total_amount is None:
+        total_amount = regex_result["total_amount"]
+    if total_amount is None and not milestones and doc_category == "contract":
+        doc_category = "rfp"
+    currency = llm_result.get("currency") or regex_result["currency"]
+    payment_type = llm_result.get("payment_type") or regex_result["payment_type"]
+    contract_type = llm_result.get("contract_type") or regex_result["contract_type"]
+    validation = build_initial_validation(
+        source_file=source_file,
+        active_paragraphs=live_paragraphs(paragraphs),
+        retired_paragraphs=deprecated_paragraphs(paragraphs),
+        document_category=doc_category,
+        total_amount=total_amount,
+        milestones=milestones,
+        total_citations=total_citations,
+        currency=currency,
+        currency_breakdown=regex_result.get("currency_breakdown", []),
+        progress_checkpoints=progress_checkpoints,
+        payment_type=payment_type,
+    )
+    all_citations = total_citations + [citation for milestone in milestones for citation in milestone["citations"]]
+    return {
+        **regex_result,
+        "total_amount": total_amount,
+        "currency": currency,
+        "contract_type": contract_type,
+        "payment_type": payment_type,
+        "doc_category": doc_category,
+        "milestones": milestones,
+        "retention": retention,
+        "progress_checkpoints": progress_checkpoints,
+        "citations": all_citations,
+        "validation": validation,
+        "extraction_method": "hybrid_llm",
+        "confidence": compute_confidence(llm_result.get("total_amount"), milestones, "hybrid_llm"),
+        "locator_blocks": locator_blocks,
+        "pipeline_revision": EXTRACTION_PIPELINE_VERSION,
+        "normalization": {"llm_attempted": True, "llm_applied": True},
+    }
+
+
+def extract_contract_data(document: dict[str, Any]) -> dict[str, Any]:
+    regex_result = regex_fallback_extraction(document)
+    regex_result["normalization"] = {"llm_attempted": False, "llm_applied": False}
+    if document["doc_category"] == "construction_instruction":
+        return regex_result
+    locator_blocks = build_locator_blocks(document["paragraphs"])
+    validation_hints = validate_contract_data(copy.deepcopy(regex_result))
+    llm_result = extract_contract_with_llm(
+        source_file=document["source_file"],
+        doc_category=regex_result["doc_category"],
+        locator_blocks=locator_blocks,
+        regex_fallback={
+            "doc_category": regex_result["doc_category"],
+            "contract_type": regex_result["contract_type"],
+            "payment_type": regex_result["payment_type"],
+            "total_amount": regex_result["total_amount"],
+            "currency": regex_result["currency"],
+            "milestones": [
+                {
+                    "source_order": milestone["source_order"],
+                    "name": milestone["name"],
+                    "amount": milestone["amount"],
+                    "percentage": milestone["percentage"],
+                    "work_items": milestone["work_items"],
+                    "acceptance_criteria": milestone["acceptance_criteria"],
+                    "payment_condition": milestone["payment_condition"],
+                    "status": milestone["status"],
+                }
+                for milestone in regex_result["milestones"]
+            ],
+            "retention": regex_result.get("retention"),
+            "progress_checkpoints": regex_result.get("progress_checkpoints", []),
+        },
+        validation_issues=[{"code": item["code"], "severity": item["severity"], "message": item["message"]} for item in validation_hints],
+    )
+    if not llm_result:
+        regex_result["locator_blocks"] = locator_blocks
+        regex_result["normalization"] = {"llm_attempted": True, "llm_applied": False}
+        return regex_result
+    return merge_llm_extraction(document=document, regex_result=regex_result, llm_result=llm_result, locator_blocks=locator_blocks)
 
 
 def serialize_json(data: dict[str, Any]) -> str:

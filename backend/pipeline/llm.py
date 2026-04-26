@@ -27,7 +27,9 @@ def query_local_llm(prompt: str, timeout: float = 20.0) -> str | None:
             },
             timeout=timeout,
         )
-        response.raise_for_status()
+        if not response.ok:
+            print(f"Ollama generate failed: status={response.status_code} body={response.text[:500]}")
+            response.raise_for_status()
         data = response.json()
         return data.get("response")
     except requests.RequestException:

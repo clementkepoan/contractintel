@@ -130,6 +130,18 @@ def load_raw_payload(contract: Contract) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def resolve_raw_milestone(contract: Contract, milestone: Milestone) -> dict[str, Any] | None:
+    payload = load_raw_payload(contract)
+    milestones = payload.get("milestones", [])
+    for item in milestones:
+        if item.get("milestone_key") == milestone.milestone_key:
+            return item
+    for item in milestones:
+        if item.get("source_order") == milestone.source_order:
+            return item
+    return None
+
+
 def load_validation_rows(session: Any, contract_id: str) -> list[ValidationWarning]:
     return session.exec(select(ValidationWarning).where(ValidationWarning.contract_id == contract_id)).all()
 
@@ -222,11 +234,13 @@ def generate_contract_page(contract_key: str, contracts: list[Contract], session
 
     milestone_rows = []
     for milestone in active_milestones:
+        raw_milestone = resolve_raw_milestone(active_contract, milestone) or {}
         milestone_path = milestone_page_path(contract_key, milestone.milestone_key)
         related.append(wiki_relative(milestone_path))
         milestone_rows.append(
             f"| {milestone.source_order} | {markdown_link(target_path, milestone_path, milestone.name)} | "
-            f"{format_money(milestone.amount, active_contract.currency)} | {milestone.percentage or 'N/A'} | {milestone.status} |"
+            f"{format_money(raw_milestone.get('amount', milestone.amount), active_contract.currency)} | "
+            f"{raw_milestone.get('percentage', milestone.percentage) or 'N/A'} | {milestone.status} |"
         )
 
     metadata = build_frontmatter(
@@ -346,12 +360,33 @@ def generate_milestone_page(contract: Contract, milestone: Milestone, *, snapsho
     )
     contract_path = contract_page_path(contract.contract_key)
     source_path = source_page_path(contract)
-    citations = json.loads(milestone.citations_json)
+    raw_milestone = resolve_raw_milestone(contract, milestone) or {}
+    citations = raw_milestone.get("citations") or json.loads(milestone.citations_json)
+    ordered_citations: list[dict[str, Any]] = []
+    seen_citations: set[tuple[str, str]] = set()
+    citation_priority = {
+        "milestone.name": 0,
+        "milestone.amount": 1,
+        "milestone.percentage": 2,
+        "milestone.payment_condition": 3,
+        "milestone.acceptance_criteria": 4,
+        "milestone.work_items": 5,
+    }
+    for citation in sorted(citations, key=lambda item: (citation_priority.get(item.get("field_name", ""), 9), item.get("para_start", 0))):
+        key = (str(citation.get("block_id", "")), str(citation.get("field_name", "")))
+        if key in seen_citations:
+            continue
+        seen_citations.add(key)
+        ordered_citations.append(citation)
     citation_lines = [
         f"> {citation['text_snippet']}\n> *{citation['source_file']}, paragraph {citation['para_start']}, page ~{citation['page_estimate']}*"
-        for citation in citations
+        for citation in ordered_citations
     ]
-    work_items = json.loads(milestone.work_items_json)
+    work_items = raw_milestone.get("work_items") or json.loads(milestone.work_items_json)
+    amount = raw_milestone.get("amount", milestone.amount)
+    percentage = raw_milestone.get("percentage", milestone.percentage)
+    payment_condition = raw_milestone.get("payment_condition", milestone.payment_condition)
+    acceptance_criteria = raw_milestone.get("acceptance_criteria", milestone.acceptance_criteria)
     metadata = build_frontmatter(
         {
             "kind": "milestone_version" if snapshot else "milestone",
@@ -377,13 +412,13 @@ def generate_milestone_page(contract: Contract, milestone: Milestone, *, snapsho
             f"- Source: {markdown_link(target_path, source_path, contract.source_file)}",
             f"- Milestone key: `{milestone.milestone_key}`",
             f"- Version: `v{contract.version_number}`",
-            f"- Amount: {format_money(milestone.amount, contract.currency)}",
-            f"- Percentage: {milestone.percentage or 'N/A'}",
+            f"- Amount: {format_money(amount, contract.currency)}",
+            f"- Percentage: {percentage or 'N/A'}",
             f"- Status: `{milestone.status}`",
             "",
             "## Terms",
-            f"- Payment condition: {milestone.payment_condition or 'N/A'}",
-            f"- Acceptance criteria: {milestone.acceptance_criteria or 'N/A'}",
+            f"- Payment condition: {payment_condition or 'N/A'}",
+            f"- Acceptance criteria: {acceptance_criteria or 'N/A'}",
             "",
             "## Work Items",
             *([f"- {item}" for item in work_items] or ["- No work items were extracted for this milestone."]),
