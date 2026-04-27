@@ -460,6 +460,22 @@ def build_citation(
     }
 
 
+def find_paragraph_for_signals(
+    paragraphs: list[dict[str, Any]],
+    *,
+    snippet: str | None = None,
+    markers: tuple[str, ...] = (),
+) -> dict[str, Any] | None:
+    snippet = (snippet or "").strip()
+    for paragraph in paragraphs:
+        text = paragraph["text"]
+        if snippet and snippet in text:
+            return paragraph
+        if markers and any(marker in text for marker in markers):
+            return paragraph
+    return None
+
+
 def extract_contract_name(source_file: str, paragraphs: list[dict[str, Any]]) -> str:
     for index, paragraph in enumerate(paragraphs[:20]):
         text = paragraph["text"].strip()
@@ -706,6 +722,8 @@ def extract_milestones(source_file: str, paragraphs: list[dict[str, Any]]) -> li
         acceptance_criteria = None
         related_paragraphs = collect_related_paragraphs(paragraphs, offset)
         joined_text = stitch_paragraph_texts(related_paragraphs)
+        start_paragraph_index = related_paragraphs[0]["paragraph_index"]
+        end_paragraph_index = related_paragraphs[-1]["paragraph_index"]
         for related in related_paragraphs:
             related_text = related["text"]
             parsed_amount, amount_snippet = extract_amount_evidence(related_text)
@@ -752,17 +770,51 @@ def extract_milestones(source_file: str, paragraphs: list[dict[str, Any]]) -> li
             work_items = normalized_work_items
             acceptance_criteria = normalized_acceptance_criteria
             payment_condition = normalized_payment_condition
+        payment_paragraph = find_paragraph_for_signals(
+            related_paragraphs,
+            snippet=payment_condition,
+            markers=("給付", "付款", "支付", "請款"),
+        )
+        acceptance_paragraph = find_paragraph_for_signals(
+            related_paragraphs,
+            snippet=acceptance_criteria,
+            markers=ACCEPTANCE_MARKERS,
+        )
+        work_item_paragraph = None
+        if work_items and not work_items_derived:
+            work_item_paragraph = find_paragraph_for_signals(
+                related_paragraphs,
+                snippet=work_items[0],
+                markers=("工作項目",),
+            )
         if payment_condition:
-            milestone_citations.append(build_citation(source_file, paragraph, payment_condition, "milestone.payment_condition", "stitched_clause"))
-        if acceptance_criteria:
-            milestone_citations.append(build_citation(source_file, paragraph, acceptance_criteria, "milestone.acceptance_criteria", "stitched_clause"))
-        if work_items:
-            work_item_text = "\n".join(work_items)[:300]
-            work_item_snippet = paragraph["text"][:200] if work_items_derived else work_item_text
             milestone_citations.append(
                 build_citation(
                     source_file,
-                    paragraph,
+                    payment_paragraph or paragraph,
+                    payment_condition,
+                    "milestone.payment_condition",
+                    "stitched_clause",
+                )
+            )
+        if acceptance_criteria:
+            milestone_citations.append(
+                build_citation(
+                    source_file,
+                    acceptance_paragraph or paragraph,
+                    acceptance_criteria,
+                    "milestone.acceptance_criteria",
+                    "stitched_clause",
+                )
+            )
+        if work_items:
+            work_item_text = "\n".join(work_items)[:300]
+            work_item_source = work_item_paragraph or paragraph
+            work_item_snippet = work_item_source["text"][:200] if work_items_derived else work_item_text
+            milestone_citations.append(
+                build_citation(
+                    source_file,
+                    work_item_source,
                     work_item_snippet,
                     "milestone.work_items",
                     None,
@@ -781,6 +833,8 @@ def extract_milestones(source_file: str, paragraphs: list[dict[str, Any]]) -> li
                 "status": "pending_acceptance",
                 "citations": milestone_citations,
                 "source_order": len(ordered_keys) + 1,
+                "start_paragraph_index": start_paragraph_index,
+                "end_paragraph_index": end_paragraph_index,
             }
             ordered_keys.append(key)
             continue
@@ -796,6 +850,8 @@ def extract_milestones(source_file: str, paragraphs: list[dict[str, Any]]) -> li
             existing["payment_condition"] = payment_condition
         if acceptance_criteria and not existing.get("acceptance_criteria"):
             existing["acceptance_criteria"] = acceptance_criteria
+        existing["start_paragraph_index"] = min(existing.get("start_paragraph_index", start_paragraph_index), start_paragraph_index)
+        existing["end_paragraph_index"] = max(existing.get("end_paragraph_index", end_paragraph_index), end_paragraph_index)
     return [milestones_by_key[key] for key in ordered_keys]
 
 
@@ -1264,6 +1320,8 @@ def citations_from_block_ids(
     block_ids: list[str],
     field_name: str,
     allowed_block_ids: set[str] | None = None,
+    milestone_start_idx: int | None = None,
+    milestone_end_idx: int | None = None,
 ) -> list[dict[str, Any]]:
     citations: list[dict[str, Any]] = []
     seen: set[str] = set()
@@ -1274,6 +1332,13 @@ def citations_from_block_ids(
             continue
         seen.add(block_id)
         paragraph = paragraph_map[block_id]
+        paragraph_index = paragraph["paragraph_index"]
+        if (
+            milestone_start_idx is not None
+            and milestone_end_idx is not None
+            and not (milestone_start_idx <= paragraph_index <= milestone_end_idx)
+        ):
+            continue
         citations.append(build_citation(source_file, paragraph, paragraph["text"][:200], field_name, "llm_locator"))
     return citations
 
@@ -1387,6 +1452,8 @@ def merge_llm_extraction(
             "evidence": {},
         }
         evidence = item.get("evidence", {})
+        milestone_start_idx = fallback.get("start_paragraph_index")
+        milestone_end_idx = fallback.get("end_paragraph_index")
         if fallback.get("amount") is not None and item.get("amount") is not None and abs(fallback["amount"] - item["amount"]) > 1:
             numeric_disagreement_warnings.append(
                 {
@@ -1406,12 +1473,12 @@ def merge_llm_extraction(
                 }
             )
         milestone_citations = list(fallback.get("citations", []))
-        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("name_block_ids", []), field_name="milestone.name", allowed_block_ids=allowed_block_ids))
-        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("amount_block_ids", []), field_name="milestone.amount", allowed_block_ids=allowed_block_ids))
-        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("percentage_block_ids", []), field_name="milestone.percentage", allowed_block_ids=allowed_block_ids))
-        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("payment_block_ids", []), field_name="milestone.payment_condition", allowed_block_ids=allowed_block_ids))
-        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("acceptance_block_ids", []), field_name="milestone.acceptance_criteria", allowed_block_ids=allowed_block_ids))
-        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("work_item_block_ids", []), field_name="milestone.work_items", allowed_block_ids=allowed_block_ids))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("name_block_ids", []), field_name="milestone.name", allowed_block_ids=allowed_block_ids, milestone_start_idx=milestone_start_idx, milestone_end_idx=milestone_end_idx))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("amount_block_ids", []), field_name="milestone.amount", allowed_block_ids=allowed_block_ids, milestone_start_idx=milestone_start_idx, milestone_end_idx=milestone_end_idx))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("percentage_block_ids", []), field_name="milestone.percentage", allowed_block_ids=allowed_block_ids, milestone_start_idx=milestone_start_idx, milestone_end_idx=milestone_end_idx))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("payment_block_ids", []), field_name="milestone.payment_condition", allowed_block_ids=allowed_block_ids, milestone_start_idx=milestone_start_idx, milestone_end_idx=milestone_end_idx))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("acceptance_block_ids", []), field_name="milestone.acceptance_criteria", allowed_block_ids=allowed_block_ids, milestone_start_idx=milestone_start_idx, milestone_end_idx=milestone_end_idx))
+        milestone_citations.extend(citations_from_block_ids(source_file=source_file, paragraph_map=paragraph_map, block_ids=evidence.get("work_item_block_ids", []), field_name="milestone.work_items", allowed_block_ids=allowed_block_ids, milestone_start_idx=milestone_start_idx, milestone_end_idx=milestone_end_idx))
         milestone_citations = dedupe_citations(milestone_citations)
         llm_name_has_evidence = llm_field_has_evidence(evidence, "name_block_ids")
         llm_payment_has_evidence = llm_field_has_evidence(evidence, "payment_block_ids")
@@ -1446,6 +1513,8 @@ def merge_llm_extraction(
                 "status": item.get("status") or fallback.get("status", "pending_acceptance"),
                 "citations": milestone_citations,
                 "source_order": order,
+                "start_paragraph_index": milestone_start_idx,
+                "end_paragraph_index": milestone_end_idx,
             }
         )
     total_citations = citations_from_block_ids(

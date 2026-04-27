@@ -1,0 +1,4223 @@
+{
+  "contract_name": "XX專案",
+  "total_amount": 32285563,
+  "currency": "TWD",
+  "contract_type": "lump_sum",
+  "payment_type": "installment",
+  "total_amount_is_tax_included": true,
+  "doc_category": "contract",
+  "milestones": [
+    {
+      "milestone_id": "m_5aa1af3ab2d1",
+      "name": "簽約金(20%)",
+      "amount": 6457113,
+      "percentage": 20.0,
+      "work_items": [
+        "簽約金(20%)：本合約簽訂"
+      ],
+      "acceptance_criteria": null,
+      "payment_condition": "簽約金(20%)：本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "04XX專案.docx",
+          "para_start": 22,
+          "para_end": 22,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 8,
+          "text_snippet": "簽約金(20%)",
+          "block_id": "04XX專案_block_0022",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "04XX專案.docx",
+          "para_start": 22,
+          "para_end": 22,
+          "page_estimate": 2,
+          "char_offset_start": 29,
+          "char_offset_end": 42,
+          "text_snippet": "即 6,457,113 元",
+          "block_id": "04XX專案_block_0022",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "04XX專案.docx",
+          "para_start": 22,
+          "para_end": 22,
+          "page_estimate": 2,
+          "char_offset_start": 4,
+          "char_offset_end": 7,
+          "text_snippet": "20%",
+          "block_id": "04XX專案_block_0022",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "04XX專案.docx",
+          "para_start": 22,
+          "para_end": 22,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 49,
+          "text_snippet": "簽約金(20%)：本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方",
+          "block_id": "04XX專案_block_0022",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "04XX專案.docx",
+          "para_start": 22,
+          "para_end": 22,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 50,
+          "text_snippet": "簽約金(20%)：本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+          "block_id": "04XX專案_block_0022",
+          "citation_mode": "derived_from_block",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 1,
+      "start_paragraph_index": 22,
+      "end_paragraph_index": 22,
+      "milestone_key": "m001"
+    },
+    {
+      "milestone_id": "m_cbe0f60f5eea",
+      "name": "工程設備款(20%)",
+      "amount": 6457113,
+      "percentage": 20.0,
+      "work_items": [
+        "工程設備款(20%)：各項硬體設備及採購單完成下訂並提供PO單證明後，"
+      ],
+      "acceptance_criteria": null,
+      "payment_condition": "工程設備款(20%)：乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "04XX專案.docx",
+          "para_start": 23,
+          "para_end": 23,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 10,
+          "text_snippet": "工程設備款(20%)",
+          "block_id": "04XX專案_block_0023",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "04XX專案.docx",
+          "para_start": 23,
+          "para_end": 23,
+          "page_estimate": 2,
+          "char_offset_start": 56,
+          "char_offset_end": 69,
+          "text_snippet": "即 6,457,113 元",
+          "block_id": "04XX專案_block_0023",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "04XX專案.docx",
+          "para_start": 23,
+          "para_end": 23,
+          "page_estimate": 2,
+          "char_offset_start": 6,
+          "char_offset_end": 9,
+          "text_snippet": "20%",
+          "block_id": "04XX專案_block_0023",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "04XX專案.docx",
+          "para_start": 23,
+          "para_end": 23,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 76,
+          "text_snippet": "工程設備款(20%)：乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方",
+          "block_id": "04XX專案_block_0023",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "04XX專案.docx",
+          "para_start": 23,
+          "para_end": 23,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 78,
+          "text_snippet": "工程設備款(20%)：乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方。：",
+          "block_id": "04XX專案_block_0023",
+          "citation_mode": "derived_from_block",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 2,
+      "start_paragraph_index": 23,
+      "end_paragraph_index": 23,
+      "milestone_key": "m002"
+    },
+    {
+      "milestone_id": "m_5bcb40362363",
+      "name": "設備安裝工程款(20%)",
+      "amount": 6457113,
+      "percentage": 20.0,
+      "work_items": [
+        "設備安裝工程款(20%)：完成報價單項目一至項目六之硬體設備安裝，"
+      ],
+      "acceptance_criteria": "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後",
+      "payment_condition": "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "04XX專案.docx",
+          "para_start": 24,
+          "para_end": 24,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 12,
+          "text_snippet": "設備安裝工程款(20%)",
+          "block_id": "04XX專案_block_0024",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "04XX專案.docx",
+          "para_start": 24,
+          "para_end": 24,
+          "page_estimate": 2,
+          "char_offset_start": 61,
+          "char_offset_end": 74,
+          "text_snippet": "即 6,457,113 元",
+          "block_id": "04XX專案_block_0024",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "04XX專案.docx",
+          "para_start": 24,
+          "para_end": 24,
+          "page_estimate": 2,
+          "char_offset_start": 8,
+          "char_offset_end": 11,
+          "text_snippet": "20%",
+          "block_id": "04XX專案_block_0024",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "04XX專案.docx",
+          "para_start": 24,
+          "para_end": 24,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 81,
+          "text_snippet": "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方",
+          "block_id": "04XX專案_block_0024",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "04XX專案.docx",
+          "para_start": 24,
+          "para_end": 24,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 46,
+          "text_snippet": "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後",
+          "block_id": "04XX專案_block_0024",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "04XX專案.docx",
+          "para_start": 24,
+          "para_end": 24,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 82,
+          "text_snippet": "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方。",
+          "block_id": "04XX專案_block_0024",
+          "citation_mode": "derived_from_block",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 3,
+      "start_paragraph_index": 24,
+      "end_paragraph_index": 24,
+      "milestone_key": "m003"
+    },
+    {
+      "milestone_id": "m_997e34a8448d",
+      "name": "功能檢測款(20%)",
+      "amount": 6457113,
+      "percentage": 20.0,
+      "work_items": [
+        "完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成"
+      ],
+      "acceptance_criteria": "經甲方及客戶驗收合格後",
+      "payment_condition": "經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "04XX專案.docx",
+          "para_start": 25,
+          "para_end": 25,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 10,
+          "text_snippet": "功能檢測款(20%)",
+          "block_id": "04XX專案_block_0025",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "04XX專案.docx",
+          "para_start": 25,
+          "para_end": 25,
+          "page_estimate": 2,
+          "char_offset_start": 71,
+          "char_offset_end": 84,
+          "text_snippet": "即 6,457,113 元",
+          "block_id": "04XX專案_block_0025",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "04XX專案.docx",
+          "para_start": 25,
+          "para_end": 25,
+          "page_estimate": 2,
+          "char_offset_start": 6,
+          "char_offset_end": 9,
+          "text_snippet": "20%",
+          "block_id": "04XX專案_block_0025",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "04XX專案.docx",
+          "para_start": 25,
+          "para_end": 25,
+          "page_estimate": 2,
+          "char_offset_start": 46,
+          "char_offset_end": 91,
+          "text_snippet": "經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方",
+          "block_id": "04XX專案_block_0025",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "04XX專案.docx",
+          "para_start": 25,
+          "para_end": 25,
+          "page_estimate": 2,
+          "char_offset_start": 46,
+          "char_offset_end": 57,
+          "text_snippet": "經甲方及客戶驗收合格後",
+          "block_id": "04XX專案_block_0025",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "04XX專案.docx",
+          "para_start": 25,
+          "para_end": 25,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 92,
+          "text_snippet": "功能檢測款(20%)：乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+          "block_id": "04XX專案_block_0025",
+          "citation_mode": "derived_from_block",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 4,
+      "start_paragraph_index": 25,
+      "end_paragraph_index": 25,
+      "milestone_key": "m004"
+    },
+    {
+      "milestone_id": "m_8896dfa72d97",
+      "name": "功能整合款(20%)",
+      "amount": 6457111,
+      "percentage": 20.0,
+      "work_items": [
+        "將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台",
+        "智慧建築管理平台功能測試完成",
+        "提出測試運轉紀錄文件"
+      ],
+      "acceptance_criteria": "經甲方及客戶驗收合格後",
+      "payment_condition": "經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "04XX專案.docx",
+          "para_start": 26,
+          "para_end": 26,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 10,
+          "text_snippet": "功能整合款(20%)",
+          "block_id": "04XX專案_block_0026",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "04XX專案.docx",
+          "para_start": 26,
+          "para_end": 26,
+          "page_estimate": 2,
+          "char_offset_start": 105,
+          "char_offset_end": 118,
+          "text_snippet": "即 6,457,111 元",
+          "block_id": "04XX專案_block_0026",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "04XX專案.docx",
+          "para_start": 26,
+          "para_end": 26,
+          "page_estimate": 2,
+          "char_offset_start": 6,
+          "char_offset_end": 9,
+          "text_snippet": "20%",
+          "block_id": "04XX專案_block_0026",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "04XX專案.docx",
+          "para_start": 26,
+          "para_end": 26,
+          "page_estimate": 2,
+          "char_offset_start": 80,
+          "char_offset_end": 125,
+          "text_snippet": "經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方",
+          "block_id": "04XX專案_block_0026",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "04XX專案.docx",
+          "para_start": 26,
+          "para_end": 26,
+          "page_estimate": 2,
+          "char_offset_start": 80,
+          "char_offset_end": 91,
+          "text_snippet": "經甲方及客戶驗收合格後",
+          "block_id": "04XX專案_block_0026",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "04XX專案.docx",
+          "para_start": 26,
+          "para_end": 26,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 126,
+          "text_snippet": "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方。",
+          "block_id": "04XX專案_block_0026",
+          "citation_mode": "derived_from_block",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 5,
+      "start_paragraph_index": 26,
+      "end_paragraph_index": 26,
+      "milestone_key": "m005"
+    }
+  ],
+  "superseded_milestones": [],
+  "has_version_conflict": false,
+  "document_versions": [],
+  "currency_breakdown": [],
+  "retention": {
+    "type": "retention",
+    "amount": null,
+    "percentage": 15.0,
+    "release_condition": "無力完成本工程或有違反合約之任何規定時",
+    "release_after_months": null,
+    "citations": []
+  },
+  "progress_checkpoints": [],
+  "citations": [
+    {
+      "field_name": "total_amount",
+      "source_file": "04XX專案.docx",
+      "para_start": 9,
+      "para_end": 9,
+      "page_estimate": 1,
+      "char_offset_start": 35,
+      "char_offset_end": 53,
+      "text_snippet": "NT$     32,285,563",
+      "block_id": "04XX專案_block_0009",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "NT\\$\\s*([\\d,]+)"
+    },
+    {
+      "field_name": "total_amount",
+      "source_file": "04XX專案.docx",
+      "para_start": 22,
+      "para_end": 22,
+      "page_estimate": 2,
+      "char_offset_start": 21,
+      "char_offset_end": 28,
+      "text_snippet": "工程總價 20",
+      "block_id": "04XX專案_block_0022",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:總價|契約總價|承攬總價|工程總價|合約總價)[：為係計修訂]*\\s*[新臺台幣NTD\\$\\s（(]*([\\d,]+)\\s*[）)]?\\s*元?"
+    },
+    {
+      "field_name": "total_amount",
+      "source_file": "04XX專案.docx",
+      "para_start": 23,
+      "para_end": 23,
+      "page_estimate": 2,
+      "char_offset_start": 49,
+      "char_offset_end": 55,
+      "text_snippet": "工程總價20",
+      "block_id": "04XX專案_block_0023",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:總價|契約總價|承攬總價|工程總價|合約總價)[：為係計修訂]*\\s*[新臺台幣NTD\\$\\s（(]*([\\d,]+)\\s*[）)]?\\s*元?"
+    },
+    {
+      "field_name": "total_amount",
+      "source_file": "04XX專案.docx",
+      "para_start": 24,
+      "para_end": 24,
+      "page_estimate": 2,
+      "char_offset_start": 52,
+      "char_offset_end": 59,
+      "text_snippet": "工程總價 20",
+      "block_id": "04XX專案_block_0024",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:總價|契約總價|承攬總價|工程總價|合約總價)[：為係計修訂]*\\s*[新臺台幣NTD\\$\\s（(]*([\\d,]+)\\s*[）)]?\\s*元?"
+    },
+    {
+      "field_name": "total_amount",
+      "source_file": "04XX專案.docx",
+      "para_start": 25,
+      "para_end": 25,
+      "page_estimate": 2,
+      "char_offset_start": 63,
+      "char_offset_end": 70,
+      "text_snippet": "工程總價 20",
+      "block_id": "04XX專案_block_0025",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:總價|契約總價|承攬總價|工程總價|合約總價)[：為係計修訂]*\\s*[新臺台幣NTD\\$\\s（(]*([\\d,]+)\\s*[）)]?\\s*元?"
+    },
+    {
+      "field_name": "total_amount",
+      "source_file": "04XX專案.docx",
+      "para_start": 26,
+      "para_end": 26,
+      "page_estimate": 2,
+      "char_offset_start": 97,
+      "char_offset_end": 104,
+      "text_snippet": "工程總價 20",
+      "block_id": "04XX專案_block_0026",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:總價|契約總價|承攬總價|工程總價|合約總價)[：為係計修訂]*\\s*[新臺台幣NTD\\$\\s（(]*([\\d,]+)\\s*[）)]?\\s*元?"
+    },
+    {
+      "field_name": "total_amount",
+      "source_file": "04XX專案.docx",
+      "para_start": 62,
+      "para_end": 62,
+      "page_estimate": 5,
+      "char_offset_start": 14,
+      "char_offset_end": 15,
+      "text_snippet": "百",
+      "block_id": "04XX專案_block_0062",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "[零一二三四五六七八九十百千萬億壹貳參肆伍陸柒捌玖拾佰仟兩]+"
+    },
+    {
+      "field_name": "total_amount",
+      "source_file": "04XX專案.docx",
+      "para_start": 93,
+      "para_end": 93,
+      "page_estimate": 7,
+      "char_offset_start": 1,
+      "char_offset_end": 3,
+      "text_snippet": "十九",
+      "block_id": "04XX專案_block_0093",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "[零一二三四五六七八九十百千萬億壹貳參肆伍陸柒捌玖拾佰仟兩]+"
+    },
+    {
+      "field_name": "milestone.name",
+      "source_file": "04XX專案.docx",
+      "para_start": 22,
+      "para_end": 22,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 8,
+      "text_snippet": "簽約金(20%)",
+      "block_id": "04XX專案_block_0022",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+    },
+    {
+      "field_name": "milestone.amount",
+      "source_file": "04XX專案.docx",
+      "para_start": 22,
+      "para_end": 22,
+      "page_estimate": 2,
+      "char_offset_start": 29,
+      "char_offset_end": 42,
+      "text_snippet": "即 6,457,113 元",
+      "block_id": "04XX專案_block_0022",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+    },
+    {
+      "field_name": "milestone.percentage",
+      "source_file": "04XX專案.docx",
+      "para_start": 22,
+      "para_end": 22,
+      "page_estimate": 2,
+      "char_offset_start": 4,
+      "char_offset_end": 7,
+      "text_snippet": "20%",
+      "block_id": "04XX專案_block_0022",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "([\\d.]+)\\s*[％%]"
+    },
+    {
+      "field_name": "milestone.payment_condition",
+      "source_file": "04XX專案.docx",
+      "para_start": 22,
+      "para_end": 22,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 49,
+      "text_snippet": "簽約金(20%)：本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方",
+      "block_id": "04XX專案_block_0022",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.work_items",
+      "source_file": "04XX專案.docx",
+      "para_start": 22,
+      "para_end": 22,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 50,
+      "text_snippet": "簽約金(20%)：本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+      "block_id": "04XX專案_block_0022",
+      "citation_mode": "derived_from_block",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    },
+    {
+      "field_name": "milestone.name",
+      "source_file": "04XX專案.docx",
+      "para_start": 23,
+      "para_end": 23,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 10,
+      "text_snippet": "工程設備款(20%)",
+      "block_id": "04XX專案_block_0023",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+    },
+    {
+      "field_name": "milestone.amount",
+      "source_file": "04XX專案.docx",
+      "para_start": 23,
+      "para_end": 23,
+      "page_estimate": 2,
+      "char_offset_start": 56,
+      "char_offset_end": 69,
+      "text_snippet": "即 6,457,113 元",
+      "block_id": "04XX專案_block_0023",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+    },
+    {
+      "field_name": "milestone.percentage",
+      "source_file": "04XX專案.docx",
+      "para_start": 23,
+      "para_end": 23,
+      "page_estimate": 2,
+      "char_offset_start": 6,
+      "char_offset_end": 9,
+      "text_snippet": "20%",
+      "block_id": "04XX專案_block_0023",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "([\\d.]+)\\s*[％%]"
+    },
+    {
+      "field_name": "milestone.payment_condition",
+      "source_file": "04XX專案.docx",
+      "para_start": 23,
+      "para_end": 23,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 76,
+      "text_snippet": "工程設備款(20%)：乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方",
+      "block_id": "04XX專案_block_0023",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.work_items",
+      "source_file": "04XX專案.docx",
+      "para_start": 23,
+      "para_end": 23,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 78,
+      "text_snippet": "工程設備款(20%)：乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方。：",
+      "block_id": "04XX專案_block_0023",
+      "citation_mode": "derived_from_block",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    },
+    {
+      "field_name": "milestone.name",
+      "source_file": "04XX專案.docx",
+      "para_start": 24,
+      "para_end": 24,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 12,
+      "text_snippet": "設備安裝工程款(20%)",
+      "block_id": "04XX專案_block_0024",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+    },
+    {
+      "field_name": "milestone.amount",
+      "source_file": "04XX專案.docx",
+      "para_start": 24,
+      "para_end": 24,
+      "page_estimate": 2,
+      "char_offset_start": 61,
+      "char_offset_end": 74,
+      "text_snippet": "即 6,457,113 元",
+      "block_id": "04XX專案_block_0024",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+    },
+    {
+      "field_name": "milestone.percentage",
+      "source_file": "04XX專案.docx",
+      "para_start": 24,
+      "para_end": 24,
+      "page_estimate": 2,
+      "char_offset_start": 8,
+      "char_offset_end": 11,
+      "text_snippet": "20%",
+      "block_id": "04XX專案_block_0024",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "([\\d.]+)\\s*[％%]"
+    },
+    {
+      "field_name": "milestone.payment_condition",
+      "source_file": "04XX專案.docx",
+      "para_start": 24,
+      "para_end": 24,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 81,
+      "text_snippet": "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方",
+      "block_id": "04XX專案_block_0024",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "04XX專案.docx",
+      "para_start": 24,
+      "para_end": 24,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 46,
+      "text_snippet": "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後",
+      "block_id": "04XX專案_block_0024",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.work_items",
+      "source_file": "04XX專案.docx",
+      "para_start": 24,
+      "para_end": 24,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 82,
+      "text_snippet": "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方。",
+      "block_id": "04XX專案_block_0024",
+      "citation_mode": "derived_from_block",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    },
+    {
+      "field_name": "milestone.name",
+      "source_file": "04XX專案.docx",
+      "para_start": 25,
+      "para_end": 25,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 10,
+      "text_snippet": "功能檢測款(20%)",
+      "block_id": "04XX專案_block_0025",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+    },
+    {
+      "field_name": "milestone.amount",
+      "source_file": "04XX專案.docx",
+      "para_start": 25,
+      "para_end": 25,
+      "page_estimate": 2,
+      "char_offset_start": 71,
+      "char_offset_end": 84,
+      "text_snippet": "即 6,457,113 元",
+      "block_id": "04XX專案_block_0025",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+    },
+    {
+      "field_name": "milestone.percentage",
+      "source_file": "04XX專案.docx",
+      "para_start": 25,
+      "para_end": 25,
+      "page_estimate": 2,
+      "char_offset_start": 6,
+      "char_offset_end": 9,
+      "text_snippet": "20%",
+      "block_id": "04XX專案_block_0025",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "([\\d.]+)\\s*[％%]"
+    },
+    {
+      "field_name": "milestone.payment_condition",
+      "source_file": "04XX專案.docx",
+      "para_start": 25,
+      "para_end": 25,
+      "page_estimate": 2,
+      "char_offset_start": 46,
+      "char_offset_end": 91,
+      "text_snippet": "經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方",
+      "block_id": "04XX專案_block_0025",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "04XX專案.docx",
+      "para_start": 25,
+      "para_end": 25,
+      "page_estimate": 2,
+      "char_offset_start": 46,
+      "char_offset_end": 57,
+      "text_snippet": "經甲方及客戶驗收合格後",
+      "block_id": "04XX專案_block_0025",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.work_items",
+      "source_file": "04XX專案.docx",
+      "para_start": 25,
+      "para_end": 25,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 92,
+      "text_snippet": "功能檢測款(20%)：乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+      "block_id": "04XX專案_block_0025",
+      "citation_mode": "derived_from_block",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    },
+    {
+      "field_name": "milestone.name",
+      "source_file": "04XX專案.docx",
+      "para_start": 26,
+      "para_end": 26,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 10,
+      "text_snippet": "功能整合款(20%)",
+      "block_id": "04XX專案_block_0026",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+    },
+    {
+      "field_name": "milestone.amount",
+      "source_file": "04XX專案.docx",
+      "para_start": 26,
+      "para_end": 26,
+      "page_estimate": 2,
+      "char_offset_start": 105,
+      "char_offset_end": 118,
+      "text_snippet": "即 6,457,111 元",
+      "block_id": "04XX專案_block_0026",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+    },
+    {
+      "field_name": "milestone.percentage",
+      "source_file": "04XX專案.docx",
+      "para_start": 26,
+      "para_end": 26,
+      "page_estimate": 2,
+      "char_offset_start": 6,
+      "char_offset_end": 9,
+      "text_snippet": "20%",
+      "block_id": "04XX專案_block_0026",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "([\\d.]+)\\s*[％%]"
+    },
+    {
+      "field_name": "milestone.payment_condition",
+      "source_file": "04XX專案.docx",
+      "para_start": 26,
+      "para_end": 26,
+      "page_estimate": 2,
+      "char_offset_start": 80,
+      "char_offset_end": 125,
+      "text_snippet": "經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方",
+      "block_id": "04XX專案_block_0026",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "04XX專案.docx",
+      "para_start": 26,
+      "para_end": 26,
+      "page_estimate": 2,
+      "char_offset_start": 80,
+      "char_offset_end": 91,
+      "text_snippet": "經甲方及客戶驗收合格後",
+      "block_id": "04XX專案_block_0026",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.work_items",
+      "source_file": "04XX專案.docx",
+      "para_start": 26,
+      "para_end": 26,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 126,
+      "text_snippet": "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方。",
+      "block_id": "04XX專案_block_0026",
+      "citation_mode": "derived_from_block",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    }
+  ],
+  "validation": [
+    {
+      "code": "installment_count_mismatch",
+      "severity": "WARNING",
+      "message": "Document declares 6 payment installments but 5 milestones were extracted.",
+      "citations": []
+    },
+    {
+      "code": "percentage_amount_inconsistency",
+      "severity": "ERROR",
+      "message": "Milestone \"功能整合款(20%)\" states 20.0% (expected 6457113) but amount is 6457111 (= 20.0%).",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "04XX專案.docx",
+          "para_start": 26,
+          "para_end": 26,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 10,
+          "text_snippet": "功能整合款(20%)",
+          "block_id": "04XX專案_block_0026",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "04XX專案.docx",
+          "para_start": 26,
+          "para_end": 26,
+          "page_estimate": 2,
+          "char_offset_start": 105,
+          "char_offset_end": 118,
+          "text_snippet": "即 6,457,111 元",
+          "block_id": "04XX專案_block_0026",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "04XX專案.docx",
+          "para_start": 26,
+          "para_end": 26,
+          "page_estimate": 2,
+          "char_offset_start": 6,
+          "char_offset_end": 9,
+          "text_snippet": "20%",
+          "block_id": "04XX專案_block_0026",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "04XX專案.docx",
+          "para_start": 26,
+          "para_end": 26,
+          "page_estimate": 2,
+          "char_offset_start": 80,
+          "char_offset_end": 125,
+          "text_snippet": "經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方",
+          "block_id": "04XX專案_block_0026",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        }
+      ]
+    }
+  ],
+  "extraction_method": "hybrid_llm",
+  "confidence": 100,
+  "source_candidates": {
+    "total_amount_candidates": [
+      32285563,
+      20,
+      20,
+      20,
+      20,
+      20,
+      100,
+      19
+    ]
+  },
+  "declared_installment_count": 6,
+  "blocks": [
+    {
+      "block_id": "04XX專案_block_0000",
+      "text": "工程合約書",
+      "para_start": 0,
+      "para_end": 0,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "04XX專案_block_0001",
+      "text": "甲方：",
+      "para_start": 1,
+      "para_end": 1,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "04XX專案_block_0002",
+      "text": "立合約書人",
+      "para_start": 2,
+      "para_end": 2,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "04XX專案_block_0003",
+      "text": "乙方：",
+      "para_start": 3,
+      "para_end": 3,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "04XX專案_block_0005",
+      "text": "茲因甲方客戶【】 (下稱「客戶」)承攬【】 (下稱「業主」)之「XX專案」之機電工程，客戶將部分工程委由甲方處理，甲方將該工程之「 各項系統整合工程/門禁通關 」委由乙方承攬，雙方同意訂立本合約共同遵守，約定條款如下︰",
+      "para_start": 5,
+      "para_end": 5,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "04XX專案_block_0006",
+      "text": "第一條 工程名稱：XX專案",
+      "para_start": 6,
+      "para_end": 6,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "04XX專案_block_0007",
+      "text": "第二條 工程範圍：除另有規定外，凡本工程設計圖說、施工規範、本合約附件所包含之工作與工程變更，均屬本合約之工程範圍。",
+      "para_start": 7,
+      "para_end": 7,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "04XX專案_block_0008",
+      "text": "(工程地點：)",
+      "para_start": 8,
+      "para_end": 8,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "04XX專案_block_0009",
+      "text": "第三條 承攬總價：總價計新台幣 參仟貳佰萬貳拾捌萬伍仟伍佰陸拾參 元(NT$     32,285,563)整（含加值營業稅）。",
+      "para_start": 9,
+      "para_end": 9,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "04XX專案_block_0010",
+      "text": "一、 本工程為固定總價方式承攬。乙方認為並無漏估項目或數量，報價單內原列項目或數量如有遺漏或誤算，均不影響前項本合約所定之工程總額，乙方決不藉任何理由要求加價，並願照本合約造價、期限及圖說全部完工。",
+      "para_start": 10,
+      "para_end": 10,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "04XX專案_block_0011",
+      "text": "二、 增減帳辦理規定：如工程涉及變更，由甲乙雙方按本工程內各分項工程之合約圖與施工圖之差異部份核算數量，依本合約第六條規定辦理增減帳。",
+      "para_start": 11,
+      "para_end": 11,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "04XX專案_block_0012",
+      "text": "第四條 工程期限：",
+      "para_start": 12,
+      "para_end": 12,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "04XX專案_block_0013",
+      "text": "一、本工程應分三階段完成。如因甲方需追加工程或工程途中有所變更時，以致影響完工日期，則依第十八條展延工期。",
+      "para_start": 13,
+      "para_end": 13,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "04XX專案_block_0014",
+      "text": "第一階段：於主體工程申報竣工之次日起 30 日曆天內，配合裝修進度完成設備安裝作業。",
+      "para_start": 14,
+      "para_end": 14,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "04XX專案_block_0015",
+      "text": "第二階段：於主體工程使用執照取得之次日起 30 日曆天內完成附件一報價單「系統名稱」項目一至項目十三之各單機設備及系統自主檢查測試。",
+      "para_start": 15,
+      "para_end": 15,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0016",
+      "text": "第三階段：於主體工程送水送電完成之次日起 45 日曆天內完成整合智慧建築管理平台功能檢測(應配合機電訊號整合)。",
+      "para_start": 16,
+      "para_end": 16,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0017",
+      "text": "二、 乙方應盡力依前項約定完成本工程之施工進度，如因單一可歸責於乙方事由致本工程進度嚴重落後時，甲方有權要求乙方增派工人或日夜加班趕工，乙方應予以配合，因此所增加之合理費用概由乙方自行負擔。",
+      "para_start": 17,
+      "para_end": 17,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0018",
+      "text": "第五條 合約範圍：本合約包括合約條文、報價單、設計圖說、施工規範及保密承諾書等文件。合約各文件之規定得互為補充，如有牴觸或疑義之處，悉依甲方解釋為準。",
+      "para_start": 18,
+      "para_end": 18,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0019",
+      "text": "第六條 工程變更：甲方對工程有隨時變更計劃及增減工程數量之權，無正當理由乙方不得有議。本工程所需工料如有未盡載明於圖說內但為工程技術及慣例上所不可欠缺者，乙方均應照做，絕對不得要求變更原定造價。惟確屬增改或變更計劃，乙方須另行開具增加或扣減價格清單，陳報甲方以書面核定認可。因工程變更致數量有增減時，其工程費之計算應按照本合約所定之單價為準，如有新增工程項目，另由雙方議定合理單價，並依甲方相關規定辦理。",
+      "para_start": 19,
+      "para_end": 19,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0020",
+      "text": "第七條 付款辦法：於甲方就乙方完成之工作已收到客戶之各期工程款項後分期付款如下：",
+      "para_start": 20,
+      "para_end": 20,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0021",
+      "text": "一、 分期付款(分六期)：",
+      "para_start": 21,
+      "para_end": 21,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0022",
+      "text": "簽約金(20%)：本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+      "para_start": 22,
+      "para_end": 22,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0023",
+      "text": "工程設備款(20%)：乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方。：",
+      "para_start": 23,
+      "para_end": 23,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0024",
+      "text": "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方。",
+      "para_start": 24,
+      "para_end": 24,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0025",
+      "text": "功能檢測款(20%)：乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+      "para_start": 25,
+      "para_end": 25,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0026",
+      "text": "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方。",
+      "para_start": 26,
+      "para_end": 26,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0027",
+      "text": "二、 乙方應依前項約定，於各期符合請款條件時，開具請領發票憑證及相關請款文件向甲方請款。甲方於收到前述文件並確認無誤後，於發票日後45天內給付該期款項至乙方指定帳戶。如係因非可歸責於乙方之事由致甲方無法自客戶處取得全部或當期工程款，則乙方應對甲方之損失負責。",
+      "para_start": 27,
+      "para_end": 27,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0028",
+      "text": "三、 乙方如有下列情形之一者，甲方有權暫行停止計價付款：",
+      "para_start": 28,
+      "para_end": 28,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0029",
+      "text": "因單一可歸責於乙方事由致工程實際進度較甲方及丙方核准之預定進度遲緩十％以上時。",
+      "para_start": 29,
+      "para_end": 29,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "04XX專案_block_0030",
+      "text": "瑕疵工作經甲方通知，逾期辦理或拒絕改善時。",
+      "para_start": 30,
+      "para_end": 30,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0031",
+      "text": "乙方派駐工地之負責人未能盡職，以致工地管理紊亂，施工草率，經通知改善或更換，而乙方遲未辦理時。",
+      "para_start": 31,
+      "para_end": 31,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0032",
+      "text": "其他經甲方認為之重大違約事項。",
+      "para_start": 32,
+      "para_end": 32,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0033",
+      "text": "第八條 圖說規定：乙方應依據施工規範負責施工，如與施工規範有未符合之處，應以甲方解釋為準。",
+      "para_start": 33,
+      "para_end": 33,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0034",
+      "text": "第九條 工程監督：",
+      "para_start": 34,
+      "para_end": 34,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0035",
+      "text": "一、 甲方得選派監理人員監督乙方有關工程之施工。",
+      "para_start": 35,
+      "para_end": 35,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0036",
+      "text": "二、 甲方依據本工程合約所定範圍執行下列任務：",
+      "para_start": 36,
+      "para_end": 36,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0037",
+      "text": "審核乙方提出之工程進度表、施工計劃、改善計劃、估驗請款及監督實際施工。",
+      "para_start": 37,
+      "para_end": 37,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0038",
+      "text": "對乙方所選派之監工人員及工人有監督之權。",
+      "para_start": 38,
+      "para_end": 38,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0039",
+      "text": "就工程圖樣及施工說明書範圍之施工督導。",
+      "para_start": 39,
+      "para_end": 39,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0040",
+      "text": "工程材料進場及工作進行時之檢驗。",
+      "para_start": 40,
+      "para_end": 40,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0041",
+      "text": "本工程與相關工程之配合協調事項。",
+      "para_start": 41,
+      "para_end": 41,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0042",
+      "text": "其他經甲方指定之事項。",
+      "para_start": 42,
+      "para_end": 42,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0043",
+      "text": "三、 甲方執行任務時，如遇困難、阻礙或工程不合規定時，乙方應隨時解決及改正。",
+      "para_start": 43,
+      "para_end": 43,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0044",
+      "text": "四、 本工程之施行，悉依合約所訂條款、設計圖樣及施工說明書以及甲方之指示為準。",
+      "para_start": 44,
+      "para_end": 44,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "04XX專案_block_0045",
+      "text": "第十條 施工管理：",
+      "para_start": 45,
+      "para_end": 45,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0046",
+      "text": "一、乙方對於工程所在地建築法規或條例須一律遵守。",
+      "para_start": 46,
+      "para_end": 46,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0047",
+      "text": "二、乙方須派富有工程經驗並經甲方及客戶同意之負責代表人常駐工地督率施工，並須聽從甲方及客戶代表指揮，如該負責人不稱職，經甲方通知後，乙方應立即撤換並不得藉故向甲方要求賠償損失。",
+      "para_start": 47,
+      "para_end": 47,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0048",
+      "text": "三、乙方必須雇用具有熟悉本工程工作技能之工人，倘不善工作、或不聽指揮、或不守秩序，經甲方通知後，乙方應於二十四小時內予以撤換不得再用，並不得以辭退工人為由向甲方要求賠償損失，或作為展延工期之理由。",
+      "para_start": 48,
+      "para_end": 48,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0049",
+      "text": "四、本工程所需用之材料經甲方認為不合格者，乙方即須搬運出場。所有機具設備均需經甲方驗看認為合格者方得使用，不合格者即須遷出場外。經認可之一切在場機具及新舊材料未經甲方同意不得攜出；施工場地內有價值之物件，或在工地地下掘出之物件為乙方所發現者，應妥善保管並報由甲方處置。",
+      "para_start": 49,
+      "para_end": 49,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0050",
+      "text": "五、乙方在工程期間內無論何時均須延僱適合工作需要之工人，其人數以甲方認為可在合約規定期間內竣工為準。如因工程遲緩，甲方得通知乙方增加人數或加開夜班趕工以達如期完成之目的，乙方不得推諉或藉詞要求補償費用。",
+      "para_start": 50,
+      "para_end": 50,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0051",
+      "text": "六、本工程重要部份經甲方查有與圖樣不符之處，得責令乙方立即拆除，並依照規定式樣或工料重建滿意為止，所有時間及金錢之損失概歸乙方負責。",
+      "para_start": 51,
+      "para_end": 51,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0052",
+      "text": "七、凡遇不適宜工作之天時，乙方應遵照甲方之指示將工作全部或一部分暫停，並須設法保護已完成之工作使其免除損壞。上述是否得作為展延工期之理由，由雙方另行協商。",
+      "para_start": 52,
+      "para_end": 52,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0053",
+      "text": "八、本工程乙方不得無故停工或延緩履行本合約，如有違反，經甲方書面通知後三日內仍未照辦，甲方得另僱他人繼續施工，所有場內之材料器具設備統歸甲方使用，其續造工程之費用、延期損失等，甲方得由未領之工程款及本工程保證金內扣除之，不足之數應歸乙方負擔。至於乙方已做部份工作則由甲方代表核算已做工程之工料價值，經甲方認可照數結清，並由甲方接收本工程，乙方不得異議或要求賠償損失。",
+      "para_start": 53,
+      "para_end": 53,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0054",
+      "text": "九、本工程在未經正式驗收交付甲方接管前，所有已做工程以及存放於工地之機具材料，概由乙方負責保管與防護，凡一切人力難防或意外損壞皆由乙方完全負責。",
+      "para_start": 54,
+      "para_end": 54,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0055",
+      "text": "十、乙方施工時應嚴格要求合乎規定品質及應有標準，並確保工程安全，施工期間發生侵害他人權利情事，除可歸責因設計不當，由設計建築師依建築師法有關規定負責外，均應由乙方負責賠償。建築物驗收合格後於保固期間內之瑕疵修繕，仍應由乙方負責。除本合約約定外，甲方另得援引民法或其他相關法律之規定，請求乙方負瑕疵擔保責任或其他相關責任。",
+      "para_start": 55,
+      "para_end": 55,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0056",
+      "text": "十一、本工程合約金額內已包括勞工安全衛生管理費、勞工保險費、健康保險費、勞工退休金費及乙方就本工程投保之保險費，乙方應遵照有關規定辦理。",
+      "para_start": 56,
+      "para_end": 56,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0057",
+      "text": "十二、乙方負責所有工人之管理及給養，工人如有規外行動或擾亂工程秩序所引起之糾葛由乙方負完全責任，如工人遇有意外或傷亡情事，由乙方自行處理與甲方無涉。因工人行為而致生對第三人之賠償責任者，亦悉由乙方自行承擔。",
+      "para_start": 57,
+      "para_end": 57,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0058",
+      "text": "十三、施工期間乙方應於工作地點日、夜間設置警示燈或防護設施，對於工地之人身及財產之安全，均應由乙方預為防範。工程進行期間，如因單一可歸責於乙方事由致損及工地之建築、路面、溝渠、或上面下部之水電線管、或私有林木、或其他設施、設備等，及第三人生命身體財產，亦統歸乙方負責賠償。",
+      "para_start": 58,
+      "para_end": 58,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0059",
+      "text": "十四、施工期間乙方應加強環境保護及防治公害污染，廢棄物之清運應依當地主管機關之規定辦理，不得任意傾置。如有違反法令，致甲方、客戶及業主遭受行政處罰或其他損失者，乙方應無條件全額賠償甲方之損失。",
+      "para_start": 59,
+      "para_end": 59,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "04XX專案_block_0060",
+      "text": "第十一條 履約保證：",
+      "para_start": 60,
+      "para_end": 60,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0061",
+      "text": "一、 繳納履約保證金：",
+      "para_start": 61,
+      "para_end": 61,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0062",
+      "text": "乙方應於訂約時繳納按合約總價百分之十五之履約保證金。繳納履約保證金得以金融機構簽發之本行支票、設定質權予甲方之金融機構定期存單、現金匯款、涵蓋完整履約期間或保固期間之金融機構的書面連帶保證函。",
+      "para_start": 62,
+      "para_end": 62,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0063",
+      "text": "履約保證金依第四條工程期限分為三期按比例且俟工程完工並經甲方及客戶驗收合格且客戶退還履約保證金後，無息發還，發還金額於前二期各為履約保證金額百分之三十，最後一期則發還履約保證金額百分之四十。但乙方無力完成本工程或有違反合約之任何規定時，甲方得逕自動用該項保證金，無需經過任何法律或行政程序，以維持工程進行或保固維修，如保證金尚不足支應，乙方應依照本合約規定負賠償責任。",
+      "para_start": 63,
+      "para_end": 63,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0064",
+      "text": "第十二條 合約終止：",
+      "para_start": 64,
+      "para_end": 64,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0065",
+      "text": "一、 甲方認為工程有終止之必要時，得隨時終止本合約之全部或一部分工程，一經甲方通知，乙方應立即停工，並由乙方負責遣散工人，其已完成工程及已購買材料，均由甲方核實給價。乙方有下列情事之一時，甲方得隨時終止或解除本合約，甲方因此所受之一切損失，乙方應負賠償責任。甲方並得將違規事實移送主管機關懲戒。",
+      "para_start": 65,
+      "para_end": 65,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0066",
+      "text": "乙方私將工程轉包，或將登記證轉借他人承包本工程，經甲方查明屬實者。",
+      "para_start": 66,
+      "para_end": 66,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0067",
+      "text": "乙方逾規定期限尚未開工，或開工後進行遲緩，進度較預定進度落後廿％以上者。",
+      "para_start": 67,
+      "para_end": 67,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0068",
+      "text": "乙方違背本合約或發生變故，甲方認為其不能履行合約責任時。",
+      "para_start": 68,
+      "para_end": 68,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0069",
+      "text": "乙方能力薄弱，任意停止工作，或作輟無常，進行遲滯有事實者，甲方認為不能如期竣工時。",
+      "para_start": 69,
+      "para_end": 69,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0070",
+      "text": "二、 本合約如因前項各款情事之一終止或解除時，乙方應即停工，負責遣散工人，並將到場材料及機具設備等，交由甲方全權無償使用。",
+      "para_start": 70,
+      "para_end": 70,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0071",
+      "text": "第十三條 工地設備：",
+      "para_start": 71,
+      "para_end": 71,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0072",
+      "text": "一、 乙方對工地設備，應求齊全，諸如工人之食宿、醫療衛生、材料、工具儲存、保管及交還等，均應有充分之作業規定與設備，其設置地點之選擇，以施工方便及安全為原則，且事先與甲方協調並經同意之。",
+      "para_start": 72,
+      "para_end": 72,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0073",
+      "text": "二、 乙方因工程需要，須在工地設置有關設施設備，製造本工程所需材料時，該設施或設備僅可供本工程使用，不得轉供其他工程使用或將其生產之材料出售，並於工程完成後立即拆除，且於檢查無誤後始支付工程尾款。如有觸犯其他法令時概由乙方負完全責任。",
+      "para_start": 73,
+      "para_end": 73,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0074",
+      "text": "第十四條 材料檢查：",
+      "para_start": 74,
+      "para_end": 74,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "04XX專案_block_0075",
+      "text": "一、關係本工程所使用之材料，其品質或等級不甚明瞭時，以甲方指示為準。",
+      "para_start": 75,
+      "para_end": 75,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0076",
+      "text": "二、本工程所使用材料，甲方應於進場時即行檢查之，但甲方之檢查結果不影響乙方之瑕疵擔保責任。",
+      "para_start": 76,
+      "para_end": 76,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0077",
+      "text": "三、特殊材料之檢查如須委託其他機關辦理者，其費用均由乙方負擔。四、檢查不合格之材料乙方應即撤離工地。",
+      "para_start": 77,
+      "para_end": 77,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0078",
+      "text": "五、檢查合格已運入工地材料，非經甲方同意不得撤離工地。",
+      "para_start": 78,
+      "para_end": 78,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0079",
+      "text": "第十五條 材料工具：所有材料工具，除另有規定外，概由乙方購辦，並須經甲方驗看認為合格者，方得使用，其不合格者，須立即遷出場外。存場材料工具，乙方須堆放整齊，對甲方供給之材料，應由乙方出據具領，分別登記，並如數運至工地，經甲方點驗後，負責妥為保管使用，不得浪費流用或變賣，如有遺失損壞及未照規定使用，任意浪費致數量不足時，均由乙方負責。其租借甲方之工具應愛惜使用，如有遺失損壞，應照價賠償。竣工後，剩餘材料及借用甲方之工具等，經甲方派員點收後，乙方應送還甲方指定處所，其費用由乙方負擔之。",
+      "para_start": 79,
+      "para_end": 79,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0080",
+      "text": "第十六條 工程查驗及驗收：",
+      "para_start": 80,
+      "para_end": 80,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0081",
+      "text": "一、 工程於施工中或驗收時，甲方查驗人員認為有必要開挖或拆除一部分工程以作驗收時，乙方不得推諉，並應事後負責修復。如發現乙方使用之材料與規定不符時，如為可拆除抽換者（不影響其他構造物），乙方應立即抽換，不得要求扣款處理或延長工期，其所需時間一併列入工期檢討。如不妨礙安全、美觀或使用功能者，由乙方申請出具安全切結，並經甲方檢討確可不必拆換或拆換確有困難，甲方得以扣款或以不計價方式處理，並於甲方完成報備手續後收受。",
+      "para_start": 81,
+      "para_end": 81,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0082",
+      "text": "二、 工程全部完竣後，乙方應於三日內填具並提出竣工報告，逾期視同未竣工，並繼續計算工期。甲方接獲竣工報告，經查確已按合約圖說全部施工完成，應於接獲報告日起七日內派員初驗。",
+      "para_start": 82,
+      "para_end": 82,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0083",
+      "text": "三、 甲方應於初驗合格後十四天內辦理正式驗收手續。凡驗收（含初驗及複驗）所需之工人、工具及梯架等，概由乙方供給之。甲方及客戶驗收時，如發現工程與規定不符，乙方須依甲方指示在十四天內修改完成或依第一款之規定處理完妥，除其逾改善期限日數視同逾期，應按規定賠償逾期損失外，甲方得不經乙方同意，逕行指使第三人改善及辦理驗收結算，其危險及其所需費用與損失，甲方得在乙方未領工程款或各項保證金內抵扣，如有不足，並得向乙方追討之，乙方不得異議。",
+      "para_start": 83,
+      "para_end": 83,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0084",
+      "text": "四、 全部工程完工之初驗及正式驗收之複驗作業，均以一次為限，乙方應在甲方指定期限內修改完善。如乙方逾期未辦理妥善或複驗後仍未符規定者，自限期之次日起，繼續計算工期，乙方不得異議。",
+      "para_start": 84,
+      "para_end": 84,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0085",
+      "text": "五、 工程全部完工後，乙方如拒不申報竣工或拒不會同辦理驗收、缺點改善、工程結算及保固責任等工作，甲方得逕行辦理上述各項工作後接管使用，其所需費用及損失均得在乙方未領工程款或各項保證金內扣抵，如有不足，並得向乙方追討之，乙方不得異議。",
+      "para_start": 85,
+      "para_end": 85,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0086",
+      "text": "以上各款規定事項，乙方均不得拒絕修改、處理或拖延。",
+      "para_start": 86,
+      "para_end": 86,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0087",
+      "text": "第十七條 部分使用：",
+      "para_start": 87,
+      "para_end": 87,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0088",
+      "text": "一、甲方於工程完成一部分如因提前使用，得先驗收其完成之部分。二、甲方對部分使用工程負保管及安全維護之責。",
+      "para_start": 88,
+      "para_end": 88,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0089",
+      "text": "第十八條 工期展延：",
+      "para_start": 89,
+      "para_end": 89,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "04XX專案_block_0090",
+      "text": "一、本工程如因確可歸責於甲方及平行承包商及不可抗力之因素，導致乙方工期延誤者，乙方得申請延展工期。",
+      "para_start": 90,
+      "para_end": 90,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0091",
+      "text": "二、乙方應盡善良管理人之注意，如工期顯有因前項情事影響時，乙方應立即以書面通知甲方，並協助甲方排除有礙因素。如乙方未善盡告知義務或推諉拒絕協助甲方者，甲方得不接受乙方工期展延申請。",
+      "para_start": 91,
+      "para_end": 91,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0092",
+      "text": "三、乙方應於本條第一項之工期延誤發生之日起十五日內，以書面報告連同工程網圖向甲方申請工期展延，逾期辦理者，視為乙方放棄該項權益。甲方亦應於接獲乙方之工期展延申請文件後卅日內，按實核定展延天數，如有逾期，視為完全接受乙方之展延申請。",
+      "para_start": 92,
+      "para_end": 92,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0093",
+      "text": "第十九條 違約金（逾期罰款）：如因單一可歸責於乙方事由，致乙方未能於第四條約定之期限內完成本工程，每逾一日按承攬總價之千分之ㄧ為損害賠償額預定性遲延違約金給付甲方，且違約金上限為承攬總價之百分之五十。如因可歸責於乙方之事由致甲方受到客戶罰款時，該罰款應由乙方負擔。",
+      "para_start": 93,
+      "para_end": 93,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0094",
+      "text": "第二十條 加班趕工：本工程進行期間，如為配合進度或因施工需要，甲方認為須增加工人或加夜班時，乙方均應照辦，不得推諉或要求甲方補貼費用。",
+      "para_start": 94,
+      "para_end": 94,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0095",
+      "text": "第廿一條 配合施工：與本合約工程有關之其他工程及臨時裝置，經甲方委託其他承包商辦理時，乙方應與其他承包商合作；如因可歸責於乙方之工作不能協調，致生錯誤或延誤工期，或發生其他事故者，其一切損失，均由乙方依甲方裁量賠償之。",
+      "para_start": 95,
+      "para_end": 95,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0096",
+      "text": "第廿二條 工程保管：",
+      "para_start": 96,
+      "para_end": 96,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0097",
+      "text": "一、 本工程未經完工正式驗收以前，所有已完成工程及到場材料（包括甲方及客戶供給及乙方自備經甲方估驗計價者），均由乙方負責保管，倘有損壞或短少，仍應由乙方負責。",
+      "para_start": 97,
+      "para_end": 97,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0098",
+      "text": "二、 本工程由乙方辦理「安裝工程保險」及「第三人意外責任險」。乙方得依前述保險規定內容，自行增加保險範圍及額度，所需之額外保險費悉由乙方自行負擔。如遇任何災害發生，均由乙方自行處理，甲方概不補貼。",
+      "para_start": 98,
+      "para_end": 98,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0099",
+      "text": "第廿三條 工程保固：",
+      "para_start": 99,
+      "para_end": 99,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0100",
+      "text": "一、 本工程自甲方正式驗收合格日次日起，由乙方保固二年並出具保固書。",
+      "para_start": 100,
+      "para_end": 100,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0101",
+      "text": "二、 在保固期間內，如本工程有任何損裂、坍塌、漏水、機器設備運轉不良、功能欠缺、損壞等單一可歸責於乙方之瑕疵，乙方應於甲乙雙方約定期限內免費修復或更換（消耗性零件除外）。",
+      "para_start": 101,
+      "para_end": 101,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0102",
+      "text": "三、 以下情形，不在乙方保固之範圍內：",
+      "para_start": 102,
+      "para_end": 102,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0103",
+      "text": "因甲方或客戶或業主或第三人不當之使用所導致之故障。",
+      "para_start": 103,
+      "para_end": 103,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0104",
+      "text": "因甲方或客戶或業主或第三人之故意或過失行為所造成之故障。",
+      "para_start": 104,
+      "para_end": 104,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "04XX專案_block_0105",
+      "text": "天災、人禍等不可抗力之事故所造成之故障。",
+      "para_start": 105,
+      "para_end": 105,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0106",
+      "text": "甲方或客戶或業主或第三人自行修改本工程。",
+      "para_start": 106,
+      "para_end": 106,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0107",
+      "text": "四、 乙方於甲乙雙方約定期限內未改正或修復，經甲方催告後仍未改正或修復者，甲方得自行處理或另行請人辦理修復、更換，所需合理費用由乙方負擔。",
+      "para_start": 107,
+      "para_end": 107,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0108",
+      "text": "五、 保固保證金：智慧建築管理平台功能測試完成，經甲方及客戶驗收合格後，乙方按結算總價百分之三(3%)繳納保固保證金。",
+      "para_start": 108,
+      "para_end": 108,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0109",
+      "text": "六、 前項保固保證金如保固為二年（含）以內者，期滿且客戶退還保固保證金後，全部退還。",
+      "para_start": 109,
+      "para_end": 109,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0110",
+      "text": "第廿四條 維持交通：乙方於施工期間，不得防礙交通，如因施工必須暫停交通時，須有適當臨時交通動線及安全設備等，並須事先徵得道路主管機關之書面許可，方得動工。",
+      "para_start": 110,
+      "para_end": 110,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0111",
+      "text": "第廿五條 工地安全衛生與環境保護：",
+      "para_start": 111,
+      "para_end": 111,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0112",
+      "text": "一、 本工程施工期間，乙方應遵照勞工安全衛生法及其施行細則、勞工安全衛生設施細則、營造安全衛生設施標準、勞動檢查法及其施行細則、危險性工作場所審查暨檢查辦法、勞動基準法及其施行細則、及甲方之「勞工安全衛生管理作業辦法」與環境保護法令等有關規定確實辦理工安衛生暨環保作業，並隨時注意工地安全及災害防範。如因單一可歸責於乙方事由所導致之任何意外事故，均由乙方負完全責任。",
+      "para_start": 112,
+      "para_end": 112,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0113",
+      "text": "二、 如因單一可歸責於乙方事由，致乙方在甲方工地發生工安衛生、環保及公共危險等事故，由乙方自負一切賠償及法律責任，如須繳納罰款或賠償時，乙方應自行繳付或理賠，否則甲方得在未領工程款或各項保證金內扣除，代為繳付或賠償，乙方不得異議。",
+      "para_start": 113,
+      "para_end": 113,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0114",
+      "text": "三、 乙方如未遵照有關法規辦理工安衛生及環保作業，而有發生災害之虞者，經甲方書面通知限期改善而不及時改善時，得視情況暫停計價付款至改善為止，或終止本合約，或依規定罰款，乙方不得異議。",
+      "para_start": 114,
+      "para_end": 114,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0115",
+      "text": "第廿六條 損害賠償：本工程係甲方配合客戶之需要而委託乙方承攬，如甲方因乙方未確實履行本契約而對客戶發生之一切契約及非契約責任，均應由乙方負擔。如乙方違反本契約之約定，致甲方受到損害，亦應由乙方負擔損害賠償責任。本契約所規定之違約金或保證金之扣抵、動用、沒收等均屬懲罰性違約金之約定，如乙方未履約，甲方除得以計罰違約金或扣抵、動用、沒收保證金外，亦得請求損害賠償。",
+      "para_start": 115,
+      "para_end": 115,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0116",
+      "text": "第廿七條 預防危險：施工期間，乙方應於工地加強安全措施、清潔環境及消除髒亂，否則依法處理。對於工地人身及財產之安全，必須預為防範，工地設施須善加保護，倘因單一可歸責於乙方事由致發生任何意外及損失，均由乙方負責。",
+      "para_start": 116,
+      "para_end": 116,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0117",
+      "text": "第廿八條 乙方如與他人有債務糾紛，經法院命令扣留工程款者，乙方不得藉故停工，如發生損害，應由乙方負責。",
+      "para_start": 117,
+      "para_end": 117,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0118",
+      "text": "第廿九條 合約期間：本合約及其附件自簽訂之日起生效，至本工程全部完竣驗收及保固期滿之日為止。",
+      "para_start": 118,
+      "para_end": 118,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0119",
+      "text": "第三十條 準據法及爭議解決：本契約之準據法為中華民國法律。因本契約所生之一切爭議，雙方同意本誠實信用、平等互惠原則協議解決之；如雙方無法以協議解決，同意以臺灣臺北地方法院為第一審管轄法院。",
+      "para_start": 119,
+      "para_end": 119,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "04XX專案_block_0120",
+      "text": "第卅一條 合約份數及附件：本合約正本（印花稅票各自貼附）二份，甲乙方各執一份；本合約附件為(1) 報價單；(2) 設計圖說；(3) 配管配線明細表；(4) 硬體設備明細表；(5)施工規範；(6) 設備材料品牌選用表；(7) 罰款辦法；(8) 保密承諾書； (9) 承攬商職業安全衛生暨環保承諾書；(10) 承攬商工作場所之環境危害告知聲明書；(11) 承攬商職業安全衛生管理實施要點。",
+      "para_start": 120,
+      "para_end": 120,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "04XX專案_block_0121",
+      "text": "第卅二條 其他約定：",
+      "para_start": 121,
+      "para_end": 121,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "04XX專案_block_0122",
+      "text": "一、 本合約各項單價不隨物價指數或工資漲跌調整。",
+      "para_start": 122,
+      "para_end": 122,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "04XX專案_block_0123",
+      "text": "二、 乙方應依報價時所提施工計劃之工地人員組織表，於開工後卅日內，調派足夠及經甲方認可之工程人員常駐工地現場，未經甲方書面同意，不得任意調離，如乙方人員不足或任意調動時，經甲方書面通知三日內仍未改善者，甲方得按不足人數，每員扣罰新台幣參萬伍仟柒佰元整，按日扣罰至補足人員為止，是項罰款，甲方得於當期未領工程款內扣除。",
+      "para_start": 123,
+      "para_end": 123,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "04XX專案_block_0124",
+      "text": "三、 本工程於進行裝修前，乙方應按甲方指示擇定一層樓面，先行裝修地坪、牆面及平頂天花，與完成水電、空調及消防整合，施作一樣品層（含修改），經甲方核可後，方得繼續進行其餘樓層之裝修。樣品層之施作及拆除費用均已含於合約金額內，乙方不得推諉拒絕或要求補償。",
+      "para_start": 124,
+      "para_end": 124,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "04XX專案_block_0125",
+      "text": "四、乙方應選派具品管工程師執照及機電工程施工實務經驗，並經甲方核可之品管工程師常駐本工程工地現場，確實執行本工程各項品質管制工作。該品管工程師如不稱職，一經甲方通知，乙方應立即撤換及指派合格人員接任，不得推諉拒絕或要求補償。",
+      "para_start": 125,
+      "para_end": 125,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "04XX專案_block_0126",
+      "text": "五、 乙方應依施工規範各項規定辦理，不得異議。如有違反規定，依第七條之第五款辦理。",
+      "para_start": 126,
+      "para_end": 126,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "04XX專案_block_0127",
+      "text": "六、  A棟使用執照取得日期修正為 2026 年 8 月 31 日。",
+      "para_start": 127,
+      "para_end": 127,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "04XX專案_block_0128",
+      "text": "七、 合約保固期滿後，如於使用中發現本工程之設備與或材料與當初送審規範不符，經會勘查驗後明確可歸咎於乙方責任，乙方須無償負責修復完成。",
+      "para_start": 128,
+      "para_end": 128,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "04XX專案_block_0129",
+      "text": "八、任一方不因本合約而取得他方在本合約生效前已取得之智慧財產權。",
+      "para_start": 129,
+      "para_end": 129,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "04XX專案_block_0132",
+      "text": "立合約書人",
+      "para_start": 132,
+      "para_end": 132,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "04XX專案_block_0134",
+      "text": "甲\t方：",
+      "para_start": 134,
+      "para_end": 134,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "04XX專案_block_0135",
+      "text": "負 責 人：",
+      "para_start": 135,
+      "para_end": 135,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "04XX專案_block_0136",
+      "text": "統一編號：",
+      "para_start": 136,
+      "para_end": 136,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "04XX專案_block_0137",
+      "text": "地\t址：",
+      "para_start": 137,
+      "para_end": 137,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "04XX專案_block_0138",
+      "text": "電\t話：",
+      "para_start": 138,
+      "para_end": 138,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "04XX專案_block_0140",
+      "text": "乙\t方：",
+      "para_start": 140,
+      "para_end": 140,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "04XX專案_block_0141",
+      "text": "負 責 人：",
+      "para_start": 141,
+      "para_end": 141,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "04XX專案_block_0142",
+      "text": "統一編號：",
+      "para_start": 142,
+      "para_end": 142,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "04XX專案_block_0143",
+      "text": "地\t址：",
+      "para_start": 143,
+      "para_end": 143,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "04XX專案_block_0144",
+      "text": "電\t話：",
+      "para_start": 144,
+      "para_end": 144,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "04XX專案_block_0146",
+      "text": "立\t約\t日\t期\t：\t中\t華\t民\t國\t114\t年\t10\t月\t21\t日",
+      "para_start": 146,
+      "para_end": 146,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "04XX專案_block_0148",
+      "text": "附件八：保密承諾書",
+      "para_start": 148,
+      "para_end": 148,
+      "page_estimate": 10
+    },
+    {
+      "block_id": "04XX專案_block_0150",
+      "text": "（以下簡稱乙方），因參與「XX專案」(下稱「本工程」)，乙方承諾：",
+      "para_start": 150,
+      "para_end": 150,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "04XX專案_block_0152",
+      "text": "第一條、 乙方對於自股份有限公司(下稱「甲方」)所取得之有關本工程之任何形式資料（含圖說、電子檔、照片等）應負完全保密之責任。",
+      "para_start": 152,
+      "para_end": 152,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "04XX專案_block_0153",
+      "text": "第二條、 甲方如發現就本工程所提供之任何形式資料遭其他第三人使用或外界流傳時，應立即通知乙方，並要求乙方採取必要措施，倘因乙方不當使用，造成違法情事，應依相關法令負其應負之責任。",
+      "para_start": 153,
+      "para_end": 153,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "04XX專案_block_0154",
+      "text": "第三條、 如因乙方或其指派人員蓄意洩漏予非指定之第三者或可歸責於乙方之疏忽，導致於甲方有任何損害，乙方願負其法律責任，並參與訴訟之進行。",
+      "para_start": 154,
+      "para_end": 154,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "04XX專案_block_0155",
+      "text": "第四條、",
+      "para_start": 155,
+      "para_end": 155,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "04XX專案_block_0156",
+      "text": "第五條、 甲方提供之本工程文件不得移作其他用途，亦不得提供與本工程無相關之人或機構，如有遺失或洩密致使甲方蒙受損失時，乙方應依法負責賠償。",
+      "para_start": 156,
+      "para_end": 156,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "04XX專案_block_0157",
+      "text": "第六條、 乙方於施工過程中，所繪製之相關施工圖說、機具設備、工程攝影、拍照、送審及會議紀錄等文件，非經甲方同意，不得提供無相關之人員；包含文件資料傳送或口述等等。",
+      "para_start": 157,
+      "para_end": 157,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "04XX專案_block_0158",
+      "text": "第七條、 除文件圖說資料外，有關甲方提供本案建廠之相關資訊，包括但不限於工程概要、造價、產線配置、製程內容、客戶名稱等等，亦不得提供無相關之人員；包含文件資料傳送或口述等等。",
+      "para_start": 158,
+      "para_end": 158,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "04XX專案_block_0159",
+      "text": "第八條、 合約終止時，乙方應將甲方及業主()所提供之任何形式資料(含文件、媒體、電子檔、照片等)全數歸還或銷毀。",
+      "para_start": 159,
+      "para_end": 159,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "04XX專案_block_0160",
+      "text": "第九條、 關於本承諾書引起之爭議，甲乙雙方同意先本誠信原則磋商之，磋商不成，如需進行訴訟時，甲乙雙方同意以台北地方法院為第一審管轄法院。",
+      "para_start": 160,
+      "para_end": 160,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "04XX專案_block_0162",
+      "text": "此致",
+      "para_start": 162,
+      "para_end": 162,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "04XX專案_block_0164",
+      "text": "股份有限公司",
+      "para_start": 164,
+      "para_end": 164,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "04XX專案_block_0167",
+      "text": "立承諾書人",
+      "para_start": 167,
+      "para_end": 167,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "04XX專案_block_0169",
+      "text": "公司名稱：",
+      "para_start": 169,
+      "para_end": 169,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "04XX專案_block_0170",
+      "text": "負 責 人：",
+      "para_start": 170,
+      "para_end": 170,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "04XX專案_block_0171",
+      "text": "統一編號：",
+      "para_start": 171,
+      "para_end": 171,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "04XX專案_block_0172",
+      "text": "地\t址：",
+      "para_start": 172,
+      "para_end": 172,
+      "page_estimate": 12
+    },
+    {
+      "block_id": "04XX專案_block_0173",
+      "text": "電\t話：",
+      "para_start": 173,
+      "para_end": 173,
+      "page_estimate": 12
+    }
+  ],
+  "raw_text_preview": "工程合約書\n甲方：\n立合約書人\n乙方：\n茲因甲方客戶【】 (下稱「客戶」)承攬【】 (下稱「業主」)之「XX專案」之機電工程，客戶將部分工程委由甲方處理，甲方將該工程之「 各項系統整合工程/門禁通關 」委由乙方承攬，雙方同意訂立本合約共同遵守，約定條款如下︰\n第一條 工程名稱：XX專案\n第二條 工程範圍：除另有規定外，凡本工程設計圖說、施工規範、本合約附件所包含之工作與工程變更，均屬本合約之工程範圍。\n(工程地點：)\n第三條 承攬總價：總價計新台幣 參仟貳佰萬貳拾捌萬伍仟伍佰陸拾參 元(NT$     32,285,563)整（含加值營業稅）。\n一、 本工程為固定總價方式承攬。乙方認為並無漏估項目或數量，報價單內原列項目或數量如有遺漏或誤算，均不影響前項本合約所定之工程總額，乙方決不藉任何理由要求加價，並願照本合約造價、期限及圖說全部完工。\n二、 增減帳辦理規定：如工程涉及變更，由甲乙雙方按本工程內各分項工程之合約圖與施工圖之差異部份核算數量，依本合約第六條規定辦理增減帳。\n第四條 工程期限：\n一、本工程應分三階段完成。如因甲方需追加工程或工程途中有所變更時，以致影響完工日期，則依第十八條展延工期。\n第一階段：於主體工程申報竣工之次日起 30 日曆天內，配合裝修進度完成設備安裝作業。\n第二階段：於主體工程使用執照取得之次日起 30 日曆天內完成附件一報價單「系統名稱」項目一至項目十三之各單機設備及系統自主檢查測試。\n第三階段：於主體工程送水送電完成之次日起 45 日曆天內完成整合智慧建築管理平台功能檢測(應配合機電訊號整合)。\n二、 乙方應盡力依前項約定完成本工程之施工進度，如因單一可歸責於乙方事由致本工程進度嚴重落後時，甲方有權要求乙方增派工人或日夜加班趕工，乙方應予以配合，因此所增加之合理費用概由乙方自行負擔。\n第五條 合約範圍：本合約包括合約條文、報價單、設計圖說、施工規範及保密承諾書等文件。合約各文件之規定得互為補充，如有牴觸或疑義之處，悉依甲方解釋為準。\n第六條 工程變更：甲方對工程有隨時變更計劃及增減工程數量之權，無正當理由乙方不得有議。本工程所需工料如有未盡載明於圖說內但為工程技術及慣例上所不可欠缺者，乙方均應照做，絕對不得要求變更原定造價。惟確屬增改或變更計劃，乙方須另行開具增加或扣減價格清單，陳報甲方以書面核定認可。因工程變更致數量有增減時，其工程費之計算應按照本合約所定之單價為準，如有新增工程項目，另由雙方議定合理單價，並依甲方相關規定辦理。\n第七條 付款辦法：於甲方就乙方完成之工作已收到客戶之各期工程款項後分期付款如下：",
+  "pipeline_revision": "2026-04-27-citation-summary-v1",
+  "_meta": {
+    "extraction_path": "llm_tasks",
+    "fallback_reason": "version:no_blocks",
+    "prompt_tokens": 2795,
+    "llm_ms": 100285,
+    "pipeline_revision": "2026-04-27-citation-summary-v1"
+  },
+  "segment_map": {
+    "payment_header_offsets": [
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "checkpoint_offsets": [],
+    "work_item_label_offsets": [],
+    "amount_block_ids": [
+      "04XX專案_block_0022",
+      "04XX專案_block_0023",
+      "04XX專案_block_0024",
+      "04XX專案_block_0025",
+      "04XX專案_block_0026"
+    ],
+    "percentage_block_ids": [
+      "04XX專案_block_0022",
+      "04XX專案_block_0023",
+      "04XX專案_block_0024",
+      "04XX專案_block_0025",
+      "04XX專案_block_0026",
+      "04XX專案_block_0108"
+    ],
+    "deprecated_block_ids": []
+  },
+  "scope_items": [
+    "茲因甲方客戶【】 (下稱「客戶」)承攬【】 (下稱「業主」)之「XX專案」之機電工程，客戶將部分工程委由甲方處理，甲方將該工程之「 各項系統整合工程/門禁通關 」委由乙方承攬，雙方同意訂立本合約共同遵守，約定條款如下︰",
+    "第二階段：於主體工程使用執照取得之次日起 30 日曆天內完成附件一報價單「系統名稱」項目一至項目十三之各單機設備及系統自主檢查測試。",
+    "第三階段：於主體工程送水送電完成之次日起 45 日曆天內完成整合智慧建築管理平台功能檢測(應配合機電訊號整合)。",
+    "功能檢測款(20%)：乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。"
+  ],
+  "acceptance_requirements": [
+    "一、 本工程為固定總價方式承攬。乙方認為並無漏估項目或數量，報價單內原列項目或數量如有遺漏或誤算，均不影響前項本合約所定之工程總額，乙方決不藉任何理由要求加價，並願照本合約造價、期限及圖說全部完工。",
+    "一、本工程應分三階段完成。如因甲方需追加工程或工程途中有所變更時，以致影響完工日期，則依第十八條展延工期。",
+    "第二階段：於主體工程使用執照取得之次日起 30 日曆天內完成附件一報價單「系統名稱」項目一至項目十三之各單機設備及系統自主檢查測試。",
+    "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方。",
+    "功能檢測款(20%)：乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+    "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方。",
+    "審核乙方提出之工程進度表、施工計劃、改善計劃、估驗請款及監督實際施工。",
+    "九、本工程在未經正式驗收交付甲方接管前，所有已做工程以及存放於工地之機具材料，概由乙方負責保管與防護，凡一切人力難防或意外損壞皆由乙方完全負責。"
+  ],
+  "safety_requirements": [
+    "就工程圖樣及施工說明書範圍之施工督導。",
+    "九、本工程在未經正式驗收交付甲方接管前，所有已做工程以及存放於工地之機具材料，概由乙方負責保管與防護，凡一切人力難防或意外損壞皆由乙方完全負責。",
+    "十、乙方施工時應嚴格要求合乎規定品質及應有標準，並確保工程安全，施工期間發生侵害他人權利情事，除可歸責因設計不當，由設計建築師依建築師法有關規定負責外，均應由乙方負責賠償。建築物驗收合格後於保固期間內之瑕疵修繕，仍應由乙方負責。除本合約約定外，甲方另得援引民法或其他相關法律之規定，請求乙方負瑕疵擔保責任或其他相關責任。",
+    "十一、本工程合約金額內已包括勞工安全衛生管理費、勞工保險費、健康保險費、勞工退休金費及乙方就本工程投保之保險費，乙方應遵照有關規定辦理。",
+    "十三、施工期間乙方應於工作地點日、夜間設置警示燈或防護設施，對於工地之人身及財產之安全，均應由乙方預為防範。工程進行期間，如因單一可歸責於乙方事由致損及工地之建築、路面、溝渠、或上面下部之水電線管、或私有林木、或其他設施、設備等，及第三人生命身體財產，亦統歸乙方負責賠償。",
+    "一、 乙方對工地設備，應求齊全，諸如工人之食宿、醫療衛生、材料、工具儲存、保管及交還等，均應有充分之作業規定與設備，其設置地點之選擇，以施工方便及安全為原則，且事先與甲方協調並經同意之。",
+    "一、 工程於施工中或驗收時，甲方查驗人員認為有必要開挖或拆除一部分工程以作驗收時，乙方不得推諉，並應事後負責修復。如發現乙方使用之材料與規定不符時，如為可拆除抽換者（不影響其他構造物），乙方應立即抽換，不得要求扣款處理或延長工期，其所需時間一併列入工期檢討。如不妨礙安全、美觀或使用功能者，由乙方申請出具安全切結，並經甲方檢討確可不必拆換或拆換確有困難，甲方得以扣款或以不計價方式處理，並於甲方完成報備手續後收受。",
+    "一、甲方於工程完成一部分如因提前使用，得先驗收其完成之部分。二、甲方對部分使用工程負保管及安全維護之責。"
+  ],
+  "warranty_requirements": [
+    "乙方派駐工地之負責人未能盡職，以致工地管理紊亂，施工草率，經通知改善或更換，而乙方遲未辦理時。",
+    "十、乙方施工時應嚴格要求合乎規定品質及應有標準，並確保工程安全，施工期間發生侵害他人權利情事，除可歸責因設計不當，由設計建築師依建築師法有關規定負責外，均應由乙方負責賠償。建築物驗收合格後於保固期間內之瑕疵修繕，仍應由乙方負責。除本合約約定外，甲方另得援引民法或其他相關法律之規定，請求乙方負瑕疵擔保責任或其他相關責任。",
+    "乙方應於訂約時繳納按合約總價百分之十五之履約保證金。繳納履約保證金得以金融機構簽發之本行支票、設定質權予甲方之金融機構定期存單、現金匯款、涵蓋完整履約期間或保固期間之金融機構的書面連帶保證函。",
+    "履約保證金依第四條工程期限分為三期按比例且俟工程完工並經甲方及客戶驗收合格且客戶退還履約保證金後，無息發還，發還金額於前二期各為履約保證金額百分之三十，最後一期則發還履約保證金額百分之四十。但乙方無力完成本工程或有違反合約之任何規定時，甲方得逕自動用該項保證金，無需經過任何法律或行政程序，以維持工程進行或保固維修，如保證金尚不足支應，乙方應依照本合約規定負賠償責任。",
+    "五、 工程全部完工後，乙方如拒不申報竣工或拒不會同辦理驗收、缺點改善、工程結算及保固責任等工作，甲方得逕行辦理上述各項工作後接管使用，其所需費用及損失均得在乙方未領工程款或各項保證金內扣抵，如有不足，並得向乙方追討之，乙方不得異議。",
+    "第廿三條 工程保固：",
+    "一、 本工程自甲方正式驗收合格日次日起，由乙方保固二年並出具保固書。",
+    "二、 在保固期間內，如本工程有任何損裂、坍塌、漏水、機器設備運轉不良、功能欠缺、損壞等單一可歸責於乙方之瑕疵，乙方應於甲乙雙方約定期限內免費修復或更換（消耗性零件除外）。"
+  ],
+  "normalization": {
+    "llm_attempted": true,
+    "llm_applied": true
+  },
+  "locator_blocks": [
+    {
+      "block_id": "04XX專案_block_0008",
+      "paragraph_index": 8,
+      "page_estimate": 1,
+      "labels": [
+        "context"
+      ],
+      "text": "(工程地點：)",
+      "context_before": [
+        "第二條 工程範圍：除另有規定外，凡本工程設計圖說、施工規範、本合約附件所包含之工作與工程變更，均屬本合約之工程範圍。"
+      ],
+      "context_after": [
+        "第三條 承攬總價：總價計新台幣 參仟貳佰萬貳拾捌萬伍仟伍佰陸拾參 元(NT$     32,285,563)整（含加值營業稅）。",
+        "一、 本工程為固定總價方式承攬。乙方認為並無漏估項目或數量，報價單內原列項目或數量如有遺漏或誤算，均不影響前項本合約所定之工程總額，乙方決不藉任何理由要求加價，並願照本合約造價、期限及圖說全部完工。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0009",
+      "paragraph_index": 9,
+      "page_estimate": 1,
+      "labels": [
+        "total_amount"
+      ],
+      "text": "第三條 承攬總價：總價計新台幣 參仟貳佰萬貳拾捌萬伍仟伍佰陸拾參 元(NT$     32,285,563)整（含加值營業稅）。",
+      "context_before": [
+        "(工程地點：)"
+      ],
+      "context_after": [
+        "一、 本工程為固定總價方式承攬。乙方認為並無漏估項目或數量，報價單內原列項目或數量如有遺漏或誤算，均不影響前項本合約所定之工程總額，乙方決不藉任何理由要求加價，並願照本合約造價、期限及圖說全部完工。",
+        "二、 增減帳辦理規定：如工程涉及變更，由甲乙雙方按本工程內各分項工程之合約圖與施工圖之差異部份核算數量，依本合約第六條規定辦理增減帳。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0010",
+      "paragraph_index": 10,
+      "page_estimate": 1,
+      "labels": [
+        "total_amount",
+        "work_item"
+      ],
+      "text": "一、 本工程為固定總價方式承攬。乙方認為並無漏估項目或數量，報價單內原列項目或數量如有遺漏或誤算，均不影響前項本合約所定之工程總額，乙方決不藉任何理由要求加價，並願照本合約造價、期限及圖說全部完工。",
+      "context_before": [
+        "第三條 承攬總價：總價計新台幣 參仟貳佰萬貳拾捌萬伍仟伍佰陸拾參 元(NT$     32,285,563)整（含加值營業稅）。"
+      ],
+      "context_after": [
+        "二、 增減帳辦理規定：如工程涉及變更，由甲乙雙方按本工程內各分項工程之合約圖與施工圖之差異部份核算數量，依本合約第六條規定辦理增減帳。",
+        "第四條 工程期限："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0011",
+      "paragraph_index": 11,
+      "page_estimate": 1,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、 增減帳辦理規定：如工程涉及變更，由甲乙雙方按本工程內各分項工程之合約圖與施工圖之差異部份核算數量，依本合約第六條規定辦理增減帳。",
+      "context_before": [
+        "一、 本工程為固定總價方式承攬。乙方認為並無漏估項目或數量，報價單內原列項目或數量如有遺漏或誤算，均不影響前項本合約所定之工程總額，乙方決不藉任何理由要求加價，並願照本合約造價、期限及圖說全部完工。"
+      ],
+      "context_after": [
+        "第四條 工程期限：",
+        "一、本工程應分三階段完成。如因甲方需追加工程或工程途中有所變更時，以致影響完工日期，則依第十八條展延工期。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0012",
+      "paragraph_index": 12,
+      "page_estimate": 1,
+      "labels": [
+        "context"
+      ],
+      "text": "第四條 工程期限：",
+      "context_before": [
+        "二、 增減帳辦理規定：如工程涉及變更，由甲乙雙方按本工程內各分項工程之合約圖與施工圖之差異部份核算數量，依本合約第六條規定辦理增減帳。"
+      ],
+      "context_after": [
+        "一、本工程應分三階段完成。如因甲方需追加工程或工程途中有所變更時，以致影響完工日期，則依第十八條展延工期。",
+        "第一階段：於主體工程申報竣工之次日起 30 日曆天內，配合裝修進度完成設備安裝作業。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0013",
+      "paragraph_index": 13,
+      "page_estimate": 1,
+      "labels": [
+        "work_item"
+      ],
+      "text": "一、本工程應分三階段完成。如因甲方需追加工程或工程途中有所變更時，以致影響完工日期，則依第十八條展延工期。",
+      "context_before": [
+        "第四條 工程期限："
+      ],
+      "context_after": [
+        "第一階段：於主體工程申報竣工之次日起 30 日曆天內，配合裝修進度完成設備安裝作業。",
+        "第二階段：於主體工程使用執照取得之次日起 30 日曆天內完成附件一報價單「系統名稱」項目一至項目十三之各單機設備及系統自主檢查測試。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0014",
+      "paragraph_index": 14,
+      "page_estimate": 1,
+      "labels": [
+        "context"
+      ],
+      "text": "第一階段：於主體工程申報竣工之次日起 30 日曆天內，配合裝修進度完成設備安裝作業。",
+      "context_before": [
+        "一、本工程應分三階段完成。如因甲方需追加工程或工程途中有所變更時，以致影響完工日期，則依第十八條展延工期。"
+      ],
+      "context_after": [
+        "第二階段：於主體工程使用執照取得之次日起 30 日曆天內完成附件一報價單「系統名稱」項目一至項目十三之各單機設備及系統自主檢查測試。",
+        "第三階段：於主體工程送水送電完成之次日起 45 日曆天內完成整合智慧建築管理平台功能檢測(應配合機電訊號整合)。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0015",
+      "paragraph_index": 15,
+      "page_estimate": 2,
+      "labels": [
+        "context"
+      ],
+      "text": "第二階段：於主體工程使用執照取得之次日起 30 日曆天內完成附件一報價單「系統名稱」項目一至項目十三之各單機設備及系統自主檢查測試。",
+      "context_before": [
+        "第一階段：於主體工程申報竣工之次日起 30 日曆天內，配合裝修進度完成設備安裝作業。"
+      ],
+      "context_after": [
+        "第三階段：於主體工程送水送電完成之次日起 45 日曆天內完成整合智慧建築管理平台功能檢測(應配合機電訊號整合)。",
+        "二、 乙方應盡力依前項約定完成本工程之施工進度，如因單一可歸責於乙方事由致本工程進度嚴重落後時，甲方有權要求乙方增派工人或日夜加班趕工，乙方應予以配合，因此所增加之合理費用概由乙方自行負擔。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0016",
+      "paragraph_index": 16,
+      "page_estimate": 2,
+      "labels": [
+        "context"
+      ],
+      "text": "第三階段：於主體工程送水送電完成之次日起 45 日曆天內完成整合智慧建築管理平台功能檢測(應配合機電訊號整合)。",
+      "context_before": [
+        "第二階段：於主體工程使用執照取得之次日起 30 日曆天內完成附件一報價單「系統名稱」項目一至項目十三之各單機設備及系統自主檢查測試。"
+      ],
+      "context_after": [
+        "二、 乙方應盡力依前項約定完成本工程之施工進度，如因單一可歸責於乙方事由致本工程進度嚴重落後時，甲方有權要求乙方增派工人或日夜加班趕工，乙方應予以配合，因此所增加之合理費用概由乙方自行負擔。",
+        "第五條 合約範圍：本合約包括合約條文、報價單、設計圖說、施工規範及保密承諾書等文件。合約各文件之規定得互為補充，如有牴觸或疑義之處，悉依甲方解釋為準。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0017",
+      "paragraph_index": 17,
+      "page_estimate": 2,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、 乙方應盡力依前項約定完成本工程之施工進度，如因單一可歸責於乙方事由致本工程進度嚴重落後時，甲方有權要求乙方增派工人或日夜加班趕工，乙方應予以配合，因此所增加之合理費用概由乙方自行負擔。",
+      "context_before": [
+        "第三階段：於主體工程送水送電完成之次日起 45 日曆天內完成整合智慧建築管理平台功能檢測(應配合機電訊號整合)。"
+      ],
+      "context_after": [
+        "第五條 合約範圍：本合約包括合約條文、報價單、設計圖說、施工規範及保密承諾書等文件。合約各文件之規定得互為補充，如有牴觸或疑義之處，悉依甲方解釋為準。",
+        "第六條 工程變更：甲方對工程有隨時變更計劃及增減工程數量之權，無正當理由乙方不得有議。本工程所需工料如有未盡載明於圖說內但為工程技術及慣例上所不可欠缺者，乙方均應照做，絕對不得要求變更原定造價。惟確屬增改或變更計劃，乙方須另行開具增加或扣減價格清單，陳報甲方以書面核定認可。因工程變更致數量有增減時，其工程費之計算應按照本合約所定之單價為準，如有新增工程項目，另由雙方議定合理單價，並依甲方相關規定辦理。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0018",
+      "paragraph_index": 18,
+      "page_estimate": 2,
+      "labels": [
+        "context"
+      ],
+      "text": "第五條 合約範圍：本合約包括合約條文、報價單、設計圖說、施工規範及保密承諾書等文件。合約各文件之規定得互為補充，如有牴觸或疑義之處，悉依甲方解釋為準。",
+      "context_before": [
+        "二、 乙方應盡力依前項約定完成本工程之施工進度，如因單一可歸責於乙方事由致本工程進度嚴重落後時，甲方有權要求乙方增派工人或日夜加班趕工，乙方應予以配合，因此所增加之合理費用概由乙方自行負擔。"
+      ],
+      "context_after": [
+        "第六條 工程變更：甲方對工程有隨時變更計劃及增減工程數量之權，無正當理由乙方不得有議。本工程所需工料如有未盡載明於圖說內但為工程技術及慣例上所不可欠缺者，乙方均應照做，絕對不得要求變更原定造價。惟確屬增改或變更計劃，乙方須另行開具增加或扣減價格清單，陳報甲方以書面核定認可。因工程變更致數量有增減時，其工程費之計算應按照本合約所定之單價為準，如有新增工程項目，另由雙方議定合理單價，並依甲方相關規定辦理。",
+        "第七條 付款辦法：於甲方就乙方完成之工作已收到客戶之各期工程款項後分期付款如下："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0019",
+      "paragraph_index": 19,
+      "page_estimate": 2,
+      "labels": [
+        "context"
+      ],
+      "text": "第六條 工程變更：甲方對工程有隨時變更計劃及增減工程數量之權，無正當理由乙方不得有議。本工程所需工料如有未盡載明於圖說內但為工程技術及慣例上所不可欠缺者，乙方均應照做，絕對不得要求變更原定造價。惟確屬增改或變更計劃，乙方須另行開具增加或扣減價格清單，陳報甲方以書面核定認可。因工程變更致數量有增減時，其工程費之計算應按照本合約所定之單價為準，如有新增工程項目，另由雙方議定合理單價，並依甲方相關規定辦理。",
+      "context_before": [
+        "第五條 合約範圍：本合約包括合約條文、報價單、設計圖說、施工規範及保密承諾書等文件。合約各文件之規定得互為補充，如有牴觸或疑義之處，悉依甲方解釋為準。"
+      ],
+      "context_after": [
+        "第七條 付款辦法：於甲方就乙方完成之工作已收到客戶之各期工程款項後分期付款如下：",
+        "一、 分期付款(分六期)："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0020",
+      "paragraph_index": 20,
+      "page_estimate": 2,
+      "labels": [
+        "payment"
+      ],
+      "text": "第七條 付款辦法：於甲方就乙方完成之工作已收到客戶之各期工程款項後分期付款如下：",
+      "context_before": [
+        "第六條 工程變更：甲方對工程有隨時變更計劃及增減工程數量之權，無正當理由乙方不得有議。本工程所需工料如有未盡載明於圖說內但為工程技術及慣例上所不可欠缺者，乙方均應照做，絕對不得要求變更原定造價。惟確屬增改或變更計劃，乙方須另行開具增加或扣減價格清單，陳報甲方以書面核定認可。因工程變更致數量有增減時，其工程費之計算應按照本合約所定之單價為準，如有新增工程項目，另由雙方議定合理單價，並依甲方相關規定辦理。"
+      ],
+      "context_after": [
+        "一、 分期付款(分六期)：",
+        "簽約金(20%)：本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0021",
+      "paragraph_index": 21,
+      "page_estimate": 2,
+      "labels": [
+        "payment",
+        "work_item"
+      ],
+      "text": "一、 分期付款(分六期)：",
+      "context_before": [
+        "第七條 付款辦法：於甲方就乙方完成之工作已收到客戶之各期工程款項後分期付款如下："
+      ],
+      "context_after": [
+        "簽約金(20%)：本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+        "工程設備款(20%)：乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方。："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0022",
+      "paragraph_index": 22,
+      "page_estimate": 2,
+      "labels": [
+        "amount",
+        "milestone_header",
+        "payment",
+        "percentage",
+        "total_amount"
+      ],
+      "text": "簽約金(20%)：本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+      "context_before": [
+        "一、 分期付款(分六期)："
+      ],
+      "context_after": [
+        "工程設備款(20%)：乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方。：",
+        "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0023",
+      "paragraph_index": 23,
+      "page_estimate": 2,
+      "labels": [
+        "amount",
+        "milestone_header",
+        "payment",
+        "percentage",
+        "total_amount"
+      ],
+      "text": "工程設備款(20%)：乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方。：",
+      "context_before": [
+        "簽約金(20%)：本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。"
+      ],
+      "context_after": [
+        "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方。",
+        "功能檢測款(20%)：乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0024",
+      "paragraph_index": 24,
+      "page_estimate": 2,
+      "labels": [
+        "acceptance",
+        "amount",
+        "milestone_header",
+        "payment",
+        "percentage",
+        "total_amount"
+      ],
+      "text": "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方。",
+      "context_before": [
+        "工程設備款(20%)：乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方。："
+      ],
+      "context_after": [
+        "功能檢測款(20%)：乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+        "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0025",
+      "paragraph_index": 25,
+      "page_estimate": 2,
+      "labels": [
+        "acceptance",
+        "amount",
+        "milestone_header",
+        "payment",
+        "percentage",
+        "total_amount"
+      ],
+      "text": "功能檢測款(20%)：乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+      "context_before": [
+        "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方。"
+      ],
+      "context_after": [
+        "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方。",
+        "二、 乙方應依前項約定，於各期符合請款條件時，開具請領發票憑證及相關請款文件向甲方請款。甲方於收到前述文件並確認無誤後，於發票日後45天內給付該期款項至乙方指定帳戶。如係因非可歸責於乙方之事由致甲方無法自客戶處取得全部或當期工程款，則乙方應對甲方之損失負責。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0026",
+      "paragraph_index": 26,
+      "page_estimate": 2,
+      "labels": [
+        "acceptance",
+        "amount",
+        "milestone_header",
+        "payment",
+        "percentage",
+        "total_amount"
+      ],
+      "text": "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方。",
+      "context_before": [
+        "功能檢測款(20%)：乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。"
+      ],
+      "context_after": [
+        "二、 乙方應依前項約定，於各期符合請款條件時，開具請領發票憑證及相關請款文件向甲方請款。甲方於收到前述文件並確認無誤後，於發票日後45天內給付該期款項至乙方指定帳戶。如係因非可歸責於乙方之事由致甲方無法自客戶處取得全部或當期工程款，則乙方應對甲方之損失負責。",
+        "三、 乙方如有下列情形之一者，甲方有權暫行停止計價付款："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0027",
+      "paragraph_index": 27,
+      "page_estimate": 2,
+      "labels": [
+        "payment",
+        "work_item"
+      ],
+      "text": "二、 乙方應依前項約定，於各期符合請款條件時，開具請領發票憑證及相關請款文件向甲方請款。甲方於收到前述文件並確認無誤後，於發票日後45天內給付該期款項至乙方指定帳戶。如係因非可歸責於乙方之事由致甲方無法自客戶處取得全部或當期工程款，則乙方應對甲方之損失負責。",
+      "context_before": [
+        "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方。"
+      ],
+      "context_after": [
+        "三、 乙方如有下列情形之一者，甲方有權暫行停止計價付款：",
+        "因單一可歸責於乙方事由致工程實際進度較甲方及丙方核准之預定進度遲緩十％以上時。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0028",
+      "paragraph_index": 28,
+      "page_estimate": 2,
+      "labels": [
+        "payment",
+        "work_item"
+      ],
+      "text": "三、 乙方如有下列情形之一者，甲方有權暫行停止計價付款：",
+      "context_before": [
+        "二、 乙方應依前項約定，於各期符合請款條件時，開具請領發票憑證及相關請款文件向甲方請款。甲方於收到前述文件並確認無誤後，於發票日後45天內給付該期款項至乙方指定帳戶。如係因非可歸責於乙方之事由致甲方無法自客戶處取得全部或當期工程款，則乙方應對甲方之損失負責。"
+      ],
+      "context_after": [
+        "因單一可歸責於乙方事由致工程實際進度較甲方及丙方核准之預定進度遲緩十％以上時。",
+        "瑕疵工作經甲方通知，逾期辦理或拒絕改善時。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0029",
+      "paragraph_index": 29,
+      "page_estimate": 2,
+      "labels": [
+        "context"
+      ],
+      "text": "因單一可歸責於乙方事由致工程實際進度較甲方及丙方核准之預定進度遲緩十％以上時。",
+      "context_before": [
+        "三、 乙方如有下列情形之一者，甲方有權暫行停止計價付款："
+      ],
+      "context_after": [
+        "瑕疵工作經甲方通知，逾期辦理或拒絕改善時。",
+        "乙方派駐工地之負責人未能盡職，以致工地管理紊亂，施工草率，經通知改善或更換，而乙方遲未辦理時。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0030",
+      "paragraph_index": 30,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "瑕疵工作經甲方通知，逾期辦理或拒絕改善時。",
+      "context_before": [
+        "因單一可歸責於乙方事由致工程實際進度較甲方及丙方核准之預定進度遲緩十％以上時。"
+      ],
+      "context_after": [
+        "乙方派駐工地之負責人未能盡職，以致工地管理紊亂，施工草率，經通知改善或更換，而乙方遲未辦理時。",
+        "其他經甲方認為之重大違約事項。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0034",
+      "paragraph_index": 34,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "第九條 工程監督：",
+      "context_before": [
+        "第八條 圖說規定：乙方應依據施工規範負責施工，如與施工規範有未符合之處，應以甲方解釋為準。"
+      ],
+      "context_after": [
+        "一、 甲方得選派監理人員監督乙方有關工程之施工。",
+        "二、 甲方依據本工程合約所定範圍執行下列任務："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0035",
+      "paragraph_index": 35,
+      "page_estimate": 3,
+      "labels": [
+        "work_item"
+      ],
+      "text": "一、 甲方得選派監理人員監督乙方有關工程之施工。",
+      "context_before": [
+        "第九條 工程監督："
+      ],
+      "context_after": [
+        "二、 甲方依據本工程合約所定範圍執行下列任務：",
+        "審核乙方提出之工程進度表、施工計劃、改善計劃、估驗請款及監督實際施工。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0036",
+      "paragraph_index": 36,
+      "page_estimate": 3,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、 甲方依據本工程合約所定範圍執行下列任務：",
+      "context_before": [
+        "一、 甲方得選派監理人員監督乙方有關工程之施工。"
+      ],
+      "context_after": [
+        "審核乙方提出之工程進度表、施工計劃、改善計劃、估驗請款及監督實際施工。",
+        "對乙方所選派之監工人員及工人有監督之權。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0037",
+      "paragraph_index": 37,
+      "page_estimate": 3,
+      "labels": [
+        "payment"
+      ],
+      "text": "審核乙方提出之工程進度表、施工計劃、改善計劃、估驗請款及監督實際施工。",
+      "context_before": [
+        "二、 甲方依據本工程合約所定範圍執行下列任務："
+      ],
+      "context_after": [
+        "對乙方所選派之監工人員及工人有監督之權。",
+        "就工程圖樣及施工說明書範圍之施工督導。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0038",
+      "paragraph_index": 38,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "對乙方所選派之監工人員及工人有監督之權。",
+      "context_before": [
+        "審核乙方提出之工程進度表、施工計劃、改善計劃、估驗請款及監督實際施工。"
+      ],
+      "context_after": [
+        "就工程圖樣及施工說明書範圍之施工督導。",
+        "工程材料進場及工作進行時之檢驗。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0039",
+      "paragraph_index": 39,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "就工程圖樣及施工說明書範圍之施工督導。",
+      "context_before": [
+        "對乙方所選派之監工人員及工人有監督之權。"
+      ],
+      "context_after": [
+        "工程材料進場及工作進行時之檢驗。",
+        "本工程與相關工程之配合協調事項。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0042",
+      "paragraph_index": 42,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "其他經甲方指定之事項。",
+      "context_before": [
+        "本工程與相關工程之配合協調事項。"
+      ],
+      "context_after": [
+        "三、 甲方執行任務時，如遇困難、阻礙或工程不合規定時，乙方應隨時解決及改正。",
+        "四、 本工程之施行，悉依合約所訂條款、設計圖樣及施工說明書以及甲方之指示為準。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0043",
+      "paragraph_index": 43,
+      "page_estimate": 3,
+      "labels": [
+        "work_item"
+      ],
+      "text": "三、 甲方執行任務時，如遇困難、阻礙或工程不合規定時，乙方應隨時解決及改正。",
+      "context_before": [
+        "其他經甲方指定之事項。"
+      ],
+      "context_after": [
+        "四、 本工程之施行，悉依合約所訂條款、設計圖樣及施工說明書以及甲方之指示為準。",
+        "第十條 施工管理："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0044",
+      "paragraph_index": 44,
+      "page_estimate": 3,
+      "labels": [
+        "work_item"
+      ],
+      "text": "四、 本工程之施行，悉依合約所訂條款、設計圖樣及施工說明書以及甲方之指示為準。",
+      "context_before": [
+        "三、 甲方執行任務時，如遇困難、阻礙或工程不合規定時，乙方應隨時解決及改正。"
+      ],
+      "context_after": [
+        "第十條 施工管理：",
+        "一、乙方對於工程所在地建築法規或條例須一律遵守。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0045",
+      "paragraph_index": 45,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "第十條 施工管理：",
+      "context_before": [
+        "四、 本工程之施行，悉依合約所訂條款、設計圖樣及施工說明書以及甲方之指示為準。"
+      ],
+      "context_after": [
+        "一、乙方對於工程所在地建築法規或條例須一律遵守。",
+        "二、乙方須派富有工程經驗並經甲方及客戶同意之負責代表人常駐工地督率施工，並須聽從甲方及客戶代表指揮，如該負責人不稱職，經甲方通知後，乙方應立即撤換並不得藉故向甲方要求賠償損失。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0046",
+      "paragraph_index": 46,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "一、乙方對於工程所在地建築法規或條例須一律遵守。",
+      "context_before": [
+        "第十條 施工管理："
+      ],
+      "context_after": [
+        "二、乙方須派富有工程經驗並經甲方及客戶同意之負責代表人常駐工地督率施工，並須聽從甲方及客戶代表指揮，如該負責人不稱職，經甲方通知後，乙方應立即撤換並不得藉故向甲方要求賠償損失。",
+        "三、乙方必須雇用具有熟悉本工程工作技能之工人，倘不善工作、或不聽指揮、或不守秩序，經甲方通知後，乙方應於二十四小時內予以撤換不得再用，並不得以辭退工人為由向甲方要求賠償損失，或作為展延工期之理由。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0047",
+      "paragraph_index": 47,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、乙方須派富有工程經驗並經甲方及客戶同意之負責代表人常駐工地督率施工，並須聽從甲方及客戶代表指揮，如該負責人不稱職，經甲方通知後，乙方應立即撤換並不得藉故向甲方要求賠償損失。",
+      "context_before": [
+        "一、乙方對於工程所在地建築法規或條例須一律遵守。"
+      ],
+      "context_after": [
+        "三、乙方必須雇用具有熟悉本工程工作技能之工人，倘不善工作、或不聽指揮、或不守秩序，經甲方通知後，乙方應於二十四小時內予以撤換不得再用，並不得以辭退工人為由向甲方要求賠償損失，或作為展延工期之理由。",
+        "四、本工程所需用之材料經甲方認為不合格者，乙方即須搬運出場。所有機具設備均需經甲方驗看認為合格者方得使用，不合格者即須遷出場外。經認可之一切在場機具及新舊材料未經甲方同意不得攜出；施工場地內有價值之物件，或在工地地下掘出之物件為乙方所發現者，應妥善保管並報由甲方處置。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0048",
+      "paragraph_index": 48,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "三、乙方必須雇用具有熟悉本工程工作技能之工人，倘不善工作、或不聽指揮、或不守秩序，經甲方通知後，乙方應於二十四小時內予以撤換不得再用，並不得以辭退工人為由向甲方要求賠償損失，或作為展延工期之理由。",
+      "context_before": [
+        "二、乙方須派富有工程經驗並經甲方及客戶同意之負責代表人常駐工地督率施工，並須聽從甲方及客戶代表指揮，如該負責人不稱職，經甲方通知後，乙方應立即撤換並不得藉故向甲方要求賠償損失。"
+      ],
+      "context_after": [
+        "四、本工程所需用之材料經甲方認為不合格者，乙方即須搬運出場。所有機具設備均需經甲方驗看認為合格者方得使用，不合格者即須遷出場外。經認可之一切在場機具及新舊材料未經甲方同意不得攜出；施工場地內有價值之物件，或在工地地下掘出之物件為乙方所發現者，應妥善保管並報由甲方處置。",
+        "五、乙方在工程期間內無論何時均須延僱適合工作需要之工人，其人數以甲方認為可在合約規定期間內竣工為準。如因工程遲緩，甲方得通知乙方增加人數或加開夜班趕工以達如期完成之目的，乙方不得推諉或藉詞要求補償費用。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0049",
+      "paragraph_index": 49,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "四、本工程所需用之材料經甲方認為不合格者，乙方即須搬運出場。所有機具設備均需經甲方驗看認為合格者方得使用，不合格者即須遷出場外。經認可之一切在場機具及新舊材料未經甲方同意不得攜出；施工場地內有價值之物件，或在工地地下掘出之物件為乙方所發現者，應妥善保管並報由甲方處置。",
+      "context_before": [
+        "三、乙方必須雇用具有熟悉本工程工作技能之工人，倘不善工作、或不聽指揮、或不守秩序，經甲方通知後，乙方應於二十四小時內予以撤換不得再用，並不得以辭退工人為由向甲方要求賠償損失，或作為展延工期之理由。"
+      ],
+      "context_after": [
+        "五、乙方在工程期間內無論何時均須延僱適合工作需要之工人，其人數以甲方認為可在合約規定期間內竣工為準。如因工程遲緩，甲方得通知乙方增加人數或加開夜班趕工以達如期完成之目的，乙方不得推諉或藉詞要求補償費用。",
+        "六、本工程重要部份經甲方查有與圖樣不符之處，得責令乙方立即拆除，並依照規定式樣或工料重建滿意為止，所有時間及金錢之損失概歸乙方負責。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0050",
+      "paragraph_index": 50,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "五、乙方在工程期間內無論何時均須延僱適合工作需要之工人，其人數以甲方認為可在合約規定期間內竣工為準。如因工程遲緩，甲方得通知乙方增加人數或加開夜班趕工以達如期完成之目的，乙方不得推諉或藉詞要求補償費用。",
+      "context_before": [
+        "四、本工程所需用之材料經甲方認為不合格者，乙方即須搬運出場。所有機具設備均需經甲方驗看認為合格者方得使用，不合格者即須遷出場外。經認可之一切在場機具及新舊材料未經甲方同意不得攜出；施工場地內有價值之物件，或在工地地下掘出之物件為乙方所發現者，應妥善保管並報由甲方處置。"
+      ],
+      "context_after": [
+        "六、本工程重要部份經甲方查有與圖樣不符之處，得責令乙方立即拆除，並依照規定式樣或工料重建滿意為止，所有時間及金錢之損失概歸乙方負責。",
+        "七、凡遇不適宜工作之天時，乙方應遵照甲方之指示將工作全部或一部分暫停，並須設法保護已完成之工作使其免除損壞。上述是否得作為展延工期之理由，由雙方另行協商。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0051",
+      "paragraph_index": 51,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "六、本工程重要部份經甲方查有與圖樣不符之處，得責令乙方立即拆除，並依照規定式樣或工料重建滿意為止，所有時間及金錢之損失概歸乙方負責。",
+      "context_before": [
+        "五、乙方在工程期間內無論何時均須延僱適合工作需要之工人，其人數以甲方認為可在合約規定期間內竣工為準。如因工程遲緩，甲方得通知乙方增加人數或加開夜班趕工以達如期完成之目的，乙方不得推諉或藉詞要求補償費用。"
+      ],
+      "context_after": [
+        "七、凡遇不適宜工作之天時，乙方應遵照甲方之指示將工作全部或一部分暫停，並須設法保護已完成之工作使其免除損壞。上述是否得作為展延工期之理由，由雙方另行協商。",
+        "八、本工程乙方不得無故停工或延緩履行本合約，如有違反，經甲方書面通知後三日內仍未照辦，甲方得另僱他人繼續施工，所有場內之材料器具設備統歸甲方使用，其續造工程之費用、延期損失等，甲方得由未領之工程款及本工程保證金內扣除之，不足之數應歸乙方負擔。至於乙方已做部份工作則由甲方代表核算已做工程之工料價值，經甲方認可照數結清，並由甲方接收本工程，乙方不得異議或要求賠償損失。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0052",
+      "paragraph_index": 52,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "七、凡遇不適宜工作之天時，乙方應遵照甲方之指示將工作全部或一部分暫停，並須設法保護已完成之工作使其免除損壞。上述是否得作為展延工期之理由，由雙方另行協商。",
+      "context_before": [
+        "六、本工程重要部份經甲方查有與圖樣不符之處，得責令乙方立即拆除，並依照規定式樣或工料重建滿意為止，所有時間及金錢之損失概歸乙方負責。"
+      ],
+      "context_after": [
+        "八、本工程乙方不得無故停工或延緩履行本合約，如有違反，經甲方書面通知後三日內仍未照辦，甲方得另僱他人繼續施工，所有場內之材料器具設備統歸甲方使用，其續造工程之費用、延期損失等，甲方得由未領之工程款及本工程保證金內扣除之，不足之數應歸乙方負擔。至於乙方已做部份工作則由甲方代表核算已做工程之工料價值，經甲方認可照數結清，並由甲方接收本工程，乙方不得異議或要求賠償損失。",
+        "九、本工程在未經正式驗收交付甲方接管前，所有已做工程以及存放於工地之機具材料，概由乙方負責保管與防護，凡一切人力難防或意外損壞皆由乙方完全負責。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0053",
+      "paragraph_index": 53,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "八、本工程乙方不得無故停工或延緩履行本合約，如有違反，經甲方書面通知後三日內仍未照辦，甲方得另僱他人繼續施工，所有場內之材料器具設備統歸甲方使用，其續造工程之費用、延期損失等，甲方得由未領之工程款及本工程保證金內扣除之，不足之數應歸乙方負擔。至於乙方已做部份工作則由甲方代表核算已做工程之工料價值，經甲方認可照數結清，並由甲方接收本工程，乙方不得異議或要求賠償損失。",
+      "context_before": [
+        "七、凡遇不適宜工作之天時，乙方應遵照甲方之指示將工作全部或一部分暫停，並須設法保護已完成之工作使其免除損壞。上述是否得作為展延工期之理由，由雙方另行協商。"
+      ],
+      "context_after": [
+        "九、本工程在未經正式驗收交付甲方接管前，所有已做工程以及存放於工地之機具材料，概由乙方負責保管與防護，凡一切人力難防或意外損壞皆由乙方完全負責。",
+        "十、乙方施工時應嚴格要求合乎規定品質及應有標準，並確保工程安全，施工期間發生侵害他人權利情事，除可歸責因設計不當，由設計建築師依建築師法有關規定負責外，均應由乙方負責賠償。建築物驗收合格後於保固期間內之瑕疵修繕，仍應由乙方負責。除本合約約定外，甲方另得援引民法或其他相關法律之規定，請求乙方負瑕疵擔保責任或其他相關責任。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0054",
+      "paragraph_index": 54,
+      "page_estimate": 4,
+      "labels": [
+        "acceptance",
+        "work_item"
+      ],
+      "text": "九、本工程在未經正式驗收交付甲方接管前，所有已做工程以及存放於工地之機具材料，概由乙方負責保管與防護，凡一切人力難防或意外損壞皆由乙方完全負責。",
+      "context_before": [
+        "八、本工程乙方不得無故停工或延緩履行本合約，如有違反，經甲方書面通知後三日內仍未照辦，甲方得另僱他人繼續施工，所有場內之材料器具設備統歸甲方使用，其續造工程之費用、延期損失等，甲方得由未領之工程款及本工程保證金內扣除之，不足之數應歸乙方負擔。至於乙方已做部份工作則由甲方代表核算已做工程之工料價值，經甲方認可照數結清，並由甲方接收本工程，乙方不得異議或要求賠償損失。"
+      ],
+      "context_after": [
+        "十、乙方施工時應嚴格要求合乎規定品質及應有標準，並確保工程安全，施工期間發生侵害他人權利情事，除可歸責因設計不當，由設計建築師依建築師法有關規定負責外，均應由乙方負責賠償。建築物驗收合格後於保固期間內之瑕疵修繕，仍應由乙方負責。除本合約約定外，甲方另得援引民法或其他相關法律之規定，請求乙方負瑕疵擔保責任或其他相關責任。",
+        "十一、本工程合約金額內已包括勞工安全衛生管理費、勞工保險費、健康保險費、勞工退休金費及乙方就本工程投保之保險費，乙方應遵照有關規定辦理。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0055",
+      "paragraph_index": 55,
+      "page_estimate": 4,
+      "labels": [
+        "acceptance",
+        "work_item"
+      ],
+      "text": "十、乙方施工時應嚴格要求合乎規定品質及應有標準，並確保工程安全，施工期間發生侵害他人權利情事，除可歸責因設計不當，由設計建築師依建築師法有關規定負責外，均應由乙方負責賠償。建築物驗收合格後於保固期間內之瑕疵修繕，仍應由乙方負責。除本合約約定外，甲方另得援引民法或其他相關法律之規定，請求乙方負瑕疵擔保責任或其他相關責任。",
+      "context_before": [
+        "九、本工程在未經正式驗收交付甲方接管前，所有已做工程以及存放於工地之機具材料，概由乙方負責保管與防護，凡一切人力難防或意外損壞皆由乙方完全負責。"
+      ],
+      "context_after": [
+        "十一、本工程合約金額內已包括勞工安全衛生管理費、勞工保險費、健康保險費、勞工退休金費及乙方就本工程投保之保險費，乙方應遵照有關規定辦理。",
+        "十二、乙方負責所有工人之管理及給養，工人如有規外行動或擾亂工程秩序所引起之糾葛由乙方負完全責任，如工人遇有意外或傷亡情事，由乙方自行處理與甲方無涉。因工人行為而致生對第三人之賠償責任者，亦悉由乙方自行承擔。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0056",
+      "paragraph_index": 56,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "十一、本工程合約金額內已包括勞工安全衛生管理費、勞工保險費、健康保險費、勞工退休金費及乙方就本工程投保之保險費，乙方應遵照有關規定辦理。",
+      "context_before": [
+        "十、乙方施工時應嚴格要求合乎規定品質及應有標準，並確保工程安全，施工期間發生侵害他人權利情事，除可歸責因設計不當，由設計建築師依建築師法有關規定負責外，均應由乙方負責賠償。建築物驗收合格後於保固期間內之瑕疵修繕，仍應由乙方負責。除本合約約定外，甲方另得援引民法或其他相關法律之規定，請求乙方負瑕疵擔保責任或其他相關責任。"
+      ],
+      "context_after": [
+        "十二、乙方負責所有工人之管理及給養，工人如有規外行動或擾亂工程秩序所引起之糾葛由乙方負完全責任，如工人遇有意外或傷亡情事，由乙方自行處理與甲方無涉。因工人行為而致生對第三人之賠償責任者，亦悉由乙方自行承擔。",
+        "十三、施工期間乙方應於工作地點日、夜間設置警示燈或防護設施，對於工地之人身及財產之安全，均應由乙方預為防範。工程進行期間，如因單一可歸責於乙方事由致損及工地之建築、路面、溝渠、或上面下部之水電線管、或私有林木、或其他設施、設備等，及第三人生命身體財產，亦統歸乙方負責賠償。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0057",
+      "paragraph_index": 57,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "十二、乙方負責所有工人之管理及給養，工人如有規外行動或擾亂工程秩序所引起之糾葛由乙方負完全責任，如工人遇有意外或傷亡情事，由乙方自行處理與甲方無涉。因工人行為而致生對第三人之賠償責任者，亦悉由乙方自行承擔。",
+      "context_before": [
+        "十一、本工程合約金額內已包括勞工安全衛生管理費、勞工保險費、健康保險費、勞工退休金費及乙方就本工程投保之保險費，乙方應遵照有關規定辦理。"
+      ],
+      "context_after": [
+        "十三、施工期間乙方應於工作地點日、夜間設置警示燈或防護設施，對於工地之人身及財產之安全，均應由乙方預為防範。工程進行期間，如因單一可歸責於乙方事由致損及工地之建築、路面、溝渠、或上面下部之水電線管、或私有林木、或其他設施、設備等，及第三人生命身體財產，亦統歸乙方負責賠償。",
+        "十四、施工期間乙方應加強環境保護及防治公害污染，廢棄物之清運應依當地主管機關之規定辦理，不得任意傾置。如有違反法令，致甲方、客戶及業主遭受行政處罰或其他損失者，乙方應無條件全額賠償甲方之損失。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0058",
+      "paragraph_index": 58,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "十三、施工期間乙方應於工作地點日、夜間設置警示燈或防護設施，對於工地之人身及財產之安全，均應由乙方預為防範。工程進行期間，如因單一可歸責於乙方事由致損及工地之建築、路面、溝渠、或上面下部之水電線管、或私有林木、或其他設施、設備等，及第三人生命身體財產，亦統歸乙方負責賠償。",
+      "context_before": [
+        "十二、乙方負責所有工人之管理及給養，工人如有規外行動或擾亂工程秩序所引起之糾葛由乙方負完全責任，如工人遇有意外或傷亡情事，由乙方自行處理與甲方無涉。因工人行為而致生對第三人之賠償責任者，亦悉由乙方自行承擔。"
+      ],
+      "context_after": [
+        "十四、施工期間乙方應加強環境保護及防治公害污染，廢棄物之清運應依當地主管機關之規定辦理，不得任意傾置。如有違反法令，致甲方、客戶及業主遭受行政處罰或其他損失者，乙方應無條件全額賠償甲方之損失。",
+        "第十一條 履約保證："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0059",
+      "paragraph_index": 59,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "十四、施工期間乙方應加強環境保護及防治公害污染，廢棄物之清運應依當地主管機關之規定辦理，不得任意傾置。如有違反法令，致甲方、客戶及業主遭受行政處罰或其他損失者，乙方應無條件全額賠償甲方之損失。",
+      "context_before": [
+        "十三、施工期間乙方應於工作地點日、夜間設置警示燈或防護設施，對於工地之人身及財產之安全，均應由乙方預為防範。工程進行期間，如因單一可歸責於乙方事由致損及工地之建築、路面、溝渠、或上面下部之水電線管、或私有林木、或其他設施、設備等，及第三人生命身體財產，亦統歸乙方負責賠償。"
+      ],
+      "context_after": [
+        "第十一條 履約保證：",
+        "一、 繳納履約保證金："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0060",
+      "paragraph_index": 60,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "第十一條 履約保證：",
+      "context_before": [
+        "十四、施工期間乙方應加強環境保護及防治公害污染，廢棄物之清運應依當地主管機關之規定辦理，不得任意傾置。如有違反法令，致甲方、客戶及業主遭受行政處罰或其他損失者，乙方應無條件全額賠償甲方之損失。"
+      ],
+      "context_after": [
+        "一、 繳納履約保證金：",
+        "乙方應於訂約時繳納按合約總價百分之十五之履約保證金。繳納履約保證金得以金融機構簽發之本行支票、設定質權予甲方之金融機構定期存單、現金匯款、涵蓋完整履約期間或保固期間之金融機構的書面連帶保證函。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0061",
+      "paragraph_index": 61,
+      "page_estimate": 5,
+      "labels": [
+        "retention",
+        "work_item"
+      ],
+      "text": "一、 繳納履約保證金：",
+      "context_before": [
+        "第十一條 履約保證："
+      ],
+      "context_after": [
+        "乙方應於訂約時繳納按合約總價百分之十五之履約保證金。繳納履約保證金得以金融機構簽發之本行支票、設定質權予甲方之金融機構定期存單、現金匯款、涵蓋完整履約期間或保固期間之金融機構的書面連帶保證函。",
+        "履約保證金依第四條工程期限分為三期按比例且俟工程完工並經甲方及客戶驗收合格且客戶退還履約保證金後，無息發還，發還金額於前二期各為履約保證金額百分之三十，最後一期則發還履約保證金額百分之四十。但乙方無力完成本工程或有違反合約之任何規定時，甲方得逕自動用該項保證金，無需經過任何法律或行政程序，以維持工程進行或保固維修，如保證金尚不足支應，乙方應依照本合約規定負賠償責任。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0062",
+      "paragraph_index": 62,
+      "page_estimate": 5,
+      "labels": [
+        "retention",
+        "total_amount"
+      ],
+      "text": "乙方應於訂約時繳納按合約總價百分之十五之履約保證金。繳納履約保證金得以金融機構簽發之本行支票、設定質權予甲方之金融機構定期存單、現金匯款、涵蓋完整履約期間或保固期間之金融機構的書面連帶保證函。",
+      "context_before": [
+        "一、 繳納履約保證金："
+      ],
+      "context_after": [
+        "履約保證金依第四條工程期限分為三期按比例且俟工程完工並經甲方及客戶驗收合格且客戶退還履約保證金後，無息發還，發還金額於前二期各為履約保證金額百分之三十，最後一期則發還履約保證金額百分之四十。但乙方無力完成本工程或有違反合約之任何規定時，甲方得逕自動用該項保證金，無需經過任何法律或行政程序，以維持工程進行或保固維修，如保證金尚不足支應，乙方應依照本合約規定負賠償責任。",
+        "第十二條 合約終止："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0063",
+      "paragraph_index": 63,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance",
+        "retention"
+      ],
+      "text": "履約保證金依第四條工程期限分為三期按比例且俟工程完工並經甲方及客戶驗收合格且客戶退還履約保證金後，無息發還，發還金額於前二期各為履約保證金額百分之三十，最後一期則發還履約保證金額百分之四十。但乙方無力完成本工程或有違反合約之任何規定時，甲方得逕自動用該項保證金，無需經過任何法律或行政程序，以維持工程進行或保固維修，如保證金尚不足支應，乙方應依照本合約規定負賠償責任。",
+      "context_before": [
+        "乙方應於訂約時繳納按合約總價百分之十五之履約保證金。繳納履約保證金得以金融機構簽發之本行支票、設定質權予甲方之金融機構定期存單、現金匯款、涵蓋完整履約期間或保固期間之金融機構的書面連帶保證函。"
+      ],
+      "context_after": [
+        "第十二條 合約終止：",
+        "一、 甲方認為工程有終止之必要時，得隨時終止本合約之全部或一部分工程，一經甲方通知，乙方應立即停工，並由乙方負責遣散工人，其已完成工程及已購買材料，均由甲方核實給價。乙方有下列情事之一時，甲方得隨時終止或解除本合約，甲方因此所受之一切損失，乙方應負賠償責任。甲方並得將違規事實移送主管機關懲戒。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0064",
+      "paragraph_index": 64,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "第十二條 合約終止：",
+      "context_before": [
+        "履約保證金依第四條工程期限分為三期按比例且俟工程完工並經甲方及客戶驗收合格且客戶退還履約保證金後，無息發還，發還金額於前二期各為履約保證金額百分之三十，最後一期則發還履約保證金額百分之四十。但乙方無力完成本工程或有違反合約之任何規定時，甲方得逕自動用該項保證金，無需經過任何法律或行政程序，以維持工程進行或保固維修，如保證金尚不足支應，乙方應依照本合約規定負賠償責任。"
+      ],
+      "context_after": [
+        "一、 甲方認為工程有終止之必要時，得隨時終止本合約之全部或一部分工程，一經甲方通知，乙方應立即停工，並由乙方負責遣散工人，其已完成工程及已購買材料，均由甲方核實給價。乙方有下列情事之一時，甲方得隨時終止或解除本合約，甲方因此所受之一切損失，乙方應負賠償責任。甲方並得將違規事實移送主管機關懲戒。",
+        "乙方私將工程轉包，或將登記證轉借他人承包本工程，經甲方查明屬實者。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0065",
+      "paragraph_index": 65,
+      "page_estimate": 5,
+      "labels": [
+        "work_item"
+      ],
+      "text": "一、 甲方認為工程有終止之必要時，得隨時終止本合約之全部或一部分工程，一經甲方通知，乙方應立即停工，並由乙方負責遣散工人，其已完成工程及已購買材料，均由甲方核實給價。乙方有下列情事之一時，甲方得隨時終止或解除本合約，甲方因此所受之一切損失，乙方應負賠償責任。甲方並得將違規事實移送主管機關懲戒。",
+      "context_before": [
+        "第十二條 合約終止："
+      ],
+      "context_after": [
+        "乙方私將工程轉包，或將登記證轉借他人承包本工程，經甲方查明屬實者。",
+        "乙方逾規定期限尚未開工，或開工後進行遲緩，進度較預定進度落後廿％以上者。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0066",
+      "paragraph_index": 66,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "乙方私將工程轉包，或將登記證轉借他人承包本工程，經甲方查明屬實者。",
+      "context_before": [
+        "一、 甲方認為工程有終止之必要時，得隨時終止本合約之全部或一部分工程，一經甲方通知，乙方應立即停工，並由乙方負責遣散工人，其已完成工程及已購買材料，均由甲方核實給價。乙方有下列情事之一時，甲方得隨時終止或解除本合約，甲方因此所受之一切損失，乙方應負賠償責任。甲方並得將違規事實移送主管機關懲戒。"
+      ],
+      "context_after": [
+        "乙方逾規定期限尚未開工，或開工後進行遲緩，進度較預定進度落後廿％以上者。",
+        "乙方違背本合約或發生變故，甲方認為其不能履行合約責任時。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0067",
+      "paragraph_index": 67,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "乙方逾規定期限尚未開工，或開工後進行遲緩，進度較預定進度落後廿％以上者。",
+      "context_before": [
+        "乙方私將工程轉包，或將登記證轉借他人承包本工程，經甲方查明屬實者。"
+      ],
+      "context_after": [
+        "乙方違背本合約或發生變故，甲方認為其不能履行合約責任時。",
+        "乙方能力薄弱，任意停止工作，或作輟無常，進行遲滯有事實者，甲方認為不能如期竣工時。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0069",
+      "paragraph_index": 69,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "乙方能力薄弱，任意停止工作，或作輟無常，進行遲滯有事實者，甲方認為不能如期竣工時。",
+      "context_before": [
+        "乙方違背本合約或發生變故，甲方認為其不能履行合約責任時。"
+      ],
+      "context_after": [
+        "二、 本合約如因前項各款情事之一終止或解除時，乙方應即停工，負責遣散工人，並將到場材料及機具設備等，交由甲方全權無償使用。",
+        "第十三條 工地設備："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0070",
+      "paragraph_index": 70,
+      "page_estimate": 5,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、 本合約如因前項各款情事之一終止或解除時，乙方應即停工，負責遣散工人，並將到場材料及機具設備等，交由甲方全權無償使用。",
+      "context_before": [
+        "乙方能力薄弱，任意停止工作，或作輟無常，進行遲滯有事實者，甲方認為不能如期竣工時。"
+      ],
+      "context_after": [
+        "第十三條 工地設備：",
+        "一、 乙方對工地設備，應求齊全，諸如工人之食宿、醫療衛生、材料、工具儲存、保管及交還等，均應有充分之作業規定與設備，其設置地點之選擇，以施工方便及安全為原則，且事先與甲方協調並經同意之。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0071",
+      "paragraph_index": 71,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "第十三條 工地設備：",
+      "context_before": [
+        "二、 本合約如因前項各款情事之一終止或解除時，乙方應即停工，負責遣散工人，並將到場材料及機具設備等，交由甲方全權無償使用。"
+      ],
+      "context_after": [
+        "一、 乙方對工地設備，應求齊全，諸如工人之食宿、醫療衛生、材料、工具儲存、保管及交還等，均應有充分之作業規定與設備，其設置地點之選擇，以施工方便及安全為原則，且事先與甲方協調並經同意之。",
+        "二、 乙方因工程需要，須在工地設置有關設施設備，製造本工程所需材料時，該設施或設備僅可供本工程使用，不得轉供其他工程使用或將其生產之材料出售，並於工程完成後立即拆除，且於檢查無誤後始支付工程尾款。如有觸犯其他法令時概由乙方負完全責任。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0072",
+      "paragraph_index": 72,
+      "page_estimate": 5,
+      "labels": [
+        "work_item"
+      ],
+      "text": "一、 乙方對工地設備，應求齊全，諸如工人之食宿、醫療衛生、材料、工具儲存、保管及交還等，均應有充分之作業規定與設備，其設置地點之選擇，以施工方便及安全為原則，且事先與甲方協調並經同意之。",
+      "context_before": [
+        "第十三條 工地設備："
+      ],
+      "context_after": [
+        "二、 乙方因工程需要，須在工地設置有關設施設備，製造本工程所需材料時，該設施或設備僅可供本工程使用，不得轉供其他工程使用或將其生產之材料出售，並於工程完成後立即拆除，且於檢查無誤後始支付工程尾款。如有觸犯其他法令時概由乙方負完全責任。",
+        "第十四條 材料檢查："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0073",
+      "paragraph_index": 73,
+      "page_estimate": 5,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、 乙方因工程需要，須在工地設置有關設施設備，製造本工程所需材料時，該設施或設備僅可供本工程使用，不得轉供其他工程使用或將其生產之材料出售，並於工程完成後立即拆除，且於檢查無誤後始支付工程尾款。如有觸犯其他法令時概由乙方負完全責任。",
+      "context_before": [
+        "一、 乙方對工地設備，應求齊全，諸如工人之食宿、醫療衛生、材料、工具儲存、保管及交還等，均應有充分之作業規定與設備，其設置地點之選擇，以施工方便及安全為原則，且事先與甲方協調並經同意之。"
+      ],
+      "context_after": [
+        "第十四條 材料檢查：",
+        "一、關係本工程所使用之材料，其品質或等級不甚明瞭時，以甲方指示為準。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0074",
+      "paragraph_index": 74,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "第十四條 材料檢查：",
+      "context_before": [
+        "二、 乙方因工程需要，須在工地設置有關設施設備，製造本工程所需材料時，該設施或設備僅可供本工程使用，不得轉供其他工程使用或將其生產之材料出售，並於工程完成後立即拆除，且於檢查無誤後始支付工程尾款。如有觸犯其他法令時概由乙方負完全責任。"
+      ],
+      "context_after": [
+        "一、關係本工程所使用之材料，其品質或等級不甚明瞭時，以甲方指示為準。",
+        "二、本工程所使用材料，甲方應於進場時即行檢查之，但甲方之檢查結果不影響乙方之瑕疵擔保責任。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0075",
+      "paragraph_index": 75,
+      "page_estimate": 6,
+      "labels": [
+        "work_item"
+      ],
+      "text": "一、關係本工程所使用之材料，其品質或等級不甚明瞭時，以甲方指示為準。",
+      "context_before": [
+        "第十四條 材料檢查："
+      ],
+      "context_after": [
+        "二、本工程所使用材料，甲方應於進場時即行檢查之，但甲方之檢查結果不影響乙方之瑕疵擔保責任。",
+        "三、特殊材料之檢查如須委託其他機關辦理者，其費用均由乙方負擔。四、檢查不合格之材料乙方應即撤離工地。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0076",
+      "paragraph_index": 76,
+      "page_estimate": 6,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、本工程所使用材料，甲方應於進場時即行檢查之，但甲方之檢查結果不影響乙方之瑕疵擔保責任。",
+      "context_before": [
+        "一、關係本工程所使用之材料，其品質或等級不甚明瞭時，以甲方指示為準。"
+      ],
+      "context_after": [
+        "三、特殊材料之檢查如須委託其他機關辦理者，其費用均由乙方負擔。四、檢查不合格之材料乙方應即撤離工地。",
+        "五、檢查合格已運入工地材料，非經甲方同意不得撤離工地。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0077",
+      "paragraph_index": 77,
+      "page_estimate": 6,
+      "labels": [
+        "work_item"
+      ],
+      "text": "三、特殊材料之檢查如須委託其他機關辦理者，其費用均由乙方負擔。四、檢查不合格之材料乙方應即撤離工地。",
+      "context_before": [
+        "二、本工程所使用材料，甲方應於進場時即行檢查之，但甲方之檢查結果不影響乙方之瑕疵擔保責任。"
+      ],
+      "context_after": [
+        "五、檢查合格已運入工地材料，非經甲方同意不得撤離工地。",
+        "第十五條 材料工具：所有材料工具，除另有規定外，概由乙方購辦，並須經甲方驗看認為合格者，方得使用，其不合格者，須立即遷出場外。存場材料工具，乙方須堆放整齊，對甲方供給之材料，應由乙方出據具領，分別登記，並如數運至工地，經甲方點驗後，負責妥為保管使用，不得浪費流用或變賣，如有遺失損壞及未照規定使用，任意浪費致數量不足時，均由乙方負責。其租借甲方之工具應愛惜使用，如有遺失損壞，應照價賠償。竣工後，剩餘材料及借用甲方之工具等，經甲方派員點收後，乙方應送還甲方指定處所，其費用由乙方負擔之。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0078",
+      "paragraph_index": 78,
+      "page_estimate": 6,
+      "labels": [
+        "work_item"
+      ],
+      "text": "五、檢查合格已運入工地材料，非經甲方同意不得撤離工地。",
+      "context_before": [
+        "三、特殊材料之檢查如須委託其他機關辦理者，其費用均由乙方負擔。四、檢查不合格之材料乙方應即撤離工地。"
+      ],
+      "context_after": [
+        "第十五條 材料工具：所有材料工具，除另有規定外，概由乙方購辦，並須經甲方驗看認為合格者，方得使用，其不合格者，須立即遷出場外。存場材料工具，乙方須堆放整齊，對甲方供給之材料，應由乙方出據具領，分別登記，並如數運至工地，經甲方點驗後，負責妥為保管使用，不得浪費流用或變賣，如有遺失損壞及未照規定使用，任意浪費致數量不足時，均由乙方負責。其租借甲方之工具應愛惜使用，如有遺失損壞，應照價賠償。竣工後，剩餘材料及借用甲方之工具等，經甲方派員點收後，乙方應送還甲方指定處所，其費用由乙方負擔之。",
+        "第十六條 工程查驗及驗收："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0079",
+      "paragraph_index": 79,
+      "page_estimate": 6,
+      "labels": [
+        "context"
+      ],
+      "text": "第十五條 材料工具：所有材料工具，除另有規定外，概由乙方購辦，並須經甲方驗看認為合格者，方得使用，其不合格者，須立即遷出場外。存場材料工具，乙方須堆放整齊，對甲方供給之材料，應由乙方出據具領，分別登記，並如數運至工地，經甲方點驗後，負責妥為保管使用，不得浪費流用或變賣，如有遺失損壞及未照規定使用，任意浪費致數量不足時，均由乙方負責。其租借甲方之工具應愛惜使用，如有遺失損壞，應照價賠償。竣工後，剩餘材料及借用甲方之工具等，經甲方派員點收後，乙方應送還甲方指定處所，其費用由乙方負擔之。",
+      "context_before": [
+        "五、檢查合格已運入工地材料，非經甲方同意不得撤離工地。"
+      ],
+      "context_after": [
+        "第十六條 工程查驗及驗收：",
+        "一、 工程於施工中或驗收時，甲方查驗人員認為有必要開挖或拆除一部分工程以作驗收時，乙方不得推諉，並應事後負責修復。如發現乙方使用之材料與規定不符時，如為可拆除抽換者（不影響其他構造物），乙方應立即抽換，不得要求扣款處理或延長工期，其所需時間一併列入工期檢討。如不妨礙安全、美觀或使用功能者，由乙方申請出具安全切結，並經甲方檢討確可不必拆換或拆換確有困難，甲方得以扣款或以不計價方式處理，並於甲方完成報備手續後收受。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0080",
+      "paragraph_index": 80,
+      "page_estimate": 6,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "第十六條 工程查驗及驗收：",
+      "context_before": [
+        "第十五條 材料工具：所有材料工具，除另有規定外，概由乙方購辦，並須經甲方驗看認為合格者，方得使用，其不合格者，須立即遷出場外。存場材料工具，乙方須堆放整齊，對甲方供給之材料，應由乙方出據具領，分別登記，並如數運至工地，經甲方點驗後，負責妥為保管使用，不得浪費流用或變賣，如有遺失損壞及未照規定使用，任意浪費致數量不足時，均由乙方負責。其租借甲方之工具應愛惜使用，如有遺失損壞，應照價賠償。竣工後，剩餘材料及借用甲方之工具等，經甲方派員點收後，乙方應送還甲方指定處所，其費用由乙方負擔之。"
+      ],
+      "context_after": [
+        "一、 工程於施工中或驗收時，甲方查驗人員認為有必要開挖或拆除一部分工程以作驗收時，乙方不得推諉，並應事後負責修復。如發現乙方使用之材料與規定不符時，如為可拆除抽換者（不影響其他構造物），乙方應立即抽換，不得要求扣款處理或延長工期，其所需時間一併列入工期檢討。如不妨礙安全、美觀或使用功能者，由乙方申請出具安全切結，並經甲方檢討確可不必拆換或拆換確有困難，甲方得以扣款或以不計價方式處理，並於甲方完成報備手續後收受。",
+        "二、 工程全部完竣後，乙方應於三日內填具並提出竣工報告，逾期視同未竣工，並繼續計算工期。甲方接獲竣工報告，經查確已按合約圖說全部施工完成，應於接獲報告日起七日內派員初驗。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0081",
+      "paragraph_index": 81,
+      "page_estimate": 6,
+      "labels": [
+        "acceptance",
+        "work_item"
+      ],
+      "text": "一、 工程於施工中或驗收時，甲方查驗人員認為有必要開挖或拆除一部分工程以作驗收時，乙方不得推諉，並應事後負責修復。如發現乙方使用之材料與規定不符時，如為可拆除抽換者（不影響其他構造物），乙方應立即抽換，不得要求扣款處理或延長工期，其所需時間一併列入工期檢討。如不妨礙安全、美觀或使用功能者，由乙方申請出具安全切結，並經甲方檢討確可不必拆換或拆換確有困難，甲方得以扣款或以不計價方式處理，並於甲方完成報備手續後收受。",
+      "context_before": [
+        "第十六條 工程查驗及驗收："
+      ],
+      "context_after": [
+        "二、 工程全部完竣後，乙方應於三日內填具並提出竣工報告，逾期視同未竣工，並繼續計算工期。甲方接獲竣工報告，經查確已按合約圖說全部施工完成，應於接獲報告日起七日內派員初驗。",
+        "三、 甲方應於初驗合格後十四天內辦理正式驗收手續。凡驗收（含初驗及複驗）所需之工人、工具及梯架等，概由乙方供給之。甲方及客戶驗收時，如發現工程與規定不符，乙方須依甲方指示在十四天內修改完成或依第一款之規定處理完妥，除其逾改善期限日數視同逾期，應按規定賠償逾期損失外，甲方得不經乙方同意，逕行指使第三人改善及辦理驗收結算，其危險及其所需費用與損失，甲方得在乙方未領工程款或各項保證金內抵扣，如有不足，並得向乙方追討之，乙方不得異議。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0082",
+      "paragraph_index": 82,
+      "page_estimate": 6,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、 工程全部完竣後，乙方應於三日內填具並提出竣工報告，逾期視同未竣工，並繼續計算工期。甲方接獲竣工報告，經查確已按合約圖說全部施工完成，應於接獲報告日起七日內派員初驗。",
+      "context_before": [
+        "一、 工程於施工中或驗收時，甲方查驗人員認為有必要開挖或拆除一部分工程以作驗收時，乙方不得推諉，並應事後負責修復。如發現乙方使用之材料與規定不符時，如為可拆除抽換者（不影響其他構造物），乙方應立即抽換，不得要求扣款處理或延長工期，其所需時間一併列入工期檢討。如不妨礙安全、美觀或使用功能者，由乙方申請出具安全切結，並經甲方檢討確可不必拆換或拆換確有困難，甲方得以扣款或以不計價方式處理，並於甲方完成報備手續後收受。"
+      ],
+      "context_after": [
+        "三、 甲方應於初驗合格後十四天內辦理正式驗收手續。凡驗收（含初驗及複驗）所需之工人、工具及梯架等，概由乙方供給之。甲方及客戶驗收時，如發現工程與規定不符，乙方須依甲方指示在十四天內修改完成或依第一款之規定處理完妥，除其逾改善期限日數視同逾期，應按規定賠償逾期損失外，甲方得不經乙方同意，逕行指使第三人改善及辦理驗收結算，其危險及其所需費用與損失，甲方得在乙方未領工程款或各項保證金內抵扣，如有不足，並得向乙方追討之，乙方不得異議。",
+        "四、 全部工程完工之初驗及正式驗收之複驗作業，均以一次為限，乙方應在甲方指定期限內修改完善。如乙方逾期未辦理妥善或複驗後仍未符規定者，自限期之次日起，繼續計算工期，乙方不得異議。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0083",
+      "paragraph_index": 83,
+      "page_estimate": 6,
+      "labels": [
+        "acceptance",
+        "work_item"
+      ],
+      "text": "三、 甲方應於初驗合格後十四天內辦理正式驗收手續。凡驗收（含初驗及複驗）所需之工人、工具及梯架等，概由乙方供給之。甲方及客戶驗收時，如發現工程與規定不符，乙方須依甲方指示在十四天內修改完成或依第一款之規定處理完妥，除其逾改善期限日數視同逾期，應按規定賠償逾期損失外，甲方得不經乙方同意，逕行指使第三人改善及辦理驗收結算，其危險及其所需費用與損失，甲方得在乙方未領工程款或各項保證金內抵扣，如有不足，並得向乙方追討之，乙方不得異議。",
+      "context_before": [
+        "二、 工程全部完竣後，乙方應於三日內填具並提出竣工報告，逾期視同未竣工，並繼續計算工期。甲方接獲竣工報告，經查確已按合約圖說全部施工完成，應於接獲報告日起七日內派員初驗。"
+      ],
+      "context_after": [
+        "四、 全部工程完工之初驗及正式驗收之複驗作業，均以一次為限，乙方應在甲方指定期限內修改完善。如乙方逾期未辦理妥善或複驗後仍未符規定者，自限期之次日起，繼續計算工期，乙方不得異議。",
+        "五、 工程全部完工後，乙方如拒不申報竣工或拒不會同辦理驗收、缺點改善、工程結算及保固責任等工作，甲方得逕行辦理上述各項工作後接管使用，其所需費用及損失均得在乙方未領工程款或各項保證金內扣抵，如有不足，並得向乙方追討之，乙方不得異議。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0084",
+      "paragraph_index": 84,
+      "page_estimate": 6,
+      "labels": [
+        "acceptance",
+        "work_item"
+      ],
+      "text": "四、 全部工程完工之初驗及正式驗收之複驗作業，均以一次為限，乙方應在甲方指定期限內修改完善。如乙方逾期未辦理妥善或複驗後仍未符規定者，自限期之次日起，繼續計算工期，乙方不得異議。",
+      "context_before": [
+        "三、 甲方應於初驗合格後十四天內辦理正式驗收手續。凡驗收（含初驗及複驗）所需之工人、工具及梯架等，概由乙方供給之。甲方及客戶驗收時，如發現工程與規定不符，乙方須依甲方指示在十四天內修改完成或依第一款之規定處理完妥，除其逾改善期限日數視同逾期，應按規定賠償逾期損失外，甲方得不經乙方同意，逕行指使第三人改善及辦理驗收結算，其危險及其所需費用與損失，甲方得在乙方未領工程款或各項保證金內抵扣，如有不足，並得向乙方追討之，乙方不得異議。"
+      ],
+      "context_after": [
+        "五、 工程全部完工後，乙方如拒不申報竣工或拒不會同辦理驗收、缺點改善、工程結算及保固責任等工作，甲方得逕行辦理上述各項工作後接管使用，其所需費用及損失均得在乙方未領工程款或各項保證金內扣抵，如有不足，並得向乙方追討之，乙方不得異議。",
+        "以上各款規定事項，乙方均不得拒絕修改、處理或拖延。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0085",
+      "paragraph_index": 85,
+      "page_estimate": 6,
+      "labels": [
+        "acceptance",
+        "work_item"
+      ],
+      "text": "五、 工程全部完工後，乙方如拒不申報竣工或拒不會同辦理驗收、缺點改善、工程結算及保固責任等工作，甲方得逕行辦理上述各項工作後接管使用，其所需費用及損失均得在乙方未領工程款或各項保證金內扣抵，如有不足，並得向乙方追討之，乙方不得異議。",
+      "context_before": [
+        "四、 全部工程完工之初驗及正式驗收之複驗作業，均以一次為限，乙方應在甲方指定期限內修改完善。如乙方逾期未辦理妥善或複驗後仍未符規定者，自限期之次日起，繼續計算工期，乙方不得異議。"
+      ],
+      "context_after": [
+        "以上各款規定事項，乙方均不得拒絕修改、處理或拖延。",
+        "第十七條 部分使用："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0086",
+      "paragraph_index": 86,
+      "page_estimate": 6,
+      "labels": [
+        "context"
+      ],
+      "text": "以上各款規定事項，乙方均不得拒絕修改、處理或拖延。",
+      "context_before": [
+        "五、 工程全部完工後，乙方如拒不申報竣工或拒不會同辦理驗收、缺點改善、工程結算及保固責任等工作，甲方得逕行辦理上述各項工作後接管使用，其所需費用及損失均得在乙方未領工程款或各項保證金內扣抵，如有不足，並得向乙方追討之，乙方不得異議。"
+      ],
+      "context_after": [
+        "第十七條 部分使用：",
+        "一、甲方於工程完成一部分如因提前使用，得先驗收其完成之部分。二、甲方對部分使用工程負保管及安全維護之責。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0087",
+      "paragraph_index": 87,
+      "page_estimate": 6,
+      "labels": [
+        "context"
+      ],
+      "text": "第十七條 部分使用：",
+      "context_before": [
+        "以上各款規定事項，乙方均不得拒絕修改、處理或拖延。"
+      ],
+      "context_after": [
+        "一、甲方於工程完成一部分如因提前使用，得先驗收其完成之部分。二、甲方對部分使用工程負保管及安全維護之責。",
+        "第十八條 工期展延："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0088",
+      "paragraph_index": 88,
+      "page_estimate": 6,
+      "labels": [
+        "acceptance",
+        "work_item"
+      ],
+      "text": "一、甲方於工程完成一部分如因提前使用，得先驗收其完成之部分。二、甲方對部分使用工程負保管及安全維護之責。",
+      "context_before": [
+        "第十七條 部分使用："
+      ],
+      "context_after": [
+        "第十八條 工期展延：",
+        "一、本工程如因確可歸責於甲方及平行承包商及不可抗力之因素，導致乙方工期延誤者，乙方得申請延展工期。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0089",
+      "paragraph_index": 89,
+      "page_estimate": 6,
+      "labels": [
+        "context"
+      ],
+      "text": "第十八條 工期展延：",
+      "context_before": [
+        "一、甲方於工程完成一部分如因提前使用，得先驗收其完成之部分。二、甲方對部分使用工程負保管及安全維護之責。"
+      ],
+      "context_after": [
+        "一、本工程如因確可歸責於甲方及平行承包商及不可抗力之因素，導致乙方工期延誤者，乙方得申請延展工期。",
+        "二、乙方應盡善良管理人之注意，如工期顯有因前項情事影響時，乙方應立即以書面通知甲方，並協助甲方排除有礙因素。如乙方未善盡告知義務或推諉拒絕協助甲方者，甲方得不接受乙方工期展延申請。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0090",
+      "paragraph_index": 90,
+      "page_estimate": 7,
+      "labels": [
+        "work_item"
+      ],
+      "text": "一、本工程如因確可歸責於甲方及平行承包商及不可抗力之因素，導致乙方工期延誤者，乙方得申請延展工期。",
+      "context_before": [
+        "第十八條 工期展延："
+      ],
+      "context_after": [
+        "二、乙方應盡善良管理人之注意，如工期顯有因前項情事影響時，乙方應立即以書面通知甲方，並協助甲方排除有礙因素。如乙方未善盡告知義務或推諉拒絕協助甲方者，甲方得不接受乙方工期展延申請。",
+        "三、乙方應於本條第一項之工期延誤發生之日起十五日內，以書面報告連同工程網圖向甲方申請工期展延，逾期辦理者，視為乙方放棄該項權益。甲方亦應於接獲乙方之工期展延申請文件後卅日內，按實核定展延天數，如有逾期，視為完全接受乙方之展延申請。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0091",
+      "paragraph_index": 91,
+      "page_estimate": 7,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、乙方應盡善良管理人之注意，如工期顯有因前項情事影響時，乙方應立即以書面通知甲方，並協助甲方排除有礙因素。如乙方未善盡告知義務或推諉拒絕協助甲方者，甲方得不接受乙方工期展延申請。",
+      "context_before": [
+        "一、本工程如因確可歸責於甲方及平行承包商及不可抗力之因素，導致乙方工期延誤者，乙方得申請延展工期。"
+      ],
+      "context_after": [
+        "三、乙方應於本條第一項之工期延誤發生之日起十五日內，以書面報告連同工程網圖向甲方申請工期展延，逾期辦理者，視為乙方放棄該項權益。甲方亦應於接獲乙方之工期展延申請文件後卅日內，按實核定展延天數，如有逾期，視為完全接受乙方之展延申請。",
+        "第十九條 違約金（逾期罰款）：如因單一可歸責於乙方事由，致乙方未能於第四條約定之期限內完成本工程，每逾一日按承攬總價之千分之ㄧ為損害賠償額預定性遲延違約金給付甲方，且違約金上限為承攬總價之百分之五十。如因可歸責於乙方之事由致甲方受到客戶罰款時，該罰款應由乙方負擔。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0092",
+      "paragraph_index": 92,
+      "page_estimate": 7,
+      "labels": [
+        "work_item"
+      ],
+      "text": "三、乙方應於本條第一項之工期延誤發生之日起十五日內，以書面報告連同工程網圖向甲方申請工期展延，逾期辦理者，視為乙方放棄該項權益。甲方亦應於接獲乙方之工期展延申請文件後卅日內，按實核定展延天數，如有逾期，視為完全接受乙方之展延申請。",
+      "context_before": [
+        "二、乙方應盡善良管理人之注意，如工期顯有因前項情事影響時，乙方應立即以書面通知甲方，並協助甲方排除有礙因素。如乙方未善盡告知義務或推諉拒絕協助甲方者，甲方得不接受乙方工期展延申請。"
+      ],
+      "context_after": [
+        "第十九條 違約金（逾期罰款）：如因單一可歸責於乙方事由，致乙方未能於第四條約定之期限內完成本工程，每逾一日按承攬總價之千分之ㄧ為損害賠償額預定性遲延違約金給付甲方，且違約金上限為承攬總價之百分之五十。如因可歸責於乙方之事由致甲方受到客戶罰款時，該罰款應由乙方負擔。",
+        "第二十條 加班趕工：本工程進行期間，如為配合進度或因施工需要，甲方認為須增加工人或加夜班時，乙方均應照辦，不得推諉或要求甲方補貼費用。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0093",
+      "paragraph_index": 93,
+      "page_estimate": 7,
+      "labels": [
+        "payment",
+        "total_amount"
+      ],
+      "text": "第十九條 違約金（逾期罰款）：如因單一可歸責於乙方事由，致乙方未能於第四條約定之期限內完成本工程，每逾一日按承攬總價之千分之ㄧ為損害賠償額預定性遲延違約金給付甲方，且違約金上限為承攬總價之百分之五十。如因可歸責於乙方之事由致甲方受到客戶罰款時，該罰款應由乙方負擔。",
+      "context_before": [
+        "三、乙方應於本條第一項之工期延誤發生之日起十五日內，以書面報告連同工程網圖向甲方申請工期展延，逾期辦理者，視為乙方放棄該項權益。甲方亦應於接獲乙方之工期展延申請文件後卅日內，按實核定展延天數，如有逾期，視為完全接受乙方之展延申請。"
+      ],
+      "context_after": [
+        "第二十條 加班趕工：本工程進行期間，如為配合進度或因施工需要，甲方認為須增加工人或加夜班時，乙方均應照辦，不得推諉或要求甲方補貼費用。",
+        "第廿一條 配合施工：與本合約工程有關之其他工程及臨時裝置，經甲方委託其他承包商辦理時，乙方應與其他承包商合作；如因可歸責於乙方之工作不能協調，致生錯誤或延誤工期，或發生其他事故者，其一切損失，均由乙方依甲方裁量賠償之。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0094",
+      "paragraph_index": 94,
+      "page_estimate": 7,
+      "labels": [
+        "context"
+      ],
+      "text": "第二十條 加班趕工：本工程進行期間，如為配合進度或因施工需要，甲方認為須增加工人或加夜班時，乙方均應照辦，不得推諉或要求甲方補貼費用。",
+      "context_before": [
+        "第十九條 違約金（逾期罰款）：如因單一可歸責於乙方事由，致乙方未能於第四條約定之期限內完成本工程，每逾一日按承攬總價之千分之ㄧ為損害賠償額預定性遲延違約金給付甲方，且違約金上限為承攬總價之百分之五十。如因可歸責於乙方之事由致甲方受到客戶罰款時，該罰款應由乙方負擔。"
+      ],
+      "context_after": [
+        "第廿一條 配合施工：與本合約工程有關之其他工程及臨時裝置，經甲方委託其他承包商辦理時，乙方應與其他承包商合作；如因可歸責於乙方之工作不能協調，致生錯誤或延誤工期，或發生其他事故者，其一切損失，均由乙方依甲方裁量賠償之。",
+        "第廿二條 工程保管："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0095",
+      "paragraph_index": 95,
+      "page_estimate": 7,
+      "labels": [
+        "context"
+      ],
+      "text": "第廿一條 配合施工：與本合約工程有關之其他工程及臨時裝置，經甲方委託其他承包商辦理時，乙方應與其他承包商合作；如因可歸責於乙方之工作不能協調，致生錯誤或延誤工期，或發生其他事故者，其一切損失，均由乙方依甲方裁量賠償之。",
+      "context_before": [
+        "第二十條 加班趕工：本工程進行期間，如為配合進度或因施工需要，甲方認為須增加工人或加夜班時，乙方均應照辦，不得推諉或要求甲方補貼費用。"
+      ],
+      "context_after": [
+        "第廿二條 工程保管：",
+        "一、 本工程未經完工正式驗收以前，所有已完成工程及到場材料（包括甲方及客戶供給及乙方自備經甲方估驗計價者），均由乙方負責保管，倘有損壞或短少，仍應由乙方負責。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0096",
+      "paragraph_index": 96,
+      "page_estimate": 7,
+      "labels": [
+        "context"
+      ],
+      "text": "第廿二條 工程保管：",
+      "context_before": [
+        "第廿一條 配合施工：與本合約工程有關之其他工程及臨時裝置，經甲方委託其他承包商辦理時，乙方應與其他承包商合作；如因可歸責於乙方之工作不能協調，致生錯誤或延誤工期，或發生其他事故者，其一切損失，均由乙方依甲方裁量賠償之。"
+      ],
+      "context_after": [
+        "一、 本工程未經完工正式驗收以前，所有已完成工程及到場材料（包括甲方及客戶供給及乙方自備經甲方估驗計價者），均由乙方負責保管，倘有損壞或短少，仍應由乙方負責。",
+        "二、 本工程由乙方辦理「安裝工程保險」及「第三人意外責任險」。乙方得依前述保險規定內容，自行增加保險範圍及額度，所需之額外保險費悉由乙方自行負擔。如遇任何災害發生，均由乙方自行處理，甲方概不補貼。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0097",
+      "paragraph_index": 97,
+      "page_estimate": 7,
+      "labels": [
+        "acceptance",
+        "work_item"
+      ],
+      "text": "一、 本工程未經完工正式驗收以前，所有已完成工程及到場材料（包括甲方及客戶供給及乙方自備經甲方估驗計價者），均由乙方負責保管，倘有損壞或短少，仍應由乙方負責。",
+      "context_before": [
+        "第廿二條 工程保管："
+      ],
+      "context_after": [
+        "二、 本工程由乙方辦理「安裝工程保險」及「第三人意外責任險」。乙方得依前述保險規定內容，自行增加保險範圍及額度，所需之額外保險費悉由乙方自行負擔。如遇任何災害發生，均由乙方自行處理，甲方概不補貼。",
+        "第廿三條 工程保固："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0098",
+      "paragraph_index": 98,
+      "page_estimate": 7,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、 本工程由乙方辦理「安裝工程保險」及「第三人意外責任險」。乙方得依前述保險規定內容，自行增加保險範圍及額度，所需之額外保險費悉由乙方自行負擔。如遇任何災害發生，均由乙方自行處理，甲方概不補貼。",
+      "context_before": [
+        "一、 本工程未經完工正式驗收以前，所有已完成工程及到場材料（包括甲方及客戶供給及乙方自備經甲方估驗計價者），均由乙方負責保管，倘有損壞或短少，仍應由乙方負責。"
+      ],
+      "context_after": [
+        "第廿三條 工程保固：",
+        "一、 本工程自甲方正式驗收合格日次日起，由乙方保固二年並出具保固書。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0099",
+      "paragraph_index": 99,
+      "page_estimate": 7,
+      "labels": [
+        "context"
+      ],
+      "text": "第廿三條 工程保固：",
+      "context_before": [
+        "二、 本工程由乙方辦理「安裝工程保險」及「第三人意外責任險」。乙方得依前述保險規定內容，自行增加保險範圍及額度，所需之額外保險費悉由乙方自行負擔。如遇任何災害發生，均由乙方自行處理，甲方概不補貼。"
+      ],
+      "context_after": [
+        "一、 本工程自甲方正式驗收合格日次日起，由乙方保固二年並出具保固書。",
+        "二、 在保固期間內，如本工程有任何損裂、坍塌、漏水、機器設備運轉不良、功能欠缺、損壞等單一可歸責於乙方之瑕疵，乙方應於甲乙雙方約定期限內免費修復或更換（消耗性零件除外）。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0100",
+      "paragraph_index": 100,
+      "page_estimate": 7,
+      "labels": [
+        "acceptance",
+        "work_item"
+      ],
+      "text": "一、 本工程自甲方正式驗收合格日次日起，由乙方保固二年並出具保固書。",
+      "context_before": [
+        "第廿三條 工程保固："
+      ],
+      "context_after": [
+        "二、 在保固期間內，如本工程有任何損裂、坍塌、漏水、機器設備運轉不良、功能欠缺、損壞等單一可歸責於乙方之瑕疵，乙方應於甲乙雙方約定期限內免費修復或更換（消耗性零件除外）。",
+        "三、 以下情形，不在乙方保固之範圍內："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0101",
+      "paragraph_index": 101,
+      "page_estimate": 7,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、 在保固期間內，如本工程有任何損裂、坍塌、漏水、機器設備運轉不良、功能欠缺、損壞等單一可歸責於乙方之瑕疵，乙方應於甲乙雙方約定期限內免費修復或更換（消耗性零件除外）。",
+      "context_before": [
+        "一、 本工程自甲方正式驗收合格日次日起，由乙方保固二年並出具保固書。"
+      ],
+      "context_after": [
+        "三、 以下情形，不在乙方保固之範圍內：",
+        "因甲方或客戶或業主或第三人不當之使用所導致之故障。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0102",
+      "paragraph_index": 102,
+      "page_estimate": 7,
+      "labels": [
+        "work_item"
+      ],
+      "text": "三、 以下情形，不在乙方保固之範圍內：",
+      "context_before": [
+        "二、 在保固期間內，如本工程有任何損裂、坍塌、漏水、機器設備運轉不良、功能欠缺、損壞等單一可歸責於乙方之瑕疵，乙方應於甲乙雙方約定期限內免費修復或更換（消耗性零件除外）。"
+      ],
+      "context_after": [
+        "因甲方或客戶或業主或第三人不當之使用所導致之故障。",
+        "因甲方或客戶或業主或第三人之故意或過失行為所造成之故障。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0103",
+      "paragraph_index": 103,
+      "page_estimate": 7,
+      "labels": [
+        "context"
+      ],
+      "text": "因甲方或客戶或業主或第三人不當之使用所導致之故障。",
+      "context_before": [
+        "三、 以下情形，不在乙方保固之範圍內："
+      ],
+      "context_after": [
+        "因甲方或客戶或業主或第三人之故意或過失行為所造成之故障。",
+        "天災、人禍等不可抗力之事故所造成之故障。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0104",
+      "paragraph_index": 104,
+      "page_estimate": 7,
+      "labels": [
+        "context"
+      ],
+      "text": "因甲方或客戶或業主或第三人之故意或過失行為所造成之故障。",
+      "context_before": [
+        "因甲方或客戶或業主或第三人不當之使用所導致之故障。"
+      ],
+      "context_after": [
+        "天災、人禍等不可抗力之事故所造成之故障。",
+        "甲方或客戶或業主或第三人自行修改本工程。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0106",
+      "paragraph_index": 106,
+      "page_estimate": 8,
+      "labels": [
+        "context"
+      ],
+      "text": "甲方或客戶或業主或第三人自行修改本工程。",
+      "context_before": [
+        "天災、人禍等不可抗力之事故所造成之故障。"
+      ],
+      "context_after": [
+        "四、 乙方於甲乙雙方約定期限內未改正或修復，經甲方催告後仍未改正或修復者，甲方得自行處理或另行請人辦理修復、更換，所需合理費用由乙方負擔。",
+        "五、 保固保證金：智慧建築管理平台功能測試完成，經甲方及客戶驗收合格後，乙方按結算總價百分之三(3%)繳納保固保證金。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0107",
+      "paragraph_index": 107,
+      "page_estimate": 8,
+      "labels": [
+        "work_item"
+      ],
+      "text": "四、 乙方於甲乙雙方約定期限內未改正或修復，經甲方催告後仍未改正或修復者，甲方得自行處理或另行請人辦理修復、更換，所需合理費用由乙方負擔。",
+      "context_before": [
+        "甲方或客戶或業主或第三人自行修改本工程。"
+      ],
+      "context_after": [
+        "五、 保固保證金：智慧建築管理平台功能測試完成，經甲方及客戶驗收合格後，乙方按結算總價百分之三(3%)繳納保固保證金。",
+        "六、 前項保固保證金如保固為二年（含）以內者，期滿且客戶退還保固保證金後，全部退還。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0108",
+      "paragraph_index": 108,
+      "page_estimate": 8,
+      "labels": [
+        "acceptance",
+        "percentage",
+        "retention",
+        "total_amount",
+        "work_item"
+      ],
+      "text": "五、 保固保證金：智慧建築管理平台功能測試完成，經甲方及客戶驗收合格後，乙方按結算總價百分之三(3%)繳納保固保證金。",
+      "context_before": [
+        "四、 乙方於甲乙雙方約定期限內未改正或修復，經甲方催告後仍未改正或修復者，甲方得自行處理或另行請人辦理修復、更換，所需合理費用由乙方負擔。"
+      ],
+      "context_after": [
+        "六、 前項保固保證金如保固為二年（含）以內者，期滿且客戶退還保固保證金後，全部退還。",
+        "第廿四條 維持交通：乙方於施工期間，不得防礙交通，如因施工必須暫停交通時，須有適當臨時交通動線及安全設備等，並須事先徵得道路主管機關之書面許可，方得動工。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0109",
+      "paragraph_index": 109,
+      "page_estimate": 8,
+      "labels": [
+        "retention",
+        "work_item"
+      ],
+      "text": "六、 前項保固保證金如保固為二年（含）以內者，期滿且客戶退還保固保證金後，全部退還。",
+      "context_before": [
+        "五、 保固保證金：智慧建築管理平台功能測試完成，經甲方及客戶驗收合格後，乙方按結算總價百分之三(3%)繳納保固保證金。"
+      ],
+      "context_after": [
+        "第廿四條 維持交通：乙方於施工期間，不得防礙交通，如因施工必須暫停交通時，須有適當臨時交通動線及安全設備等，並須事先徵得道路主管機關之書面許可，方得動工。",
+        "第廿五條 工地安全衛生與環境保護："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0110",
+      "paragraph_index": 110,
+      "page_estimate": 8,
+      "labels": [
+        "context"
+      ],
+      "text": "第廿四條 維持交通：乙方於施工期間，不得防礙交通，如因施工必須暫停交通時，須有適當臨時交通動線及安全設備等，並須事先徵得道路主管機關之書面許可，方得動工。",
+      "context_before": [
+        "六、 前項保固保證金如保固為二年（含）以內者，期滿且客戶退還保固保證金後，全部退還。"
+      ],
+      "context_after": [
+        "第廿五條 工地安全衛生與環境保護：",
+        "一、 本工程施工期間，乙方應遵照勞工安全衛生法及其施行細則、勞工安全衛生設施細則、營造安全衛生設施標準、勞動檢查法及其施行細則、危險性工作場所審查暨檢查辦法、勞動基準法及其施行細則、及甲方之「勞工安全衛生管理作業辦法」與環境保護法令等有關規定確實辦理工安衛生暨環保作業，並隨時注意工地安全及災害防範。如因單一可歸責於乙方事由所導致之任何意外事故，均由乙方負完全責任。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0111",
+      "paragraph_index": 111,
+      "page_estimate": 8,
+      "labels": [
+        "context"
+      ],
+      "text": "第廿五條 工地安全衛生與環境保護：",
+      "context_before": [
+        "第廿四條 維持交通：乙方於施工期間，不得防礙交通，如因施工必須暫停交通時，須有適當臨時交通動線及安全設備等，並須事先徵得道路主管機關之書面許可，方得動工。"
+      ],
+      "context_after": [
+        "一、 本工程施工期間，乙方應遵照勞工安全衛生法及其施行細則、勞工安全衛生設施細則、營造安全衛生設施標準、勞動檢查法及其施行細則、危險性工作場所審查暨檢查辦法、勞動基準法及其施行細則、及甲方之「勞工安全衛生管理作業辦法」與環境保護法令等有關規定確實辦理工安衛生暨環保作業，並隨時注意工地安全及災害防範。如因單一可歸責於乙方事由所導致之任何意外事故，均由乙方負完全責任。",
+        "二、 如因單一可歸責於乙方事由，致乙方在甲方工地發生工安衛生、環保及公共危險等事故，由乙方自負一切賠償及法律責任，如須繳納罰款或賠償時，乙方應自行繳付或理賠，否則甲方得在未領工程款或各項保證金內扣除，代為繳付或賠償，乙方不得異議。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0112",
+      "paragraph_index": 112,
+      "page_estimate": 8,
+      "labels": [
+        "work_item"
+      ],
+      "text": "一、 本工程施工期間，乙方應遵照勞工安全衛生法及其施行細則、勞工安全衛生設施細則、營造安全衛生設施標準、勞動檢查法及其施行細則、危險性工作場所審查暨檢查辦法、勞動基準法及其施行細則、及甲方之「勞工安全衛生管理作業辦法」與環境保護法令等有關規定確實辦理工安衛生暨環保作業，並隨時注意工地安全及災害防範。如因單一可歸責於乙方事由所導致之任何意外事故，均由乙方負完全責任。",
+      "context_before": [
+        "第廿五條 工地安全衛生與環境保護："
+      ],
+      "context_after": [
+        "二、 如因單一可歸責於乙方事由，致乙方在甲方工地發生工安衛生、環保及公共危險等事故，由乙方自負一切賠償及法律責任，如須繳納罰款或賠償時，乙方應自行繳付或理賠，否則甲方得在未領工程款或各項保證金內扣除，代為繳付或賠償，乙方不得異議。",
+        "三、 乙方如未遵照有關法規辦理工安衛生及環保作業，而有發生災害之虞者，經甲方書面通知限期改善而不及時改善時，得視情況暫停計價付款至改善為止，或終止本合約，或依規定罰款，乙方不得異議。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0113",
+      "paragraph_index": 113,
+      "page_estimate": 8,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、 如因單一可歸責於乙方事由，致乙方在甲方工地發生工安衛生、環保及公共危險等事故，由乙方自負一切賠償及法律責任，如須繳納罰款或賠償時，乙方應自行繳付或理賠，否則甲方得在未領工程款或各項保證金內扣除，代為繳付或賠償，乙方不得異議。",
+      "context_before": [
+        "一、 本工程施工期間，乙方應遵照勞工安全衛生法及其施行細則、勞工安全衛生設施細則、營造安全衛生設施標準、勞動檢查法及其施行細則、危險性工作場所審查暨檢查辦法、勞動基準法及其施行細則、及甲方之「勞工安全衛生管理作業辦法」與環境保護法令等有關規定確實辦理工安衛生暨環保作業，並隨時注意工地安全及災害防範。如因單一可歸責於乙方事由所導致之任何意外事故，均由乙方負完全責任。"
+      ],
+      "context_after": [
+        "三、 乙方如未遵照有關法規辦理工安衛生及環保作業，而有發生災害之虞者，經甲方書面通知限期改善而不及時改善時，得視情況暫停計價付款至改善為止，或終止本合約，或依規定罰款，乙方不得異議。",
+        "第廿六條 損害賠償：本工程係甲方配合客戶之需要而委託乙方承攬，如甲方因乙方未確實履行本契約而對客戶發生之一切契約及非契約責任，均應由乙方負擔。如乙方違反本契約之約定，致甲方受到損害，亦應由乙方負擔損害賠償責任。本契約所規定之違約金或保證金之扣抵、動用、沒收等均屬懲罰性違約金之約定，如乙方未履約，甲方除得以計罰違約金或扣抵、動用、沒收保證金外，亦得請求損害賠償。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0114",
+      "paragraph_index": 114,
+      "page_estimate": 8,
+      "labels": [
+        "payment",
+        "work_item"
+      ],
+      "text": "三、 乙方如未遵照有關法規辦理工安衛生及環保作業，而有發生災害之虞者，經甲方書面通知限期改善而不及時改善時，得視情況暫停計價付款至改善為止，或終止本合約，或依規定罰款，乙方不得異議。",
+      "context_before": [
+        "二、 如因單一可歸責於乙方事由，致乙方在甲方工地發生工安衛生、環保及公共危險等事故，由乙方自負一切賠償及法律責任，如須繳納罰款或賠償時，乙方應自行繳付或理賠，否則甲方得在未領工程款或各項保證金內扣除，代為繳付或賠償，乙方不得異議。"
+      ],
+      "context_after": [
+        "第廿六條 損害賠償：本工程係甲方配合客戶之需要而委託乙方承攬，如甲方因乙方未確實履行本契約而對客戶發生之一切契約及非契約責任，均應由乙方負擔。如乙方違反本契約之約定，致甲方受到損害，亦應由乙方負擔損害賠償責任。本契約所規定之違約金或保證金之扣抵、動用、沒收等均屬懲罰性違約金之約定，如乙方未履約，甲方除得以計罰違約金或扣抵、動用、沒收保證金外，亦得請求損害賠償。",
+        "第廿七條 預防危險：施工期間，乙方應於工地加強安全措施、清潔環境及消除髒亂，否則依法處理。對於工地人身及財產之安全，必須預為防範，工地設施須善加保護，倘因單一可歸責於乙方事由致發生任何意外及損失，均由乙方負責。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0115",
+      "paragraph_index": 115,
+      "page_estimate": 8,
+      "labels": [
+        "context"
+      ],
+      "text": "第廿六條 損害賠償：本工程係甲方配合客戶之需要而委託乙方承攬，如甲方因乙方未確實履行本契約而對客戶發生之一切契約及非契約責任，均應由乙方負擔。如乙方違反本契約之約定，致甲方受到損害，亦應由乙方負擔損害賠償責任。本契約所規定之違約金或保證金之扣抵、動用、沒收等均屬懲罰性違約金之約定，如乙方未履約，甲方除得以計罰違約金或扣抵、動用、沒收保證金外，亦得請求損害賠償。",
+      "context_before": [
+        "三、 乙方如未遵照有關法規辦理工安衛生及環保作業，而有發生災害之虞者，經甲方書面通知限期改善而不及時改善時，得視情況暫停計價付款至改善為止，或終止本合約，或依規定罰款，乙方不得異議。"
+      ],
+      "context_after": [
+        "第廿七條 預防危險：施工期間，乙方應於工地加強安全措施、清潔環境及消除髒亂，否則依法處理。對於工地人身及財產之安全，必須預為防範，工地設施須善加保護，倘因單一可歸責於乙方事由致發生任何意外及損失，均由乙方負責。",
+        "第廿八條 乙方如與他人有債務糾紛，經法院命令扣留工程款者，乙方不得藉故停工，如發生損害，應由乙方負責。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0116",
+      "paragraph_index": 116,
+      "page_estimate": 8,
+      "labels": [
+        "context"
+      ],
+      "text": "第廿七條 預防危險：施工期間，乙方應於工地加強安全措施、清潔環境及消除髒亂，否則依法處理。對於工地人身及財產之安全，必須預為防範，工地設施須善加保護，倘因單一可歸責於乙方事由致發生任何意外及損失，均由乙方負責。",
+      "context_before": [
+        "第廿六條 損害賠償：本工程係甲方配合客戶之需要而委託乙方承攬，如甲方因乙方未確實履行本契約而對客戶發生之一切契約及非契約責任，均應由乙方負擔。如乙方違反本契約之約定，致甲方受到損害，亦應由乙方負擔損害賠償責任。本契約所規定之違約金或保證金之扣抵、動用、沒收等均屬懲罰性違約金之約定，如乙方未履約，甲方除得以計罰違約金或扣抵、動用、沒收保證金外，亦得請求損害賠償。"
+      ],
+      "context_after": [
+        "第廿八條 乙方如與他人有債務糾紛，經法院命令扣留工程款者，乙方不得藉故停工，如發生損害，應由乙方負責。",
+        "第廿九條 合約期間：本合約及其附件自簽訂之日起生效，至本工程全部完竣驗收及保固期滿之日為止。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0117",
+      "paragraph_index": 117,
+      "page_estimate": 8,
+      "labels": [
+        "retention"
+      ],
+      "text": "第廿八條 乙方如與他人有債務糾紛，經法院命令扣留工程款者，乙方不得藉故停工，如發生損害，應由乙方負責。",
+      "context_before": [
+        "第廿七條 預防危險：施工期間，乙方應於工地加強安全措施、清潔環境及消除髒亂，否則依法處理。對於工地人身及財產之安全，必須預為防範，工地設施須善加保護，倘因單一可歸責於乙方事由致發生任何意外及損失，均由乙方負責。"
+      ],
+      "context_after": [
+        "第廿九條 合約期間：本合約及其附件自簽訂之日起生效，至本工程全部完竣驗收及保固期滿之日為止。",
+        "第三十條 準據法及爭議解決：本契約之準據法為中華民國法律。因本契約所生之一切爭議，雙方同意本誠實信用、平等互惠原則協議解決之；如雙方無法以協議解決，同意以臺灣臺北地方法院為第一審管轄法院。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0118",
+      "paragraph_index": 118,
+      "page_estimate": 8,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "第廿九條 合約期間：本合約及其附件自簽訂之日起生效，至本工程全部完竣驗收及保固期滿之日為止。",
+      "context_before": [
+        "第廿八條 乙方如與他人有債務糾紛，經法院命令扣留工程款者，乙方不得藉故停工，如發生損害，應由乙方負責。"
+      ],
+      "context_after": [
+        "第三十條 準據法及爭議解決：本契約之準據法為中華民國法律。因本契約所生之一切爭議，雙方同意本誠實信用、平等互惠原則協議解決之；如雙方無法以協議解決，同意以臺灣臺北地方法院為第一審管轄法院。",
+        "第卅一條 合約份數及附件：本合約正本（印花稅票各自貼附）二份，甲乙方各執一份；本合約附件為(1) 報價單；(2) 設計圖說；(3) 配管配線明細表；(4) 硬體設備明細表；(5)施工規範；(6) 設備材料品牌選用表；(7) 罰款辦法；(8) 保密承諾書； (9) 承攬商職業安全衛生暨環保承諾書；(10) 承攬商工作場所之環境危害告知聲明書；(11) 承攬商職業安全衛生管理實施要點。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0119",
+      "paragraph_index": 119,
+      "page_estimate": 8,
+      "labels": [
+        "context"
+      ],
+      "text": "第三十條 準據法及爭議解決：本契約之準據法為中華民國法律。因本契約所生之一切爭議，雙方同意本誠實信用、平等互惠原則協議解決之；如雙方無法以協議解決，同意以臺灣臺北地方法院為第一審管轄法院。",
+      "context_before": [
+        "第廿九條 合約期間：本合約及其附件自簽訂之日起生效，至本工程全部完竣驗收及保固期滿之日為止。"
+      ],
+      "context_after": [
+        "第卅一條 合約份數及附件：本合約正本（印花稅票各自貼附）二份，甲乙方各執一份；本合約附件為(1) 報價單；(2) 設計圖說；(3) 配管配線明細表；(4) 硬體設備明細表；(5)施工規範；(6) 設備材料品牌選用表；(7) 罰款辦法；(8) 保密承諾書； (9) 承攬商職業安全衛生暨環保承諾書；(10) 承攬商工作場所之環境危害告知聲明書；(11) 承攬商職業安全衛生管理實施要點。",
+        "第卅二條 其他約定："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0120",
+      "paragraph_index": 120,
+      "page_estimate": 9,
+      "labels": [
+        "context"
+      ],
+      "text": "第卅一條 合約份數及附件：本合約正本（印花稅票各自貼附）二份，甲乙方各執一份；本合約附件為(1) 報價單；(2) 設計圖說；(3) 配管配線明細表；(4) 硬體設備明細表；(5)施工規範；(6) 設備材料品牌選用表；(7) 罰款辦法；(8) 保密承諾書； (9) 承攬商職業安全衛生暨環保承諾書；(10) 承攬商工作場所之環境危害告知聲明書；(11) 承攬商職業安全衛生管理實施要點。",
+      "context_before": [
+        "第三十條 準據法及爭議解決：本契約之準據法為中華民國法律。因本契約所生之一切爭議，雙方同意本誠實信用、平等互惠原則協議解決之；如雙方無法以協議解決，同意以臺灣臺北地方法院為第一審管轄法院。"
+      ],
+      "context_after": [
+        "第卅二條 其他約定：",
+        "一、 本合約各項單價不隨物價指數或工資漲跌調整。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0121",
+      "paragraph_index": 121,
+      "page_estimate": 9,
+      "labels": [
+        "context"
+      ],
+      "text": "第卅二條 其他約定：",
+      "context_before": [
+        "第卅一條 合約份數及附件：本合約正本（印花稅票各自貼附）二份，甲乙方各執一份；本合約附件為(1) 報價單；(2) 設計圖說；(3) 配管配線明細表；(4) 硬體設備明細表；(5)施工規範；(6) 設備材料品牌選用表；(7) 罰款辦法；(8) 保密承諾書； (9) 承攬商職業安全衛生暨環保承諾書；(10) 承攬商工作場所之環境危害告知聲明書；(11) 承攬商職業安全衛生管理實施要點。"
+      ],
+      "context_after": [
+        "一、 本合約各項單價不隨物價指數或工資漲跌調整。",
+        "二、 乙方應依報價時所提施工計劃之工地人員組織表，於開工後卅日內，調派足夠及經甲方認可之工程人員常駐工地現場，未經甲方書面同意，不得任意調離，如乙方人員不足或任意調動時，經甲方書面通知三日內仍未改善者，甲方得按不足人數，每員扣罰新台幣參萬伍仟柒佰元整，按日扣罰至補足人員為止，是項罰款，甲方得於當期未領工程款內扣除。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0122",
+      "paragraph_index": 122,
+      "page_estimate": 9,
+      "labels": [
+        "work_item"
+      ],
+      "text": "一、 本合約各項單價不隨物價指數或工資漲跌調整。",
+      "context_before": [
+        "第卅二條 其他約定："
+      ],
+      "context_after": [
+        "二、 乙方應依報價時所提施工計劃之工地人員組織表，於開工後卅日內，調派足夠及經甲方認可之工程人員常駐工地現場，未經甲方書面同意，不得任意調離，如乙方人員不足或任意調動時，經甲方書面通知三日內仍未改善者，甲方得按不足人數，每員扣罰新台幣參萬伍仟柒佰元整，按日扣罰至補足人員為止，是項罰款，甲方得於當期未領工程款內扣除。",
+        "三、 本工程於進行裝修前，乙方應按甲方指示擇定一層樓面，先行裝修地坪、牆面及平頂天花，與完成水電、空調及消防整合，施作一樣品層（含修改），經甲方核可後，方得繼續進行其餘樓層之裝修。樣品層之施作及拆除費用均已含於合約金額內，乙方不得推諉拒絕或要求補償。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0123",
+      "paragraph_index": 123,
+      "page_estimate": 9,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、 乙方應依報價時所提施工計劃之工地人員組織表，於開工後卅日內，調派足夠及經甲方認可之工程人員常駐工地現場，未經甲方書面同意，不得任意調離，如乙方人員不足或任意調動時，經甲方書面通知三日內仍未改善者，甲方得按不足人數，每員扣罰新台幣參萬伍仟柒佰元整，按日扣罰至補足人員為止，是項罰款，甲方得於當期未領工程款內扣除。",
+      "context_before": [
+        "一、 本合約各項單價不隨物價指數或工資漲跌調整。"
+      ],
+      "context_after": [
+        "三、 本工程於進行裝修前，乙方應按甲方指示擇定一層樓面，先行裝修地坪、牆面及平頂天花，與完成水電、空調及消防整合，施作一樣品層（含修改），經甲方核可後，方得繼續進行其餘樓層之裝修。樣品層之施作及拆除費用均已含於合約金額內，乙方不得推諉拒絕或要求補償。",
+        "四、乙方應選派具品管工程師執照及機電工程施工實務經驗，並經甲方核可之品管工程師常駐本工程工地現場，確實執行本工程各項品質管制工作。該品管工程師如不稱職，一經甲方通知，乙方應立即撤換及指派合格人員接任，不得推諉拒絕或要求補償。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0124",
+      "paragraph_index": 124,
+      "page_estimate": 9,
+      "labels": [
+        "work_item"
+      ],
+      "text": "三、 本工程於進行裝修前，乙方應按甲方指示擇定一層樓面，先行裝修地坪、牆面及平頂天花，與完成水電、空調及消防整合，施作一樣品層（含修改），經甲方核可後，方得繼續進行其餘樓層之裝修。樣品層之施作及拆除費用均已含於合約金額內，乙方不得推諉拒絕或要求補償。",
+      "context_before": [
+        "二、 乙方應依報價時所提施工計劃之工地人員組織表，於開工後卅日內，調派足夠及經甲方認可之工程人員常駐工地現場，未經甲方書面同意，不得任意調離，如乙方人員不足或任意調動時，經甲方書面通知三日內仍未改善者，甲方得按不足人數，每員扣罰新台幣參萬伍仟柒佰元整，按日扣罰至補足人員為止，是項罰款，甲方得於當期未領工程款內扣除。"
+      ],
+      "context_after": [
+        "四、乙方應選派具品管工程師執照及機電工程施工實務經驗，並經甲方核可之品管工程師常駐本工程工地現場，確實執行本工程各項品質管制工作。該品管工程師如不稱職，一經甲方通知，乙方應立即撤換及指派合格人員接任，不得推諉拒絕或要求補償。",
+        "五、 乙方應依施工規範各項規定辦理，不得異議。如有違反規定，依第七條之第五款辦理。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0125",
+      "paragraph_index": 125,
+      "page_estimate": 9,
+      "labels": [
+        "work_item"
+      ],
+      "text": "四、乙方應選派具品管工程師執照及機電工程施工實務經驗，並經甲方核可之品管工程師常駐本工程工地現場，確實執行本工程各項品質管制工作。該品管工程師如不稱職，一經甲方通知，乙方應立即撤換及指派合格人員接任，不得推諉拒絕或要求補償。",
+      "context_before": [
+        "三、 本工程於進行裝修前，乙方應按甲方指示擇定一層樓面，先行裝修地坪、牆面及平頂天花，與完成水電、空調及消防整合，施作一樣品層（含修改），經甲方核可後，方得繼續進行其餘樓層之裝修。樣品層之施作及拆除費用均已含於合約金額內，乙方不得推諉拒絕或要求補償。"
+      ],
+      "context_after": [
+        "五、 乙方應依施工規範各項規定辦理，不得異議。如有違反規定，依第七條之第五款辦理。",
+        "六、  A棟使用執照取得日期修正為 2026 年 8 月 31 日。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0126",
+      "paragraph_index": 126,
+      "page_estimate": 9,
+      "labels": [
+        "work_item"
+      ],
+      "text": "五、 乙方應依施工規範各項規定辦理，不得異議。如有違反規定，依第七條之第五款辦理。",
+      "context_before": [
+        "四、乙方應選派具品管工程師執照及機電工程施工實務經驗，並經甲方核可之品管工程師常駐本工程工地現場，確實執行本工程各項品質管制工作。該品管工程師如不稱職，一經甲方通知，乙方應立即撤換及指派合格人員接任，不得推諉拒絕或要求補償。"
+      ],
+      "context_after": [
+        "六、  A棟使用執照取得日期修正為 2026 年 8 月 31 日。",
+        "七、 合約保固期滿後，如於使用中發現本工程之設備與或材料與當初送審規範不符，經會勘查驗後明確可歸咎於乙方責任，乙方須無償負責修復完成。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0127",
+      "paragraph_index": 127,
+      "page_estimate": 9,
+      "labels": [
+        "work_item"
+      ],
+      "text": "六、  A棟使用執照取得日期修正為 2026 年 8 月 31 日。",
+      "context_before": [
+        "五、 乙方應依施工規範各項規定辦理，不得異議。如有違反規定，依第七條之第五款辦理。"
+      ],
+      "context_after": [
+        "七、 合約保固期滿後，如於使用中發現本工程之設備與或材料與當初送審規範不符，經會勘查驗後明確可歸咎於乙方責任，乙方須無償負責修復完成。",
+        "八、任一方不因本合約而取得他方在本合約生效前已取得之智慧財產權。"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0128",
+      "paragraph_index": 128,
+      "page_estimate": 9,
+      "labels": [
+        "acceptance",
+        "work_item"
+      ],
+      "text": "七、 合約保固期滿後，如於使用中發現本工程之設備與或材料與當初送審規範不符，經會勘查驗後明確可歸咎於乙方責任，乙方須無償負責修復完成。",
+      "context_before": [
+        "六、  A棟使用執照取得日期修正為 2026 年 8 月 31 日。"
+      ],
+      "context_after": [
+        "八、任一方不因本合約而取得他方在本合約生效前已取得之智慧財產權。",
+        "立合約書人"
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0129",
+      "paragraph_index": 129,
+      "page_estimate": 9,
+      "labels": [
+        "work_item"
+      ],
+      "text": "八、任一方不因本合約而取得他方在本合約生效前已取得之智慧財產權。",
+      "context_before": [
+        "七、 合約保固期滿後，如於使用中發現本工程之設備與或材料與當初送審規範不符，經會勘查驗後明確可歸咎於乙方責任，乙方須無償負責修復完成。"
+      ],
+      "context_after": [
+        "立合約書人",
+        "甲\t方："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0132",
+      "paragraph_index": 132,
+      "page_estimate": 9,
+      "labels": [
+        "context"
+      ],
+      "text": "立合約書人",
+      "context_before": [
+        "八、任一方不因本合約而取得他方在本合約生效前已取得之智慧財產權。"
+      ],
+      "context_after": [
+        "甲\t方：",
+        "負 責 人："
+      ]
+    },
+    {
+      "block_id": "04XX專案_block_0134",
+      "paragraph_index": 134,
+      "page_estimate": 9,
+      "labels": [
+        "context"
+      ],
+      "text": "甲\t方：",
+      "context_before": [
+        "立合約書人"
+      ],
+      "context_after": [
+        "負 責 人：",
+        "統一編號："
+      ]
+    }
+  ],
+  "validation_status": "failed",
+  "contract_key": "04xx專案",
+  "version_number": 1,
+  "version_conflicts": []
+}

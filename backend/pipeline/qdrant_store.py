@@ -88,6 +88,15 @@ def upsert_contract_chunks(contract_id: str, chunks: list[dict[str, Any]], embed
     if not qdrant_ready() or qdrant_models is None or Document is None or not chunks or not embeddings or not embedding_model_ready():
         return
     ensure_collection(len(embeddings[0]))
+    client = get_qdrant_client()
+    client.delete(
+        collection_name=settings.qdrant_collection_name,
+        points_selector=qdrant_models.FilterSelector(
+            filter=qdrant_models.Filter(
+                must=[qdrant_models.FieldCondition(key="contract_id", match=qdrant_models.MatchValue(value=contract_id))]
+            )
+        ),
+    )
     documents = []
     ids = []
     for chunk, vector in zip(chunks, embeddings, strict=False):
@@ -101,6 +110,12 @@ def upsert_contract_chunks(contract_id: str, chunks: list[dict[str, Any]], embed
                     "para_start": chunk["para_start"],
                     "para_end": chunk["para_end"],
                     "page_estimate": chunk["page_estimate"],
+                    "chunk_type": chunk.get("chunk_type"),
+                    "clause_label": chunk.get("clause_label"),
+                    "structured_kind": chunk.get("structured_kind"),
+                    "wiki_source_path": chunk.get("wiki_source_path"),
+                    "source_label": chunk.get("source_label"),
+                    "block_ids": chunk.get("block_ids", []),
                 },
             )
         )
@@ -126,6 +141,12 @@ def search_contract_chunks(contract_id: str | None, query: str, top_k: int) -> l
                 "para_start": int(payload.get("para_start", 0)),
                 "para_end": int(payload.get("para_end", 0)),
                 "page_estimate": int(payload.get("page_estimate", 0)),
+                "chunk_type": payload.get("chunk_type"),
+                "clause_label": payload.get("clause_label"),
+                "structured_kind": payload.get("structured_kind"),
+                "wiki_source_path": payload.get("wiki_source_path"),
+                "source_label": payload.get("source_label"),
+                "block_ids": payload.get("block_ids", []),
                 "retrieval_score": float(score or 0.0),
                 "contract_id": payload.get("contract_id"),
             }

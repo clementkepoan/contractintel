@@ -133,9 +133,13 @@ class IngestEvent(SQLModel, table=True):
 class FiledQuery(SQLModel, table=True):
     query_id: str = Field(primary_key=True, index=True)
     chat_session_id: str = Field(index=True)
+    human_message_id: Optional[int] = Field(default=None, index=True)
+    ai_message_id: Optional[int] = Field(default=None, index=True)
     question: str
     answer: str
     contract_scope_json: str = Field(default="[]")
     citations_json: str = Field(default="[]")
     wiki_path: str = Field(index=True)
+    answer_method: str = Field(default="langchain_ollama")
+    retrieval_mode: str = Field(default="hybrid_qdrant")
     created_at: datetime = Field(default_factory=now_utc)

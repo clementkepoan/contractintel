@@ -1,7 +1,7 @@
 ---
 kind: index
 title: Repository Index
-updated_at: 2026-04-27 02:48 UTC
+updated_at: 2026-04-27 07:30 UTC
 tags:
   - index
   - wiki
@@ -15,11 +15,6 @@ tags:
 - [施工說明書](contracts/03xx專案.md) · `03xx專案` · 1 versions
 - [XX專案](contracts/04xx專案.md) · `04xx專案` · 1 versions
 - [XX專案](contracts/05xx專案.md) · `05xx專案` · 1 versions
-- [工程承攬契約書](contracts/06xx專案.md) · `06xx專案` · 1 versions
-- [招標規格書（RFP）](contracts/07xx專案.md) · `07xx專案` · 1 versions
-- [跨境電商平台建置工程合約書](contracts/08xx專案.md) · `08xx專案` · 1 versions
-- [09XX專案─醫療院所資訊系統升級工程](contracts/09xx專案.md) · `09xx專案` · 1 versions
-- [10XX專案─太陽能光電系統建置工程（屋頂型）](contracts/10xx專案.md) · `10xx專案` · 1 versions
 
 ## Sources
 - [01XX專案.docx](sources/01xx專案__v1.md) · `01xx專案` · v1 · rfp
@@ -27,14 +22,15 @@ tags:
 - [03XX專案.doc](sources/03xx專案__v1.md) · `03xx專案` · v1 · construction_instruction
 - [04XX專案.docx](sources/04xx專案__v1.md) · `04xx專案` · v1 · contract
 - [05XX專案.docx](sources/05xx專案__v1.md) · `05xx專案` · v1 · contract
-- [06XX專案.docx](sources/06xx專案__v1.md) · `06xx專案` · v1 · contract
-- [07XX專案.docx](sources/07xx專案__v1.md) · `07xx專案` · v1 · rfp
-- [08XX專案.docx](sources/08xx專案__v1.md) · `08xx專案` · v1 · contract
-- [09XX專案.docx](sources/09xx專案__v1.md) · `09xx專案` · v1 · contract
-- [10XX專案.docx](sources/10xx專案__v1.md) · `10xx專案` · v1 · contract
 
 ## Query Notes
-- No query notes have been filed yet.
+- [不可抗力結束後如果乙方不繼續履約，甲方要等多久才能終止合約？](queries/query_429000663fe0.md)
+- [甲方客戶要求使用尚未驗收的工程，乙方可以拒絕嗎？](queries/query_d819f3f18e81.md)
+- [保險理賠金在什麼情況下會直接付給乙方而不是甲方？](queries/query_20cd8ef9f374.md)
+- [乙方未經甲方同意擅自轉包，甲方可以扣多少違約金？](queries/query_e40a2102f820.md)
+- [這份合約有哪些風險？](queries/query_5e16d2977727.md)
+- [what are the risks in this contract?
+](queries/query_b216edb65471.md)
 
 ## Operations
 - [Wiki Log](log.md)

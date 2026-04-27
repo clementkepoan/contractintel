@@ -12,7 +12,7 @@ from sqlmodel import select
 
 from backend.config import settings
 from backend.db.models import Citation, Contract, IngestEvent, Milestone, ValidationWarning
-from backend.pipeline.extractor import EXTRACTION_PIPELINE_VERSION, extract_contract_data, serialize_json
+from backend.pipeline.extractor import EXTRACTION_PIPELINE_VERSION, dedupe_citations, extract_contract_data, serialize_json
 from backend.pipeline.indexer import write_chunk_index
 from backend.pipeline.ingestion import compute_sha256, load_document, persist_upload
 from backend.pipeline.validation import validate_contract_data
@@ -116,6 +116,7 @@ def expected_wiki_pages(contract_key: str, version_number: int, milestones: list
 
 def _store_contract_children(session: Any, contract_id: str, extracted: dict[str, Any]) -> None:
     for milestone in extracted["milestones"]:
+        milestone_citations = dedupe_citations(milestone["citations"])
         session.add(
             Milestone(
                 milestone_id=milestone["milestone_id"],
@@ -129,7 +130,7 @@ def _store_contract_children(session: Any, contract_id: str, extracted: dict[str
                 acceptance_criteria=milestone["acceptance_criteria"],
                 payment_condition=milestone["payment_condition"],
                 status=milestone["status"],
-                citations_json=json.dumps(milestone["citations"], ensure_ascii=False),
+                citations_json=json.dumps(milestone_citations, ensure_ascii=False),
             )
         )
     for citation in extracted["citations"]:
@@ -151,7 +152,7 @@ def _store_contract_children(session: Any, contract_id: str, extracted: dict[str
             )
         )
     for milestone in extracted["milestones"]:
-        for citation in milestone["citations"]:
+        for citation in dedupe_citations(milestone["citations"]):
             session.add(
                 Citation(
                     contract_id=contract_id,
@@ -382,7 +383,6 @@ def _apply_contract_refresh(
         pages=expected_wiki_pages(contract.contract_key, contract.version_number, extracted["milestones"]),
     )
     session.commit()
-    write_chunk_index(contract.contract_id, extracted)
     rebuild_contract_artifacts(
         session,
         latest_contract_id=contract.contract_id,
@@ -390,6 +390,7 @@ def _apply_contract_refresh(
         version_conflicts=version_conflicts,
         action=action,
     )
+    write_chunk_index(contract.contract_id, extracted)
     build_graph(session)
     wiki_paths = resolve_contract_wiki_paths(session, contract.contract_id)
     logger.info(
@@ -453,6 +454,8 @@ def ingest_upload(session: Any, upload: UploadFile) -> dict[str, Any]:
             version_conflicts=[],
             action="noop",
         )
+        if previous_payload:
+            write_chunk_index(previous_contract.contract_id, previous_payload)
         wiki_paths = resolve_contract_wiki_paths(session, previous_contract.contract_id)
         return {
             "contract_id": previous_contract.contract_id,
@@ -506,6 +509,7 @@ def ingest_upload(session: Any, upload: UploadFile) -> dict[str, Any]:
         session.add(previous_contract)
     session.add(contract)
     for milestone in extracted["milestones"]:
+        milestone_citations = dedupe_citations(milestone["citations"])
         session.add(
             Milestone(
                 milestone_id=milestone["milestone_id"],
@@ -519,7 +523,7 @@ def ingest_upload(session: Any, upload: UploadFile) -> dict[str, Any]:
                 acceptance_criteria=milestone["acceptance_criteria"],
                 payment_condition=milestone["payment_condition"],
                 status=milestone["status"],
-                citations_json=json.dumps(milestone["citations"], ensure_ascii=False),
+                citations_json=json.dumps(milestone_citations, ensure_ascii=False),
             )
         )
     for citation in extracted["citations"]:
@@ -541,7 +545,7 @@ def ingest_upload(session: Any, upload: UploadFile) -> dict[str, Any]:
             )
         )
     for milestone in extracted["milestones"]:
-        for citation in milestone["citations"]:
+        for citation in dedupe_citations(milestone["citations"]):
             session.add(
                 Citation(
                     contract_id=contract.contract_id,
@@ -582,7 +586,6 @@ def ingest_upload(session: Any, upload: UploadFile) -> dict[str, Any]:
         pages=expected_wiki_pages(contract_key, version_number, extracted["milestones"]),
     )
     session.commit()
-    write_chunk_index(contract.contract_id, extracted)
     rebuild_contract_artifacts(
         session,
         latest_contract_id=contract.contract_id,
@@ -590,6 +593,7 @@ def ingest_upload(session: Any, upload: UploadFile) -> dict[str, Any]:
         version_conflicts=extracted["version_conflicts"],
         action=action,
     )
+    write_chunk_index(contract.contract_id, extracted)
     build_graph(session)
     wiki_paths = resolve_contract_wiki_paths(session, contract.contract_id)
     citation_count = len(extracted["citations"]) + sum(len(item["citations"]) for item in extracted["milestones"])

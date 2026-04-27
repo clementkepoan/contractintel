@@ -1106,6 +1106,8 @@ def append_query_note(
     *,
     session: Any,
     chat_session_id: str,
+    human_message_id: int | None,
+    ai_message_id: int | None,
     contract_id: str | None,
     query: str,
     answer: str,
@@ -1163,11 +1165,15 @@ def append_query_note(
         FiledQuery(
             query_id=query_id,
             chat_session_id=chat_session_id,
+            human_message_id=human_message_id,
+            ai_message_id=ai_message_id,
             question=query,
             answer=answer,
             contract_scope_json=json.dumps([contract_id] if contract_id else [], ensure_ascii=False),
             citations_json=json.dumps(citations, ensure_ascii=False),
             wiki_path=wiki_relative(path),
+            answer_method=answer_method,
+            retrieval_mode=retrieval_mode,
         )
     )
     session.commit()
