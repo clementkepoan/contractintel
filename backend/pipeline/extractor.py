@@ -9,6 +9,7 @@ from uuid import uuid4
 
 from backend.config import settings
 from backend.pipeline.extractor_llm import extract_contract_with_llm, get_last_llm_attempt_meta
+from backend.pipeline.llm import llm_available, query_local_llm_detailed
 from backend.pipeline.validation import validate_contract_data
 
 logger = logging.getLogger(__name__)
@@ -264,6 +265,14 @@ def derive_milestone_terms(title: str, joined_text: str) -> tuple[str | None, st
         prefix = re.split(PAYMENT_CONDITION_SIGNAL_PATTERN, payment_condition, maxsplit=1)[0].strip(" ，,:：")
         if prefix and prefix != title and (any(marker in prefix for marker in ACCEPTANCE_MARKERS) or looks_like_task_item(prefix)):
             acceptance_criteria = prefix[:300]
+    if acceptance_criteria is None:
+        title_trigger = re.sub(r"^(?:\[V\d修訂\]\s*)?第[一二三四五六七八九十\d]+期款?[：:、）)]?\s*", "", title).strip()
+        if title_trigger and (
+            any(marker in title_trigger for marker in ACCEPTANCE_MARKERS)
+            or looks_like_task_item(title_trigger)
+            or any(marker in title_trigger for marker in ("簽訂", "完成", "測試", "上線", "驗收"))
+        ):
+            acceptance_criteria = title_trigger[:300]
     if acceptance_criteria == payment_condition:
         acceptance_criteria = None
     return payment_condition, acceptance_criteria
@@ -282,6 +291,114 @@ def derive_work_items_from_trigger(title: str, payment_condition: str | None) ->
     if "驗收合格" in title and "驗收合格" not in text:
         text = f"{text}驗收合格"
     return [text[:120]]
+
+
+def should_normalize_milestone_terms(
+    title: str,
+    payment_condition: str | None,
+    acceptance_criteria: str | None,
+    work_items: list[str],
+) -> bool:
+    combined_length = len(payment_condition or "") + len(acceptance_criteria or "") + sum(len(item) for item in work_items[:2])
+    if combined_length < 180:
+        return False
+    if work_items and title[:12] in work_items[0]:
+        return True
+    if acceptance_criteria and title[:12] in acceptance_criteria:
+        return True
+    if payment_condition and title[:12] in payment_condition and any(marker in payment_condition for marker in ("驗收合格", "測試完成", "提出")):
+        return True
+    return False
+
+
+def parse_json_object(raw: str | None) -> dict[str, Any] | None:
+    if not raw:
+        return None
+    text = raw.strip()
+    if not text:
+        return None
+    try:
+        parsed = json.loads(text)
+        return parsed if isinstance(parsed, dict) else None
+    except json.JSONDecodeError:
+        pass
+    start = text.find("{")
+    end = text.rfind("}")
+    if start == -1 or end == -1 or end <= start:
+        return None
+    try:
+        parsed = json.loads(text[start : end + 1])
+        return parsed if isinstance(parsed, dict) else None
+    except json.JSONDecodeError:
+        return None
+
+
+def keep_normalized_value(candidate: str | None, source_text: str, *, max_length: int = 220) -> str | None:
+    if not isinstance(candidate, str):
+        return None
+    cleaned = candidate.strip()
+    if not cleaned:
+        return None
+    if len(cleaned) > max_length:
+        cleaned = cleaned[:max_length].rstrip()
+    return cleaned if cleaned in source_text else None
+
+
+def normalize_milestone_terms_with_llm(
+    *,
+    title: str,
+    source_text: str,
+    payment_condition: str | None,
+    acceptance_criteria: str | None,
+    work_items: list[str],
+) -> tuple[list[str], str | None, str | None]:
+    if not llm_available():
+        return work_items, acceptance_criteria, payment_condition
+    prompt = "\n".join(
+        [
+            "你是契約里程碑欄位正規化器。只可依據來源原文，使用繁體中文，輸出 JSON。",
+            "目的：把同一長句拆成三種欄位，避免重複。",
+            "規則：",
+            "1. work_items 只保留交付/施工/測試/提交動作，不含付款語句。",
+            "2. acceptance_criteria 只保留核定/確認/驗收/測試通過條件。",
+            "3. payment_condition 保留可付款的完整條件與付款語句。",
+            "4. 盡量直接摘錄來源原文片段，不要改寫同義句。",
+            "5. 若來源沒有獨立驗收條件，可從同句中擷取最短可用片段。",
+            "6. 只輸出 JSON，不要說明。",
+            "",
+            "範例1",
+            "來源：功能整合款(20%)：乙方將附件一報價單項目一至十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價20%予乙方。",
+            '{"work_items":["整合至智慧建築管理平台","智慧建築管理平台功能測試完成","提出測試運轉紀錄文件"],"acceptance_criteria":"經甲方及客戶驗收合格後","payment_condition":"經甲方及客戶驗收合格後，甲方應給付工程總價20%予乙方"}',
+            "",
+            "範例2",
+            "來源：第二期：乙方完成設備交貨，經甲方及客戶確認後，甲方應給付本契約總價30%予乙方。",
+            '{"work_items":["完成設備交貨"],"acceptance_criteria":"經甲方及客戶確認後","payment_condition":"經甲方及客戶確認後，甲方應給付本契約總價30%予乙方"}',
+            "",
+            f"標題：{title}",
+            f"來源原文：{source_text[:700]}",
+            f"目前 work_items：{json.dumps(work_items, ensure_ascii=False)}",
+            f"目前 acceptance_criteria：{acceptance_criteria or 'null'}",
+            f"目前 payment_condition：{payment_condition or 'null'}",
+            "",
+            '輸出格式：{"work_items":[""],"acceptance_criteria":"","payment_condition":""}',
+        ]
+    )
+    response = query_local_llm_detailed(prompt, timeout=25.0, response_format="json")
+    parsed = parse_json_object(response.get("response"))
+    if not parsed:
+        return work_items, acceptance_criteria, payment_condition
+    normalized_work_items: list[str] = []
+    for item in parsed.get("work_items", []) if isinstance(parsed.get("work_items"), list) else []:
+        kept = keep_normalized_value(item, source_text, max_length=120)
+        if kept and kept not in normalized_work_items:
+            normalized_work_items.append(kept)
+    normalized_acceptance = keep_normalized_value(parsed.get("acceptance_criteria"), source_text, max_length=220)
+    normalized_payment = keep_normalized_value(parsed.get("payment_condition"), source_text, max_length=260)
+    return (
+        normalized_work_items or work_items,
+        normalized_acceptance or acceptance_criteria,
+        normalized_payment or payment_condition,
+    )
 
 
 def collect_related_paragraphs(paragraphs: list[dict[str, Any]], start_index: int, limit: int = 8) -> list[dict[str, Any]]:
@@ -619,15 +736,26 @@ def extract_milestones(source_file: str, paragraphs: list[dict[str, Any]]) -> li
                         milestone_citations.append(build_citation(source_file, related, related_percent_match.group(0), "milestone.percentage", PERCENT_PATTERN.pattern))
                         break
         payment_condition, acceptance_criteria = derive_milestone_terms(title, joined_text)
-        if payment_condition:
-            milestone_citations.append(build_citation(source_file, paragraph, payment_condition, "milestone.payment_condition", "stitched_clause"))
-        if acceptance_criteria:
-            milestone_citations.append(build_citation(source_file, paragraph, acceptance_criteria, "milestone.acceptance_criteria", "stitched_clause"))
         work_items = extract_work_items(paragraphs, offset)
         work_items_derived = False
         if not work_items:
             work_items = derive_work_items_from_trigger(title, payment_condition)
             work_items_derived = bool(work_items)
+        if should_normalize_milestone_terms(title, payment_condition, acceptance_criteria, work_items):
+            normalized_work_items, normalized_acceptance_criteria, normalized_payment_condition = normalize_milestone_terms_with_llm(
+                title=title,
+                source_text=joined_text,
+                payment_condition=payment_condition,
+                acceptance_criteria=acceptance_criteria,
+                work_items=work_items,
+            )
+            work_items = normalized_work_items
+            acceptance_criteria = normalized_acceptance_criteria
+            payment_condition = normalized_payment_condition
+        if payment_condition:
+            milestone_citations.append(build_citation(source_file, paragraph, payment_condition, "milestone.payment_condition", "stitched_clause"))
+        if acceptance_criteria:
+            milestone_citations.append(build_citation(source_file, paragraph, acceptance_criteria, "milestone.acceptance_criteria", "stitched_clause"))
         if work_items:
             work_item_text = "\n".join(work_items)[:300]
             work_item_snippet = paragraph["text"][:200] if work_items_derived else work_item_text
@@ -1216,6 +1344,15 @@ def merge_llm_extraction(
     llm_milestone_map = {milestone["source_order"]: milestone for milestone in (llm_result.get("milestones") or [])}
     allowed_block_ids = set(llm_result.get("_allowed_block_ids", [])) or None
     numeric_disagreement_warnings: list[dict[str, Any]] = []
+    ignored_llm_orders: list[int] = []
+    if regex_milestones:
+        filtered_llm_milestone_map: dict[int, dict[str, Any]] = {}
+        for order, milestone in llm_milestone_map.items():
+            if order in regex_milestones:
+                filtered_llm_milestone_map[order] = milestone
+                continue
+            ignored_llm_orders.append(order)
+        llm_milestone_map = filtered_llm_milestone_map
     milestones: list[dict[str, Any]] = []
     milestone_orders = sorted(set(regex_milestones) | set(llm_milestone_map))
     if regex_milestones and len(llm_milestone_map) < len(regex_milestones):
@@ -1224,6 +1361,15 @@ def merge_llm_extraction(
                 "code": "llm_partial_schedule_fallback",
                 "severity": "WARNING",
                 "message": f"LLM extracted only {len(llm_milestone_map)} milestones while regex extracted {len(regex_milestones)}; regex schedule completeness was preserved.",
+                "citations": [],
+            }
+        )
+    if ignored_llm_orders:
+        numeric_disagreement_warnings.append(
+            {
+                "code": "llm_unmatched_milestones_ignored",
+                "severity": "WARNING",
+                "message": f"LLM returned unmatched milestone orders {ignored_llm_orders}; they were ignored because regex already defined the milestone schedule.",
                 "citations": [],
             }
         )

@@ -47,7 +47,6 @@ export function MilestoneDetailPage({ milestoneId, setSelectedMilestoneId, setSe
   const acceptanceCitationIndex = findCitationIndex(citations, "milestone.acceptance_criteria");
   const workItemCitationIndex = findCitationIndex(citations, "milestone.work_items");
   const selectedCitation = citations[selectedCitationIndex] || citations[paymentCitationIndex] || citations[0] || null;
-  const paymentCitation = paymentCitationIndex === -1 ? null : citations[paymentCitationIndex];
 
   if (loading) return <LoadingBlock />;
   if (!milestone) return <EmptyBlock label="No milestone available." />;
@@ -113,7 +112,6 @@ export function MilestoneDetailPage({ milestoneId, setSelectedMilestoneId, setSe
           <section className="milestone-panel wide">
             <div className="milestone-panel-header"><h3>Payment Conditions</h3><button type="button" className="ghost-button square" disabled={paymentCitationIndex === -1} onClick={() => { if (paymentCitationIndex === -1) return; setSelectedCitationIndex(paymentCitationIndex); setCitation(citations[paymentCitationIndex]); }}><Quote size={14} /></button></div>
             <p className="payment-condition-copy">{milestone.payment_condition || "Not extracted."}</p>
-            {paymentCitation?.text_snippet ? <mark>{paymentCitation.text_snippet}</mark> : null}
           </section>
         </div>
         <aside className="evidence-panel">

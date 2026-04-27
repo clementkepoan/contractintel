@@ -1,0 +1,2384 @@
+{
+  "contract_name": "09XX專案─醫療院所資訊系統升級工程",
+  "total_amount": 18000000,
+  "currency": "TWD",
+  "contract_type": "lump_sum",
+  "payment_type": "single_with_retention",
+  "total_amount_is_tax_included": true,
+  "doc_category": "contract",
+  "milestones": [
+    {
+      "milestone_id": "m_0d61331604d7",
+      "name": "最終驗收付款",
+      "amount": 17100000,
+      "percentage": 95.0,
+      "work_items": [],
+      "acceptance_criteria": "甲方於收到乙方請款憑證並確認驗收合格後，於 30 個工作天內給付合約總價 95%（即新台幣 17,100,000 元）。",
+      "payment_condition": "驗收合格後請款付款",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "09XX專案.docx",
+          "para_start": 17,
+          "para_end": 17,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 60,
+          "text_snippet": "甲方於收到乙方請款憑證並確認驗收合格後，於 30 個工作天內給付合約總價 95%（即新台幣 17,100,000 元）。",
+          "block_id": "09XX專案_block_0017",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 1,
+      "milestone_key": "m001"
+    },
+    {
+      "milestone_id": "m_194ec69e329d",
+      "name": "保固保證金退還",
+      "amount": 900000,
+      "percentage": 5.0,
+      "work_items": [],
+      "acceptance_criteria": "保固期屆滿且無未解決瑕疵",
+      "payment_condition": "保固期屆滿且無未解決瑕疵",
+      "status": "retention_pending",
+      "citations": [
+        {
+          "field_name": "retention",
+          "source_file": "09XX專案.docx",
+          "para_start": 18,
+          "para_end": 18,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 62,
+          "text_snippet": "合約總價之 5%（即新台幣 900,000 元）作為保固保證金，於保固期（2年）屆滿且無未解決之瑕疵後，由甲方無息退還乙方。",
+          "block_id": "09XX專案_block_0018",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 2,
+      "milestone_key": "m002"
+    }
+  ],
+  "superseded_milestones": [],
+  "has_version_conflict": false,
+  "document_versions": [],
+  "currency_breakdown": [],
+  "retention": {
+    "type": "retention",
+    "amount": 900000,
+    "percentage": 5.0,
+    "release_condition": "保固期屆滿且無未解決瑕疵",
+    "release_after_months": 24,
+    "citations": [
+      {
+        "field_name": "retention",
+        "source_file": "09XX專案.docx",
+        "para_start": 18,
+        "para_end": 18,
+        "page_estimate": 2,
+        "char_offset_start": 0,
+        "char_offset_end": 62,
+        "text_snippet": "合約總價之 5%（即新台幣 900,000 元）作為保固保證金，於保固期（2年）屆滿且無未解決之瑕疵後，由甲方無息退還乙方。",
+        "block_id": "09XX專案_block_0018",
+        "citation_mode": "exact_span",
+        "extraction_method": "regex",
+        "regex_pattern": null
+      }
+    ]
+  },
+  "progress_checkpoints": [
+    {
+      "name": "查驗點一（合約第2個月底）：需求確認",
+      "work_items": [],
+      "citations": [
+        {
+          "field_name": "progress_checkpoint.name",
+          "source_file": "09XX專案.docx",
+          "para_start": 29,
+          "para_end": 29,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 18,
+          "text_snippet": "查驗點一（合約第2個月底）：需求確認",
+          "block_id": "09XX專案_block_0029",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(查驗點[一二三四五六七八九十\\d]+[^\\n，。]*)"
+        }
+      ],
+      "source_order": 1
+    },
+    {
+      "name": "查驗點二（合約第4個月底）：設備進場及環境建置",
+      "work_items": [],
+      "citations": [
+        {
+          "field_name": "progress_checkpoint.name",
+          "source_file": "09XX專案.docx",
+          "para_start": 34,
+          "para_end": 34,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 23,
+          "text_snippet": "查驗點二（合約第4個月底）：設備進場及環境建置",
+          "block_id": "09XX專案_block_0034",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(查驗點[一二三四五六七八九十\\d]+[^\\n，。]*)"
+        }
+      ],
+      "source_order": 2
+    },
+    {
+      "name": "查驗點三（合約第7個月底）：系統安裝及單機測試",
+      "work_items": [],
+      "citations": [
+        {
+          "field_name": "progress_checkpoint.name",
+          "source_file": "09XX專案.docx",
+          "para_start": 39,
+          "para_end": 39,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 23,
+          "text_snippet": "查驗點三（合約第7個月底）：系統安裝及單機測試",
+          "block_id": "09XX專案_block_0039",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(查驗點[一二三四五六七八九十\\d]+[^\\n，。]*)"
+        }
+      ],
+      "source_order": 3
+    },
+    {
+      "name": "查驗點四（合約第9個月",
+      "work_items": [],
+      "citations": [
+        {
+          "field_name": "progress_checkpoint.name",
+          "source_file": "09XX專案.docx",
+          "para_start": 45,
+          "para_end": 45,
+          "page_estimate": 4,
+          "char_offset_start": 0,
+          "char_offset_end": 11,
+          "text_snippet": "查驗點四（合約第9個月",
+          "block_id": "09XX專案_block_0045",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(查驗點[一二三四五六七八九十\\d]+[^\\n，。]*)"
+        }
+      ],
+      "source_order": 4
+    }
+  ],
+  "citations": [
+    {
+      "field_name": "total_amount",
+      "source_file": "09XX專案.docx",
+      "para_start": 13,
+      "para_end": 13,
+      "page_estimate": 1,
+      "char_offset_start": 20,
+      "char_offset_end": 33,
+      "text_snippet": "NT$18,000,000",
+      "block_id": "09XX專案_block_0013",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "NT\\$\\s*([\\d,]+)"
+    },
+    {
+      "field_name": "total_amount",
+      "source_file": "09XX專案.docx",
+      "para_start": 13,
+      "para_end": 13,
+      "page_estimate": 1,
+      "char_offset_start": 12,
+      "char_offset_end": 17,
+      "text_snippet": "壹仟捌佰萬",
+      "block_id": "09XX專案_block_0013",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "[零一二三四五六七八九十百千萬億壹貳參肆伍陸柒捌玖拾佰仟兩]+"
+    },
+    {
+      "field_name": "total_amount",
+      "source_file": "09XX專案.docx",
+      "para_start": 17,
+      "para_end": 17,
+      "page_estimate": 2,
+      "char_offset_start": 42,
+      "char_offset_end": 58,
+      "text_snippet": "新台幣 17,100,000 元",
+      "block_id": "09XX專案_block_0017",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "新[臺台]幣\\s*(?:[零一二三四五六七八九十百千萬億壹貳參肆伍陸柒捌玖拾佰仟兩]+)?\\s*[（(]?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*[）)]?\\s*元?"
+    },
+    {
+      "field_name": "total_amount",
+      "source_file": "09XX專案.docx",
+      "para_start": 17,
+      "para_end": 17,
+      "page_estimate": 2,
+      "char_offset_start": 32,
+      "char_offset_end": 39,
+      "text_snippet": "合約總價 95",
+      "block_id": "09XX專案_block_0017",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:總價|契約總價|承攬總價|工程總價|合約總價)[：為係計修訂]*\\s*[新臺台幣NTD\\$\\s（(]*([\\d,]+)\\s*[）)]?\\s*元?"
+    },
+    {
+      "field_name": "total_amount",
+      "source_file": "09XX專案.docx",
+      "para_start": 18,
+      "para_end": 18,
+      "page_estimate": 2,
+      "char_offset_start": 10,
+      "char_offset_end": 23,
+      "text_snippet": "新台幣 900,000 元",
+      "block_id": "09XX專案_block_0018",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "新[臺台]幣\\s*(?:[零一二三四五六七八九十百千萬億壹貳參肆伍陸柒捌玖拾佰仟兩]+)?\\s*[（(]?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*[）)]?\\s*元?"
+    },
+    {
+      "field_name": "milestone.payment_condition",
+      "source_file": "09XX專案.docx",
+      "para_start": 17,
+      "para_end": 17,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 60,
+      "text_snippet": "甲方於收到乙方請款憑證並確認驗收合格後，於 30 個工作天內給付合約總價 95%（即新台幣 17,100,000 元）。",
+      "block_id": "09XX專案_block_0017",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    },
+    {
+      "field_name": "retention",
+      "source_file": "09XX專案.docx",
+      "para_start": 18,
+      "para_end": 18,
+      "page_estimate": 2,
+      "char_offset_start": 0,
+      "char_offset_end": 62,
+      "text_snippet": "合約總價之 5%（即新台幣 900,000 元）作為保固保證金，於保固期（2年）屆滿且無未解決之瑕疵後，由甲方無息退還乙方。",
+      "block_id": "09XX專案_block_0018",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    }
+  ],
+  "validation": [
+    {
+      "code": "progress_checkpoints_not_payment_milestones",
+      "severity": "INFO",
+      "message": "4 progress checkpoints found; these do not trigger payment.",
+      "citations": [
+        {
+          "field_name": "progress_checkpoint.name",
+          "source_file": "09XX專案.docx",
+          "para_start": 29,
+          "para_end": 29,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 18,
+          "text_snippet": "查驗點一（合約第2個月底）：需求確認",
+          "block_id": "09XX專案_block_0029",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(查驗點[一二三四五六七八九十\\d]+[^\\n，。]*)"
+        },
+        {
+          "field_name": "progress_checkpoint.name",
+          "source_file": "09XX專案.docx",
+          "para_start": 34,
+          "para_end": 34,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 23,
+          "text_snippet": "查驗點二（合約第4個月底）：設備進場及環境建置",
+          "block_id": "09XX專案_block_0034",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(查驗點[一二三四五六七八九十\\d]+[^\\n，。]*)"
+        },
+        {
+          "field_name": "progress_checkpoint.name",
+          "source_file": "09XX專案.docx",
+          "para_start": 39,
+          "para_end": 39,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 23,
+          "text_snippet": "查驗點三（合約第7個月底）：系統安裝及單機測試",
+          "block_id": "09XX專案_block_0039",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(查驗點[一二三四五六七八九十\\d]+[^\\n，。]*)"
+        },
+        {
+          "field_name": "progress_checkpoint.name",
+          "source_file": "09XX專案.docx",
+          "para_start": 45,
+          "para_end": 45,
+          "page_estimate": 4,
+          "char_offset_start": 0,
+          "char_offset_end": 11,
+          "text_snippet": "查驗點四（合約第9個月",
+          "block_id": "09XX專案_block_0045",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(查驗點[一二三四五六七八九十\\d]+[^\\n，。]*)"
+        }
+      ]
+    },
+    {
+      "code": "llm_partial_schedule_fallback",
+      "severity": "WARNING",
+      "message": "LLM extracted only 0 milestones while regex extracted 2; regex schedule completeness was preserved.",
+      "citations": []
+    },
+    {
+      "code": "missing_work_items",
+      "severity": "INFO",
+      "message": "Milestone \"最終驗收付款\" has no extracted work items.",
+      "citations": [
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "09XX專案.docx",
+          "para_start": 17,
+          "para_end": 17,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 60,
+          "text_snippet": "甲方於收到乙方請款憑證並確認驗收合格後，於 30 個工作天內給付合約總價 95%（即新台幣 17,100,000 元）。",
+          "block_id": "09XX專案_block_0017",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ]
+    },
+    {
+      "code": "missing_work_items",
+      "severity": "INFO",
+      "message": "Milestone \"保固保證金退還\" has no extracted work items.",
+      "citations": [
+        {
+          "field_name": "retention",
+          "source_file": "09XX專案.docx",
+          "para_start": 18,
+          "para_end": 18,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 62,
+          "text_snippet": "合約總價之 5%（即新台幣 900,000 元）作為保固保證金，於保固期（2年）屆滿且無未解決之瑕疵後，由甲方無息退還乙方。",
+          "block_id": "09XX專案_block_0018",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ]
+    }
+  ],
+  "extraction_method": "hybrid_llm",
+  "confidence": 100,
+  "source_candidates": {
+    "total_amount_candidates": [
+      18000000,
+      18000000,
+      17100000,
+      95,
+      900000
+    ]
+  },
+  "declared_installment_count": null,
+  "blocks": [
+    {
+      "block_id": "09XX專案_block_0000",
+      "text": "承攬工程合約書（正本）",
+      "para_start": 0,
+      "para_end": 0,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "09XX專案_block_0001",
+      "text": "09XX專案─醫療院所資訊系統升級工程",
+      "para_start": 1,
+      "para_end": 1,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "09XX專案_block_0002",
+      "text": "合約編號：MED-IT-2025-009　核准日期：2025年1月20日",
+      "para_start": 2,
+      "para_end": 2,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "09XX專案_block_0004",
+      "text": "立合約書人：",
+      "para_start": 4,
+      "para_end": 4,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "09XX專案_block_0005",
+      "text": "甲方（定作人）：○○醫療財團法人附設醫院（以下簡稱甲方）",
+      "para_start": 5,
+      "para_end": 5,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "09XX專案_block_0006",
+      "text": "乙方（承攬人）：○○資訊股份有限公司（以下簡稱乙方）",
+      "para_start": 6,
+      "para_end": 6,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "09XX專案_block_0008",
+      "text": "第一條　工程名稱及範圍",
+      "para_start": 8,
+      "para_end": 8,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "09XX專案_block_0009",
+      "text": "工程名稱：09XX專案─醫療院所資訊系統升級工程",
+      "para_start": 9,
+      "para_end": 9,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "09XX專案_block_0010",
+      "text": "工程範圍：詳附件一「工程範圍說明書」，涵蓋電子病歷系統（EMR）升級、醫療影像儲傳系統（PACS）更新、藥局管理系統（PMS）整合及院內網路基礎建設強化等工程。",
+      "para_start": 10,
+      "para_end": 10,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "09XX專案_block_0012",
+      "text": "第二條　工程總價",
+      "para_start": 12,
+      "para_end": 12,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "09XX專案_block_0013",
+      "text": "本工程合約總價為新台幣 壹仟捌佰萬元整（NT$18,000,000，含稅）。",
+      "para_start": 13,
+      "para_end": 13,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "09XX專案_block_0015",
+      "text": "付款方式說明：",
+      "para_start": 15,
+      "para_end": 15,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "09XX專案_block_0016",
+      "text": "本工程採驗收後一次付款方式，非分期付款，惟依下列方式辦理：",
+      "para_start": 16,
+      "para_end": 16,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "09XX專案_block_0017",
+      "text": "甲方於收到乙方請款憑證並確認驗收合格後，於 30 個工作天內給付合約總價 95%（即新台幣 17,100,000 元）。",
+      "para_start": 17,
+      "para_end": 17,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "09XX專案_block_0018",
+      "text": "合約總價之 5%（即新台幣 900,000 元）作為保固保證金，於保固期（2年）屆滿且無未解決之瑕疵後，由甲方無息退還乙方。",
+      "para_start": 18,
+      "para_end": 18,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "09XX專案_block_0020",
+      "text": "※ 如乙方有開立保固保證金等額之銀行保函或定存單交付甲方，得不扣留 5% 保固保證金，改以一次性全額付款。",
+      "para_start": 20,
+      "para_end": 20,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "09XX專案_block_0022",
+      "text": "第三條　工程期限",
+      "para_start": 22,
+      "para_end": 22,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "09XX專案_block_0023",
+      "text": "本工程自合約簽訂日起 9 個月內完成，預計完工日期不得晚於 2025 年 10 月 31 日。",
+      "para_start": 23,
+      "para_end": 23,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "09XX專案_block_0024",
+      "text": "雖為一次性付款，乙方仍須依附件二「工程進度表」所列時間節點推進，甲方得按節點進行中間查驗（非驗收），查驗結果作為最終驗收之參考。",
+      "para_start": 24,
+      "para_end": 24,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "09XX專案_block_0026",
+      "text": "第四條　工程進度查驗點",
+      "para_start": 26,
+      "para_end": 26,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "09XX專案_block_0027",
+      "text": "甲方設立下列四個工程進度查驗點，供雙方確認工程進度，但查驗點通過不觸發付款：",
+      "para_start": 27,
+      "para_end": 27,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "09XX專案_block_0029",
+      "text": "查驗點一（合約第2個月底）：需求確認",
+      "para_start": 29,
+      "para_end": 29,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "09XX專案_block_0030",
+      "text": "EMR、PACS、PMS系統需求訪談完成",
+      "para_start": 30,
+      "para_end": 30,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "09XX專案_block_0031",
+      "text": "系統分析文件及硬體規格確認書提交",
+      "para_start": 31,
+      "para_end": 31,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "09XX專案_block_0032",
+      "text": "施工計畫書及進度表更新版提交",
+      "para_start": 32,
+      "para_end": 32,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "09XX專案_block_0034",
+      "text": "查驗點二（合約第4個月底）：設備進場及環境建置",
+      "para_start": 34,
+      "para_end": 34,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "09XX專案_block_0035",
+      "text": "主機及儲存設備進場安裝完成",
+      "para_start": 35,
+      "para_end": 35,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "09XX專案_block_0036",
+      "text": "網路基礎建設（含10G骨幹網路）完成",
+      "para_start": 36,
+      "para_end": 36,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "09XX專案_block_0037",
+      "text": "測試環境建置完成",
+      "para_start": 37,
+      "para_end": 37,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "09XX專案_block_0039",
+      "text": "查驗點三（合約第7個月底）：系統安裝及單機測試",
+      "para_start": 39,
+      "para_end": 39,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "09XX專案_block_0040",
+      "text": "EMR系統升級安裝完成，基本功能測試通過",
+      "para_start": 40,
+      "para_end": 40,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "09XX專案_block_0041",
+      "text": "PACS系統更新完成，影像讀取測試通過",
+      "para_start": 41,
+      "para_end": 41,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "09XX專案_block_0042",
+      "text": "PMS系統整合介面完成",
+      "para_start": 42,
+      "para_end": 42,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "09XX專案_block_0043",
+      "text": "資料移轉規劃完成（含舊資料備份）",
+      "para_start": 43,
+      "para_end": 43,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "09XX專案_block_0045",
+      "text": "查驗點四（合約第9個月，最終驗收前）：整合測試及上線準備",
+      "para_start": 45,
+      "para_end": 45,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "09XX專案_block_0046",
+      "text": "三大系統整合測試完成，跨系統資料一致性驗證通過",
+      "para_start": 46,
+      "para_end": 46,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "09XX專案_block_0047",
+      "text": "HL7/FHIR資料交換介面測試通過",
+      "para_start": 47,
+      "para_end": 47,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "09XX專案_block_0048",
+      "text": "資料移轉完成，舊系統資料100%移轉至新系統",
+      "para_start": 48,
+      "para_end": 48,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "09XX專案_block_0049",
+      "text": "使用者操作訓練完成（含醫師、護理、藥劑及行政人員）",
+      "para_start": 49,
+      "para_end": 49,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "09XX專案_block_0050",
+      "text": "資安稽核報告（含滲透測試）取得",
+      "para_start": 50,
+      "para_end": 50,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "09XX專案_block_0052",
+      "text": "第五條　最終驗收",
+      "para_start": 52,
+      "para_end": 52,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "09XX專案_block_0053",
+      "text": "本工程僅辦理一次最終驗收，驗收條件如下：",
+      "para_start": 53,
+      "para_end": 53,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "09XX專案_block_0054",
+      "text": "附件三「驗收項目及標準」所列各項功能100%通過",
+      "para_start": 54,
+      "para_end": 54,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "09XX專案_block_0055",
+      "text": "連續運行測試：系統連續穩定運行 168 小時（7天）無重大故障",
+      "para_start": 55,
+      "para_end": 55,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "09XX專案_block_0056",
+      "text": "性能測試：尖峰時段（早上8:30-10:30）系統回應時間 ≤ 3 秒",
+      "para_start": 56,
+      "para_end": 56,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "09XX專案_block_0057",
+      "text": "資料完整性：舊系統歷史資料移轉正確性抽驗誤差率 ≤ 0.01%",
+      "para_start": 57,
+      "para_end": 57,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "09XX專案_block_0058",
+      "text": "資安要求：通過衛福部「醫療機構電腦化病歷製作及管理辦法」相關規定稽核",
+      "para_start": 58,
+      "para_end": 58,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "09XX專案_block_0060",
+      "text": "驗收不通過之處理：甲方應出具書面缺失清單，乙方應於 21 個工作天內完成改善並申請複驗，複驗費用由乙方負擔。",
+      "para_start": 60,
+      "para_end": 60,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "09XX專案_block_0062",
+      "text": "第六條　保固期限",
+      "para_start": 62,
+      "para_end": 62,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "09XX專案_block_0063",
+      "text": "本工程驗收合格日起，保固期限為 24 個月。保固期間分層服務：",
+      "para_start": 63,
+      "para_end": 63,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "09XX專案_block_0064",
+      "text": "P0（系統全停）：30分鐘內電話回應，4小時內到場處理",
+      "para_start": 64,
+      "para_end": 64,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "09XX專案_block_0065",
+      "text": "P1（主要功能異常）：1小時內回應，8小時內到場處理",
+      "para_start": 65,
+      "para_end": 65,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "09XX專案_block_0066",
+      "text": "P2（部分功能異常）：4小時內回應，次一工作日到場處理",
+      "para_start": 66,
+      "para_end": 66,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "09XX專案_block_0067",
+      "text": "P3（輕微問題）：1工作日內回應，5工作日內排程處理",
+      "para_start": 67,
+      "para_end": 67,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "09XX專案_block_0069",
+      "text": "第七條　附件說明",
+      "para_start": 69,
+      "para_end": 69,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "09XX專案_block_0070",
+      "text": "本合約包含下列附件，各附件與本合約正本具同等法律效力：",
+      "para_start": 70,
+      "para_end": 70,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "09XX專案_block_0071",
+      "text": "附件一：工程範圍說明書（共22頁）",
+      "para_start": 71,
+      "para_end": 71,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "09XX專案_block_0072",
+      "text": "附件二：工程進度表（甘特圖）",
+      "para_start": 72,
+      "para_end": 72,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "09XX專案_block_0073",
+      "text": "附件三：驗收項目及標準",
+      "para_start": 73,
+      "para_end": 73,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "09XX專案_block_0074",
+      "text": "附件四：報價明細表",
+      "para_start": 74,
+      "para_end": 74,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "09XX專案_block_0075",
+      "text": "附件五：保密協議書",
+      "para_start": 75,
+      "para_end": 75,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "09XX專案_block_0076",
+      "text": "附件六：個人資料保護承諾書（依個資法第27條）",
+      "para_start": 76,
+      "para_end": 76,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "09XX專案_block_0078",
+      "text": "如本合約正本與附件有牴觸時，以附件各章節之「特殊約定」優先，次依本合約正本條款辦理。",
+      "para_start": 78,
+      "para_end": 78,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "09XX專案_block_0080",
+      "text": "第八條　爭議解決",
+      "para_start": 80,
+      "para_end": 80,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "09XX專案_block_0081",
+      "text": "本合約之任何爭議，雙方應先以協商方式解決。協商不成時，提交中華民國仲裁協會仲裁，並以中文為仲裁語言。",
+      "para_start": 81,
+      "para_end": 81,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "09XX專案_block_0083",
+      "text": "第九條　簽署",
+      "para_start": 83,
+      "para_end": 83,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "09XX專案_block_0084",
+      "text": "本合約一式三份，甲方存二份、乙方存一份，簽署後生效。",
+      "para_start": 84,
+      "para_end": 84,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "09XX專案_block_0086",
+      "text": "甲方代表人：___________________　　職稱：___________________",
+      "para_start": 86,
+      "para_end": 86,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "09XX專案_block_0087",
+      "text": "統一編號：___________________　　　地址：___________________",
+      "para_start": 87,
+      "para_end": 87,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "09XX專案_block_0089",
+      "text": "乙方代表人：___________________　　職稱：___________________",
+      "para_start": 89,
+      "para_end": 89,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "09XX專案_block_0090",
+      "text": "統一編號：___________________　　　地址：___________________",
+      "para_start": 90,
+      "para_end": 90,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "09XX專案_block_0092",
+      "text": "簽署日期：中華民國　114　年　1　月　20　日",
+      "para_start": 92,
+      "para_end": 92,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "09XX專案_block_0094",
+      "text": "【附件一】工程範圍說明書",
+      "para_start": 94,
+      "para_end": 94,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "09XX專案_block_0096",
+      "text": "一、EMR電子病歷系統升級",
+      "para_start": 96,
+      "para_end": 96,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "09XX專案_block_0097",
+      "text": "升級範圍涵蓋門診、住院、急診三大模組：",
+      "para_start": 97,
+      "para_end": 97,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "09XX專案_block_0098",
+      "text": "門診模組：SOAP紀錄、處方箋開立、複診排程、過敏藥物警示",
+      "para_start": 98,
+      "para_end": 98,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "09XX專案_block_0099",
+      "text": "住院模組：護理紀錄、醫囑執行、床位管理、出入院流程",
+      "para_start": 99,
+      "para_end": 99,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "09XX專案_block_0100",
+      "text": "急診模組：檢傷分類、急救紀錄、病患追蹤",
+      "para_start": 100,
+      "para_end": 100,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "09XX專案_block_0101",
+      "text": "共用功能：診斷碼ICD-11更新、HL7 FHIR R4標準介面",
+      "para_start": 101,
+      "para_end": 101,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "09XX專案_block_0103",
+      "text": "二、PACS醫療影像儲傳系統更新",
+      "para_start": 103,
+      "para_end": 103,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "09XX專案_block_0104",
+      "text": "主儲存設備升級：現有 50TB 擴充至 200TB",
+      "para_start": 104,
+      "para_end": 104,
+      "page_estimate": 7
+    },
+    {
+      "block_id": "09XX專案_block_0105",
+      "text": "影像讀取工作站更新：共 15 台放射科讀片工作站",
+      "para_start": 105,
+      "para_end": 105,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "09XX專案_block_0106",
+      "text": "DICOM Worklist整合：與EMR系統雙向資料同步",
+      "para_start": 106,
+      "para_end": 106,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "09XX專案_block_0107",
+      "text": "影像壓縮技術升級：支援 JPEG 2000 無失真壓縮",
+      "para_start": 107,
+      "para_end": 107,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "09XX專案_block_0109",
+      "text": "三、PMS藥局管理系統整合",
+      "para_start": 109,
+      "para_end": 109,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "09XX專案_block_0110",
+      "text": "藥品庫存管理：即時庫存查詢、自動補貨警示",
+      "para_start": 110,
+      "para_end": 110,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "09XX專案_block_0111",
+      "text": "處方箋自動解析：接收EMR電子處方，自動備藥作業",
+      "para_start": 111,
+      "para_end": 111,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "09XX專案_block_0112",
+      "text": "藥品交互作用查核：即時警示功能",
+      "para_start": 112,
+      "para_end": 112,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "09XX專案_block_0113",
+      "text": "健保申報介面：產出健保署規定格式之申報資料",
+      "para_start": 113,
+      "para_end": 113,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "09XX專案_block_0115",
+      "text": "四、院內網路基礎建設強化",
+      "para_start": 115,
+      "para_end": 115,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "09XX專案_block_0116",
+      "text": "骨幹網路升級：現有 1GbE 升級為 10GbE 骨幹",
+      "para_start": 116,
+      "para_end": 116,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "09XX專案_block_0117",
+      "text": "無線網路優化：醫護工作站、病房、候診區 Wi-Fi 覆蓋優化",
+      "para_start": 117,
+      "para_end": 117,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "09XX專案_block_0118",
+      "text": "資安強化：網路區隔（醫療網/行政網/訪客網獨立）、防火牆升級",
+      "para_start": 118,
+      "para_end": 118,
+      "page_estimate": 8
+    },
+    {
+      "block_id": "09XX專案_block_0121",
+      "text": "【附件三】驗收項目及標準（摘要）",
+      "para_start": 121,
+      "para_end": 121,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "09XX專案_block_0124",
+      "text": "以上驗收項目均須通過，方可辦理驗收合格程序並觸發付款。",
+      "para_start": 124,
+      "para_end": 124,
+      "page_estimate": 9
+    },
+    {
+      "block_id": "09XX專案_table_00_row_000",
+      "text": "編號 | 驗收項目 | 驗收標準 | 對應系統",
+      "para_start": 220,
+      "para_end": 220,
+      "page_estimate": 15
+    },
+    {
+      "block_id": "09XX專案_table_00_row_001",
+      "text": "V-001 | 電子病歷建立及儲存 | 醫師可正常開立、儲存、調閱病歷，無資料遺失 | EMR",
+      "para_start": 221,
+      "para_end": 221,
+      "page_estimate": 15
+    },
+    {
+      "block_id": "09XX專案_table_00_row_002",
+      "text": "V-002 | 影像上傳及讀取 | DICOM影像上傳至PACS後，讀片工作站可在30秒內開啟 | PACS",
+      "para_start": 222,
+      "para_end": 222,
+      "page_estimate": 15
+    },
+    {
+      "block_id": "09XX專案_table_00_row_003",
+      "text": "V-003 | 處方箋電子傳遞 | EMR開立之電子處方可自動傳至PMS，備藥完成率≥99% | EMR+PMS",
+      "para_start": 223,
+      "para_end": 223,
+      "page_estimate": 15
+    },
+    {
+      "block_id": "09XX專案_table_00_row_004",
+      "text": "V-004 | 資料移轉完整性 | 歷史資料抽查1,000筆，正確率≥99.99% | 所有系統",
+      "para_start": 224,
+      "para_end": 224,
+      "page_estimate": 15
+    },
+    {
+      "block_id": "09XX專案_table_00_row_005",
+      "text": "V-005 | 系統回應時間 | 尖峰時段頁面載入≤3秒，查詢結果≤5秒 | 所有系統",
+      "para_start": 225,
+      "para_end": 225,
+      "page_estimate": 16
+    },
+    {
+      "block_id": "09XX專案_table_00_row_006",
+      "text": "V-006 | 網路可用性 | 骨幹網路連線中斷恢復時間≤30分鐘（冗餘切換） | 網路",
+      "para_start": 226,
+      "para_end": 226,
+      "page_estimate": 16
+    },
+    {
+      "block_id": "09XX專案_table_00_row_007",
+      "text": "V-007 | 資安稽核 | 無高風險漏洞（CVSS≥7.0），中風險漏洞均已提供緩解方案 | 所有系統",
+      "para_start": 227,
+      "para_end": 227,
+      "page_estimate": 16
+    }
+  ],
+  "raw_text_preview": "承攬工程合約書（正本）\n09XX專案─醫療院所資訊系統升級工程\n合約編號：MED-IT-2025-009　核准日期：2025年1月20日\n立合約書人：\n甲方（定作人）：○○醫療財團法人附設醫院（以下簡稱甲方）\n乙方（承攬人）：○○資訊股份有限公司（以下簡稱乙方）\n第一條　工程名稱及範圍\n工程名稱：09XX專案─醫療院所資訊系統升級工程\n工程範圍：詳附件一「工程範圍說明書」，涵蓋電子病歷系統（EMR）升級、醫療影像儲傳系統（PACS）更新、藥局管理系統（PMS）整合及院內網路基礎建設強化等工程。\n第二條　工程總價\n本工程合約總價為新台幣 壹仟捌佰萬元整（NT$18,000,000，含稅）。\n付款方式說明：\n本工程採驗收後一次付款方式，非分期付款，惟依下列方式辦理：\n甲方於收到乙方請款憑證並確認驗收合格後，於 30 個工作天內給付合約總價 95%（即新台幣 17,100,000 元）。\n合約總價之 5%（即新台幣 900,000 元）作為保固保證金，於保固期（2年）屆滿且無未解決之瑕疵後，由甲方無息退還乙方。\n※ 如乙方有開立保固保證金等額之銀行保函或定存單交付甲方，得不扣留 5% 保固保證金，改以一次性全額付款。\n第三條　工程期限\n本工程自合約簽訂日起 9 個月內完成，預計完工日期不得晚於 2025 年 10 月 31 日。\n雖為一次性付款，乙方仍須依附件二「工程進度表」所列時間節點推進，甲方得按節點進行中間查驗（非驗收），查驗結果作為最終驗收之參考。\n第四條　工程進度查驗點",
+  "pipeline_revision": "2026-04-27-citation-summary-v1",
+  "_meta": {
+    "extraction_path": "llm_tasks",
+    "fallback_reason": "version:no_blocks",
+    "prompt_tokens": 1094,
+    "llm_ms": 44205,
+    "pipeline_revision": "2026-04-27-citation-summary-v1"
+  },
+  "segment_map": {
+    "payment_header_offsets": [],
+    "checkpoint_offsets": [
+      21,
+      25,
+      29,
+      34
+    ],
+    "work_item_label_offsets": [],
+    "amount_block_ids": [
+      "09XX專案_block_0013",
+      "09XX專案_block_0017",
+      "09XX專案_block_0018"
+    ],
+    "percentage_block_ids": [
+      "09XX專案_block_0017",
+      "09XX專案_block_0018",
+      "09XX專案_block_0020",
+      "09XX專案_block_0048",
+      "09XX專案_block_0054",
+      "09XX專案_block_0057",
+      "09XX專案_table_00_row_003",
+      "09XX專案_table_00_row_004"
+    ],
+    "deprecated_block_ids": []
+  },
+  "scope_items": [
+    "09XX專案─醫療院所資訊系統升級工程",
+    "工程名稱：09XX專案─醫療院所資訊系統升級工程",
+    "工程範圍：詳附件一「工程範圍說明書」，涵蓋電子病歷系統（EMR）升級、醫療影像儲傳系統（PACS）更新、藥局管理系統（PMS）整合及院內網路基礎建設強化等工程。",
+    "EMR、PACS、PMS系統需求訪談完成"
+  ],
+  "acceptance_requirements": [
+    "本工程採驗收後一次付款方式，非分期付款，惟依下列方式辦理：",
+    "甲方於收到乙方請款憑證並確認驗收合格後，於 30 個工作天內給付合約總價 95%（即新台幣 17,100,000 元）。",
+    "本工程自合約簽訂日起 9 個月內完成，預計完工日期不得晚於 2025 年 10 月 31 日。",
+    "雖為一次性付款，乙方仍須依附件二「工程進度表」所列時間節點推進，甲方得按節點進行中間查驗（非驗收），查驗結果作為最終驗收之參考。",
+    "第四條　工程進度查驗點",
+    "甲方設立下列四個工程進度查驗點，供雙方確認工程進度，但查驗點通過不觸發付款：",
+    "查驗點一（合約第2個月底）：需求確認",
+    "查驗點二（合約第4個月底）：設備進場及環境建置"
+  ],
+  "safety_requirements": [],
+  "warranty_requirements": [
+    "合約總價之 5%（即新台幣 900,000 元）作為保固保證金，於保固期（2年）屆滿且無未解決之瑕疵後，由甲方無息退還乙方。",
+    "※ 如乙方有開立保固保證金等額之銀行保函或定存單交付甲方，得不扣留 5% 保固保證金，改以一次性全額付款。",
+    "第六條　保固期限",
+    "本工程驗收合格日起，保固期限為 24 個月。保固期間分層服務："
+  ],
+  "normalization": {
+    "llm_attempted": true,
+    "llm_applied": true
+  },
+  "locator_blocks": [
+    {
+      "block_id": "09XX專案_block_0010",
+      "paragraph_index": 10,
+      "page_estimate": 1,
+      "labels": [
+        "context"
+      ],
+      "text": "工程範圍：詳附件一「工程範圍說明書」，涵蓋電子病歷系統（EMR）升級、醫療影像儲傳系統（PACS）更新、藥局管理系統（PMS）整合及院內網路基礎建設強化等工程。",
+      "context_before": [
+        "工程名稱：09XX專案─醫療院所資訊系統升級工程"
+      ],
+      "context_after": [
+        "第二條　工程總價",
+        "本工程合約總價為新台幣 壹仟捌佰萬元整（NT$18,000,000，含稅）。"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0012",
+      "paragraph_index": 12,
+      "page_estimate": 1,
+      "labels": [
+        "total_amount"
+      ],
+      "text": "第二條　工程總價",
+      "context_before": [
+        "工程範圍：詳附件一「工程範圍說明書」，涵蓋電子病歷系統（EMR）升級、醫療影像儲傳系統（PACS）更新、藥局管理系統（PMS）整合及院內網路基礎建設強化等工程。"
+      ],
+      "context_after": [
+        "本工程合約總價為新台幣 壹仟捌佰萬元整（NT$18,000,000，含稅）。",
+        "付款方式說明："
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0013",
+      "paragraph_index": 13,
+      "page_estimate": 1,
+      "labels": [
+        "amount",
+        "total_amount"
+      ],
+      "text": "本工程合約總價為新台幣 壹仟捌佰萬元整（NT$18,000,000，含稅）。",
+      "context_before": [
+        "第二條　工程總價"
+      ],
+      "context_after": [
+        "付款方式說明：",
+        "本工程採驗收後一次付款方式，非分期付款，惟依下列方式辦理："
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0015",
+      "paragraph_index": 15,
+      "page_estimate": 2,
+      "labels": [
+        "payment"
+      ],
+      "text": "付款方式說明：",
+      "context_before": [
+        "本工程合約總價為新台幣 壹仟捌佰萬元整（NT$18,000,000，含稅）。"
+      ],
+      "context_after": [
+        "本工程採驗收後一次付款方式，非分期付款，惟依下列方式辦理：",
+        "甲方於收到乙方請款憑證並確認驗收合格後，於 30 個工作天內給付合約總價 95%（即新台幣 17,100,000 元）。"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0016",
+      "paragraph_index": 16,
+      "page_estimate": 2,
+      "labels": [
+        "acceptance",
+        "payment"
+      ],
+      "text": "本工程採驗收後一次付款方式，非分期付款，惟依下列方式辦理：",
+      "context_before": [
+        "付款方式說明："
+      ],
+      "context_after": [
+        "甲方於收到乙方請款憑證並確認驗收合格後，於 30 個工作天內給付合約總價 95%（即新台幣 17,100,000 元）。",
+        "合約總價之 5%（即新台幣 900,000 元）作為保固保證金，於保固期（2年）屆滿且無未解決之瑕疵後，由甲方無息退還乙方。"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0017",
+      "paragraph_index": 17,
+      "page_estimate": 2,
+      "labels": [
+        "acceptance",
+        "amount",
+        "payment",
+        "percentage",
+        "total_amount"
+      ],
+      "text": "甲方於收到乙方請款憑證並確認驗收合格後，於 30 個工作天內給付合約總價 95%（即新台幣 17,100,000 元）。",
+      "context_before": [
+        "本工程採驗收後一次付款方式，非分期付款，惟依下列方式辦理："
+      ],
+      "context_after": [
+        "合約總價之 5%（即新台幣 900,000 元）作為保固保證金，於保固期（2年）屆滿且無未解決之瑕疵後，由甲方無息退還乙方。",
+        "※ 如乙方有開立保固保證金等額之銀行保函或定存單交付甲方，得不扣留 5% 保固保證金，改以一次性全額付款。"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0018",
+      "paragraph_index": 18,
+      "page_estimate": 2,
+      "labels": [
+        "amount",
+        "percentage",
+        "retention",
+        "total_amount"
+      ],
+      "text": "合約總價之 5%（即新台幣 900,000 元）作為保固保證金，於保固期（2年）屆滿且無未解決之瑕疵後，由甲方無息退還乙方。",
+      "context_before": [
+        "甲方於收到乙方請款憑證並確認驗收合格後，於 30 個工作天內給付合約總價 95%（即新台幣 17,100,000 元）。"
+      ],
+      "context_after": [
+        "※ 如乙方有開立保固保證金等額之銀行保函或定存單交付甲方，得不扣留 5% 保固保證金，改以一次性全額付款。",
+        "第三條　工程期限"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0020",
+      "paragraph_index": 20,
+      "page_estimate": 2,
+      "labels": [
+        "payment",
+        "percentage",
+        "retention"
+      ],
+      "text": "※ 如乙方有開立保固保證金等額之銀行保函或定存單交付甲方，得不扣留 5% 保固保證金，改以一次性全額付款。",
+      "context_before": [
+        "合約總價之 5%（即新台幣 900,000 元）作為保固保證金，於保固期（2年）屆滿且無未解決之瑕疵後，由甲方無息退還乙方。"
+      ],
+      "context_after": [
+        "第三條　工程期限",
+        "本工程自合約簽訂日起 9 個月內完成，預計完工日期不得晚於 2025 年 10 月 31 日。"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0022",
+      "paragraph_index": 22,
+      "page_estimate": 2,
+      "labels": [
+        "context"
+      ],
+      "text": "第三條　工程期限",
+      "context_before": [
+        "※ 如乙方有開立保固保證金等額之銀行保函或定存單交付甲方，得不扣留 5% 保固保證金，改以一次性全額付款。"
+      ],
+      "context_after": [
+        "本工程自合約簽訂日起 9 個月內完成，預計完工日期不得晚於 2025 年 10 月 31 日。",
+        "雖為一次性付款，乙方仍須依附件二「工程進度表」所列時間節點推進，甲方得按節點進行中間查驗（非驗收），查驗結果作為最終驗收之參考。"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0023",
+      "paragraph_index": 23,
+      "page_estimate": 2,
+      "labels": [
+        "context"
+      ],
+      "text": "本工程自合約簽訂日起 9 個月內完成，預計完工日期不得晚於 2025 年 10 月 31 日。",
+      "context_before": [
+        "第三條　工程期限"
+      ],
+      "context_after": [
+        "雖為一次性付款，乙方仍須依附件二「工程進度表」所列時間節點推進，甲方得按節點進行中間查驗（非驗收），查驗結果作為最終驗收之參考。",
+        "第四條　工程進度查驗點"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0024",
+      "paragraph_index": 24,
+      "page_estimate": 2,
+      "labels": [
+        "acceptance",
+        "payment"
+      ],
+      "text": "雖為一次性付款，乙方仍須依附件二「工程進度表」所列時間節點推進，甲方得按節點進行中間查驗（非驗收），查驗結果作為最終驗收之參考。",
+      "context_before": [
+        "本工程自合約簽訂日起 9 個月內完成，預計完工日期不得晚於 2025 年 10 月 31 日。"
+      ],
+      "context_after": [
+        "第四條　工程進度查驗點",
+        "甲方設立下列四個工程進度查驗點，供雙方確認工程進度，但查驗點通過不觸發付款："
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0026",
+      "paragraph_index": 26,
+      "page_estimate": 2,
+      "labels": [
+        "acceptance",
+        "checkpoint"
+      ],
+      "text": "第四條　工程進度查驗點",
+      "context_before": [
+        "雖為一次性付款，乙方仍須依附件二「工程進度表」所列時間節點推進，甲方得按節點進行中間查驗（非驗收），查驗結果作為最終驗收之參考。"
+      ],
+      "context_after": [
+        "甲方設立下列四個工程進度查驗點，供雙方確認工程進度，但查驗點通過不觸發付款：",
+        "查驗點一（合約第2個月底）：需求確認"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0027",
+      "paragraph_index": 27,
+      "page_estimate": 2,
+      "labels": [
+        "acceptance",
+        "checkpoint",
+        "payment"
+      ],
+      "text": "甲方設立下列四個工程進度查驗點，供雙方確認工程進度，但查驗點通過不觸發付款：",
+      "context_before": [
+        "第四條　工程進度查驗點"
+      ],
+      "context_after": [
+        "查驗點一（合約第2個月底）：需求確認",
+        "EMR、PACS、PMS系統需求訪談完成"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0029",
+      "paragraph_index": 29,
+      "page_estimate": 2,
+      "labels": [
+        "acceptance",
+        "checkpoint"
+      ],
+      "text": "查驗點一（合約第2個月底）：需求確認",
+      "context_before": [
+        "甲方設立下列四個工程進度查驗點，供雙方確認工程進度，但查驗點通過不觸發付款："
+      ],
+      "context_after": [
+        "EMR、PACS、PMS系統需求訪談完成",
+        "系統分析文件及硬體規格確認書提交"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0030",
+      "paragraph_index": 30,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "EMR、PACS、PMS系統需求訪談完成",
+      "context_before": [
+        "查驗點一（合約第2個月底）：需求確認"
+      ],
+      "context_after": [
+        "系統分析文件及硬體規格確認書提交",
+        "施工計畫書及進度表更新版提交"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0031",
+      "paragraph_index": 31,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "系統分析文件及硬體規格確認書提交",
+      "context_before": [
+        "EMR、PACS、PMS系統需求訪談完成"
+      ],
+      "context_after": [
+        "施工計畫書及進度表更新版提交",
+        "查驗點二（合約第4個月底）：設備進場及環境建置"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0032",
+      "paragraph_index": 32,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "施工計畫書及進度表更新版提交",
+      "context_before": [
+        "系統分析文件及硬體規格確認書提交"
+      ],
+      "context_after": [
+        "查驗點二（合約第4個月底）：設備進場及環境建置",
+        "主機及儲存設備進場安裝完成"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0034",
+      "paragraph_index": 34,
+      "page_estimate": 3,
+      "labels": [
+        "acceptance",
+        "checkpoint"
+      ],
+      "text": "查驗點二（合約第4個月底）：設備進場及環境建置",
+      "context_before": [
+        "施工計畫書及進度表更新版提交"
+      ],
+      "context_after": [
+        "主機及儲存設備進場安裝完成",
+        "網路基礎建設（含10G骨幹網路）完成"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0035",
+      "paragraph_index": 35,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "主機及儲存設備進場安裝完成",
+      "context_before": [
+        "查驗點二（合約第4個月底）：設備進場及環境建置"
+      ],
+      "context_after": [
+        "網路基礎建設（含10G骨幹網路）完成",
+        "測試環境建置完成"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0036",
+      "paragraph_index": 36,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "網路基礎建設（含10G骨幹網路）完成",
+      "context_before": [
+        "主機及儲存設備進場安裝完成"
+      ],
+      "context_after": [
+        "測試環境建置完成",
+        "查驗點三（合約第7個月底）：系統安裝及單機測試"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0037",
+      "paragraph_index": 37,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "測試環境建置完成",
+      "context_before": [
+        "網路基礎建設（含10G骨幹網路）完成"
+      ],
+      "context_after": [
+        "查驗點三（合約第7個月底）：系統安裝及單機測試",
+        "EMR系統升級安裝完成，基本功能測試通過"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0039",
+      "paragraph_index": 39,
+      "page_estimate": 3,
+      "labels": [
+        "acceptance",
+        "checkpoint"
+      ],
+      "text": "查驗點三（合約第7個月底）：系統安裝及單機測試",
+      "context_before": [
+        "測試環境建置完成"
+      ],
+      "context_after": [
+        "EMR系統升級安裝完成，基本功能測試通過",
+        "PACS系統更新完成，影像讀取測試通過"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0040",
+      "paragraph_index": 40,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "EMR系統升級安裝完成，基本功能測試通過",
+      "context_before": [
+        "查驗點三（合約第7個月底）：系統安裝及單機測試"
+      ],
+      "context_after": [
+        "PACS系統更新完成，影像讀取測試通過",
+        "PMS系統整合介面完成"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0041",
+      "paragraph_index": 41,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "PACS系統更新完成，影像讀取測試通過",
+      "context_before": [
+        "EMR系統升級安裝完成，基本功能測試通過"
+      ],
+      "context_after": [
+        "PMS系統整合介面完成",
+        "資料移轉規劃完成（含舊資料備份）"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0043",
+      "paragraph_index": 43,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "資料移轉規劃完成（含舊資料備份）",
+      "context_before": [
+        "PMS系統整合介面完成"
+      ],
+      "context_after": [
+        "查驗點四（合約第9個月，最終驗收前）：整合測試及上線準備",
+        "三大系統整合測試完成，跨系統資料一致性驗證通過"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0045",
+      "paragraph_index": 45,
+      "page_estimate": 4,
+      "labels": [
+        "acceptance",
+        "checkpoint"
+      ],
+      "text": "查驗點四（合約第9個月，最終驗收前）：整合測試及上線準備",
+      "context_before": [
+        "資料移轉規劃完成（含舊資料備份）"
+      ],
+      "context_after": [
+        "三大系統整合測試完成，跨系統資料一致性驗證通過",
+        "HL7/FHIR資料交換介面測試通過"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0046",
+      "paragraph_index": 46,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "三大系統整合測試完成，跨系統資料一致性驗證通過",
+      "context_before": [
+        "查驗點四（合約第9個月，最終驗收前）：整合測試及上線準備"
+      ],
+      "context_after": [
+        "HL7/FHIR資料交換介面測試通過",
+        "資料移轉完成，舊系統資料100%移轉至新系統"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0047",
+      "paragraph_index": 47,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "HL7/FHIR資料交換介面測試通過",
+      "context_before": [
+        "三大系統整合測試完成，跨系統資料一致性驗證通過"
+      ],
+      "context_after": [
+        "資料移轉完成，舊系統資料100%移轉至新系統",
+        "使用者操作訓練完成（含醫師、護理、藥劑及行政人員）"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0048",
+      "paragraph_index": 48,
+      "page_estimate": 4,
+      "labels": [
+        "percentage"
+      ],
+      "text": "資料移轉完成，舊系統資料100%移轉至新系統",
+      "context_before": [
+        "HL7/FHIR資料交換介面測試通過"
+      ],
+      "context_after": [
+        "使用者操作訓練完成（含醫師、護理、藥劑及行政人員）",
+        "資安稽核報告（含滲透測試）取得"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0049",
+      "paragraph_index": 49,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "使用者操作訓練完成（含醫師、護理、藥劑及行政人員）",
+      "context_before": [
+        "資料移轉完成，舊系統資料100%移轉至新系統"
+      ],
+      "context_after": [
+        "資安稽核報告（含滲透測試）取得",
+        "第五條　最終驗收"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0050",
+      "paragraph_index": 50,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "資安稽核報告（含滲透測試）取得",
+      "context_before": [
+        "使用者操作訓練完成（含醫師、護理、藥劑及行政人員）"
+      ],
+      "context_after": [
+        "第五條　最終驗收",
+        "本工程僅辦理一次最終驗收，驗收條件如下："
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0052",
+      "paragraph_index": 52,
+      "page_estimate": 4,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "第五條　最終驗收",
+      "context_before": [
+        "資安稽核報告（含滲透測試）取得"
+      ],
+      "context_after": [
+        "本工程僅辦理一次最終驗收，驗收條件如下：",
+        "附件三「驗收項目及標準」所列各項功能100%通過"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0053",
+      "paragraph_index": 53,
+      "page_estimate": 4,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "本工程僅辦理一次最終驗收，驗收條件如下：",
+      "context_before": [
+        "第五條　最終驗收"
+      ],
+      "context_after": [
+        "附件三「驗收項目及標準」所列各項功能100%通過",
+        "連續運行測試：系統連續穩定運行 168 小時（7天）無重大故障"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0054",
+      "paragraph_index": 54,
+      "page_estimate": 4,
+      "labels": [
+        "acceptance",
+        "percentage"
+      ],
+      "text": "附件三「驗收項目及標準」所列各項功能100%通過",
+      "context_before": [
+        "本工程僅辦理一次最終驗收，驗收條件如下："
+      ],
+      "context_after": [
+        "連續運行測試：系統連續穩定運行 168 小時（7天）無重大故障",
+        "性能測試：尖峰時段（早上8:30-10:30）系統回應時間 ≤ 3 秒"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0055",
+      "paragraph_index": 55,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "連續運行測試：系統連續穩定運行 168 小時（7天）無重大故障",
+      "context_before": [
+        "附件三「驗收項目及標準」所列各項功能100%通過"
+      ],
+      "context_after": [
+        "性能測試：尖峰時段（早上8:30-10:30）系統回應時間 ≤ 3 秒",
+        "資料完整性：舊系統歷史資料移轉正確性抽驗誤差率 ≤ 0.01%"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0056",
+      "paragraph_index": 56,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "性能測試：尖峰時段（早上8:30-10:30）系統回應時間 ≤ 3 秒",
+      "context_before": [
+        "連續運行測試：系統連續穩定運行 168 小時（7天）無重大故障"
+      ],
+      "context_after": [
+        "資料完整性：舊系統歷史資料移轉正確性抽驗誤差率 ≤ 0.01%",
+        "資安要求：通過衛福部「醫療機構電腦化病歷製作及管理辦法」相關規定稽核"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0057",
+      "paragraph_index": 57,
+      "page_estimate": 4,
+      "labels": [
+        "percentage"
+      ],
+      "text": "資料完整性：舊系統歷史資料移轉正確性抽驗誤差率 ≤ 0.01%",
+      "context_before": [
+        "性能測試：尖峰時段（早上8:30-10:30）系統回應時間 ≤ 3 秒"
+      ],
+      "context_after": [
+        "資安要求：通過衛福部「醫療機構電腦化病歷製作及管理辦法」相關規定稽核",
+        "驗收不通過之處理：甲方應出具書面缺失清單，乙方應於 21 個工作天內完成改善並申請複驗，複驗費用由乙方負擔。"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0058",
+      "paragraph_index": 58,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "資安要求：通過衛福部「醫療機構電腦化病歷製作及管理辦法」相關規定稽核",
+      "context_before": [
+        "資料完整性：舊系統歷史資料移轉正確性抽驗誤差率 ≤ 0.01%"
+      ],
+      "context_after": [
+        "驗收不通過之處理：甲方應出具書面缺失清單，乙方應於 21 個工作天內完成改善並申請複驗，複驗費用由乙方負擔。",
+        "第六條　保固期限"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0060",
+      "paragraph_index": 60,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "驗收不通過之處理：甲方應出具書面缺失清單，乙方應於 21 個工作天內完成改善並申請複驗，複驗費用由乙方負擔。",
+      "context_before": [
+        "資安要求：通過衛福部「醫療機構電腦化病歷製作及管理辦法」相關規定稽核"
+      ],
+      "context_after": [
+        "第六條　保固期限",
+        "本工程驗收合格日起，保固期限為 24 個月。保固期間分層服務："
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0062",
+      "paragraph_index": 62,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "第六條　保固期限",
+      "context_before": [
+        "驗收不通過之處理：甲方應出具書面缺失清單，乙方應於 21 個工作天內完成改善並申請複驗，複驗費用由乙方負擔。"
+      ],
+      "context_after": [
+        "本工程驗收合格日起，保固期限為 24 個月。保固期間分層服務：",
+        "P0（系統全停）：30分鐘內電話回應，4小時內到場處理"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0063",
+      "paragraph_index": 63,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "本工程驗收合格日起，保固期限為 24 個月。保固期間分層服務：",
+      "context_before": [
+        "第六條　保固期限"
+      ],
+      "context_after": [
+        "P0（系統全停）：30分鐘內電話回應，4小時內到場處理",
+        "P1（主要功能異常）：1小時內回應，8小時內到場處理"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0064",
+      "paragraph_index": 64,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "P0（系統全停）：30分鐘內電話回應，4小時內到場處理",
+      "context_before": [
+        "本工程驗收合格日起，保固期限為 24 個月。保固期間分層服務："
+      ],
+      "context_after": [
+        "P1（主要功能異常）：1小時內回應，8小時內到場處理",
+        "P2（部分功能異常）：4小時內回應，次一工作日到場處理"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0065",
+      "paragraph_index": 65,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "P1（主要功能異常）：1小時內回應，8小時內到場處理",
+      "context_before": [
+        "P0（系統全停）：30分鐘內電話回應，4小時內到場處理"
+      ],
+      "context_after": [
+        "P2（部分功能異常）：4小時內回應，次一工作日到場處理",
+        "P3（輕微問題）：1工作日內回應，5工作日內排程處理"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0072",
+      "paragraph_index": 72,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "附件二：工程進度表（甘特圖）",
+      "context_before": [
+        "附件一：工程範圍說明書（共22頁）"
+      ],
+      "context_after": [
+        "附件三：驗收項目及標準",
+        "附件四：報價明細表"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0073",
+      "paragraph_index": 73,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "附件三：驗收項目及標準",
+      "context_before": [
+        "附件二：工程進度表（甘特圖）"
+      ],
+      "context_after": [
+        "附件四：報價明細表",
+        "附件五：保密協議書"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0074",
+      "paragraph_index": 74,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "附件四：報價明細表",
+      "context_before": [
+        "附件三：驗收項目及標準"
+      ],
+      "context_after": [
+        "附件五：保密協議書",
+        "附件六：個人資料保護承諾書（依個資法第27條）"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0075",
+      "paragraph_index": 75,
+      "page_estimate": 6,
+      "labels": [
+        "context"
+      ],
+      "text": "附件五：保密協議書",
+      "context_before": [
+        "附件四：報價明細表"
+      ],
+      "context_after": [
+        "附件六：個人資料保護承諾書（依個資法第27條）",
+        "如本合約正本與附件有牴觸時，以附件各章節之「特殊約定」優先，次依本合約正本條款辦理。"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0094",
+      "paragraph_index": 94,
+      "page_estimate": 7,
+      "labels": [
+        "context"
+      ],
+      "text": "【附件一】工程範圍說明書",
+      "context_before": [
+        "簽署日期：中華民國　114　年　1　月　20　日"
+      ],
+      "context_after": [
+        "一、EMR電子病歷系統升級",
+        "升級範圍涵蓋門診、住院、急診三大模組："
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0096",
+      "paragraph_index": 96,
+      "page_estimate": 7,
+      "labels": [
+        "work_item"
+      ],
+      "text": "一、EMR電子病歷系統升級",
+      "context_before": [
+        "【附件一】工程範圍說明書"
+      ],
+      "context_after": [
+        "升級範圍涵蓋門診、住院、急診三大模組：",
+        "門診模組：SOAP紀錄、處方箋開立、複診排程、過敏藥物警示"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0097",
+      "paragraph_index": 97,
+      "page_estimate": 7,
+      "labels": [
+        "context"
+      ],
+      "text": "升級範圍涵蓋門診、住院、急診三大模組：",
+      "context_before": [
+        "一、EMR電子病歷系統升級"
+      ],
+      "context_after": [
+        "門診模組：SOAP紀錄、處方箋開立、複診排程、過敏藥物警示",
+        "住院模組：護理紀錄、醫囑執行、床位管理、出入院流程"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0098",
+      "paragraph_index": 98,
+      "page_estimate": 7,
+      "labels": [
+        "context"
+      ],
+      "text": "門診模組：SOAP紀錄、處方箋開立、複診排程、過敏藥物警示",
+      "context_before": [
+        "升級範圍涵蓋門診、住院、急診三大模組："
+      ],
+      "context_after": [
+        "住院模組：護理紀錄、醫囑執行、床位管理、出入院流程",
+        "急診模組：檢傷分類、急救紀錄、病患追蹤"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0101",
+      "paragraph_index": 101,
+      "page_estimate": 7,
+      "labels": [
+        "context"
+      ],
+      "text": "共用功能：診斷碼ICD-11更新、HL7 FHIR R4標準介面",
+      "context_before": [
+        "急診模組：檢傷分類、急救紀錄、病患追蹤"
+      ],
+      "context_after": [
+        "二、PACS醫療影像儲傳系統更新",
+        "主儲存設備升級：現有 50TB 擴充至 200TB"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0103",
+      "paragraph_index": 103,
+      "page_estimate": 7,
+      "labels": [
+        "work_item"
+      ],
+      "text": "二、PACS醫療影像儲傳系統更新",
+      "context_before": [
+        "共用功能：診斷碼ICD-11更新、HL7 FHIR R4標準介面"
+      ],
+      "context_after": [
+        "主儲存設備升級：現有 50TB 擴充至 200TB",
+        "影像讀取工作站更新：共 15 台放射科讀片工作站"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0104",
+      "paragraph_index": 104,
+      "page_estimate": 7,
+      "labels": [
+        "context"
+      ],
+      "text": "主儲存設備升級：現有 50TB 擴充至 200TB",
+      "context_before": [
+        "二、PACS醫療影像儲傳系統更新"
+      ],
+      "context_after": [
+        "影像讀取工作站更新：共 15 台放射科讀片工作站",
+        "DICOM Worklist整合：與EMR系統雙向資料同步"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0105",
+      "paragraph_index": 105,
+      "page_estimate": 8,
+      "labels": [
+        "context"
+      ],
+      "text": "影像讀取工作站更新：共 15 台放射科讀片工作站",
+      "context_before": [
+        "主儲存設備升級：現有 50TB 擴充至 200TB"
+      ],
+      "context_after": [
+        "DICOM Worklist整合：與EMR系統雙向資料同步",
+        "影像壓縮技術升級：支援 JPEG 2000 無失真壓縮"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0107",
+      "paragraph_index": 107,
+      "page_estimate": 8,
+      "labels": [
+        "context"
+      ],
+      "text": "影像壓縮技術升級：支援 JPEG 2000 無失真壓縮",
+      "context_before": [
+        "DICOM Worklist整合：與EMR系統雙向資料同步"
+      ],
+      "context_after": [
+        "三、PMS藥局管理系統整合",
+        "藥品庫存管理：即時庫存查詢、自動補貨警示"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0109",
+      "paragraph_index": 109,
+      "page_estimate": 8,
+      "labels": [
+        "work_item"
+      ],
+      "text": "三、PMS藥局管理系統整合",
+      "context_before": [
+        "影像壓縮技術升級：支援 JPEG 2000 無失真壓縮"
+      ],
+      "context_after": [
+        "藥品庫存管理：即時庫存查詢、自動補貨警示",
+        "處方箋自動解析：接收EMR電子處方，自動備藥作業"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0110",
+      "paragraph_index": 110,
+      "page_estimate": 8,
+      "labels": [
+        "context"
+      ],
+      "text": "藥品庫存管理：即時庫存查詢、自動補貨警示",
+      "context_before": [
+        "三、PMS藥局管理系統整合"
+      ],
+      "context_after": [
+        "處方箋自動解析：接收EMR電子處方，自動備藥作業",
+        "藥品交互作用查核：即時警示功能"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0111",
+      "paragraph_index": 111,
+      "page_estimate": 8,
+      "labels": [
+        "context"
+      ],
+      "text": "處方箋自動解析：接收EMR電子處方，自動備藥作業",
+      "context_before": [
+        "藥品庫存管理：即時庫存查詢、自動補貨警示"
+      ],
+      "context_after": [
+        "藥品交互作用查核：即時警示功能",
+        "健保申報介面：產出健保署規定格式之申報資料"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0113",
+      "paragraph_index": 113,
+      "page_estimate": 8,
+      "labels": [
+        "context"
+      ],
+      "text": "健保申報介面：產出健保署規定格式之申報資料",
+      "context_before": [
+        "藥品交互作用查核：即時警示功能"
+      ],
+      "context_after": [
+        "四、院內網路基礎建設強化",
+        "骨幹網路升級：現有 1GbE 升級為 10GbE 骨幹"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0115",
+      "paragraph_index": 115,
+      "page_estimate": 8,
+      "labels": [
+        "work_item"
+      ],
+      "text": "四、院內網路基礎建設強化",
+      "context_before": [
+        "健保申報介面：產出健保署規定格式之申報資料"
+      ],
+      "context_after": [
+        "骨幹網路升級：現有 1GbE 升級為 10GbE 骨幹",
+        "無線網路優化：醫護工作站、病房、候診區 Wi-Fi 覆蓋優化"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0116",
+      "paragraph_index": 116,
+      "page_estimate": 8,
+      "labels": [
+        "context"
+      ],
+      "text": "骨幹網路升級：現有 1GbE 升級為 10GbE 骨幹",
+      "context_before": [
+        "四、院內網路基礎建設強化"
+      ],
+      "context_after": [
+        "無線網路優化：醫護工作站、病房、候診區 Wi-Fi 覆蓋優化",
+        "資安強化：網路區隔（醫療網/行政網/訪客網獨立）、防火牆升級"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0117",
+      "paragraph_index": 117,
+      "page_estimate": 8,
+      "labels": [
+        "context"
+      ],
+      "text": "無線網路優化：醫護工作站、病房、候診區 Wi-Fi 覆蓋優化",
+      "context_before": [
+        "骨幹網路升級：現有 1GbE 升級為 10GbE 骨幹"
+      ],
+      "context_after": [
+        "資安強化：網路區隔（醫療網/行政網/訪客網獨立）、防火牆升級",
+        "【附件三】驗收項目及標準（摘要）"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0118",
+      "paragraph_index": 118,
+      "page_estimate": 8,
+      "labels": [
+        "context"
+      ],
+      "text": "資安強化：網路區隔（醫療網/行政網/訪客網獨立）、防火牆升級",
+      "context_before": [
+        "無線網路優化：醫護工作站、病房、候診區 Wi-Fi 覆蓋優化"
+      ],
+      "context_after": [
+        "【附件三】驗收項目及標準（摘要）",
+        "以上驗收項目均須通過，方可辦理驗收合格程序並觸發付款。"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0121",
+      "paragraph_index": 121,
+      "page_estimate": 9,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "【附件三】驗收項目及標準（摘要）",
+      "context_before": [
+        "資安強化：網路區隔（醫療網/行政網/訪客網獨立）、防火牆升級"
+      ],
+      "context_after": [
+        "以上驗收項目均須通過，方可辦理驗收合格程序並觸發付款。",
+        "編號 | 驗收項目 | 驗收標準 | 對應系統"
+      ]
+    },
+    {
+      "block_id": "09XX專案_block_0124",
+      "paragraph_index": 124,
+      "page_estimate": 9,
+      "labels": [
+        "acceptance",
+        "payment"
+      ],
+      "text": "以上驗收項目均須通過，方可辦理驗收合格程序並觸發付款。",
+      "context_before": [
+        "【附件三】驗收項目及標準（摘要）"
+      ],
+      "context_after": [
+        "編號 | 驗收項目 | 驗收標準 | 對應系統",
+        "V-001 | 電子病歷建立及儲存 | 醫師可正常開立、儲存、調閱病歷，無資料遺失 | EMR"
+      ]
+    },
+    {
+      "block_id": "09XX專案_table_00_row_000",
+      "paragraph_index": 220,
+      "page_estimate": 15,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "編號 | 驗收項目 | 驗收標準 | 對應系統",
+      "context_before": [
+        "以上驗收項目均須通過，方可辦理驗收合格程序並觸發付款。"
+      ],
+      "context_after": [
+        "V-001 | 電子病歷建立及儲存 | 醫師可正常開立、儲存、調閱病歷，無資料遺失 | EMR",
+        "V-002 | 影像上傳及讀取 | DICOM影像上傳至PACS後，讀片工作站可在30秒內開啟 | PACS"
+      ]
+    },
+    {
+      "block_id": "09XX專案_table_00_row_001",
+      "paragraph_index": 221,
+      "page_estimate": 15,
+      "labels": [
+        "context"
+      ],
+      "text": "V-001 | 電子病歷建立及儲存 | 醫師可正常開立、儲存、調閱病歷，無資料遺失 | EMR",
+      "context_before": [
+        "編號 | 驗收項目 | 驗收標準 | 對應系統"
+      ],
+      "context_after": [
+        "V-002 | 影像上傳及讀取 | DICOM影像上傳至PACS後，讀片工作站可在30秒內開啟 | PACS",
+        "V-003 | 處方箋電子傳遞 | EMR開立之電子處方可自動傳至PMS，備藥完成率≥99% | EMR+PMS"
+      ]
+    },
+    {
+      "block_id": "09XX專案_table_00_row_002",
+      "paragraph_index": 222,
+      "page_estimate": 15,
+      "labels": [
+        "context"
+      ],
+      "text": "V-002 | 影像上傳及讀取 | DICOM影像上傳至PACS後，讀片工作站可在30秒內開啟 | PACS",
+      "context_before": [
+        "V-001 | 電子病歷建立及儲存 | 醫師可正常開立、儲存、調閱病歷，無資料遺失 | EMR"
+      ],
+      "context_after": [
+        "V-003 | 處方箋電子傳遞 | EMR開立之電子處方可自動傳至PMS，備藥完成率≥99% | EMR+PMS",
+        "V-004 | 資料移轉完整性 | 歷史資料抽查1,000筆，正確率≥99.99% | 所有系統"
+      ]
+    },
+    {
+      "block_id": "09XX專案_table_00_row_003",
+      "paragraph_index": 223,
+      "page_estimate": 15,
+      "labels": [
+        "percentage"
+      ],
+      "text": "V-003 | 處方箋電子傳遞 | EMR開立之電子處方可自動傳至PMS，備藥完成率≥99% | EMR+PMS",
+      "context_before": [
+        "V-002 | 影像上傳及讀取 | DICOM影像上傳至PACS後，讀片工作站可在30秒內開啟 | PACS"
+      ],
+      "context_after": [
+        "V-004 | 資料移轉完整性 | 歷史資料抽查1,000筆，正確率≥99.99% | 所有系統",
+        "V-005 | 系統回應時間 | 尖峰時段頁面載入≤3秒，查詢結果≤5秒 | 所有系統"
+      ]
+    },
+    {
+      "block_id": "09XX專案_table_00_row_004",
+      "paragraph_index": 224,
+      "page_estimate": 15,
+      "labels": [
+        "percentage"
+      ],
+      "text": "V-004 | 資料移轉完整性 | 歷史資料抽查1,000筆，正確率≥99.99% | 所有系統",
+      "context_before": [
+        "V-003 | 處方箋電子傳遞 | EMR開立之電子處方可自動傳至PMS，備藥完成率≥99% | EMR+PMS"
+      ],
+      "context_after": [
+        "V-005 | 系統回應時間 | 尖峰時段頁面載入≤3秒，查詢結果≤5秒 | 所有系統",
+        "V-006 | 網路可用性 | 骨幹網路連線中斷恢復時間≤30分鐘（冗餘切換） | 網路"
+      ]
+    },
+    {
+      "block_id": "09XX專案_table_00_row_005",
+      "paragraph_index": 225,
+      "page_estimate": 16,
+      "labels": [
+        "context"
+      ],
+      "text": "V-005 | 系統回應時間 | 尖峰時段頁面載入≤3秒，查詢結果≤5秒 | 所有系統",
+      "context_before": [
+        "V-004 | 資料移轉完整性 | 歷史資料抽查1,000筆，正確率≥99.99% | 所有系統"
+      ],
+      "context_after": [
+        "V-006 | 網路可用性 | 骨幹網路連線中斷恢復時間≤30分鐘（冗餘切換） | 網路",
+        "V-007 | 資安稽核 | 無高風險漏洞（CVSS≥7.0），中風險漏洞均已提供緩解方案 | 所有系統"
+      ]
+    },
+    {
+      "block_id": "09XX專案_table_00_row_006",
+      "paragraph_index": 226,
+      "page_estimate": 16,
+      "labels": [
+        "context"
+      ],
+      "text": "V-006 | 網路可用性 | 骨幹網路連線中斷恢復時間≤30分鐘（冗餘切換） | 網路",
+      "context_before": [
+        "V-005 | 系統回應時間 | 尖峰時段頁面載入≤3秒，查詢結果≤5秒 | 所有系統"
+      ],
+      "context_after": [
+        "V-007 | 資安稽核 | 無高風險漏洞（CVSS≥7.0），中風險漏洞均已提供緩解方案 | 所有系統"
+      ]
+    }
+  ],
+  "validation_status": "passed",
+  "contract_key": "09xx專案",
+  "version_number": 1,
+  "version_conflicts": []
+}

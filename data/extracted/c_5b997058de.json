@@ -8,7 +8,7 @@
   "doc_category": "contract",
   "milestones": [
     {
-      "milestone_id": "m_88ea242871cf",
+      "milestone_id": "m_a5f106978d71",
       "name": "里程碑A（對應工程節點一）：設計確認款",
       "amount": 1900500,
       "percentage": 15.0,
@@ -125,7 +125,7 @@
       "milestone_key": "m001"
     },
     {
-      "milestone_id": "m_d6d7cc098908",
+      "milestone_id": "m_7e8e4989de38",
       "name": "里程碑B（對應工程節點二）：核心開發完成款",
       "amount": 4300000,
       "percentage": 35.0,
@@ -135,7 +135,7 @@
         "完成倉儲管理系統（WMS）基本功能",
         "完成後台管理介面"
       ],
-      "acceptance_criteria": null,
+      "acceptance_criteria": "里程碑B（對應工程節點二）：核心開發完成款",
       "payment_condition": "里程碑B（對應工程節點二）：核心開發完成款付款金額：NTD 4,300,000（占合約總價約 35%）",
       "status": "pending_acceptance",
       "citations": [
@@ -224,6 +224,20 @@
           "regex_pattern": "stitched_clause"
         },
         {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "08XX專案.docx",
+          "para_start": 51,
+          "para_end": 51,
+          "page_estimate": 4,
+          "char_offset_start": 0,
+          "char_offset_end": 21,
+          "text_snippet": "里程碑B（對應工程節點二）：核心開發完成款",
+          "block_id": "08XX專案_block_0051",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
           "field_name": "milestone.work_items",
           "source_file": "08XX專案.docx",
           "para_start": 51,
@@ -242,7 +256,7 @@
       "milestone_key": "m002"
     },
     {
-      "milestone_id": "m_19023adf52d0",
+      "milestone_id": "m_4bc64149457a",
       "name": "第三期款（對應工程節點三）：整合測試完成款",
       "amount": 3801000,
       "percentage": 30.0,
@@ -355,6 +369,20 @@
           "regex_pattern": "stitched_clause"
         },
         {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "08XX專案.docx",
+          "para_start": 55,
+          "para_end": 55,
+          "page_estimate": 4,
+          "char_offset_start": 4,
+          "char_offset_end": 21,
+          "text_snippet": "（對應工程節點三）：整合測試完成款",
+          "block_id": "08XX專案_block_0055",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
           "field_name": "milestone.work_items",
           "source_file": "08XX專案.docx",
           "para_start": 55,
@@ -373,7 +401,7 @@
       "milestone_key": "m003"
     },
     {
-      "milestone_id": "m_f2cdf1c8274c",
+      "milestone_id": "m_2dff0dc34dfd",
       "name": "階段四尾款（對應工程節點四）：驗收尾款",
       "amount": 2668500,
       "percentage": 20.0,
@@ -383,7 +411,7 @@
         "完成系統上線及切換作業",
         "完成操作手冊及教育訓練"
       ],
-      "acceptance_criteria": null,
+      "acceptance_criteria": "工程節點四（第10至第12個月）：上線驗收及教育訓練",
       "payment_condition": "階段四尾款（對應工程節點四）：驗收尾款付款金額：NTD 2,668,500（占合約總價 20%）",
       "status": "pending_acceptance",
       "citations": [
@@ -400,6 +428,20 @@
           "citation_mode": "exact_span",
           "extraction_method": "regex",
           "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "08XX專案.docx",
+          "para_start": 38,
+          "para_end": 38,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 26,
+          "text_snippet": "工程節點四（第10至第12個月）：上線驗收及教育訓練",
+          "block_id": "08XX專案_block_0038",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
         },
         {
           "field_name": "milestone.work_items",
@@ -468,6 +510,20 @@
           "text_snippet": "階段四尾款（對應工程節點四）：驗收尾款付款金額：NTD 2,668,500（占合約總價 20%）",
           "block_id": "08XX專案_block_0059",
           "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "08XX專案.docx",
+          "para_start": 59,
+          "para_end": 59,
+          "page_estimate": 4,
+          "char_offset_start": 0,
+          "char_offset_end": 19,
+          "text_snippet": "階段四尾款（對應工程節點四）：驗收尾款",
+          "block_id": "08XX專案_block_0059",
+          "citation_mode": "exact_span",
           "extraction_method": "regex",
           "regex_pattern": "stitched_clause"
         },
@@ -705,6 +761,20 @@
       "regex_pattern": "stitched_clause"
     },
     {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "08XX專案.docx",
+      "para_start": 51,
+      "para_end": 51,
+      "page_estimate": 4,
+      "char_offset_start": 0,
+      "char_offset_end": 21,
+      "text_snippet": "里程碑B（對應工程節點二）：核心開發完成款",
+      "block_id": "08XX專案_block_0051",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
       "field_name": "milestone.work_items",
       "source_file": "08XX專案.docx",
       "para_start": 51,
@@ -817,6 +887,20 @@
       "regex_pattern": "stitched_clause"
     },
     {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "08XX專案.docx",
+      "para_start": 55,
+      "para_end": 55,
+      "page_estimate": 4,
+      "char_offset_start": 4,
+      "char_offset_end": 21,
+      "text_snippet": "（對應工程節點三）：整合測試完成款",
+      "block_id": "08XX專案_block_0055",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
       "field_name": "milestone.work_items",
       "source_file": "08XX專案.docx",
       "para_start": 55,
@@ -843,6 +927,20 @@
       "citation_mode": "exact_span",
       "extraction_method": "regex",
       "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+    },
+    {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "08XX專案.docx",
+      "para_start": 38,
+      "para_end": 38,
+      "page_estimate": 3,
+      "char_offset_start": 0,
+      "char_offset_end": 26,
+      "text_snippet": "工程節點四（第10至第12個月）：上線驗收及教育訓練",
+      "block_id": "08XX專案_block_0038",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
     },
     {
       "field_name": "milestone.work_items",
@@ -915,6 +1013,20 @@
       "regex_pattern": "stitched_clause"
     },
     {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "08XX專案.docx",
+      "para_start": 59,
+      "para_end": 59,
+      "page_estimate": 4,
+      "char_offset_start": 0,
+      "char_offset_end": 19,
+      "text_snippet": "階段四尾款（對應工程節點四）：驗收尾款",
+      "block_id": "08XX專案_block_0059",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
       "field_name": "milestone.work_items",
       "source_file": "08XX專案.docx",
       "para_start": 59,
@@ -930,6 +1042,12 @@
     }
   ],
   "validation": [
+    {
+      "code": "llm_partial_schedule_fallback",
+      "severity": "WARNING",
+      "message": "LLM extracted only 1 milestones while regex extracted 4; regex schedule completeness was preserved.",
+      "citations": []
+    },
     {
       "code": "percentage_amount_inconsistency",
       "severity": "ERROR",
@@ -1013,6 +1131,20 @@
           "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
         },
         {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "08XX專案.docx",
+          "para_start": 38,
+          "para_end": 38,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 26,
+          "text_snippet": "工程節點四（第10至第12個月）：上線驗收及教育訓練",
+          "block_id": "08XX專案_block_0038",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
           "field_name": "milestone.work_items",
           "source_file": "08XX專案.docx",
           "para_start": 38,
@@ -1039,20 +1171,6 @@
           "citation_mode": "exact_span",
           "extraction_method": "regex",
           "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
-        },
-        {
-          "field_name": "milestone.amount",
-          "source_file": "08XX專案.docx",
-          "para_start": 60,
-          "para_end": 60,
-          "page_estimate": 5,
-          "char_offset_start": 0,
-          "char_offset_end": 18,
-          "text_snippet": "付款金額：NTD 2,668,500",
-          "block_id": "08XX專案_block_0060",
-          "citation_mode": "exact_span",
-          "extraction_method": "regex",
-          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
         }
       ]
     }
@@ -1589,7 +1707,7 @@
     "extraction_path": "llm_tasks",
     "fallback_reason": "retention:no_blocks",
     "prompt_tokens": 1055,
-    "llm_ms": 70945,
+    "llm_ms": 64312,
     "pipeline_revision": "2026-04-27-citation-summary-v1"
   },
   "segment_map": {

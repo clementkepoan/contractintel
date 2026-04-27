@@ -8,7 +8,7 @@
   "doc_category": "contract",
   "milestones": [
     {
-      "milestone_id": "m_c0240a7945d8",
+      "milestone_id": "m_95fa185ea384",
       "name": "第一期　簽約款（30%）：",
       "amount": 2550000,
       "percentage": 30.0,
@@ -17,7 +17,7 @@
         "完成材料送審",
         "完成工程保險投保"
       ],
-      "acceptance_criteria": null,
+      "acceptance_criteria": "簽約款（30%）：",
       "payment_condition": "第一期　簽約款（30%）： 本合約簽訂後 7 個工作天內，甲方給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）",
       "status": "pending_acceptance",
       "citations": [
@@ -78,6 +78,20 @@
           "regex_pattern": "stitched_clause"
         },
         {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "06XX專案.docx",
+          "para_start": 30,
+          "para_end": 30,
+          "page_estimate": 3,
+          "char_offset_start": 4,
+          "char_offset_end": 13,
+          "text_snippet": "簽約款（30%）：",
+          "block_id": "06XX專案_block_0030",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
           "field_name": "milestone.work_items",
           "source_file": "06XX專案.docx",
           "para_start": 30,
@@ -96,7 +110,7 @@
       "milestone_key": "m001"
     },
     {
-      "milestone_id": "m_fa343473d2db",
+      "milestone_id": "m_2c9f8fd88349",
       "name": "第二期　設備進場款（30%）：",
       "amount": 2550000,
       "percentage": 30.0,
@@ -106,7 +120,7 @@
         "CCTV設備進場",
         "停車場設備進場"
       ],
-      "acceptance_criteria": null,
+      "acceptance_criteria": "設備進場款（30%）：",
       "payment_condition": "第二期　設備進場款（30%）： 乙方完成主要設備進場，經甲方確認後，給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）",
       "status": "pending_acceptance",
       "citations": [
@@ -167,6 +181,20 @@
           "regex_pattern": "stitched_clause"
         },
         {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "06XX專案.docx",
+          "para_start": 37,
+          "para_end": 37,
+          "page_estimate": 3,
+          "char_offset_start": 4,
+          "char_offset_end": 15,
+          "text_snippet": "設備進場款（30%）：",
+          "block_id": "06XX專案_block_0037",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
           "field_name": "milestone.work_items",
           "source_file": "06XX專案.docx",
           "para_start": 37,
@@ -185,7 +213,7 @@
       "milestone_key": "m002"
     },
     {
-      "milestone_id": "m_643048f5e1aa",
+      "milestone_id": "m_4d534e6ad8b2",
       "name": "第三期　安裝完成款（20%）：",
       "amount": 2200000,
       "percentage": 20.0,
@@ -288,7 +316,7 @@
       "milestone_key": "m003"
     },
     {
-      "milestone_id": "m_1054d4f670be",
+      "milestone_id": "m_ed8df4e2e9ac",
       "name": "第四期　驗收尾款（20%）：",
       "amount": 1500000,
       "percentage": 20.0,
@@ -482,6 +510,20 @@
       "regex_pattern": "stitched_clause"
     },
     {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "06XX專案.docx",
+      "para_start": 30,
+      "para_end": 30,
+      "page_estimate": 3,
+      "char_offset_start": 4,
+      "char_offset_end": 13,
+      "text_snippet": "簽約款（30%）：",
+      "block_id": "06XX專案_block_0030",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
       "field_name": "milestone.work_items",
       "source_file": "06XX專案.docx",
       "para_start": 30,
@@ -548,6 +590,20 @@
       "text_snippet": "第二期　設備進場款（30%）： 乙方完成主要設備進場，經甲方確認後，給付新台幣 貳佰伍拾伍萬元整（NT$2,550,000，含稅）",
       "block_id": "06XX專案_block_0037",
       "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "06XX專案.docx",
+      "para_start": 37,
+      "para_end": 37,
+      "page_estimate": 3,
+      "char_offset_start": 4,
+      "char_offset_end": 15,
+      "text_snippet": "設備進場款（30%）：",
+      "block_id": "06XX專案_block_0037",
+      "citation_mode": "exact_span",
       "extraction_method": "regex",
       "regex_pattern": "stitched_clause"
     },
@@ -1411,7 +1467,7 @@
     "extraction_path": "llm_tasks",
     "fallback_reason": "retention:no_blocks,version:no_blocks",
     "prompt_tokens": 843,
-    "llm_ms": 69774,
+    "llm_ms": 69081,
     "pipeline_revision": "2026-04-27-citation-summary-v1"
   },
   "segment_map": {

@@ -8,14 +8,14 @@
   "doc_category": "contract",
   "milestones": [
     {
-      "milestone_id": "m_b2c0db5ebf17",
+      "milestone_id": "m_981b60c02e39",
       "name": "第一期：乙方提交細部設計圖經甲方及客戶核定後",
       "amount": 3339000,
       "percentage": 20.0,
       "work_items": [
         "提交細部設計圖"
       ],
-      "acceptance_criteria": null,
+      "acceptance_criteria": "乙方提交細部設計圖經甲方及客戶核定後",
       "payment_condition": "第一期：乙方提交細部設計圖經甲方及客戶核定後，甲方應給付本契約總價 20%即 3,339,000 元(含稅)予乙方",
       "status": "pending_acceptance",
       "citations": [
@@ -76,6 +76,20 @@
           "regex_pattern": "stitched_clause"
         },
         {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "05XX專案.docx",
+          "para_start": 56,
+          "para_end": 56,
+          "page_estimate": 4,
+          "char_offset_start": 4,
+          "char_offset_end": 22,
+          "text_snippet": "乙方提交細部設計圖經甲方及客戶核定後",
+          "block_id": "05XX專案_block_0056",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
           "field_name": "milestone.work_items",
           "source_file": "05XX專案.docx",
           "para_start": 56,
@@ -94,14 +108,14 @@
       "milestone_key": "m001"
     },
     {
-      "milestone_id": "m_573eaf9d8bfb",
+      "milestone_id": "m_265597578d0b",
       "name": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
       "amount": 5008500,
       "percentage": 30.0,
       "work_items": [
         "完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目)"
       ],
-      "acceptance_criteria": null,
+      "acceptance_criteria": "乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
       "payment_condition": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後， 甲方應給付本契約總價 30% 即 5,008,500 元(含稅)予乙方",
       "status": "pending_acceptance",
       "citations": [
@@ -162,6 +176,20 @@
           "regex_pattern": "stitched_clause"
         },
         {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "05XX專案.docx",
+          "para_start": 58,
+          "para_end": 58,
+          "page_estimate": 4,
+          "char_offset_start": 4,
+          "char_offset_end": 49,
+          "text_snippet": "乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
+          "block_id": "05XX專案_block_0058",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
           "field_name": "milestone.work_items",
           "source_file": "05XX專案.docx",
           "para_start": 58,
@@ -180,14 +208,14 @@
       "milestone_key": "m002"
     },
     {
-      "milestone_id": "m_9e2f75a6f944",
+      "milestone_id": "m_d48752a2bc31",
       "name": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
       "amount": 5008500,
       "percentage": 30.0,
       "work_items": [
         "軟體(系統)及硬體設備安裝完成"
       ],
-      "acceptance_criteria": null,
+      "acceptance_criteria": "軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
       "payment_condition": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後，甲方應給付本契約總價 30%即 5,008,500 元(含稅)予乙方",
       "status": "pending_acceptance",
       "citations": [
@@ -248,6 +276,20 @@
           "regex_pattern": "stitched_clause"
         },
         {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "05XX專案.docx",
+          "para_start": 59,
+          "para_end": 59,
+          "page_estimate": 4,
+          "char_offset_start": 4,
+          "char_offset_end": 28,
+          "text_snippet": "軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
+          "block_id": "05XX專案_block_0059",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
           "field_name": "milestone.work_items",
           "source_file": "05XX專案.docx",
           "para_start": 59,
@@ -266,14 +308,14 @@
       "milestone_key": "m003"
     },
     {
-      "milestone_id": "m_28e00bf1653a",
+      "milestone_id": "m_d1610074758c",
       "name": "第四期：本工程全部經甲方及客戶驗收合格後",
       "amount": 3339000,
       "percentage": 20.0,
       "work_items": [
         "本工程全部驗收合格"
       ],
-      "acceptance_criteria": null,
+      "acceptance_criteria": "本工程全部經甲方及客戶驗收合格後",
       "payment_condition": "第四期：本工程全部經甲方及客戶驗收合格後，甲方應給付本契約總價20%即 3,339,000 元(含稅)予乙方",
       "status": "pending_acceptance",
       "citations": [
@@ -330,6 +372,20 @@
           "text_snippet": "第四期：本工程全部經甲方及客戶驗收合格後，甲方應給付本契約總價20%即 3,339,000 元(含稅)予乙方",
           "block_id": "05XX專案_block_0060",
           "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "05XX專案.docx",
+          "para_start": 60,
+          "para_end": 60,
+          "page_estimate": 5,
+          "char_offset_start": 4,
+          "char_offset_end": 20,
+          "text_snippet": "本工程全部經甲方及客戶驗收合格後",
+          "block_id": "05XX專案_block_0060",
+          "citation_mode": "exact_span",
           "extraction_method": "regex",
           "regex_pattern": "stitched_clause"
         },
@@ -472,6 +528,20 @@
       "regex_pattern": "stitched_clause"
     },
     {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "05XX專案.docx",
+      "para_start": 56,
+      "para_end": 56,
+      "page_estimate": 4,
+      "char_offset_start": 4,
+      "char_offset_end": 22,
+      "text_snippet": "乙方提交細部設計圖經甲方及客戶核定後",
+      "block_id": "05XX專案_block_0056",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
       "field_name": "milestone.work_items",
       "source_file": "05XX專案.docx",
       "para_start": 56,
@@ -536,6 +606,20 @@
       "char_offset_start": 0,
       "char_offset_end": 86,
       "text_snippet": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後， 甲方應給付本契約總價 30% 即 5,008,500 元(含稅)予乙方",
+      "block_id": "05XX專案_block_0058",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "05XX專案.docx",
+      "para_start": 58,
+      "para_end": 58,
+      "page_estimate": 4,
+      "char_offset_start": 4,
+      "char_offset_end": 49,
+      "text_snippet": "乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
       "block_id": "05XX專案_block_0058",
       "citation_mode": "exact_span",
       "extraction_method": "regex",
@@ -612,6 +696,20 @@
       "regex_pattern": "stitched_clause"
     },
     {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "05XX專案.docx",
+      "para_start": 59,
+      "para_end": 59,
+      "page_estimate": 4,
+      "char_offset_start": 4,
+      "char_offset_end": 28,
+      "text_snippet": "軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
+      "block_id": "05XX專案_block_0059",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
       "field_name": "milestone.work_items",
       "source_file": "05XX專案.docx",
       "para_start": 59,
@@ -678,6 +776,20 @@
       "text_snippet": "第四期：本工程全部經甲方及客戶驗收合格後，甲方應給付本契約總價20%即 3,339,000 元(含稅)予乙方",
       "block_id": "05XX專案_block_0060",
       "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "05XX專案.docx",
+      "para_start": 60,
+      "para_end": 60,
+      "page_estimate": 5,
+      "char_offset_start": 4,
+      "char_offset_end": 20,
+      "text_snippet": "本工程全部經甲方及客戶驗收合格後",
+      "block_id": "05XX專案_block_0060",
+      "citation_mode": "exact_span",
       "extraction_method": "regex",
       "regex_pattern": "stitched_clause"
     },
@@ -2186,7 +2298,7 @@
     "extraction_path": "llm_tasks",
     "fallback_reason": "version:no_blocks",
     "prompt_tokens": 1539,
-    "llm_ms": 63532,
+    "llm_ms": 59589,
     "pipeline_revision": "2026-04-27-citation-summary-v1"
   },
   "segment_map": {

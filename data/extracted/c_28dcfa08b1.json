@@ -8,7 +8,7 @@
   "doc_category": "rfp",
   "milestones": [
     {
-      "milestone_id": "m_aeda9e7c618c",
+      "milestone_id": "m_5defc19ec045",
       "name": "【里程碑一】基礎設施完成",
       "amount": null,
       "percentage": 25.0,
@@ -96,7 +96,7 @@
       "milestone_key": "m001"
     },
     {
-      "milestone_id": "m_39dbfbbfb2a5",
+      "milestone_id": "m_094a598f745a",
       "name": "【里程碑二】核心設備安裝完成",
       "amount": null,
       "percentage": 30.0,
@@ -184,7 +184,7 @@
       "milestone_key": "m002"
     },
     {
-      "milestone_id": "m_4b128768f006",
+      "milestone_id": "m_ef26fec691e2",
       "name": "【里程碑三】無線網路部署完成",
       "amount": null,
       "percentage": 20.0,
@@ -272,7 +272,7 @@
       "milestone_key": "m003"
     },
     {
-      "milestone_id": "m_d747dbbc7462",
+      "milestone_id": "m_bdb2594a7a85",
       "name": "【里程碑四】系統整合及最終驗收",
       "amount": null,
       "percentage": 25.0,
@@ -1456,7 +1456,7 @@
     "extraction_path": "llm_tasks",
     "fallback_reason": "total:no_blocks,retention:no_blocks",
     "prompt_tokens": 815,
-    "llm_ms": 54370,
+    "llm_ms": 51422,
     "pipeline_revision": "2026-04-27-citation-summary-v1"
   },
   "segment_map": {

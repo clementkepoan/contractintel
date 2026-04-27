@@ -3,19 +3,19 @@
   "total_amount": 23830643,
   "currency": "TWD",
   "contract_type": "lump_sum",
-  "payment_type": "installment",
+  "payment_type": "分期付款",
   "total_amount_is_tax_included": true,
   "doc_category": "contract",
   "milestones": [
     {
-      "milestone_id": "m_9d25fdd002cb",
+      "milestone_id": "m_dd7b25acea19",
       "name": "第一期：於本契約簽訂後",
       "amount": 7149193,
       "percentage": 30.0,
       "work_items": [
         "於本契約簽訂"
       ],
-      "acceptance_criteria": null,
+      "acceptance_criteria": "於本契約簽訂後",
       "payment_condition": "第一期：於本契約簽訂後，給付7,149,193元整，佔總金額 30%",
       "status": "pending_acceptance",
       "citations": [
@@ -76,6 +76,20 @@
           "regex_pattern": "stitched_clause"
         },
         {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "02XX專案.docx",
+          "para_start": 29,
+          "para_end": 29,
+          "page_estimate": 2,
+          "char_offset_start": 4,
+          "char_offset_end": 11,
+          "text_snippet": "於本契約簽訂後",
+          "block_id": "02XX專案_block_0029",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
           "field_name": "milestone.work_items",
           "source_file": "02XX專案.docx",
           "para_start": 29,
@@ -94,14 +108,14 @@
       "milestone_key": "m001"
     },
     {
-      "milestone_id": "m_d77a0126912d",
+      "milestone_id": "m_4adaab8b2db3",
       "name": "第二期：於完成本契約約定之項目並進入系統測試後",
       "amount": 9532257,
       "percentage": 40.0,
       "work_items": [
         "於完成本契約約定之項目並進入系統測試"
       ],
-      "acceptance_criteria": null,
+      "acceptance_criteria": "於完成本契約約定之項目並進入系統測試後",
       "payment_condition": "第二期：於完成本契約約定之項目並進入系統測試後，給付9,532,257元整，佔總金額 40%",
       "status": "pending_acceptance",
       "citations": [
@@ -162,6 +176,20 @@
           "regex_pattern": "stitched_clause"
         },
         {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "02XX專案.docx",
+          "para_start": 30,
+          "para_end": 30,
+          "page_estimate": 3,
+          "char_offset_start": 4,
+          "char_offset_end": 23,
+          "text_snippet": "於完成本契約約定之項目並進入系統測試後",
+          "block_id": "02XX專案_block_0030",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
           "field_name": "milestone.work_items",
           "source_file": "02XX專案.docx",
           "para_start": 30,
@@ -180,14 +208,14 @@
       "milestone_key": "m002"
     },
     {
-      "milestone_id": "m_e90e22b5189d",
+      "milestone_id": "m_0ee9e6e3726a",
       "name": "第三期：於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後",
       "amount": 7149193,
       "percentage": 30.0,
       "work_items": [
         "於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線"
       ],
-      "acceptance_criteria": null,
+      "acceptance_criteria": "於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後",
       "payment_condition": "第三期：於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後，給付7,149,193元整，佔總金額 30%",
       "status": "pending_acceptance",
       "citations": [
@@ -248,6 +276,20 @@
           "regex_pattern": "stitched_clause"
         },
         {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "02XX專案.docx",
+          "para_start": 31,
+          "para_end": 31,
+          "page_estimate": 3,
+          "char_offset_start": 4,
+          "char_offset_end": 38,
+          "text_snippet": "於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後",
+          "block_id": "02XX專案_block_0031",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
           "field_name": "milestone.work_items",
           "source_file": "02XX專案.docx",
           "para_start": 31,
@@ -270,7 +312,14 @@
   "has_version_conflict": false,
   "document_versions": [],
   "currency_breakdown": [],
-  "retention": null,
+  "retention": {
+    "type": "retention",
+    "amount": null,
+    "percentage": 100.0,
+    "release_condition": "工程完工並經甲方及客戶驗收合格且客戶退還履約保證金後",
+    "release_after_months": null,
+    "citations": []
+  },
   "progress_checkpoints": [],
   "citations": [
     {
@@ -358,6 +407,20 @@
       "regex_pattern": "stitched_clause"
     },
     {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "02XX專案.docx",
+      "para_start": 29,
+      "para_end": 29,
+      "page_estimate": 2,
+      "char_offset_start": 4,
+      "char_offset_end": 11,
+      "text_snippet": "於本契約簽訂後",
+      "block_id": "02XX專案_block_0029",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
       "field_name": "milestone.work_items",
       "source_file": "02XX專案.docx",
       "para_start": 29,
@@ -428,6 +491,20 @@
       "regex_pattern": "stitched_clause"
     },
     {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "02XX專案.docx",
+      "para_start": 30,
+      "para_end": 30,
+      "page_estimate": 3,
+      "char_offset_start": 4,
+      "char_offset_end": 23,
+      "text_snippet": "於完成本契約約定之項目並進入系統測試後",
+      "block_id": "02XX專案_block_0030",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
       "field_name": "milestone.work_items",
       "source_file": "02XX專案.docx",
       "para_start": 30,
@@ -492,6 +569,20 @@
       "char_offset_start": 0,
       "char_offset_end": 61,
       "text_snippet": "第三期：於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後，給付7,149,193元整，佔總金額 30%",
+      "block_id": "02XX專案_block_0031",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "02XX專案.docx",
+      "para_start": 31,
+      "para_end": 31,
+      "page_estimate": 3,
+      "char_offset_start": 4,
+      "char_offset_end": 38,
+      "text_snippet": "於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後",
       "block_id": "02XX專案_block_0031",
       "citation_mode": "exact_span",
       "extraction_method": "regex",
@@ -1846,7 +1937,7 @@
     "extraction_path": "llm_tasks",
     "fallback_reason": "version:no_blocks",
     "prompt_tokens": 1679,
-    "llm_ms": 59021,
+    "llm_ms": 48211,
     "pipeline_revision": "2026-04-27-citation-summary-v1"
   },
   "segment_map": {

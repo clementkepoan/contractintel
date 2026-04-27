@@ -263,6 +263,8 @@ def looks_like_objective_noise(value: str) -> bool:
         "甲方應給付",
         "本契約總價",
         "工程總價",
+        "智慧財產權",
+        "著作權",
     )
     return any(marker in value for marker in markers)
 
@@ -286,6 +288,51 @@ def looks_like_warranty_or_security(value: str) -> bool:
     return any(marker in value for marker in markers)
 
 
+def is_placeholder_clause(value: str | None) -> bool:
+    if not value:
+        return False
+    cleaned = " ".join(value.split())
+    return any(
+        pattern in cleaned
+        for pattern in (
+            "契約總額 %",
+            "契約總額 ％",
+            "PO） 日內",
+            "PO) 日內",
+        )
+    ) or bool(re.search(r"契約總額\s*%之", cleaned)) or bool(re.search(r"PO[）)]\s*日內", cleaned))
+
+
+def looks_like_ip_clause(value: str | None) -> bool:
+    if not value:
+        return False
+    return any(marker in value for marker in ("智慧財產權", "著作權", "商標權", "軟體", "侵害他人"))
+
+
+def looks_like_change_order_clause(value: str | None) -> bool:
+    if not value:
+        return False
+    return any(marker in value for marker in ("甲方變更行為", "廢棄已完成工程", "追加工程款", "變更計劃", "增減帳"))
+
+
+def citation_display_label(field_name: str) -> str:
+    return {
+        "milestone.name": "Milestone Name Evidence",
+        "milestone.amount": "Amount Evidence",
+        "milestone.percentage": "Percentage Evidence",
+        "milestone.payment_condition": "Payment Condition Evidence",
+        "milestone.acceptance_criteria": "Acceptance Criteria Evidence",
+        "milestone.work_items": "Work Item Evidence",
+    }.get(field_name, field_name)
+
+
+def normalize_citation_snippet(value: str | None) -> str:
+    if not value:
+        return ""
+    cleaned = " ".join(value.split()).rstrip("。．.;；")
+    return cleaned
+
+
 def collect_filtered_lines(
     items: list[str | None],
     *,
@@ -303,6 +350,10 @@ def collect_filtered_lines(
         if include and not any(marker in cleaned for marker in include):
             continue
         if exclude and any(marker in cleaned for marker in exclude):
+            continue
+        if is_placeholder_clause(cleaned):
+            continue
+        if looks_like_ip_clause(cleaned):
             continue
         if cleaned in {"驗收、保固期間及危險負擔", "軟體保固規範"}:
             continue
@@ -393,6 +444,8 @@ def derive_scope_context(facts: dict[str, Any], filtered_scope: list[str], intro
             continue
         if any(marker in normalized for marker in ("驗收", "複驗", "逾期", "保固", "給付", "付款")):
             continue
+        if looks_like_ip_clause(normalized) or looks_like_change_order_clause(normalized):
+            continue
         return normalized
     return ""
 
@@ -426,7 +479,7 @@ def build_contract_summary_facts(
         "contract_type": contract.contract_type,
         "currency": contract.currency,
         "total_amount": contract.total_amount,
-        "payment_type": raw_payload.get("payment_type"),
+        "payment_type": raw_payload.get("payment_type") or ("installment" if len(milestones) >= 2 else None),
         "retention": raw_payload.get("retention"),
         "raw_text_preview": raw_payload.get("raw_text_preview", ""),
         "milestones": milestone_facts,
@@ -451,7 +504,7 @@ def render_contract_summary(facts: dict[str, Any]) -> list[str]:
     intro_notes = summarize_intro_preview(facts.get("raw_text_preview"), facts["contract_name"])
     filtered_scope = collect_filtered_lines(
         facts["scope_items"],
-        exclude=("甲方應給付", "本契約總價", "工程總價", "營業稅", "保證金"),
+        exclude=("甲方應給付", "本契約總價", "工程總價", "營業稅", "保證金", "智慧財產權", "著作權"),
         limit=3,
         sentence_limit=150,
     )
@@ -498,13 +551,15 @@ def render_contract_summary(facts: dict[str, Any]) -> list[str]:
     acceptance_notes = collect_filtered_lines(
         facts["acceptance_requirements"],
         include=("驗收", "複驗", "測試", "交付", "核定", "確認"),
-        exclude=("營業稅", "關稅", "貨物稅", "規費", "本契約總價", "契約總價", "工程總價"),
+        exclude=("營業稅", "關稅", "貨物稅", "規費", "本契約總價", "契約總價", "工程總價", "智慧財產權", "著作權"),
         limit=3,
         sentence_limit=130,
     )
     for item in acceptance_notes:
         if len(delivery_notes) >= 5:
             break
+        if looks_like_change_order_clause(item):
+            continue
         delivery_notes.append(f"- Contract-level acceptance note: {normalize_summary_fragment(item, 130)}")
     if not delivery_notes:
         delivery_notes = ["- No structured delivery or acceptance notes were extracted."]
@@ -524,12 +579,12 @@ def render_contract_summary(facts: dict[str, Any]) -> list[str]:
     global_payment_notes = collect_filtered_lines(
         global_payment_candidates,
         include=("請款", "發票", "付款", "匯款", "工作天", "收到"),
-        exclude=("甲方應給付本契約總價", "甲方應給付工程總價", "即 ", "20%", "30%", "40%", "50%"),
+        exclude=("甲方應給付本契約總價", "甲方應給付工程總價", "即 ", "20%", "30%", "40%", "50%", "智慧財產權", "著作權"),
         limit=2,
         sentence_limit=140,
     )
     for item in global_payment_notes:
-        if item not in payment_notes:
+        if item not in payment_notes and not is_placeholder_clause(item):
             payment_notes.append(f"- Global procedure: {normalize_summary_fragment(item, 140)}")
     if facts["retention"]:
         payment_notes.append(
@@ -546,11 +601,13 @@ def render_contract_summary(facts: dict[str, Any]) -> list[str]:
     warranty_notes = collect_filtered_lines(
         facts["warranty_requirements"],
         include=("保固", "履約保證金", "保固保證金", "瑕疵", "修繕"),
-        exclude=("營業稅", "關稅", "貨物稅", "規費"),
+        exclude=("營業稅", "關稅", "貨物稅", "規費", "智慧財產權", "著作權"),
         limit=2,
         sentence_limit=140,
     )
     for item in warranty_notes:
+        if is_placeholder_clause(item):
+            continue
         risk_notes.append(f"- Warranty / security: {item}")
     if not risk_notes:
         safety_notes = collect_filtered_lines(
@@ -597,7 +654,12 @@ def build_llm_summary_prompt(facts: dict[str, Any]) -> str:
         ("保固", "warranty_requirements"),
     ):
         for item in facts[key][:3]:
-            note_lines.append(f"{label}: {sentence_trim(item, 120)}")
+            cleaned = sentence_trim(item, 120)
+            if not cleaned or is_placeholder_clause(cleaned) or looks_like_ip_clause(cleaned):
+                continue
+            if label == "驗收" and looks_like_change_order_clause(cleaned):
+                continue
+            note_lines.append(f"{label}: {cleaned}")
     warning_lines = [sentence_trim(item, 120) for item in facts["warnings"][:4]]
     prompt = "\n".join(
         [
@@ -850,7 +912,7 @@ def generate_milestone_page(contract: Contract, milestone: Milestone, *, snapsho
     source_path = source_page_path(contract)
     raw_milestone = resolve_raw_milestone(contract, milestone) or {}
     citations = raw_milestone.get("citations") or json.loads(milestone.citations_json)
-    ordered_citations: list[dict[str, Any]] = []
+    grouped_citations: dict[str, list[dict[str, Any]]] = {}
     seen_citations: set[tuple[str, str]] = set()
     citation_priority = {
         "milestone.name": 0,
@@ -861,20 +923,27 @@ def generate_milestone_page(contract: Contract, milestone: Milestone, *, snapsho
         "milestone.work_items": 5,
     }
     for citation in sorted(citations, key=lambda item: (citation_priority.get(item.get("field_name", ""), 9), item.get("para_start", 0))):
-        key = (str(citation.get("block_id", "")), str(citation.get("field_name", "")))
+        normalized_snippet = normalize_citation_snippet(citation.get("text_snippet"))
+        key = (str(citation.get("field_name", "")), normalized_snippet)
         if key in seen_citations:
             continue
         seen_citations.add(key)
-        ordered_citations.append(citation)
-    citation_lines = [
-        f"> {citation['text_snippet']}\n> *{citation['source_file']}, paragraph {citation['para_start']}, page ~{citation['page_estimate']}*"
-        for citation in ordered_citations
-    ]
+        grouped_citations.setdefault(str(citation.get("field_name", "other")), []).append(citation)
+    citation_lines: list[str] = []
+    for field_name in sorted(grouped_citations, key=lambda key: citation_priority.get(key, 9)):
+        citation_lines.append(f"### {citation_display_label(field_name)}")
+        for citation in grouped_citations[field_name]:
+            snippet = normalize_citation_snippet(citation.get("text_snippet")) or citation.get("text_snippet", "")
+            citation_lines.append(f"- {snippet}")
+            citation_lines.append(f"  *{citation['source_file']}, paragraph {citation['para_start']}, page ~{citation['page_estimate']}*")
+        citation_lines.append("")
     work_items = raw_milestone.get("work_items") or json.loads(milestone.work_items_json)
     amount = raw_milestone.get("amount", milestone.amount)
     percentage = raw_milestone.get("percentage", milestone.percentage)
     payment_condition = raw_milestone.get("payment_condition", milestone.payment_condition)
     acceptance_criteria = raw_milestone.get("acceptance_criteria", milestone.acceptance_criteria)
+    if not acceptance_criteria and work_items:
+        acceptance_criteria = normalize_summary_fragment(work_items[0], 120)
     metadata = build_frontmatter(
         {
             "kind": "milestone_version" if snapshot else "milestone",

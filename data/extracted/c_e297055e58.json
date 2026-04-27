@@ -8,7 +8,7 @@
   "doc_category": "contract",
   "milestones": [
     {
-      "milestone_id": "m_1f051fcf3ee9",
+      "milestone_id": "m_5ab069872bde",
       "name": "簽約金(20%)",
       "amount": 6457113,
       "percentage": 20.0,
@@ -94,14 +94,14 @@
       "milestone_key": "m001"
     },
     {
-      "milestone_id": "m_5efc7d24eb83",
+      "milestone_id": "m_48bad88896fa",
       "name": "工程設備款(20%)",
       "amount": 6457113,
       "percentage": 20.0,
       "work_items": [
         "工程設備款(20%)：各項硬體設備及採購單完成下訂並提供PO單證明後，"
       ],
-      "acceptance_criteria": "經甲方及客戶驗收合格",
+      "acceptance_criteria": "經甲方及客戶驗收合格後",
       "payment_condition": "工程設備款(20%)：乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方",
       "status": "pending_acceptance",
       "citations": [
@@ -180,7 +180,7 @@
       "milestone_key": "m002"
     },
     {
-      "milestone_id": "m_e4fd0d6347a6",
+      "milestone_id": "m_459698827c79",
       "name": "設備安裝工程款(20%)",
       "amount": 6457113,
       "percentage": 20.0,
@@ -280,7 +280,7 @@
       "milestone_key": "m003"
     },
     {
-      "milestone_id": "m_7a2bbb7fb70d",
+      "milestone_id": "m_61d5416dceed",
       "name": "功能檢測款(20%)",
       "amount": 6457113,
       "percentage": 20.0,
@@ -380,7 +380,7 @@
       "milestone_key": "m004"
     },
     {
-      "milestone_id": "m_498f125b5d26",
+      "milestone_id": "m_e51103e2dab6",
       "name": "功能整合款(20%)",
       "amount": 6457111,
       "percentage": 20.0,
@@ -488,8 +488,8 @@
     "type": "retention",
     "amount": null,
     "percentage": 15.0,
-    "release_condition": "工程完工并经甲方及客户验收合格且客户退还履约保证金后",
-    "release_after_months": 3,
+    "release_condition": "完工並經甲方及客戶驗收合格且客戶退還履約保證金",
+    "release_after_months": null,
     "citations": []
   },
   "progress_checkpoints": [],
@@ -2254,7 +2254,7 @@
     "extraction_path": "llm_tasks",
     "fallback_reason": "version:no_blocks",
     "prompt_tokens": 2795,
-    "llm_ms": 90038,
+    "llm_ms": 79586,
     "pipeline_revision": "2026-04-27-citation-summary-v1"
   },
   "segment_map": {
