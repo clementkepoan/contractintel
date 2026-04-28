@@ -8,15 +8,15 @@
   "doc_category": "contract",
   "milestones": [
     {
-      "milestone_id": "m_0c72c3727ab7",
-      "name": "細部設計圖經甲方及客戶核定",
+      "milestone_id": "m_42dc6ca61713",
+      "name": "第一期：乙方提交細部設計圖經甲方及客戶核定後",
       "amount": 3339000,
       "percentage": 20.0,
       "work_items": [
-        "提交細部設計圖經甲方及客戶核定"
+        "提交細部設計圖"
       ],
-      "acceptance_criteria": "核定",
-      "payment_condition": "甲方應給付",
+      "acceptance_criteria": "乙方提交細部設計圖經甲方及客戶核定後",
+      "payment_condition": "第一期：乙方提交細部設計圖經甲方及客戶核定後，甲方應給付本契約總價 20%即 3,339,000 元(含稅)予乙方",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -110,7 +110,7 @@
       "milestone_key": "m001"
     },
     {
-      "milestone_id": "m_d53e3bc1762d",
+      "milestone_id": "m_156163058d4f",
       "name": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
       "amount": 5008500,
       "percentage": 30.0,
@@ -212,7 +212,7 @@
       "milestone_key": "m002"
     },
     {
-      "milestone_id": "m_0c3be81aefae",
+      "milestone_id": "m_013b2fc82d0d",
       "name": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
       "amount": 5008500,
       "percentage": 30.0,
@@ -314,7 +314,7 @@
       "milestone_key": "m003"
     },
     {
-      "milestone_id": "m_3636a25d5f2a",
+      "milestone_id": "m_f944b1028ab1",
       "name": "第四期：本工程全部經甲方及客戶驗收合格後",
       "amount": 3339000,
       "percentage": 20.0,
@@ -820,7 +820,7 @@
     {
       "code": "llm_partial_schedule_fallback",
       "severity": "WARNING",
-      "message": "LLM extracted only 1 milestones while regex extracted 4; regex schedule completeness was preserved.",
+      "message": "LLM extracted only 0 milestones while regex extracted 4; regex schedule completeness was preserved.",
       "citations": []
     }
   ],
@@ -2313,7 +2313,7 @@
     "extraction_path": "llm_tasks",
     "fallback_reason": "version:no_blocks",
     "prompt_tokens": 1539,
-    "llm_ms": 25990,
+    "llm_ms": 26336,
     "pipeline_revision": "2026-04-27-citation-summary-v1"
   },
   "segment_map": {

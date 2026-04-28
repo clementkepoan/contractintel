@@ -43,7 +43,7 @@ def _migrate_sqlite_schema() -> None:
     _add_column_if_missing("milestone", "milestone_key", "milestone_key VARCHAR DEFAULT ''")
     _add_column_if_missing("filedquery", "human_message_id", "human_message_id INTEGER")
     _add_column_if_missing("filedquery", "ai_message_id", "ai_message_id INTEGER")
-    _add_column_if_missing("filedquery", "answer_method", "answer_method VARCHAR DEFAULT 'langchain_ollama'")
+    _add_column_if_missing("filedquery", "answer_method", "answer_method VARCHAR DEFAULT 'openai_compatible_chat'")
     _add_column_if_missing("filedquery", "retrieval_mode", "retrieval_mode VARCHAR DEFAULT 'hybrid_qdrant'")
 
 

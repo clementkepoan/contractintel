@@ -8,7 +8,7 @@ import { StatusBadge } from "../components/StatusBadge.jsx";
 const cardConfig = [
   { key: "status", labelKey: "health.coreSystem", titleKey: "health.backendApi", icon: Router },
   { key: "offline_only", labelKey: "health.connectivity", titleKey: "health.offlineMode", icon: Unplug },
-  { key: "host_ollama_reachable", labelKey: "health.inference", titleKey: "health.hostOllama", icon: Cpu },
+  { key: "local_model_server_reachable", labelKey: "health.inference", titleKey: "health.hostOllama", icon: Cpu },
   { key: "embedding_model_ready", labelKey: "health.vectorization", titleKey: "health.embeddingModel", icon: Activity },
   { key: "qdrant_ready", labelKey: "health.vectorDb", titleKey: "health.qdrant", icon: Database },
   { key: "doc_conversion_available", labelKey: "health.processing", titleKey: "health.docConversion", icon: FileCog },

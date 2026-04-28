@@ -17,45 +17,44 @@ Current completion estimate: about 85 percent. The product is functionally compl
 
 - Python 3.11 recommended
 - macOS, Linux, or WSL2
-- Host-installed Ollama for local LLM usage
+- Host-installed OpenAI-compatible local model server for local LLM usage
 - Docker for the preferred full-stack runtime
 - Node.js 20+ if running the frontend outside Docker
 
 ## Local Model Setup
 
-Install and start Ollama on the host machine:
+Install and start your OpenAI-compatible local model server on the host machine. If you are using oMLX and it exposes the OpenAI API at `http://127.0.0.1:11434/v1`, point the backend there.
 
 ```bash
-ollama serve
-ollama pull qwen3:8b
+export LOCAL_MODEL_BASE_URL=http://127.0.0.1:11434/v1
+export LOCAL_MODEL_API_KEY=1111
+export LOCAL_MODEL_NAME=lmstudio-community/Qwen3-4B-Instruct-2507-MLX-5bit
 ```
 
-The chat model is always hosted by a **host-native Ollama process**, not inside Docker. The backend defaults to `LOCAL_MODEL_BASE_URL=http://localhost:11434`. If you run the backend in Docker, the backend container connects outward to the host Ollama endpoint at `http://host.docker.internal:11434`.
+The chat model is always hosted by a **host-native local model server**, not inside Docker. The backend defaults to `LOCAL_MODEL_BASE_URL=http://127.0.0.1:11434/v1`. If you run the backend in Docker, the backend container connects outward to the host endpoint at `http://host.docker.internal:11434/v1`.
 
-The backend also sets Ollama context length with `LOCAL_MODEL_NUM_CTX=8192`. This is passed to LangChain `ChatOllama` and the lower-level Ollama `/api/generate` helper.
+The backend also sets context length with `LOCAL_MODEL_NUM_CTX=8192`. This is passed to the OpenAI-compatible chat completion request.
 
-The active chat model is controlled by `LOCAL_MODEL_NAME`.
+This server expects both an API key and an explicit model field.
 
-Recommended local choices on Apple Silicon 16 GB:
+Configured local model:
 
-- `qwen3:8b` as the default general contract QA model
-- `deepseek-r1:8b` if you want stronger reasoning on harder legal logic questions
+- `lmstudio-community/Qwen3-4B-Instruct-2507-MLX-5bit`
 
 Examples:
 
 ```bash
-export LOCAL_MODEL_NAME=qwen3:8b
 export LOCAL_MODEL_NUM_CTX=8192
 ```
 
-If you run with Docker Compose, you can switch the model by setting `LOCAL_MODEL_NAME` before startup:
+If your server requires an explicit model name, set `LOCAL_MODEL_NAME` before startup:
 
 ```bash
-export LOCAL_MODEL_NAME=deepseek-r1:8b
-docker compose up --build
+export LOCAL_MODEL_API_KEY=1111
+export LOCAL_MODEL_NAME=lmstudio-community/Qwen3-4B-Instruct-2507-MLX-5bit
 ```
 
-For embeddings, the backend uses `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`. In Docker, the embedding weights are stored in the named volume `huggingface-cache` so the backend container keeps its own persistent embedding cache. This does not apply to the chat model, which remains host-native under Ollama.
+For embeddings, the backend uses `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`. In Docker, the embedding weights are stored in the named volume `huggingface-cache` so the backend container keeps its own persistent embedding cache. This does not apply to the chat model, which remains host-native.
 
 ## Installation
 
@@ -97,13 +96,12 @@ Open `http://localhost:5173`. Vite proxies `/api/*` to `http://localhost:8000`.
 
 ## Run With Docker
 
-This project dockerizes the frontend, backend, and Qdrant. The chat model does **not** run inside any project container. Ollama stays on the host machine, and the backend container calls the host Ollama endpoint. LibreOffice and the embedding cache live inside the backend container.
+This project dockerizes the frontend, backend, and Qdrant. The chat model does **not** run inside any project container. The model server stays on the host machine, and the backend container calls the host OpenAI-compatible endpoint. LibreOffice and the embedding cache live inside the backend container.
 
-Start host Ollama first:
+Start the host model server first:
 
 ```bash
-ollama serve
-ollama pull qwen3:8b
+export LOCAL_MODEL_BASE_URL=http://127.0.0.1:11434/v1
 ```
 
 Build and run the full stack:
@@ -165,7 +163,7 @@ curl http://localhost:8000/api/health
 
 You want:
 
-- `host_ollama_reachable: true`
+- `local_model_server_reachable: true`
 - `embedding_model_ready: true`
 - `qdrant_ready: true`
 
@@ -284,8 +282,8 @@ python backend/pipeline/batch_ingest.py
 - `backend/pipeline/validation.py`: amount and milestone consistency checks
 - `backend/pipeline/indexer.py`: BM25 plus optional embedding retrieval
 - `backend/pipeline/qdrant_store.py`: Qdrant collection management and vector search
-- `backend/pipeline/langchain_query.py`: LangChain prompt, retrieval orchestration, Ollama call, and chat memory persistence
-- `backend/pipeline/llm.py`: local Ollama query hook
+- `backend/pipeline/langchain_query.py`: prompt assembly, retrieval orchestration, OpenAI-compatible chat call, and chat memory persistence
+- `backend/pipeline/llm.py`: local OpenAI-compatible model server client
 - `backend/wiki/generator.py`: Markdown wiki generation and version conflict logging
 - `backend/kg/graph.py`: graph build and SVG rendering
 - `backend/api/`: FastAPI route surface

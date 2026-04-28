@@ -6,16 +6,13 @@ from typing import Any
 from uuid import uuid4
 
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_ollama import ChatOllama
 from sqlmodel import select
 
 from backend.config import settings
 from backend.db.models import ChatMessage, ChatSession, Contract, FiledQuery, ValidationWarning
 from backend.pipeline.embeddings import embedding_model_ready
 from backend.pipeline.indexer import hybrid_search_chunks
-from backend.pipeline.llm import llm_available
+from backend.pipeline.llm import llm_available, query_local_messages_detailed
 from backend.pipeline.qdrant_store import qdrant_ready
 from backend.wiki.generator import append_query_note, resolve_contract_wiki_paths
 
@@ -64,6 +61,16 @@ def append_message(session: Any, chat_session_id: str, role: str, content: str) 
     session.commit()
     session.refresh(row)
     return row
+
+
+def history_to_messages(history: list[BaseMessage]) -> list[dict[str, str]]:
+    messages: list[dict[str, str]] = []
+    for item in history:
+        if isinstance(item, HumanMessage):
+            messages.append({"role": "user", "content": str(item.content)})
+        elif isinstance(item, AIMessage):
+            messages.append({"role": "assistant", "content": str(item.content)})
+    return messages
 
 
 def format_evidence(citations: list[dict[str, Any]]) -> str:
@@ -409,50 +416,31 @@ def answer_with_langchain(
     structured_context = build_structured_context(session, contract_ids, intents)
     output_language = detect_output_language(query)
     answer_instructions = build_answer_instructions(intents, output_language)
-    prompt = ChatPromptTemplate.from_messages(
-        [
-            (
-                "system",
-                "你是一個離線合約分析助理。"
-                "只能根據提供的結構化資料與檢索證據回答。"
-                "先使用原始條款證據。"
-                "對話歷史只能用來理解代稱，不能新增事實。"
-                "如果證據不足，必須明確說明證據不足。"
-                "你正在處理的文件主要是台灣工程承攬契約、里程碑付款契約、RFP 與修訂版本文件。"
-                "回答時要像合約分析師，而不是一般摘要器。"
-                "對於工程承攬契約，應特別檢查：固定總價與不得追加、付款辦法、驗收標準、遲延罰款、暫停給付、損害賠償、契約終止與解除、不可抗力、關稅是否被排除於不可抗力、保固責任、轉包/分包限制。"
-                "若問題詢問風險、可採取的行動、可否請款、保固期是否相同、或關稅是否屬不可抗力，通常必須綜合多個條款回答，不可只依賴單一條款。"
-                "最終回答必須跟隨使用者問題的主要語言；中文問題用繁體中文回答，英文問題用英文回答。",
-            ),
-            MessagesPlaceholder(variable_name="chat_history"),
-            (
-                "human",
-                "【合約結構化資料】\n{structured_context}\n\n"
-                "【檢索證據】\n{evidence}\n\n"
-                "【回答要求】\n{answer_instructions}\n\n"
-                "【問題】\n{question}\n\n【回答】",
-            ),
-        ]
+    system_prompt = (
+        "你是一個離線合約分析助理。"
+        "只能根據提供的結構化資料與檢索證據回答。"
+        "先使用原始條款證據。"
+        "對話歷史只能用來理解代稱，不能新增事實。"
+        "如果證據不足，必須明確說明證據不足。"
+        "你正在處理的文件主要是台灣工程承攬契約、里程碑付款契約、RFP 與修訂版本文件。"
+        "回答時要像合約分析師，而不是一般摘要器。"
+        "對於工程承攬契約，應特別檢查：固定總價與不得追加、付款辦法、驗收標準、遲延罰款、暫停給付、損害賠償、契約終止與解除、不可抗力、關稅是否被排除於不可抗力、保固責任、轉包/分包限制。"
+        "若問題詢問風險、可採取的行動、可否請款、保固期是否相同、或關稅是否屬不可抗力，通常必須綜合多個條款回答，不可只依賴單一條款。"
+        "最終回答必須跟隨使用者問題的主要語言；中文問題用繁體中文回答，英文問題用英文回答。"
     )
-    chain = (
-        prompt
-        | ChatOllama(
-            model=settings.local_model_name,
-            base_url=settings.local_model_base_url,
-            temperature=0,
-            num_ctx=settings.local_model_num_ctx,
-        )
-        | StrOutputParser()
+    user_prompt = (
+        f"【合約結構化資料】\n{structured_context}\n\n"
+        f"【檢索證據】\n{evidence}\n\n"
+        f"【回答要求】\n{answer_instructions}\n\n"
+        f"【問題】\n{query}\n\n【回答】"
     )
-    answer = chain.invoke(
-        {
-            "question": query,
-            "structured_context": structured_context,
-            "evidence": evidence,
-            "answer_instructions": answer_instructions,
-            "chat_history": load_history(session, chat_session.chat_session_id),
-        }
-    )
+    messages = [{"role": "system", "content": system_prompt}]
+    messages.extend(history_to_messages(load_history(session, chat_session.chat_session_id)))
+    messages.append({"role": "user", "content": user_prompt})
+    llm_result = query_local_messages_detailed(messages, timeout=60.0)
+    answer = (llm_result.get("response") or "").strip()
+    if not answer:
+        raise RuntimeError(f"Local model server did not return an answer: {llm_result.get('error') or 'empty_response'}")
 
     human_row = append_message(session, chat_session.chat_session_id, "human", query)
     ai_row = append_message(session, chat_session.chat_session_id, "ai", answer)
@@ -467,7 +455,7 @@ def answer_with_langchain(
             query=query,
             answer=answer,
             citations=citations,
-            answer_method="langchain_ollama",
+            answer_method="openai_compatible_chat",
             retrieval_mode=retrieval_mode(),
         )
     else:
@@ -481,14 +469,14 @@ def answer_with_langchain(
             answer=answer,
             citations=citations,
             wiki_path="",
-            answer_method="langchain_ollama",
+            answer_method="openai_compatible_chat",
             retrieval_mode_value=retrieval_mode(),
         )
     return {
         "chat_session_id": chat_session.chat_session_id,
         "answer": answer,
         "citations": citations,
-        "answer_method": "langchain_ollama",
+        "answer_method": "openai_compatible_chat",
         "retrieval_mode": retrieval_mode(),
         "model_name": settings.local_model_name,
         "wiki_path": wiki_path,

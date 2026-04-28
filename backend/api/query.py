@@ -48,7 +48,7 @@ class QueryPayload(BaseModel):
 @router.post("/query")
 def query_documents(payload: QueryPayload) -> dict:
     if not llm_available():
-        raise HTTPException(status_code=503, detail="Local LLM is not ready. Start Ollama and load the configured model before using contract query.")
+        raise HTTPException(status_code=503, detail="Local LLM is not ready. Start the configured local model server and load the configured model before using contract query.")
     with get_session() as session:
         contract_ids = [payload.contract_id] if payload.contract_id else [item["contract_id"] for item in get_all_contracts(session)]
         if not contract_ids:

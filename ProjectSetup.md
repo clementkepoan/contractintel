@@ -11,7 +11,7 @@
 2. [Architecture](#2-architecture)
 3. [Directory Structure](#3-directory-structure)
 4. [Installation](#4-installation)
-5. [Model Setup (Ollama)](#5-model-setup-ollama)
+5. [Model Setup (Local Model Server)](#5-model-setup-local-model-server)
 6. [Running the System](#6-running-the-system)
 7. [Ingesting Documents](#7-ingesting-documents)
 8. [Web Interface Guide](#8-web-interface-guide)
@@ -38,13 +38,13 @@ This system solves the problem of converting multiple heterogeneous engineering 
 - **Extracts** contract metadata, total amounts, milestone definitions, payment schedules, and work item lists automatically via a two-pass pipeline (regex → LLM fallback)
 - **Validates** that milestone amounts sum to the contract total, detects inconsistencies, and cites the exact paragraph responsible
 - **Tracks** the full acceptance → payment request → payment workflow per milestone
-- **Queries** contracts in natural language via a local Qwen2.5:7b LLM with BM25 + embedding retrieval and source citations
+- **Queries** contracts in natural language via a local OpenAI-compatible LLM server with BM25 + embedding retrieval and source citations
 - **Generates** a living Wiki of markdown pages updated on every ingest
 - **Builds** a Knowledge Graph of contracts, milestones, payments, and clauses queryable for relationship traversal
 
 ### Offline guarantee
 
-No data leaves the machine. Every component — document parsing, embedding, LLM inference, vector search — runs locally. The only network call permitted is the initial `ollama pull` to download the model.
+No data leaves the machine. Every component — document parsing, embedding, LLM inference, vector search — runs locally. The only network call normally required is the initial model download for your chosen local model server.
 
 ---
 
@@ -103,7 +103,7 @@ No data leaves the machine. Every component — document parsing, embedding, LLM
 |---|---|---|
 | Document parsing | `python-docx` + LibreOffice headless | Handles both `.docx` and legacy `.doc` |
 | Extraction Pass 1 | Custom regex pipeline | Fast, deterministic, fully traceable |
-| Extraction Pass 2 | Ollama + Qwen2.5:7b | Handles ambiguous/scattered clauses; Traditional Chinese support |
+| Extraction Pass 2 | OpenAI-compatible local model server | Handles ambiguous/scattered clauses; Traditional Chinese support |
 | Embeddings | `sentence-transformers` `paraphrase-multilingual-MiniLM-L12-v2` | Offline, ~500MB, strong multilingual/Chinese |
 | Vector index | FAISS IVFFlat | Fast approximate NN, runs CPU-only |
 | Keyword index | `rank-bm25` BM25Okapi | Exact legal term matching |
@@ -138,7 +138,7 @@ contract-rag/
 │   │   ├── milestones.py         # Milestone detail + work items
 │   │   ├── acceptance.py         # POST acceptance record
 │   │   ├── payments.py           # POST payment request + payment log
-│   │   └── query.py              # NL query → retrieval → Ollama → citations
+│   │   └── query.py              # NL query → retrieval → local model server → citations
 │   ├── wiki/
 │   │   ├── generator.py          # Markdown page generator
 │   │   └── updater.py            # Diff engine + contradiction detection
@@ -202,7 +202,7 @@ contract-rag/
 | RAM | 6 GB | 16 GB |
 | Disk | 5 GB (model + deps) | 10 GB |
 | CPU | 4 cores | 8+ cores |
-| GPU | Not required | Optional (speeds up Ollama) |
+| GPU | Not required | Optional (speeds up local inference) |
 
 ### Step 1 — Install System Dependencies
 
@@ -228,16 +228,13 @@ sudo apt update && sudo apt install -y libreoffice-headless python3-pip nodejs n
 > LibreOffice headless converts `.doc → .docx` silently in the background. No UI is launched.
 > Verify installation: `soffice --version`
 
-### Step 2 — Install Ollama
+### Step 2 — Start a Local OpenAI-Compatible Model Server
+
+This project expects a host-native **OpenAI-compatible** endpoint. oMLX is supported if it exposes the OpenAI API at `http://127.0.0.1:11434/v1`.
 
 ```bash
-# Linux / macOS:
-curl -fsSL https://ollama.com/install.sh | sh
-
-# Windows: download installer from https://ollama.com/download
+export LOCAL_MODEL_BASE_URL=http://127.0.0.1:11434/v1
 ```
-
-Verify: `ollama --version`
 
 ### Step 3 — Python Environment
 
@@ -284,27 +281,25 @@ cd ..
 
 ---
 
-## 5. Model Setup (Ollama)
+## 5. Model Setup (Local Model Server)
 
 This is the **only step that requires internet**. Run it once; all subsequent use is fully offline.
 
-Ollama is expected to run **natively on the host machine**. The project does not run the chat model inside Docker.
+The local model server is expected to run **natively on the host machine**. The project does not run the chat model inside Docker.
 
-### Pull the LLM
+### Configure the chat model
+
+This local server expects both an API key and an explicit `model` field.
 
 ```bash
-ollama pull qwen3:8b
+export LOCAL_MODEL_BASE_URL=http://127.0.0.1:11434/v1
+export LOCAL_MODEL_API_KEY=1111
+export LOCAL_MODEL_NAME=lmstudio-community/Qwen3-4B-Instruct-2507-MLX-5bit
 ```
 
 - Model size: ~5.2 GB on disk
 - RAM usage at inference: ~6-8 GB
 - Supports Traditional Chinese natively
-
-Alternative reasoning-focused option:
-
-```bash
-ollama pull deepseek-r1:8b
-```
 
 Model selection is controlled by `LOCAL_MODEL_NAME`.
 
@@ -318,11 +313,10 @@ python3 -c "from sentence_transformers import SentenceTransformer; SentenceTrans
 
 After this, disconnect from the internet. Everything runs offline.
 
-### Verify Ollama is running
+### Verify the local model server is running
 
 ```bash
-ollama serve &           # Start Ollama daemon (if not already running as a service)
-ollama list              # Should show qwen3:8b or your selected model
+curl http://127.0.0.1:11434/v1/models
 ```
 
 ---
@@ -363,7 +357,9 @@ cd ..
 
 ```bash
 # Terminal 1
-ollama serve
+export LOCAL_MODEL_BASE_URL=http://127.0.0.1:11434/v1
+export LOCAL_MODEL_API_KEY=1111
+export LOCAL_MODEL_NAME=lmstudio-community/Qwen3-4B-Instruct-2507-MLX-5bit
 
 # Terminal 2
 source .venv/bin/activate && uvicorn backend.main:app --port 8000
@@ -654,7 +650,7 @@ Each match stores: matched text, regex pattern used, paragraph index, character 
 - Payment conditions found: +10 pts
 - Threshold for Pass 2 trigger: < 70 pts
 
-### Pass 2 — LLM Extraction (Qwen2.5:7b via Ollama)
+### Pass 2 — LLM Extraction (via OpenAI-Compatible Local Model Server)
 
 Only triggered when Pass 1 confidence < 70 or when a specific field is missing.
 

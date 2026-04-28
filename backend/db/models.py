@@ -140,7 +140,7 @@ class FiledQuery(SQLModel, table=True):
     contract_scope_json: str = Field(default="[]")
     citations_json: str = Field(default="[]")
     wiki_path: str = Field(index=True)
-    answer_method: str = Field(default="langchain_ollama")
+    answer_method: str = Field(default="openai_compatible_chat")
     retrieval_mode: str = Field(default="hybrid_qdrant")
     created_at: datetime = Field(default_factory=now_utc)
 

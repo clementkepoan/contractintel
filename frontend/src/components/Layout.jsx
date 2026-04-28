@@ -72,7 +72,7 @@ export function Layout({ page, setPage, health, activeIngestRun, children }) {
           <span className={health?.status === "ok" ? "pulse-dot" : "pulse-dot muted"} />
           <div>
             <strong>{t("shell.localMode")}</strong>
-            <span>{health?.host_ollama_reachable ? t("shell.ollamaReachable") : t("shell.llmUnreachable")}</span>
+            <span>{health?.local_model_server_reachable ? t("shell.ollamaReachable") : t("shell.llmUnreachable")}</span>
           </div>
         </div>
       </aside>

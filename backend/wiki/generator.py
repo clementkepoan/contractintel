@@ -10,14 +10,11 @@ from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_ollama import ChatOllama
 from sqlmodel import select
 
 from backend.config import settings
 from backend.db.models import Contract, FiledQuery, IngestEvent, Milestone, ValidationWarning
-from backend.pipeline.llm import llm_available, query_local_llm_detailed
+from backend.pipeline.llm import llm_available, query_local_llm_detailed, query_local_messages_detailed
 
 
 def slugify(value: str) -> str:
@@ -729,20 +726,27 @@ def maintain_with_local_llm(path: Path, generated: str, label: str) -> str:
     existing = path.read_text(encoding="utf-8")
     if existing.strip() == generated.strip():
         return generated
-    prompt = ChatPromptTemplate.from_messages(
-        [
-            (
-                "system",
-                "You maintain an offline contract wiki. Revise the existing markdown page using the new generated facts. "
-                "Preserve YAML frontmatter, markdown links, citations, and tables. Do not invent facts. "
-                "Flag contradictions explicitly instead of deleting them.",
-            ),
-            ("human", "Page: {label}\n\nExisting page:\n{existing}\n\nNew generated page:\n{generated}"),
-        ]
-    )
-    chain = prompt | ChatOllama(model=settings.local_model_name, base_url=settings.local_model_base_url, temperature=0, num_ctx=settings.local_model_num_ctx) | StrOutputParser()
     try:
-        revised = chain.invoke({"label": label, "existing": existing[:12000], "generated": generated[:12000]})
+        revised = (
+            query_local_messages_detailed(
+                [
+                    {
+                        "role": "system",
+                        "content": (
+                            "You maintain an offline contract wiki. Revise the existing markdown page using the new generated facts. "
+                            "Preserve YAML frontmatter, markdown links, citations, and tables. Do not invent facts. "
+                            "Flag contradictions explicitly instead of deleting them."
+                        ),
+                    },
+                    {
+                        "role": "user",
+                        "content": f"Page: {label}\n\nExisting page:\n{existing[:12000]}\n\nNew generated page:\n{generated[:12000]}",
+                    },
+                ],
+                timeout=60.0,
+            ).get("response")
+            or ""
+        )
     except Exception:
         return generated
     return revised if revised.strip().startswith("---") else generated

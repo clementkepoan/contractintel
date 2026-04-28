@@ -36,7 +36,7 @@ def health() -> dict:
     return {
         "status": "ok",
         "offline_only": True,
-        "host_ollama_reachable": llm_available(),
+        "local_model_server_reachable": llm_available(),
         "embedding_model_ready": embedding_model_ready(),
         "qdrant_ready": qdrant_ready(),
         "doc_conversion_available": which("soffice") is not None,

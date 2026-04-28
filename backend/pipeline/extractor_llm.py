@@ -454,7 +454,7 @@ def extract_contract_with_llm(
     del locator_blocks, validation_issues
 
     if not llm_available():
-        _LAST_LLM_ATTEMPT_META = {"extraction_path": "regex_fallback", "fallback_reason": "ollama_unavailable", "prompt_tokens": 0, "llm_ms": 0}
+        _LAST_LLM_ATTEMPT_META = {"extraction_path": "regex_fallback", "fallback_reason": "local_model_unavailable", "prompt_tokens": 0, "llm_ms": 0}
         return None
 
     task_blocks = task_blocks or {"payment": []}
