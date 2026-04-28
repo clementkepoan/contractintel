@@ -143,3 +143,28 @@ class FiledQuery(SQLModel, table=True):
     answer_method: str = Field(default="langchain_ollama")
     retrieval_mode: str = Field(default="hybrid_qdrant")
     created_at: datetime = Field(default_factory=now_utc)
+
+
+class IngestRun(SQLModel, table=True):
+    run_id: str = Field(primary_key=True, index=True)
+    status: str = Field(default="queued", index=True)
+    total_files: int = Field(default=0)
+    created_at: datetime = Field(default_factory=now_utc)
+    updated_at: datetime = Field(default_factory=now_utc)
+    finished_at: Optional[datetime] = Field(default=None)
+
+
+class IngestRunItem(SQLModel, table=True):
+    item_id: str = Field(primary_key=True, index=True)
+    run_id: str = Field(index=True)
+    source_file: str = Field(index=True)
+    upload_order: int = Field(default=0, index=True)
+    stored_path: str
+    status: str = Field(default="queued", index=True)
+    contract_id: Optional[str] = Field(default=None, index=True)
+    contract_name: Optional[str] = Field(default=None)
+    error_message: Optional[str] = Field(default=None)
+    ingest_action: Optional[str] = Field(default=None)
+    created_at: datetime = Field(default_factory=now_utc)
+    updated_at: datetime = Field(default_factory=now_utc)
+    finished_at: Optional[datetime] = Field(default=None)

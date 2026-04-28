@@ -15,7 +15,7 @@
   --warning-text: #78350f;
   --danger-bg: #fee2e2;
   --danger-text: #7f1d1d;
-  --sidebar-width: 240px;
+  --sidebar-width: 284px;
   --drawer-width: 400px;
   color: var(--text);
   font-family: Inter, Aptos, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -1095,6 +1095,94 @@ td strong, td small {
   gap: 10px;
 }
 
+.brand-logo {
+  display: grid;
+  gap: 10px;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.brand-wording {
+  min-width: 0;
+}
+
+.brand-wording h1 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.brand-wording p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.brand-mark-modern {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  flex: 0 0 auto;
+  background: linear-gradient(135deg, #173f4b 0%, #7fe6f3 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+}
+
+.brand-mark-main {
+  position: absolute;
+  inset: 8px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 100%);
+}
+
+.brand-mark-cut {
+  position: absolute;
+  right: -8px;
+  top: 8px;
+  width: 28px;
+  height: 28px;
+  background: white;
+  border-radius: 10px 0 0 10px;
+  transform: rotate(45deg);
+  opacity: 0.92;
+}
+
+.sidebar-language {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.language-toggle {
+  display: inline-flex;
+  border: 1px solid var(--surface-line);
+  border-radius: 999px;
+  overflow: hidden;
+  background: white;
+  width: 100%;
+}
+
+.language-toggle button {
+  border: 0;
+  background: transparent;
+  color: #475569;
+  padding: 8px 12px;
+  min-height: 0;
+  flex: 1 1 0;
+  white-space: nowrap;
+}
+
+.language-toggle button.active {
+  background: #0f172a;
+  color: white;
+}
+
 .topbar-search {
   align-items: center;
   background: #f1f5f9;
@@ -1726,23 +1814,6 @@ td strong, td small {
   padding-right: 18px;
 }
 
-.query-search-shell {
-  align-items: center;
-  background: #f1f5f9;
-  border: 1px solid var(--surface-line);
-  border-radius: 4px;
-  color: #64748b;
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  padding: 0 14px;
-}
-
-.query-search-shell input {
-  background: transparent;
-  border: 0;
-}
-
 .session-history-item {
   background: white;
   border: 1px solid transparent;
@@ -1817,6 +1888,32 @@ td strong, td small {
   white-space: pre-wrap;
 }
 
+.query-rich-copy {
+  display: grid;
+  gap: 10px;
+}
+
+.query-rich-heading {
+  margin: 0;
+  font-size: 16px;
+}
+
+.query-rich-paragraph {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.query-rich-list {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+}
+
+.query-rich-list li {
+  line-height: 1.7;
+}
+
 .query-evidence-attachment {
   border-top: 1px solid var(--surface-line);
   padding-top: 12px;
@@ -1867,6 +1964,63 @@ td strong, td small {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.floating-run-bar {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 30;
+  width: min(420px, calc(100vw - 32px));
+  display: grid;
+  gap: 10px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--surface-line);
+  background: rgba(255, 255, 255, 0.98);
+  color: var(--text);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+  text-align: left;
+}
+
+.floating-run-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.floating-run-copy strong,
+.floating-run-copy span,
+.floating-run-copy small {
+  display: block;
+}
+
+.floating-run-copy span {
+  color: #475569;
+}
+
+.floating-run-copy small {
+  color: #0369a1;
+}
+
+.floating-run-progress {
+  height: 7px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #e2e8f0;
+}
+
+.floating-run-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #67e8f9 0%, #38bdf8 100%);
+  transition: width 0.25s ease;
+}
+
+.floating-run-link {
+  color: #334155;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .query-prompt-bubble {

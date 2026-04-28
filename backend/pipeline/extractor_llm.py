@@ -398,7 +398,7 @@ def _task_prompt(task: str, blocks: list[dict[str, Any]]) -> str:
     raise ValueError(f"Unsupported LLM extraction task: {task}")
 
 
-def _call_json_task(task: str, blocks: list[dict[str, Any]], timeout: float = 120.0) -> tuple[dict[str, Any] | None, dict[str, Any]]:
+def _call_json_task(task: str, blocks: list[dict[str, Any]], timeout: float = 180.0) -> tuple[dict[str, Any] | None, dict[str, Any]]:
     if not blocks:
         return None, {"task": task, "status": "skipped", "fallback_reason": "no_blocks", "prompt_tokens": 0, "llm_ms": 0}
     prompt = _task_prompt(task, blocks)
@@ -465,7 +465,7 @@ def extract_contract_with_llm(
     task_meta.append(meta)
     retention_result, meta = _call_json_task("retention", task_blocks.get("retention", []))
     task_meta.append(meta)
-    version_result, meta = _call_json_task("version", task_blocks.get("version", []), timeout=60.0)
+    version_result, meta = _call_json_task("version", task_blocks.get("version", []), timeout=180.0)
     task_meta.append(meta)
 
     any_success = any(item["status"] == "llm" for item in task_meta)

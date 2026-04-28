@@ -1,56 +1,59 @@
 # Current RAG Architecture
 
-This document describes the **current implemented RAG system** in this repository. It is based on the active code in:
+This document describes the **current implemented RAG system** after the reset. It reflects the code that is active now, not the later experimental refactors that were discussed previously.
 
+Primary files:
 - `backend/pipeline/indexer.py`
 - `backend/pipeline/qdrant_store.py`
 - `backend/pipeline/langchain_query.py`
+- `backend/pipeline/embeddings.py`
 - `backend/api/query.py`
+- `backend/pipeline/service.py`
 - `backend/config.py`
 
-It reflects the implementation as it exists now, including places where older capabilities still exist in code but are not part of the active indexing or retrieval path.
+## 1. High-level flow
 
-## 1. High-Level Flow
+End-to-end query flow:
 
-The query pipeline is:
+1. A contract is ingested and extracted into raw JSON under `data/extracted/{contract_id}.json`.
+2. `write_chunk_index()` in `backend/pipeline/indexer.py` builds retrieval chunks from that extracted payload.
+3. The chunk index is written to `data/indexes/{contract_id}_chunks.json`.
+4. If the embedding model is available, chunk embeddings are generated and stored:
+   - locally in the JSON index
+   - and in Qdrant if Qdrant is reachable
+5. User sends a query to `POST /api/query`.
+6. `answer_with_langchain()` in `backend/pipeline/langchain_query.py`:
+   - checks local LLM availability
+   - classifies query intent
+   - expands the query with predefined bilingual legal terms
+   - retrieves candidates per contract using `hybrid_search_chunks()`
+   - removes `wiki` and `validation_risk` candidates
+   - reweights candidates by source type and intent
+   - selects final evidence with `select_diverse_citations()`
+   - injects fixed structured contract context into the prompt
+   - prompts Ollama through `ChatOllama`
+7. The answer and citations are stored in chat/query history.
 
-1. Contract is ingested into extracted JSON with `blocks` and structured extracted fields.
-2. `write_chunk_index()` builds retrieval chunks from that extracted payload.
-3. Chunks are written to:
-   - local JSON index in `data/indexes/{contract_id}_chunks.json`
-   - Qdrant, if embeddings and Qdrant are both available
-4. User sends a query to `POST /api/query`.
-5. Query is intent-classified and query-expanded.
-6. For each target contract, `hybrid_search_chunks()` runs:
-   - BM25 retrieval
-   - vector retrieval from Qdrant if available, else local embeddings if available
-   - reciprocal-rank fusion (RRF)
-7. Retrieved candidates are reweighted by query intent and source type.
-8. A final evidence set is selected by `select_diverse_citations()`.
-9. A fixed structured context block is built from DB + raw extraction.
-10. The LLM is prompted in Traditional Chinese system framing, with final answer language controlled by the user query language.
-11. The answer, citations, and session linkage are persisted to chat/query history.
+## 2. Source data used by the RAG layer
 
-## 2. Data Sources Used by RAG
+The current retrieval stack uses three data classes.
 
-The current RAG system uses three classes of information:
+### 2.1 Raw extracted blocks
+From extracted JSON `extracted["blocks"]`.
 
-### 2.1 Raw extracted document blocks
-These come from the extracted JSON payload under `extracted["blocks"]`.
-
-Each block typically carries:
+Typical block fields:
 - `block_id`
 - `text`
 - `para_start`
 - `para_end`
 - `page_estimate`
 
-These are the basis for `clause` and `subclause` chunks.
+These feed `clause` and `subclause` chunk construction.
 
-### 2.2 Structured extracted payload fields
-These come from the extracted JSON payload and are converted into synthetic retrieval chunks.
+### 2.2 Structured extracted fields
+These are turned into synthetic retrieval chunks.
 
-Used fields include:
+Currently used fields:
 - `contract_name`
 - `contract_key`
 - `currency`
@@ -60,10 +63,10 @@ Used fields include:
 - `retention`
 - `version_conflicts`
 
-### 2.3 Database-backed contract metadata
-These are injected directly into the prompt via `build_structured_context()` and are not dependent on retrieval ranking.
+### 2.3 Database-backed metadata injected into prompt
+Used by `build_structured_context()` and injected regardless of retrieval ranking.
 
-Used DB fields include:
+Current DB-backed fields:
 - `Contract.contract_name`
 - `Contract.source_file`
 - `Contract.total_amount`
@@ -71,91 +74,104 @@ Used DB fields include:
 - `Contract.contract_type`
 - `ValidationWarning` rows
 
-## 3. Chunking Strategy
+Important distinction:
+- validation warnings are injected into prompt context for some queries
+- but `validation_risk` retrieval chunks are currently filtered out before final selection
 
-Chunking is implemented in `backend/pipeline/indexer.py`.
+## 3. Chunking strategy
+
+Chunking lives in `backend/pipeline/indexer.py`.
 
 ### 3.1 Text normalization and tokenization
+
 Functions:
 - `normalize_space(text)`
 - `tokenize(text)`
 
 Behavior:
-- whitespace is collapsed to single spaces
-- text is lowercased before tokenization
-- tokenizer regex:
+- collapses whitespace
+- lowercases before tokenization
+- token regex is:
   - `[a-z0-9_]+`
-  - `[一-鿿]{1,4}`
+  - `Chinese spans of 1-4 chars`
   - `%` / `％`
 
 Practical effect:
-- English tokens are retained
-- Chinese is tokenized into short 1-4 char spans
-- percentages remain searchable
+- English words remain searchable
+- Chinese is tokenized into short spans
+- percent symbols are preserved
 
 ### 3.2 Chunk size and overlap
+
 Configured in `backend/config.py`:
-- `chunk_size = 800`
-- `chunk_overlap = 100`
+- `CHUNK_SIZE = 800`
+- `CHUNK_OVERLAP = 100`
 
 Function:
 - `split_text_with_overlap(text, target_size, overlap)`
 
 Behavior:
-- if normalized text length is <= 800 chars, keep as one chunk
+- if text length <= 800 chars, keep as one chunk
 - otherwise split into sliding windows
-- effective step is `target_size - overlap`
-- overlap applies only when a single chunk must be split due to size
+- overlap applies only when splitting an oversized chunk
+- there is no explicit inter-clause overlap strategy
 
 ### 3.3 Clause grouping
+
 Function:
 - `build_clause_groups(blocks)`
 
 Clause boundary rule:
-- a new clause begins when block text matches `^第[一二三四五六七八九十百千\d]+條`
+- start a new clause when block text matches `^第[一二三四五六七八九十百千\d]+條`
 
 Each clause group stores:
-- `label`: clause header text if present
-- `blocks`: list of blocks belonging to that clause until the next clause header
+- `label`
+- `blocks`
 
-If the file starts before a detected clause header, those leading blocks are grouped into an unlabeled clause group.
+If a file begins before the first detected clause header, those leading blocks are grouped into an unlabeled clause group.
 
 ### 3.4 Clause chunks
+
 Function:
 - `build_clause_chunks(extracted)`
 
-For each clause group:
-- all block texts in the group are concatenated with newlines
-- the full clause text is split using `split_text_with_overlap()` if needed
-- each resulting part becomes a `clause` chunk
+Per clause group:
+- concatenate all block texts in the group with newlines
+- split with `split_text_with_overlap()` if needed
+- each part becomes a `clause` chunk
 
 Clause chunk metadata:
 - `chunk_id`: `clause::{group_index}` or `clause::{group_index}__partNN`
 - `chunk_type`: `clause`
-- `clause_label`: clause header text or fallback to first block prefix
-- `para_start`: first block paragraph
-- `para_end`: last block paragraph
-- `page_estimate`: first block page estimate
-- `block_ids`: all block IDs in the clause group
+- `clause_label`
+- `para_start`
+- `para_end`
+- `page_estimate`
+- `source_label`
+- `block_ids`
 
 ### 3.5 Subclause chunks
+
 Also built in `build_clause_chunks(extracted)`.
 
-Current logic:
-- start from member blocks after the clause header (if header exists)
-- iterate block-by-block
-- create a `subclause` chunk when a block matches either:
-  - `MILESTONE_HEADER_RE`
-  - `SUBCLAUSE_SIGNAL_RE`
-- if the following block is not a clause header and not another milestone header, it is appended to the same subclause chunk
+Current logic is shallow.
 
-This means current subclause construction is still relatively shallow:
+A subclause is created when a member block matches either:
+- `MILESTONE_HEADER_RE`
+- `SUBCLAUSE_SIGNAL_RE`
+
+Then:
+- the triggering block is included
+- optionally the immediately following block is appended
+- but only if the next block is not another clause header and not another milestone header
+
+This means the current subclause strategy is usually:
 - one triggering block
-- optionally one following block
+- plus maybe one following block
 
-It is better than raw paragraph-only indexing, but it does **not** yet fully group long numbered clause item sequences into semantically complete subunits.
+This is the main current chunking weakness for long numbered clause lists.
 
-Subclause signal regex:
+`SUBCLAUSE_SIGNAL_RE` includes terms like:
 - `給付`
 - `付款`
 - `請款`
@@ -168,7 +184,7 @@ Subclause signal regex:
 - `固定總價`
 - `追加工程款`
 
-Milestone header regex captures:
+`MILESTONE_HEADER_RE` includes patterns such as:
 - `第X期`
 - `里程碑X`
 - `工程節點X`
@@ -177,22 +193,24 @@ Milestone header regex captures:
 Subclause chunk metadata:
 - `chunk_id`: `subclause::{group_index}:{para_start}`
 - `chunk_type`: `subclause`
-- `clause_label`: parent clause label
-- `para_start`, `para_end`, `page_estimate`
-- `block_ids`: one or two block IDs typically
+- `clause_label`
+- `para_start`
+- `para_end`
+- `page_estimate`
+- `source_label`
+- `block_ids`
 
 ### 3.6 Structured chunks
+
 Function:
 - `build_structured_chunks(extracted, clause_groups)`
 
-These are synthetic chunks created from extracted structured data.
-
-Current structured chunk kinds actively produced:
+Current structured chunk kinds actively built:
 
 #### 3.6.1 `contract_summary`
-One chunk per contract.
+One per contract.
 
-Text includes:
+Includes:
 - contract name
 - total amount
 - currency
@@ -200,9 +218,9 @@ Text includes:
 - milestone count
 
 #### 3.6.2 `milestone_summary`
-One chunk per milestone.
+One per milestone.
 
-Text includes:
+Includes:
 - milestone name
 - amount
 - percentage
@@ -210,29 +228,29 @@ Text includes:
 - acceptance criteria
 - work items
 
-Metadata also carries block IDs from the milestone citations.
+Metadata includes milestone citation block IDs when present.
 
 #### 3.6.3 `retention_summary`
-Only emitted if retention has amount or release condition.
+Only if retention has amount or release condition.
 
-Text includes:
+Includes:
 - retention amount
 - retention percentage
 - release condition
 - release-after-months
 
 #### 3.6.4 `version_conflict_summary`
-One chunk per version conflict.
+One per version conflict.
 
-Text includes:
-- field changed
+Includes:
+- changed field
 - old value
 - new value
 
 #### 3.6.5 `clause_action_summary`
-Generated for clause groups whose merged text matches `ACTION_SIGNAL_RE`.
+Built for clause groups whose merged text matches `ACTION_SIGNAL_RE`.
 
-Action signal regex includes:
+`ACTION_SIGNAL_RE` includes terms like:
 - `得`
 - `暫停付款`
 - `違約金`
@@ -244,40 +262,48 @@ Action signal regex includes:
 - `不補償`
 - `費用由乙方負擔`
 
-Text is generated by `summarize_action_sentences(text)`:
-- split on `。`, `；`, newline
+The summary text is produced by `summarize_action_sentences(text)`:
+- split on `。`, `；`, and newline
 - keep units containing action signals
-- join up to 3 chosen units
-- fallback to first 300 chars if no unit is selected
+- join up to 3 selected units
+- fallback to first 300 chars if no signal unit is found
 
-### 3.7 Wiki chunks
+### 3.7 Wiki chunk code
+
 Function exists:
 - `build_wiki_chunks(extracted)`
 
 It can:
-- load wiki markdown from contract/source/milestone pages
+- read contract/source/milestone markdown pages
 - strip frontmatter
-- split by `##` heading
-- filter low-signal headings
-- emit `wiki` chunks
+- split by `##` headings
+- filter out low-signal headings
+- build `wiki` chunks
 
-However:
-- `build_chunks(extracted)` currently does **not** call `build_wiki_chunks()`
-- so wiki chunks are implemented but **not active** in the current indexing pipeline
+But in the current code path, this function is **dead for indexing**.
 
-### 3.8 Active chunk types in the current index
-`build_chunks(extracted)` currently returns:
-- `clause`
-- `subclause`
-- `structured`
+Important current fact:
+- `build_chunks()` does **not** call `build_wiki_chunks()`
+- therefore wiki pages are **not** included in the active index
+- however query code still knows wiki page paths for UI linking via `resolve_contract_wiki_paths()`
 
-It does **not** currently include `wiki` chunks in the active index build.
+## 4. What is stored in the local chunk index
 
-## 4. Chunk Metadata Stored Per Chunk
+Written by:
+- `write_chunk_index(contract_id, extracted)`
 
-Chunk objects are created by `chunk_record(...)`.
+Target file:
+- `data/indexes/{contract_id}_chunks.json`
 
-Current stored fields:
+Stored fields:
+- `contract_id`
+- `chunks`
+- `tokenized_chunks`
+- `embedding_model`
+- optionally `embeddings`
+- optionally `bm25_idf`
+
+Each chunk record currently contains:
 - `chunk_id`
 - `text`
 - `para_start`
@@ -290,62 +316,27 @@ Current stored fields:
 - `source_label`
 - `block_ids`
 
-Notes:
-- `chunk_id` is the stable retrieval identifier within a contract index
-- `block_ids` preserve source traceability to raw extracted blocks
-- `wiki_source_path` is present in the schema but usually empty in current active indexing because wiki chunks are not built
-- there is **no explicit milestone_id** stored in the Qdrant payload for chunk ownership
+Notably absent in current code:
+- `milestone_id`
+- `milestone_key`
+- `milestone_name`
 
-## 5. Local Index Storage
+So milestone-aware retrieval is still indirect and text-based.
 
-Function:
-- `write_chunk_index(contract_id, extracted)`
+## 5. Qdrant storage
 
-Each contract gets a local JSON index file:
-- `data/indexes/{contract_id}_chunks.json`
+Implemented in `backend/pipeline/qdrant_store.py`.
 
-Stored payload fields:
-- `contract_id`
-- `chunks`
-- `tokenized_chunks`
-- `embedding_model` if embeddings are ready
-- `bm25_idf` if BM25 object was built
-- `embeddings` if embedding model is available
-
-This local file supports:
-- BM25 retrieval
-- local vector retrieval fallback when Qdrant is unavailable but embeddings exist
-
-## 6. Embeddings and Vector Store
-
-### 6.1 Embedding model
-Configured in `backend/config.py`:
-- `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`
-
-Properties from implementation context:
-- multilingual sentence-transformer model
-- usually 384-dimensional
-- local-files-only loading is enforced in Qdrant integration
-
-### 6.2 Qdrant collection
+### 5.1 Collection
 Configured in `backend/config.py`:
 - collection name: `contract_chunks`
-- URL: `http://qdrant:6333`
 
-### 6.3 Qdrant collection creation
-Function:
-- `ensure_collection(vector_size)` in `backend/pipeline/qdrant_store.py`
+Qdrant vector size is created dynamically from the embedding vector length.
+Distance metric:
+- cosine
 
-Behavior:
-- create collection if missing
-- vector size is inferred from embedding length
-- distance metric: cosine
-
-### 6.4 Qdrant payload metadata
-Function:
-- `upsert_contract_chunks(contract_id, chunks, embeddings)`
-
-For each chunk, Qdrant metadata stores:
+### 5.2 Payload stored per chunk
+Current Qdrant payload fields:
 - `contract_id`
 - `chunk_id`
 - `para_start`
@@ -358,444 +349,415 @@ For each chunk, Qdrant metadata stores:
 - `source_label`
 - `block_ids`
 
-### 6.5 Upsert behavior
-Before inserting contract chunks, the code deletes existing Qdrant points for that `contract_id`.
+Missing from current payload:
+- milestone identifiers
+- explicit clause family tags beyond `clause_label`
 
-This prevents stale vectors from older chunking strategies from remaining in the collection.
+### 5.3 Reindex behavior
+`upsert_contract_chunks()` deletes existing Qdrant points for the contract before inserting the new set.
 
-### 6.6 Point IDs
-Point IDs are deterministic UUIDv5 values built from:
-- `contract_id`
-- `chunk_id`
+## 6. Embedding model
 
-Function:
-- `point_id_for_chunk(contract_id, chunk_id)`
+Implemented in `backend/pipeline/embeddings.py`.
 
-## 7. Retrieval Stack
+Current default model in `backend/config.py`:
+- `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`
 
-Retrieval entry points are in `backend/pipeline/indexer.py`.
+Properties of the current implementation:
+- runs offline-only with `HF_HUB_OFFLINE=1`
+- local snapshot must already exist
+- `embed_texts()` normalizes embeddings
+- same embedding model is used for indexing and query vectors
+
+If the model is unavailable locally:
+- embeddings are disabled
+- hybrid retrieval falls back to BM25-only
+
+## 7. Retrieval pipeline
+
+Main entry point:
+- `hybrid_search_chunks(contract_id, query, top_k)`
 
 ### 7.1 BM25 retrieval
-Function:
-- `hybrid_search_chunks(contract_id, query, top_k=5)`
+Current implementation uses **two different BM25-related paths**.
 
-Behavior:
-- load local chunk index JSON
-- create `Document` objects from chunk texts
-- instantiate `BM25Retriever.from_documents(..., preprocess_func=tokenize, k=top_k)`
-- retrieve BM25 hits
+At index build time:
+- `BM25Okapi` is instantiated over `tokenized_chunks`
+- only `idf` is saved into the JSON payload
 
-Returned BM25 metadata per hit:
-- `chunk_id`
-- `text_snippet` = first 300 chars
-- `para_start`
-- `para_end`
-- `page_estimate`
-- `chunk_type`
-- `clause_label`
-- `structured_kind`
-- `wiki_source_path`
-- `source_label`
-- `block_ids`
-- `retrieval_score = 0.0`
-- `retrieval_method = "bm25"`
+At retrieval time:
+- it does **not** use the saved `BM25Okapi` scores directly
+- instead it rebuilds a `BM25Retriever` from LangChain `Document` objects
+- then invokes it with `preprocess_func=tokenize`
 
-Important limitation:
-- BM25Retriever does not expose raw BM25 score here, so all BM25 hits are marked with `retrieval_score = 0.0`
-- ranking still comes from returned order and later reciprocal rank fusion
+Important consequence:
+- returned `bm25_score` is **not** a raw BM25 float score
+- it is derived from rank position only:
+  - `1.0 / rank`
 
-### 7.2 Local vector retrieval
-Function:
-- `vector_search(index_payload, query, top_k)`
+So current BM25 scoring is rank-based rather than true score-based.
 
-Behavior:
-- if local embeddings exist in the JSON index and embedding model is available:
-  - embed the query with `embed_texts([query])[0]`
-  - compute cosine similarity against stored chunk vectors
-  - return top-k `(chunk_id, score)` pairs
+### 7.2 Vector retrieval
+Two paths exist:
 
-### 7.3 Qdrant vector retrieval
+#### Qdrant path
 Function:
 - `qdrant_vector_search(contract_id, query, top_k)`
 
-Behavior:
-- if embeddings and Qdrant are available:
-  - call `search_contract_chunks(contract_id, query, top_k)`
-  - return `(chunk_id, retrieval_score)` pairs
+Used when:
+- embedding model is ready
+- Qdrant is reachable
 
-Qdrant search supports optional contract scoping via a `contract_id` filter.
+#### Local vector path
+Function:
+- `vector_search(index_payload, query, top_k)`
 
-### 7.4 Hybrid fusion
+Used when:
+- embedding model is ready
+- Qdrant did not produce vector results
+
+Method:
+- embed query locally
+- cosine similarity against stored local embeddings
+
+### 7.3 Reciprocal Rank Fusion
 Function:
 - `reciprocal_rank_fusion(rankings, k=60)`
 
-Behavior:
-- combine BM25 ranking and vector ranking using RRF
-- for each ranked list, add `1 / (k + position)` to each chunk
-- final chunk ranking is sorted by fused score descending
+Inputs:
+- BM25 ranking
+- vector ranking if available
 
-### 7.5 Final retrieval result shape
-`hybrid_search_chunks(...)` returns the final top-k hits with metadata from the local chunk index, plus:
-- `retrieval_score`: fused score if present
-- `retrieval_method`: `hybrid_qdrant`, `hybrid_local`, or `bm25_only`
+Output:
+- fused score per `chunk_id`
 
-### 7.6 Retrieval mode detection
-Function:
-- `retrieval_mode()` in `backend/pipeline/langchain_query.py`
+Current retrieval score stored in results:
+- `retrieval_score = fused RRF score`
 
-Returns:
-- `hybrid_qdrant` if embeddings and Qdrant are ready
-- `hybrid_local` if embeddings are ready but Qdrant is not
-- `bm25_only` otherwise
+Current auxiliary scores stored in each result:
+- `bm25_score`
+- `vector_score`
 
-## 8. Query Normalization and Intent Classification
+But note:
+- `bm25_score` is rank-derived, not true BM25
+- vector score is a real similarity score when vector retrieval is active
+
+### 7.4 Retrieval mode labels
+`retrieval_method` in results is set to:
+- `hybrid_qdrant`
+- `hybrid_local`
+- `bm25`
+
+`retrieval_mode()` in `langchain_query.py` returns for answer metadata:
+- `hybrid_qdrant`
+- `hybrid_local`
+- `bm25_only`
+
+## 8. Query normalization and intent handling
 
 Implemented in `backend/pipeline/langchain_query.py`.
 
-### 8.1 Query intent classification
+### 8.1 Heuristic intent classification
 Function:
 - `classify_query_intents(query)`
 
-Current possible intent labels:
+Current supported intents:
 - `action`
 - `progress_delay`
 - `payment`
 - `risk`
 
-Detection logic:
-- `action` if query matches patterns like:
-  - `可以採取哪些行動`
-  - `甲方可以`
-  - `乙方可以`
-  - `得否`
-- `progress_delay` if query contains:
-  - `進度`
-  - `落後`
-  - `逾期`
-  - `延誤`
-- `payment` if query contains Chinese payment terms or the English word `payment`
-- `risk` if query contains risk terms or English `risk` / `penalty`
+This is regex/keyword based only.
+There is no learned classifier in the current code.
+
+Patterns include:
+- action: phrases like `可以採取哪些行動`, `甲方可以`
+- progress delay: `進度`, `落後`, `逾期`, `延誤`
+- payment: `付款`, `請款`, `工程款`, `期款`, `給付`, or English `payment`
+- risk: `風險`, `違約`, `罰款`, `扣罰`, or English `risk` / `penalty`
+
+This is still brittle for paraphrased natural phrasing.
 
 ### 8.2 Query expansion
 Function:
 - `expand_query(query, intents)`
 
-Current English keyword expansions:
-- `risk` -> `風險 違約 違約金 扣罰 賠償 逾期 固定總價 不得追加`
-- `payment` -> `付款 給付 工程款 請款 期款`
-- `milestone` -> `里程碑 期款 工程節點 階段 驗收`
-- `penalty` -> `違約金 扣罰 罰則 逾期`
-- `retention` -> `保留款 保固保證金 履約保證金 保固期`
-- `warranty` -> `保固 保證金 缺失 修繕`
-- `delay` -> `逾期 展延 工程進度落後 扣罰`
-- `change` -> `變更 追加工程款 固定總價 不得追加`
+Current dictionary expansions include English triggers like:
+- `risk`
+- `payment`
+- `milestone`
+- `penalty`
+- `retention`
+- `warranty`
+- `delay`
+- `change`
 
-Intent-driven appended term sets:
-- if `action` intent:
-  - `得 暫停付款 違約金 扣罰 終止 解除 另覓廠商 書面通知 不補償 費用由乙方負擔`
-- if `progress_delay` intent:
-  - `進度落後 逾期 履約期限 暫停付款 違約金 終止契約 解除契約 另覓廠商`
+Additional hardcoded expansions are appended for:
+- `action`
+- `progress_delay`
 
-Expansion behavior:
-- original query is preserved
-- expansion terms are appended separated by newlines
+Expansion strategy:
+- preserve original query
+- append Chinese legal terms as extra lines
 
 ### 8.3 Output language detection
 Function:
 - `detect_output_language(query)`
 
-Behavior:
-- count Chinese characters vs ASCII letters
-- return `繁體中文` if Chinese chars >= ASCII letters
-- else return `English`
+Rule:
+- compare Chinese character count vs ASCII letter count
+- output language is either:
+  - `繁體中文`
+  - `English`
 
-This affects answer generation style, not retrieval.
+This controls answer style instructions, not retrieval.
 
-## 9. Evidence Reweighting and Selection
+## 9. Evidence weighting and final selection
 
-After raw retrieval, the query pipeline performs a second stage of reranking and selection.
+Implemented in `backend/pipeline/langchain_query.py`.
 
-### 9.1 Source weighting
+### 9.1 Pre-selection filtering
+In `answer_with_langchain()`, before final selection:
+- all `wiki` chunks are dropped
+- all `validation_risk` structured chunks are dropped
+
+So even if such chunks were retrieved, they are removed before the final answer set.
+
+Current result:
+- active evidence is document-first and structured-summary-limited
+- validation warnings do not participate in final retrieval evidence
+- wiki chunks do not participate in final retrieval evidence
+
+### 9.2 Source weighting
 Function:
 - `source_weight(item, intents)`
 
-Base weights by source:
-- `clause`: `+0.20`
-- `subclause`: `+0.15`
-- `structured.clause_action_summary`: `+0.22`
-- `structured.contract_summary`: `-0.05`
-- `structured.milestone_summary`: `-0.08` for action queries, else `0`
-- `structured.retention_summary`: `-0.08` for action queries, else `0`
-- `structured.validation_risk`: `-0.15` for action queries, else `-0.05`
-- `wiki`: `-0.25`
+Current weighting behavior:
+- `clause`: positive boost
+- `subclause`: positive boost
+- `structured::clause_action_summary`: stronger positive boost
+- `contract_summary`: slight penalty
+- `milestone_summary`: slight penalty for action questions
+- `retention_summary`: slight penalty for action questions
+- `validation_risk`: penalized, especially for action questions
+- `wiki`: strong penalty
 
-Additional boosts:
-- for `action` intent, if text contains any of:
-  - `暫停付款`
-  - `違約金`
-  - `扣罰`
-  - `終止`
-  - `解除`
-  - `另覓廠商`
-  - `書面通知`
-  - `費用由乙方負擔`
-  then `+0.18`
-- extra `+0.08` if `structured_kind == clause_action_summary`
-- for `progress_delay` intent, if text contains:
-  - `進度`
-  - `落後`
-  - `逾期`
-  - `延誤`
-  then `+0.08`
+Additional boosts apply when:
+- action-related terms appear in the chunk text
+- progress-delay terms appear in the chunk text
 
-### 9.2 Action candidate expansion
+### 9.3 Expanded ranking
 Function:
 - `expand_related_action_candidates(citations, intents)`
 
-Behavior:
-- if no `action` or `progress_delay` intent, return unchanged
-- otherwise add source-weight adjustment into `retrieval_score`
+This does not add new neighbors from the document graph.
+It simply adds source-weight bonuses to `retrieval_score`.
 
-### 9.3 Final evidence selection
+### 9.4 Final citation selection
 Function:
 - `select_diverse_citations(citations, top_k, intents)`
 
-Process:
-1. sort reweighted candidates by adjusted `retrieval_score`
-2. partition into:
-   - `clause_like` = `clause` + `subclause`
-   - `structured`
-   - `wiki`
-3. seed the final set with clause-like evidence first
-4. add structured evidence next, prioritizing `clause_action_summary`
-5. skip wiki when clause evidence exists
-6. fill remaining slots by descending score
+Current policy:
+- clause/subclause evidence is preferred first
+- structured chunks are added next, with `clause_action_summary` preferred among structured
+- wiki is only considered if there is no clause-like evidence
+- final fallback loop fills remaining slots by descending adjusted score
 
-Selection rules currently used:
-- if clause evidence exists:
-  - push up to `min(max(5, top_k - 2), len(clause_like))`
-- structured push limit:
-  - `3` for action queries
-  - otherwise `2`
-- wiki is only added if clause evidence is absent and slots remain
+Because `wiki` and `validation_risk` are already filtered out earlier, the practical final evidence set is usually:
+- clause chunks
+- subclause chunks
+- selected structured chunks, mostly action summaries and milestone/contract summaries
 
-### 9.4 Active filtering before final selection
-Inside `answer_with_langchain(...)`, before selection:
-- all `wiki` chunk hits are removed
-- all `structured_kind == validation_risk` hits are removed
+## 10. Structured context injection
 
-Important implication:
-- even though `wiki` and `validation_risk` logic still exist in the codebase, they are intentionally excluded from the active query path
-
-## 10. Prompt Assembly
-
-### 10.1 Structured context injection
-Function:
+Implemented by:
 - `build_structured_context(session, contract_ids, intents)`
 
-This always builds a deterministic contract facts section.
+This is always injected into the prompt before retrieved evidence.
 
-Per contract it includes:
+Current fields injected:
 - contract name
 - source file
-- total amount + currency
+- total amount
+- currency
 - payment type
 - milestone count
 - retention summary if present
+- validation warnings only when query is **not** `action` and **not** `progress_delay`
 
-Validation warnings:
-- included only when query is **not** `action` and not `progress_delay`
-- only severities `ERROR` and `WARNING` are included
+So for action/progress-delay queries, validation warnings are deliberately suppressed from structured context.
 
-This means the system suppresses validation warnings for remedy-style queries to avoid noisy retrieval/prompting.
+## 11. Prompt construction and answer generation
 
-### 10.2 Evidence formatting
-Function:
-- `format_evidence(citations)`
+Implemented in `answer_with_langchain()`.
 
-Output sections:
-- `【檢索到的結構化證據】`
-- `【原始條款證據】`
+### 11.1 LLM requirement
+If `llm_available()` is false:
+- query endpoint fails with `503`
+- there is no answer fallback path anymore
 
-Each structured evidence item format:
-- `[S#] (structured_kind) text_snippet`
+### 11.2 Prompt shape
+System prompt is in Traditional Chinese and tells the model to:
+- answer only from provided evidence
+- prioritize original clause evidence
+- treat history only as pronoun/reference context
+- answer like a contract analyst, not a generic summarizer
+- check specific engineering-contract clause families
+- match final answer language to user language
 
-Each clause/subclause evidence item format:
-- `[C#] text_snippet (條款=..., 合約=..., 段落=..., 頁~...)`
+Human prompt sections are:
+- `【合約結構化資料】`
+- `【檢索證據】`
+- `【回答要求】`
+- `【問題】`
 
-### 10.3 System prompt behavior
-Built in `answer_with_langchain(...)` using `ChatPromptTemplate`.
+### 11.3 Answer requirements
+`build_answer_instructions(intents, output_language)` adds intent-specific instructions.
 
-Current system prompt characteristics:
-- Traditional Chinese system prompt
-- instructs model to behave as an offline contract analysis assistant
-- explicitly says to answer only from:
-  - structured context
-  - retrieved evidence
-- says original clauses should be preferred over other evidence
-- warns that chat history is only for resolving references, not facts
-- explicitly frames corpus as:
-  - Taiwan engineering contracts
-  - milestone payment contracts
-  - RFPs
-  - revised contract versions
-- tells model to check common clause families such as:
-  - fixed price / no additional claims
-  - payment method
-  - acceptance
-  - delay penalty
-  - suspension of payment
-  - damages
-  - termination / rescission
-  - force majeure
-  - tariff carve-out
-  - warranty
-  - subcontracting restrictions
-- final answer language must follow the user’s question language:
-  - Chinese -> Traditional Chinese
-  - English -> English
+Current special guidance exists for:
+- action/progress-delay questions
+- payment questions
+- risk questions
 
-### 10.4 Dynamic answer instructions
-Function:
-- `build_answer_instructions(intents, output_language)`
+These instructions try to force multi-clause aggregation, but success still depends on retrieved evidence quality and model capability.
 
-These are appended into the human message block.
+### 11.4 Model runtime
+Answer generation uses:
+- `ChatOllama`
+- `model = settings.local_model_name`
+- `base_url = settings.local_model_base_url`
+- `temperature = 0`
+- `num_ctx = settings.local_model_num_ctx`
 
-Always included:
-- answer strictly from evidence
-- do not add unseen clauses
-- if multiple clauses grant different rights/remedies, list all of them
-- cite the supporting clause for each conclusion
-- first classify the document type
-- pay attention to important engineering-contract clause families
-- final answer language must be the detected language
+Current default model in config:
+- `qwen3:8b`
 
-Intent-specific additions:
-- `action` / `progress_delay`:
-  - list all available actions/remedies
-  - include thresholds and whether facts satisfy them
-  - preferred answer structure is action list + clause basis + conditions
-- `payment`:
-  - distinguish payment trigger, acceptance condition, documents, amount, percentage, retention, suspension/set-off rights
-- `risk`:
-  - prioritize risk families such as delay penalties, suspension, termination, replacement contractor, set-off, damages, warranty, force majeure carve-out, tariff exclusion, customer pass-through liability, no extra claims
+## 12. API behavior
 
-## 11. API Query Flow
+Implemented in `backend/api/query.py`.
 
-Defined in `backend/api/query.py`.
+### 12.1 Query endpoint
+`POST /api/query`
 
-### 11.1 Request shape
-`QueryPayload` fields:
-- `query: str`
-- `top_k: int = 12`
-- `contract_id: str | None`
-- `chat_session_id: str | None`
-- `persist_to_wiki: bool = False`
+Payload:
+- `query`
+- `top_k` default `12`
+- optional `contract_id`
+- optional `chat_session_id`
+- optional `persist_to_wiki`
 
-### 11.2 LLM readiness gate
-`POST /api/query` refuses to run if `llm_available()` is false.
+Behavior:
+- requires local LLM ready
+- if `contract_id` absent, searches across all active contracts returned by `get_all_contracts(session)`
+- multi-contract search is done by looping contracts in Python, not by one global Qdrant query
 
-Response:
-- HTTP `503`
-- message: local LLM is not ready
+### 12.2 Session endpoints
+Current endpoints:
+- `GET /api/chat/sessions`
+- `GET /api/chat/sessions/{id}/messages`
+- `GET /api/chat/sessions/{id}/latest-query`
+- `GET /api/chat/sessions/{id}/turns`
 
-There is **no active non-LLM fallback path** for normal query answering.
+Per-turn query persistence is backed by `FiledQuery` rows linked to `human_message_id` and `ai_message_id`.
 
-### 11.3 Contract scope behavior
-If `contract_id` is provided:
-- query only that contract
+## 13. Persistence and wiki linkage
 
-Otherwise:
-- query all active contracts returned by `get_all_contracts(session)`
-- retrieval is still performed per contract, then merged in Python
+### 13.1 Query persistence
+Every answered query stores:
+- question
+- answer
+- citations
+- retrieval mode
+- answer method
+- chat session linkage
 
-## 12. Persistence of Query Results
+If `persist_to_wiki` is enabled:
+- `append_query_note()` writes a wiki query note
+- and persists query metadata there
 
-### 12.1 Chat session storage
-The answer path persists:
-- one human message
-- one AI message
+If disabled:
+- `record_query_result()` stores it only in DB
 
-### 12.2 Filed query storage
-Each query turn is persisted to `FiledQuery` with:
-- `query_id`
-- `chat_session_id`
-- `human_message_id`
-- `ai_message_id`
-- `question`
-- `answer`
-- `contract_scope_json`
-- `citations_json`
-- `wiki_path`
-- `answer_method`
-- `retrieval_mode`
+### 13.2 Wiki linkage in retrieval results
+Even though wiki chunks are not active retrieval evidence, `answer_with_langchain()` still attaches wiki page paths to hits when possible using:
+- `resolve_contract_wiki_paths(session, contract_id)`
 
-### 12.3 Wiki note persistence
-If `persist_to_wiki=True`:
-- query note is written through `append_query_note(...)`
-- per-turn linkage is preserved
+This is for frontend navigation such as:
+- source page link
+- project page link
 
-If `persist_to_wiki=False`:
-- `record_query_result(...)` persists the turn without wiki filing
+It is not evidence retrieval.
 
-## 13. Known Inactive / Legacy Paths Still Present in Code
+## 14. Current strengths
 
-The codebase still contains some logic that is not active in the main path:
+1. Document-first retrieval bias is clear.
+2. Clause-level chunks are much better than raw paragraph-only indexing.
+3. Structured summaries help with milestone/payment/risk phrasing.
+4. Query expansion helps English contract terms hit Chinese corpora.
+5. Prompt is contract-domain-aware rather than generic.
+6. No query answer is produced when the local LLM is unavailable.
+7. Session history and per-turn evidence persistence are implemented.
 
-### 13.1 Wiki chunk builder exists but is not used in `build_chunks()`
-- `build_wiki_chunks()` can create wiki chunks
-- current active index build does not include them
+## 15. Current limitations
 
-### 13.2 Validation-risk weighting still exists in `source_weight()`
-- `structured_kind == validation_risk` is still recognized
-- but those chunks are filtered out before final selection
+1. **Subclause chunking is still shallow**
+- one trigger block plus maybe one following block
+- poor fit for long numbered item sequences
 
-### 13.3 Wiki support still exists in evidence selection
-- `select_diverse_citations()` still knows about wiki chunks
-- but query path removes wiki citations before selection
+2. **Intent classification is brittle**
+- regex-only
+- misses paraphrased intent
 
-So the current implementation is best described as:
-- **document-first retrieval with structured support**
-- **wiki-capable codebase, but wiki-disabled active retrieval**
+3. **BM25 scoring is rank-derived, not true score-based**
+- `bm25_score` is currently `1/rank`
+- not the underlying BM25 float score
 
-## 14. Practical Strengths and Weaknesses
+4. **No milestone identity in retrieval metadata**
+- no `milestone_id` / `milestone_key` in chunk payloads
+- milestone-scoped retrieval remains indirect
 
-### Strengths
-- Contract-aware query expansion
-- Hybrid BM25 + vector fusion
-- Source-type reweighting
-- Clause vs subclause separation
-- Deterministic structured context injection
-- Strong prompt guidance for engineering contracts
-- Output language follows user language
-- LLM-required mode avoids silent fallback answers
+5. **Dead wiki chunk code remains in indexer**
+- `build_wiki_chunks()` exists but is not used by `build_chunks()`
 
-### Weaknesses
-- Subclause segmentation is still shallow for long numbered legal subsections
-- BM25 scores are not surfaced numerically in returned hits
-- Structured chunks can still be less precise than raw clauses for legal nuance
-- Query intent model is regex-based and limited
-- Validation warnings are not part of active retrieval evidence
-- Wiki indexing exists in code but is not active
-- No dedicated second-stage semantic reranker beyond heuristic weighting
+6. **Validation warning retrieval is disabled before final selection**
+- `validation_risk` chunks can exist conceptually but are filtered out
+- warnings are also suppressed from structured context for action/progress queries
 
-## 15. Current Design Summary
+7. **No reranker beyond source-weighted RRF**
+- no cross-encoder rerank
+- no explicit clause-neighbor expansion
 
-The current system is a **hybrid contract QA pipeline** with these active priorities:
+8. **Multi-contract search is contract-by-contract looped retrieval**
+- not one unified global retrieval pass
 
-1. Use original contract text first
-2. Use structured synthetic summaries as support
-3. Avoid wiki dominance in retrieval
-4. Avoid non-LLM fallback answers
-5. Bias retrieval and prompting toward contract-analyst behavior rather than generic QA
+## 16. Runtime defaults relevant to RAG
 
-The current active retrieval strategy is therefore:
-- build clause/subclause/structured chunks
-- index locally and optionally in Qdrant
-- expand query by contract intent
-- retrieve with BM25 + vectors
-- fuse with RRF
-- reweight by chunk type and intent
-- prefer clause evidence first
-- inject deterministic contract structure into the prompt
-- answer only when the local LLM is available
+From `backend/config.py`:
+- local model: `qwen3:8b`
+- local model base URL: `http://localhost:11434`
+- embedding model: `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`
+- qdrant URL: `http://qdrant:6333`
+- chunk size: `800`
+- chunk overlap: `100`
+- local LLM context window: `8192`
+
+## 17. Practical summary
+
+The current RAG system is a **hybrid clause-level contract retriever** with:
+- clause chunks
+- shallow subclause chunks
+- selected structured summary chunks
+- BM25 + vector fusion
+- source-type reweighting
+- structured context injection
+- Ollama-based answer generation
+
+It is no longer raw paragraph-only retrieval, but it is also not yet the more advanced architecture that was discussed later.
+
+The biggest current retrieval gaps are:
+- shallow subclause segmentation
+- regex-only intent handling
+- rank-derived BM25 scoring
+- lack of milestone identifiers in chunk metadata
+- dead wiki indexing code still present but inactive
+- validation warnings excluded from final retrieval evidence

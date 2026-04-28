@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
 import { Activity, Cpu, Database, ExternalLink, FileCog, RefreshCcw, Router, ShieldCheck, Unplug } from "lucide-react";
 import { api } from "../api/client.js";
+import { useI18n } from "../i18n.jsx";
 import { ErrorBlock, LoadingBlock, Section } from "../components/Ui.jsx";
 import { StatusBadge } from "../components/StatusBadge.jsx";
 
 const cardConfig = [
-  { key: "status", label: "Core System", title: "Backend API", icon: Router },
-  { key: "offline_only", label: "Connectivity", title: "Offline Mode", icon: Unplug },
-  { key: "host_ollama_reachable", label: "Inference", title: "Host Ollama", icon: Cpu },
-  { key: "embedding_model_ready", label: "Vectorization", title: "Embedding Model", icon: Activity },
-  { key: "qdrant_ready", label: "Vector DB", title: "Qdrant", icon: Database },
-  { key: "doc_conversion_available", label: "Processing", title: "Doc Conversion", icon: FileCog },
+  { key: "status", labelKey: "health.coreSystem", titleKey: "health.backendApi", icon: Router },
+  { key: "offline_only", labelKey: "health.connectivity", titleKey: "health.offlineMode", icon: Unplug },
+  { key: "host_ollama_reachable", labelKey: "health.inference", titleKey: "health.hostOllama", icon: Cpu },
+  { key: "embedding_model_ready", labelKey: "health.vectorization", titleKey: "health.embeddingModel", icon: Activity },
+  { key: "qdrant_ready", labelKey: "health.vectorDb", titleKey: "health.qdrant", icon: Database },
+  { key: "doc_conversion_available", labelKey: "health.processing", titleKey: "health.docConversion", icon: FileCog },
 ];
 
-function healthState(health, key) {
-  if (key === "status") return health?.status === "ok" ? { text: "Online", tone: "success" } : { text: "Offline", tone: "danger" };
-  if (key === "offline_only") return health?.offline_only ? { text: "Enabled", tone: "info" } : { text: "Disabled", tone: "warning" };
-  if (key === "doc_conversion_available") return health?.doc_conversion_available ? { text: "Ready", tone: "success" } : { text: "Slow", tone: "warning" };
-  return health?.[key] ? { text: "Ready", tone: "success" } : { text: "Not Ready", tone: "warning" };
+function healthState(health, key, t) {
+  if (key === "status") return health?.status === "ok" ? { text: t("health.online"), tone: "success" } : { text: t("health.offline"), tone: "danger" };
+  if (key === "offline_only") return health?.offline_only ? { text: t("health.enabled"), tone: "info" } : { text: t("health.disabled"), tone: "warning" };
+  if (key === "doc_conversion_available") return health?.doc_conversion_available ? { text: t("health.ready"), tone: "success" } : { text: t("health.slow"), tone: "warning" };
+  return health?.[key] ? { text: t("health.ready"), tone: "success" } : { text: t("health.notReady"), tone: "warning" };
 }
 
 function exportHealth(health) {
@@ -31,6 +32,7 @@ function exportHealth(health) {
 }
 
 export function HealthPage({ health, setHealth }) {
+  const { t } = useI18n();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(!health);
 
@@ -50,7 +52,7 @@ export function HealthPage({ health, setHealth }) {
     refresh();
   }, []);
 
-  if (loading) return <LoadingBlock />;
+  if (loading) return <LoadingBlock label={t("common.loadingData")} />;
 
   const infrastructure = health?.infrastructure || {};
   const warning = !health?.doc_conversion_available
@@ -64,19 +66,19 @@ export function HealthPage({ health, setHealth }) {
       <ErrorBlock error={error} />
       <div className="hero-row">
         <div>
-          <h2 className="page-title">System Health Overview</h2>
-          <p className="page-subtitle">Real-time monitoring of backend services and model infrastructure.</p>
+          <h2 className="page-title">{t("health.title")}</h2>
+          <p className="page-subtitle">{t("health.subtitle")}</p>
         </div>
         <div className="button-row">
-          <button type="button" className="ghost-button" onClick={refresh}><RefreshCcw size={16} /> Refresh</button>
-          <button type="button" onClick={() => exportHealth(health)}><ShieldCheck size={16} /> Export Logs</button>
+          <button type="button" className="ghost-button" onClick={refresh}><RefreshCcw size={16} /> {t("health.refresh")}</button>
+          <button type="button" onClick={() => exportHealth(health)}><ShieldCheck size={16} /> {t("health.exportLogs")}</button>
         </div>
       </div>
       {warning ? (
         <div className="health-warning">
           <div className="health-warning-icon"><FileCog size={18} /></div>
           <div>
-            <strong>Warning</strong>
+            <strong>{t("health.warning")}</strong>
             <p>{warning}</p>
           </div>
         </div>
@@ -84,13 +86,13 @@ export function HealthPage({ health, setHealth }) {
       <div className="health-card-grid">
         {cardConfig.map((item) => {
           const Icon = item.icon;
-          const state = healthState(health, item.key);
+          const state = healthState(health, item.key, t);
           return (
             <article className="health-status-card" key={item.key}>
               <div className="health-card-icon"><Icon size={18} /></div>
               <div className="health-card-copy">
-                <p className="label-caps">{item.label}</p>
-                <h3>{item.title}</h3>
+                <p className="label-caps">{t(item.labelKey)}</p>
+                <h3>{t(item.titleKey)}</h3>
               </div>
               <div className={`health-pill ${state.tone}`}>{state.text}</div>
             </article>
@@ -98,49 +100,49 @@ export function HealthPage({ health, setHealth }) {
         })}
       </div>
       <div className="health-panels">
-        <Section title="Infrastructure Details">
+        <Section title={t("health.infrastructureDetails")}>
           <div className="infra-table">
             <div className="infra-row">
-              <span>Large Language Model</span>
+              <span>{t("health.largeLanguageModel")}</span>
               <code>{infrastructure.local_model_name || "-"}</code>
             </div>
             <div className="infra-row">
-              <span>Model Context Window</span>
+              <span>{t("health.modelContextWindow")}</span>
               <code>{infrastructure.local_model_num_ctx || "-"}</code>
             </div>
             <div className="infra-row">
-              <span>Embedding Model</span>
+              <span>{t("health.embeddingModel")}</span>
               <code>{infrastructure.embedding_model_name || "-"}</code>
             </div>
             <div className="infra-row">
-              <span>Qdrant Collection</span>
+              <span>{t("health.qdrantCollection")}</span>
               <code>{infrastructure.qdrant_collection_name || "-"}</code>
             </div>
             <div className="infra-row">
-              <span>Qdrant URL</span>
+              <span>{t("health.qdrantUrl")}</span>
               <code>{infrastructure.qdrant_url || "-"}</code>
             </div>
           </div>
         </Section>
-        <Section title="Quick Links">
+        <Section title={t("health.quickLinks")}>
           <div className="quick-link-list">
             <a className="quick-link" href={infrastructure.api_docs_path || "/docs"} target="_blank" rel="noreferrer">
-              <span>API Docs</span>
+              <span>{t("health.apiDocs")}</span>
               <ExternalLink size={15} />
             </a>
             <a className="quick-link" href={infrastructure.qdrant_dashboard_url || "http://localhost:6333/dashboard"} target="_blank" rel="noreferrer">
-              <span>Qdrant Dashboard</span>
+              <span>{t("health.qdrantDashboard")}</span>
               <ExternalLink size={15} />
             </a>
             <a className="quick-link" href="/api/health" target="_blank" rel="noreferrer">
-              <span>Health JSON</span>
+              <span>{t("health.healthJson")}</span>
               <ExternalLink size={15} />
             </a>
           </div>
           <div className="health-mini-checks">
-            <div className="health-row"><span>Offline only</span><StatusBadge status={health?.offline_only ? "ok" : "warning"} /></div>
-            <div className="health-row"><span>Embeddings</span><StatusBadge status={health?.embedding_model_ready ? "ok" : "warning"} /></div>
-            <div className="health-row"><span>Doc conversion</span><StatusBadge status={health?.doc_conversion_available ? "ok" : "warning"} /></div>
+            <div className="health-row"><span>{t("health.offlineOnly")}</span><StatusBadge status={health?.offline_only ? "ok" : "warning"} /></div>
+            <div className="health-row"><span>{t("health.embeddings")}</span><StatusBadge status={health?.embedding_model_ready ? "ok" : "warning"} /></div>
+            <div className="health-row"><span>{t("health.docConversion")}</span><StatusBadge status={health?.doc_conversion_available ? "ok" : "warning"} /></div>
           </div>
         </Section>
       </div>

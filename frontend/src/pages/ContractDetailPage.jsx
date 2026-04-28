@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
 import { BookOpen, FileJson, Network, TriangleAlert } from "lucide-react";
 import { api, formatDate, formatMoney } from "../api/client.js";
+import { useI18n } from "../i18n.jsx";
 import { CitationButton } from "../components/CitationDrawer.jsx";
 import { EmptyBlock, ErrorBlock, LoadingBlock } from "../components/Ui.jsx";
 import { StatusBadge } from "../components/StatusBadge.jsx";
 
-function metadataRows(contract) {
+function metadataRows(contract, t) {
   return [
-    ["Parties Involved", contract.source_file],
-    ["Document Category", String(contract.doc_category || "-").toUpperCase()],
-    ["Execution Window", formatDate(contract.created_at || null)],
-    ["Target Completion", formatDate(contract.updated_at || null)],
+    [t("detail.partiesInvolved"), contract.source_file],
+    [t("detail.documentCategory"), String(contract.doc_category || "-").toUpperCase()],
+    [t("detail.executionWindow"), formatDate(contract.created_at || null)],
+    [t("detail.targetCompletion"), formatDate(contract.updated_at || null)],
   ];
 }
 
 export function ContractDetailPage({ contractId, setSelectedContractId, setSelectedMilestoneId, setSelectedWikiPath, setPage, setCitation }) {
+  const { t } = useI18n();
   const [contracts, setContracts] = useState([]);
   const [contract, setContract] = useState(null);
   const [financials, setFinancials] = useState(null);
@@ -50,8 +52,8 @@ export function ContractDetailPage({ contractId, setSelectedContractId, setSelec
     setRaw(await api.rawContract(contract.contract_id));
   }
 
-  if (loading) return <LoadingBlock />;
-  if (!contract) return <EmptyBlock label="No contract selected." />;
+  if (loading) return <LoadingBlock label={t("common.loadingData")} />;
+  if (!contract) return <EmptyBlock label={t("common.noData")} />;
 
   return (
     <div className="page-stack">
@@ -63,7 +65,7 @@ export function ContractDetailPage({ contractId, setSelectedContractId, setSelec
           </select>
         </div>
         <div className="button-row">
-          <button type="button" className="ghost-button" onClick={loadRaw}><FileJson size={16} /> Raw JSON</button>
+          <button type="button" className="ghost-button" onClick={loadRaw}><FileJson size={16} /> {t("detail.rawJson")}</button>
           <button
             type="button"
             className="ghost-button"
@@ -72,8 +74,8 @@ export function ContractDetailPage({ contractId, setSelectedContractId, setSelec
               setSelectedWikiPath(paths.project_path);
               setPage("wiki");
             }}
-          ><BookOpen size={16} /> Open in Wiki</button>
-          <button type="button" className="ghost-button" onClick={() => setPage("graph")}><Network size={16} /> View in Graph</button>
+          ><BookOpen size={16} /> {t("detail.openInWiki")}</button>
+          <button type="button" className="ghost-button" onClick={() => setPage("graph")}><Network size={16} /> {t("detail.viewInGraph")}</button>
         </div>
       </div>
       <div className="contract-detail-layout">
@@ -91,7 +93,7 @@ export function ContractDetailPage({ contractId, setSelectedContractId, setSelec
           </section>
           <section className="warning-board">
             <div className="warning-board-header">
-              <h3><TriangleAlert size={18} /> Validation Warnings</h3>
+              <h3><TriangleAlert size={18} /> {t("detail.validationWarnings")}</h3>
             </div>
             <div className="warning-stack">
               {(contract.validation || []).map((warning, index) => (
@@ -106,13 +108,13 @@ export function ContractDetailPage({ contractId, setSelectedContractId, setSelec
                   </div>
                 </article>
               ))}
-              {!contract.validation?.length ? <div className="muted">No validation warnings returned.</div> : null}
+              {!contract.validation?.length ? <div className="muted">{t("detail.noValidationWarnings")}</div> : null}
             </div>
           </section>
           <section className="deliverables-card">
             <div className="deliverables-header">
-              <h3>Milestone Deliverables</h3>
-              <span className="label-caps">{contract.milestones?.length || 0} items</span>
+              <h3>{t("detail.milestoneDeliverables")}</h3>
+              <span className="label-caps">{contract.milestones?.length || 0} {t("detail.items")}</span>
             </div>
             <div className="table-wrap">
               <table>
@@ -144,9 +146,9 @@ export function ContractDetailPage({ contractId, setSelectedContractId, setSelec
           {raw ? <pre className="json-block">{JSON.stringify(raw, null, 2)}</pre> : null}
         </div>
         <aside className="contract-meta-card">
-          <h3>Contract Metadata</h3>
+          <h3>{t("detail.contractMetadata")}</h3>
           <div className="meta-section">
-            {metadataRows(contract).map(([label, value]) => (
+            {metadataRows(contract, t).map(([label, value]) => (
               <div className="meta-line" key={label}>
                 <span>{label}</span>
                 <strong>{value}</strong>
@@ -155,24 +157,24 @@ export function ContractDetailPage({ contractId, setSelectedContractId, setSelec
           </div>
           <div className="meta-section">
             <div className="meta-line">
-              <span>Total Requested</span>
+              <span>{t("detail.totalRequested")}</span>
               <strong>{formatMoney(financials?.payment_requested, contract.currency)}</strong>
             </div>
             <div className="meta-line">
-              <span>Total Paid</span>
+              <span>{t("detail.totalPaid")}</span>
               <strong>{formatMoney(financials?.paid, contract.currency)}</strong>
             </div>
             <div className="meta-line">
-              <span>Outstanding</span>
+              <span>{t("detail.outstanding")}</span>
               <strong>{formatMoney(financials?.unpaid, contract.currency)}</strong>
             </div>
           </div>
           <div className="meta-section">
-            <p className="label-caps">Recent Audit Activity</p>
+            <p className="label-caps">{t("detail.recentAuditActivity")}</p>
             <div className="timeline-rail">
-              <div className="timeline-entry"><strong>Automated validation run</strong><span>System · {formatDate(contract.updated_at || null)}</span></div>
+              <div className="timeline-entry"><strong>{t("detail.automatedValidationRun")}</strong><span>System · {formatDate(contract.updated_at || null)}</span></div>
               {(contract.validation || []).slice(0, 2).map((warning, index) => (
-                <div className="timeline-entry" key={`${warning.code}-${index}`}><strong>{warning.code || "Warning"} flagged</strong><span>Risk Engine · {warning.severity || "warning"}</span></div>
+                <div className="timeline-entry" key={`${warning.code}-${index}`}><strong>{warning.code || t("status.warning")} {t("detail.flagged")}</strong><span>Risk Engine · {warning.severity || "warning"}</span></div>
               ))}
             </div>
           </div>

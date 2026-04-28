@@ -697,7 +697,7 @@ def render_llm_contract_summary(facts: dict[str, Any]) -> list[str]:
     if not llm_available():
         return ["## LLM Summary", "- Local LLM unavailable; no comparative LLM summary was generated."]
     prompt = build_llm_summary_prompt(facts)
-    response = query_local_llm_detailed(prompt, timeout=60.0)
+    response = query_local_llm_detailed(prompt, timeout=180.0)
     content = (response.get("response") or "").strip()
     if not content:
         return [f"## LLM Summary", f"- LLM summary generation failed: `{response.get('error') or 'empty_response'}`."]

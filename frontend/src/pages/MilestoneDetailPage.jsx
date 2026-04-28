@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BookOpen, Quote } from "lucide-react";
 import { api, formatMoney } from "../api/client.js";
+import { useI18n } from "../i18n.jsx";
 import { EmptyBlock, ErrorBlock, LoadingBlock } from "../components/Ui.jsx";
 import { StatusBadge } from "../components/StatusBadge.jsx";
 
@@ -10,6 +11,7 @@ function findCitationIndex(citations = [], fieldNames = []) {
 }
 
 export function MilestoneDetailPage({ milestoneId, setSelectedMilestoneId, setSelectedWikiPath, setPage, setCitation }) {
+  const { t } = useI18n();
   const [contracts, setContracts] = useState([]);
   const [milestone, setMilestone] = useState(null);
   const [contract, setContract] = useState(null);
@@ -48,8 +50,8 @@ export function MilestoneDetailPage({ milestoneId, setSelectedMilestoneId, setSe
   const workItemCitationIndex = findCitationIndex(citations, "milestone.work_items");
   const selectedCitation = citations[selectedCitationIndex] || citations[paymentCitationIndex] || citations[0] || null;
 
-  if (loading) return <LoadingBlock />;
-  if (!milestone) return <EmptyBlock label="No milestone available." />;
+  if (loading) return <LoadingBlock label={t("common.loadingData")} />;
+  if (!milestone) return <EmptyBlock label={t("common.noData")} />;
 
   return (
     <div className="page-stack">
@@ -66,7 +68,7 @@ export function MilestoneDetailPage({ milestoneId, setSelectedMilestoneId, setSe
             setSelectedWikiPath(path.milestone_path);
             setPage("wiki");
           }}
-        ><BookOpen size={16} /> Open in Wiki</button>
+        ><BookOpen size={16} /> {t("milestone.openInWiki")}</button>
       </div>
       <div className="milestone-layout">
         <div className="page-stack">
@@ -76,13 +78,13 @@ export function MilestoneDetailPage({ milestoneId, setSelectedMilestoneId, setSe
               <StatusBadge status={milestone.status} />
             </div>
             <div className="milestone-hero-metrics">
-              <div><span className="label-caps">Amount</span><strong>{formatMoney(milestone.amount, contract?.currency || "TWD")}</strong></div>
-              <div><span className="label-caps">Percentage</span><strong>{milestone.percentage ?? "-"}%</strong></div>
+              <div><span className="label-caps">{t("milestone.amount")}</span><strong>{formatMoney(milestone.amount, contract?.currency || "TWD")}</strong></div>
+              <div><span className="label-caps">{t("milestone.percentage")}</span><strong>{milestone.percentage ?? "-"}%</strong></div>
             </div>
           </section>
           <div className="milestone-columns">
             <section className="milestone-panel">
-              <div className="milestone-panel-header"><h3>Work Items</h3></div>
+              <div className="milestone-panel-header"><h3>{t("milestone.workItems")}</h3></div>
               <div className="milestone-list">
                 {milestone.work_items?.length ? milestone.work_items.map((item, index) => (
                   <div className="milestone-list-item" key={`${item}-${index}`}>
@@ -99,48 +101,48 @@ export function MilestoneDetailPage({ milestoneId, setSelectedMilestoneId, setSe
                       }}
                     ><Quote size={14} /></button>
                   </div>
-                )) : <div className="muted">No work list extracted.</div>}
+                )) : <div className="muted">{t("milestone.noWorkItems")}</div>}
               </div>
             </section>
             <section className="milestone-panel">
-              <div className="milestone-panel-header"><h3>Acceptance Criteria</h3><button type="button" className="ghost-button square" disabled={acceptanceCitationIndex === -1} onClick={() => { if (acceptanceCitationIndex === -1) return; setSelectedCitationIndex(acceptanceCitationIndex); setCitation(citations[acceptanceCitationIndex]); }}><Quote size={14} /></button></div>
+              <div className="milestone-panel-header"><h3>{t("milestone.acceptanceCriteria")}</h3><button type="button" className="ghost-button square" disabled={acceptanceCitationIndex === -1} onClick={() => { if (acceptanceCitationIndex === -1) return; setSelectedCitationIndex(acceptanceCitationIndex); setCitation(citations[acceptanceCitationIndex]); }}><Quote size={14} /></button></div>
               <ul className="criteria-list">
-                {(milestone.acceptance_criteria || "Not extracted.").split(/[。\n]/).filter(Boolean).map((line, index) => <li key={`${line}-${index}`}>{line}</li>)}
+                {(milestone.acceptance_criteria || t("milestone.notExtracted")).split(/[。\n]/).filter(Boolean).map((line, index) => <li key={`${line}-${index}`}>{line}</li>)}
               </ul>
             </section>
           </div>
           <section className="milestone-panel wide">
-            <div className="milestone-panel-header"><h3>Payment Conditions</h3><button type="button" className="ghost-button square" disabled={paymentCitationIndex === -1} onClick={() => { if (paymentCitationIndex === -1) return; setSelectedCitationIndex(paymentCitationIndex); setCitation(citations[paymentCitationIndex]); }}><Quote size={14} /></button></div>
-            <p className="payment-condition-copy">{milestone.payment_condition || "Not extracted."}</p>
+            <div className="milestone-panel-header"><h3>{t("milestone.paymentConditions")}</h3><button type="button" className="ghost-button square" disabled={paymentCitationIndex === -1} onClick={() => { if (paymentCitationIndex === -1) return; setSelectedCitationIndex(paymentCitationIndex); setCitation(citations[paymentCitationIndex]); }}><Quote size={14} /></button></div>
+            <p className="payment-condition-copy">{milestone.payment_condition || t("milestone.notExtracted")}</p>
           </section>
         </div>
         <aside className="evidence-panel">
-          <div className="evidence-header"><h3>Citation Evidence</h3></div>
+          <div className="evidence-header"><h3>{t("milestone.citationEvidence")}</h3></div>
           {selectedCitation ? (
             <div className="evidence-body">
               <div className="evidence-file">{selectedCitation.source_file}</div>
               <div className="evidence-grid">
-                <div><span className="label-caps">Location</span><strong>Page {selectedCitation.page_estimate}, Para {selectedCitation.para_start}-{selectedCitation.para_end}</strong></div>
-                <div><span className="label-caps">Block ID</span><strong>{selectedCitation.block_id}</strong></div>
+                <div><span className="label-caps">{t("milestone.location")}</span><strong>Page {selectedCitation.page_estimate}, Para {selectedCitation.para_start}-{selectedCitation.para_end}</strong></div>
+                <div><span className="label-caps">{t("milestone.blockId")}</span><strong>{selectedCitation.block_id}</strong></div>
               </div>
               <div>
-                <span className="label-caps">Extraction Method</span>
+                <span className="label-caps">{t("milestone.extractionMethod")}</span>
                 <div className="evidence-badge">{selectedCitation.extraction_method}</div>
               </div>
               <div className="evidence-source">
-                <span className="label-caps">Source Text</span>
+                <span className="label-caps">{t("milestone.sourceText")}</span>
                 <div className="evidence-excerpt">{selectedCitation.text_snippet}</div>
               </div>
               <div className="audit-rail">
-                <div className="timeline-entry"><strong>Extracted by system</strong><span>{selectedCitation.field_name}</span></div>
-                <div className="timeline-entry"><strong>Document uploaded</strong><span>{contract?.source_file || milestone.contract_id}</span></div>
+                <div className="timeline-entry"><strong>{t("milestone.extractedBySystem")}</strong><span>{selectedCitation.field_name}</span></div>
+                <div className="timeline-entry"><strong>{t("milestone.documentUploaded")}</strong><span>{contract?.source_file || milestone.contract_id}</span></div>
               </div>
               <div className="evidence-footer">
-                <button type="button" className="ghost-button">Report Issue</button>
-                <button type="button" onClick={() => setCitation(selectedCitation)}>Verify Link</button>
+                <button type="button" className="ghost-button">{t("milestone.reportIssue")}</button>
+                <button type="button" onClick={() => setCitation(selectedCitation)}>{t("milestone.verifyLink")}</button>
               </div>
             </div>
-          ) : <div className="muted">No citation selected.</div>}
+          ) : <div className="muted">{t("milestone.noCitation")}</div>}
         </aside>
       </div>
     </div>

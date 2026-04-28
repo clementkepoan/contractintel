@@ -66,11 +66,40 @@ export const api = {
   accept: (payload) => apiFetch("/api/acceptance", { method: "POST", headers: jsonHeaders, body: JSON.stringify(payload) }),
   requestPayment: (payload) => apiFetch("/api/payment-request", { method: "POST", headers: jsonHeaders, body: JSON.stringify(payload) }),
   logPayment: (payload) => apiFetch("/api/payment", { method: "POST", headers: jsonHeaders, body: JSON.stringify(payload) }),
+  activeIngestRun: () => apiFetch("/api/ingest/runs/active"),
+  ingestRun: (runId) => apiFetch(`/api/ingest/runs/${runId}`),
   upload: (file) => {
     const form = new FormData();
     form.append("file", file);
     return apiFetch("/api/ingest", { method: "POST", body: form });
   },
+  createIngestRun: (files, onProgress) => new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    const form = new FormData();
+    Array.from(files || []).forEach((file) => {
+      form.append("files", file);
+    });
+
+    xhr.upload.addEventListener("progress", (event) => {
+      if (event.lengthComputable) {
+        const percent = Math.round((event.loaded / event.total) * 100);
+        onProgress?.({ stage: "uploading", percent });
+      }
+    });
+    xhr.addEventListener("load", () => {
+      const contentType = xhr.getResponseHeader("content-type") || "";
+      const payload = contentType.includes("application/json") ? JSON.parse(xhr.responseText || "{}") : xhr.responseText;
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(payload);
+        return;
+      }
+      reject(new Error(readableError(xhr.status, payload, { method: "POST" })));
+    });
+    xhr.addEventListener("error", () => reject(new Error("Network error")));
+    xhr.timeout = 0;
+    xhr.open("POST", "/api/ingest/runs");
+    xhr.send(form);
+  }),
   uploadWithProgress: (file, onProgress) => new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     const form = new FormData();

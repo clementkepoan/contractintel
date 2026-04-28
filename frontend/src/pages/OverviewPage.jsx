@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { BookOpen, Eye, Network, Upload } from "lucide-react";
 import { api, formatDate, formatMoney } from "../api/client.js";
+import { useI18n } from "../i18n.jsx";
 import { EmptyBlock, ErrorBlock, LoadingBlock } from "../components/Ui.jsx";
 import { StatusBadge } from "../components/StatusBadge.jsx";
 
@@ -11,23 +12,29 @@ function workflowTone(milestones = []) {
   return "Active";
 }
 
-function UploadProgressBar({ stage, percent, filename, currentFile = 0, totalFiles = 0, completedFiles = 0 }) {
-  if (stage === "idle") return null;
-  const processing = stage === "processing";
-  const isBatch = totalFiles > 1;
+function UploadProgressBar({ run, requestProgress }) {
+  const { t } = useI18n();
+  if (!run && !requestProgress) return null;
+  const stage = requestProgress?.stage || (run ? "processing" : "idle");
+  const totalFiles = run?.total_files || requestProgress?.totalFiles || 0;
+  const completedFiles = run?.completed_files || 0;
+  const processingFile = run?.processing_file || requestProgress?.filename;
+  const percent = stage === "uploading"
+    ? requestProgress?.percent || 0
+    : (totalFiles ? Math.round((completedFiles / totalFiles) * 100) : 100);
   return (
-    <div className={processing ? "upload-progress upload-progress--processing" : "upload-progress"}>
+    <div className={stage === "processing" ? "upload-progress upload-progress--processing" : "upload-progress"}>
       <div className="upload-progress__header">
-        <strong>{isBatch ? `${filename || "Document"} (${currentFile}/${totalFiles})` : filename || "Document upload"}</strong>
+        <strong>{processingFile || t("overview.processingRun")}</strong>
         <span>
-          {stage === "uploading" ? `Uploading... ${percent}%` : null}
-          {stage === "processing" ? "Extracting and indexing..." : null}
-          {stage === "done" ? (isBatch ? `Completed ${completedFiles}/${totalFiles}` : "Completed") : null}
-          {stage === "error" ? "Failed" : null}
+          {stage === "uploading" ? `${t("common.uploading")}... ${percent}%` : null}
+          {stage === "processing" ? `${t("overview.extracting")} ${completedFiles}/${totalFiles}` : null}
+          {run?.status === "completed" ? `${t("common.completed")} ${completedFiles}/${totalFiles}` : null}
+          {run?.status === "completed_with_errors" || run?.status === "failed" ? t("common.failed") : null}
         </span>
       </div>
       <div className="upload-progress__track">
-        <div className="upload-progress__fill" style={{ width: processing ? "100%" : `${percent}%` }} />
+        <div className="upload-progress__fill" style={{ width: `${Math.min(100, Math.max(8, percent || 0))}%` }} />
       </div>
     </div>
   );
@@ -53,22 +60,16 @@ function SkeletonMilestoneList({ count = 3 }) {
   );
 }
 
-export function OverviewPage({ setPage, setSelectedContractId, setSelectedWikiPath }) {
+export function OverviewPage({ activeIngestRun, refreshActiveIngestRun, setPage, setSelectedContractId, setSelectedWikiPath }) {
+  const { t } = useI18n();
   const [contracts, setContracts] = useState([]);
   const [financials, setFinancials] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [uploadState, setUploadState] = useState({
-    stage: "idle",
-    percent: 0,
-    filename: null,
-    error: null,
-    totalFiles: 0,
-    currentFile: 0,
-    completedFiles: 0,
-  });
+  const [requestProgress, setRequestProgress] = useState(null);
   const [typeFilter, setTypeFilter] = useState("all");
   const [validationFilter, setValidationFilter] = useState("all");
+  const lastCompletedCount = useRef(-1);
 
   async function load() {
     setLoading(true);
@@ -89,6 +90,17 @@ export function OverviewPage({ setPage, setSelectedContractId, setSelectedWikiPa
     load();
   }, []);
 
+  useEffect(() => {
+    const completedCount = activeIngestRun?.completed_files ?? -1;
+    if (completedCount > lastCompletedCount.current) {
+      lastCompletedCount.current = completedCount;
+      load();
+    }
+    if (!activeIngestRun) {
+      lastCompletedCount.current = -1;
+    }
+  }, [activeIngestRun?.completed_files, activeIngestRun?.run_id]);
+
   const totals = useMemo(() => {
     const totalAmount = contracts.reduce((sum, item) => sum + Number(item.total_amount || 0), 0);
     const requested = Object.values(financials).reduce((sum, item) => sum + Number(item.payment_requested || 0), 0);
@@ -107,92 +119,73 @@ export function OverviewPage({ setPage, setSelectedContractId, setSelectedWikiPa
   async function upload(files) {
     const selectedFiles = Array.from(files || []).filter(Boolean);
     if (!selectedFiles.length) return;
-    const totalFiles = selectedFiles.length;
-    const results = [];
-    setUploadState({ stage: "uploading", percent: 0, filename: selectedFiles[0].name, error: null, totalFiles, currentFile: 1, completedFiles: 0 });
+    setRequestProgress({ stage: "uploading", percent: 0, totalFiles: selectedFiles.length, filename: selectedFiles[0].name });
     setError(null);
     try {
-      for (const [index, file] of selectedFiles.entries()) {
-        setUploadState((current) => ({
-          ...current,
-          stage: "uploading",
-          percent: 0,
-          filename: file.name,
-          currentFile: index + 1,
-        }));
-        const result = await api.uploadWithProgress(file, ({ stage, percent }) => {
-          setUploadState((current) => ({ ...current, stage, percent, filename: file.name, currentFile: index + 1 }));
-        });
-        results.push(result);
-        setUploadState((current) => ({ ...current, completedFiles: index + 1 }));
-      }
-      await load();
-      setSelectedContractId(results.at(-1)?.contract_id || "");
+      const run = await api.createIngestRun(selectedFiles, ({ stage, percent }) => {
+        setRequestProgress({ stage, percent, totalFiles: selectedFiles.length, filename: selectedFiles[0]?.name || null });
+      });
+      await refreshActiveIngestRun();
+      setRequestProgress(null);
       setSelectedWikiPath("");
-      setUploadState((current) => ({ ...current, stage: "done", percent: 100, completedFiles: totalFiles }));
+      if (run?.items?.[0]?.contract_id) {
+        setSelectedContractId(run.items[0].contract_id);
+      }
     } catch (err) {
       setError(err);
-      setUploadState((current) => ({ ...current, stage: "error", error: err.message || String(err) }));
-    } finally {
-      window.setTimeout(() => {
-        setUploadState((current) => (
-          current.stage === "done"
-            ? { stage: "idle", percent: 0, filename: null, error: null, totalFiles: 0, currentFile: 0, completedFiles: 0 }
-            : current
-        ));
-      }, 1200);
+      setRequestProgress(null);
     }
   }
 
-  if (loading) return <LoadingBlock />;
+  if (loading) return <LoadingBlock label={t("common.loadingData")} />;
 
   return (
     <div className="page-stack">
       <ErrorBlock error={error} />
       <div className="overview-metrics">
         <article className="overview-stat-card">
-          <span className="label-caps">Total Contract Value</span>
+          <span className="label-caps">{t("overview.totalContractValue")}</span>
           <strong>{formatMoney(totals.totalAmount)}</strong>
         </article>
         <article className="overview-stat-card">
-          <span className="label-caps">Payment Requested</span>
+          <span className="label-caps">{t("overview.paymentRequested")}</span>
           <strong>{formatMoney(totals.requested)}</strong>
         </article>
         <article className="overview-stat-card">
-          <span className="label-caps">Paid</span>
+          <span className="label-caps">{t("overview.paid")}</span>
           <strong>{formatMoney(totals.paid)}</strong>
         </article>
         <article className="overview-stat-card">
-          <span className="label-caps">Unpaid</span>
+          <span className="label-caps">{t("overview.unpaid")}</span>
           <strong>{formatMoney(totals.unpaid)}</strong>
         </article>
         <article className="overview-stat-card warning">
-          <span className="label-caps">Validation Warnings</span>
+          <span className="label-caps">{t("overview.validationWarnings")}</span>
           <strong>{totals.warnings}</strong>
         </article>
       </div>
       <div className="overview-toolbar">
         <div className="overview-filters">
           <select value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)}>
-            <option value="all">Type: All Types</option>
-            <option value="contract">Type: Contract</option>
-            <option value="rfp">Type: RFP</option>
-            <option value="ci">Type: CI</option>
+            <option value="all">{t("overview.typeAll")}</option>
+            <option value="contract">{t("overview.typeContract")}</option>
+            <option value="rfp">{t("overview.typeRfp")}</option>
+            <option value="ci">{t("overview.typeCi")}</option>
           </select>
           <select value={validationFilter} onChange={(event) => setValidationFilter(event.target.value)}>
-            <option value="all">Validation: All Status</option>
-            <option value="passed">Validation: Passed</option>
-            <option value="warning">Validation: Warning</option>
+            <option value="all">{t("overview.validationAll")}</option>
+            <option value="passed">{t("overview.validationPassed")}</option>
+            <option value="warning">{t("overview.validationWarning")}</option>
           </select>
         </div>
         <label className="file-button dark">
           <Upload size={16} />
-          {uploadState.stage === "idle" ? "Import .doc/.docx" : `Importing ${uploadState.currentFile || 1}/${uploadState.totalFiles || 1}`}
+          {requestProgress ? `${t("overview.importing")} ${requestProgress.totalFiles || 1}` : t("overview.importDocs")}
           <input
             type="file"
             accept=".doc,.docx"
             multiple
-            disabled={uploadState.stage === "uploading" || uploadState.stage === "processing"}
+            disabled={Boolean(activeIngestRun) || requestProgress?.stage === "uploading"}
             onChange={(event) => {
               upload(event.target.files);
               event.target.value = "";
@@ -200,31 +193,27 @@ export function OverviewPage({ setPage, setSelectedContractId, setSelectedWikiPa
           />
         </label>
       </div>
-      <UploadProgressBar
-        stage={uploadState.stage}
-        percent={uploadState.percent}
-        filename={uploadState.filename}
-        currentFile={uploadState.currentFile}
-        totalFiles={uploadState.totalFiles}
-        completedFiles={uploadState.completedFiles}
-      />
-      {uploadState.stage === "processing" || uploadState.stage === "uploading" ? <SkeletonMilestoneList count={uploadState.totalFiles || 1} /> : null}
-      {uploadState.stage === "error" && uploadState.error ? <ErrorBlock error={{ message: uploadState.error }} /> : null}
-      {!filtered.length ? <EmptyBlock label="No contracts imported yet. Upload a .doc or .docx file to begin." /> : null}
+      <UploadProgressBar run={activeIngestRun} requestProgress={requestProgress} />
+      {activeIngestRun ? (
+        <>
+          <SkeletonMilestoneList count={Math.max(1, activeIngestRun.total_files - activeIngestRun.completed_files)} />
+        </>
+      ) : null}
+      {!filtered.length ? <EmptyBlock label={t("common.noContracts")} /> : null}
       {filtered.length ? (
         <div className="overview-table-card">
           <div className="table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th>Contract Name</th>
-                  <th>Type</th>
-                  <th>Amount</th>
-                  <th>Milestones</th>
-                  <th>Validation</th>
-                  <th>Workflow</th>
-                  <th>Updated</th>
-                  <th>Actions</th>
+                  <th>{t("overview.contractName")}</th>
+                  <th>{t("overview.type")}</th>
+                  <th>{t("overview.amount")}</th>
+                  <th>{t("overview.milestones")}</th>
+                  <th>{t("overview.validation")}</th>
+                  <th>{t("overview.workflow")}</th>
+                  <th>{t("overview.updated")}</th>
+                  <th>{t("overview.actions")}</th>
                 </tr>
               </thead>
               <tbody>

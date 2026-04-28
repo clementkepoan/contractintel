@@ -383,7 +383,7 @@ def normalize_milestone_terms_with_llm(
             '輸出格式：{"work_items":[""],"acceptance_criteria":"","payment_condition":""}',
         ]
     )
-    response = query_local_llm_detailed(prompt, timeout=25.0, response_format="json")
+    response = query_local_llm_detailed(prompt, timeout=180.0, response_format="json")
     parsed = parse_json_object(response.get("response"))
     if not parsed:
         return work_items, acceptance_criteria, payment_condition

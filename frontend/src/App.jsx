@@ -3,6 +3,7 @@ import { api } from "./api/client.js";
 import { CitationDrawer } from "./components/CitationDrawer.jsx";
 import { ErrorBoundary } from "./components/ErrorBoundary.jsx";
 import { Layout } from "./components/Layout.jsx";
+import { I18nProvider } from "./i18n.jsx";
 import { ContractDetailPage } from "./pages/ContractDetailPage.jsx";
 import { GraphPage } from "./pages/GraphPage.jsx";
 import { HealthPage } from "./pages/HealthPage.jsx";
@@ -22,6 +23,7 @@ function initialPage() {
 export function App() {
   const [page, setPageState] = useState(initialPage);
   const [health, setHealth] = useState(null);
+  const [activeIngestRun, setActiveIngestRun] = useState(null);
   const [selectedContractId, setSelectedContractId] = useState("");
   const [selectedMilestoneId, setSelectedMilestoneId] = useState("");
   const [selectedWikiPath, setSelectedWikiPath] = useState("");
@@ -36,10 +38,41 @@ export function App() {
     api.health().then(setHealth).catch(() => setHealth({ status: "unavailable", offline_only: true }));
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+    let timer = null;
+
+    async function poll() {
+      try {
+        const run = await api.activeIngestRun();
+        if (cancelled) return;
+        setActiveIngestRun(run);
+        if (run?.run_id) {
+          window.localStorage.setItem("active-ingest-run-id", run.run_id);
+        } else {
+          window.localStorage.removeItem("active-ingest-run-id");
+        }
+      } catch {
+        if (!cancelled) setActiveIngestRun(null);
+      } finally {
+        if (!cancelled) {
+          timer = window.setTimeout(poll, activeIngestRun ? 1500 : 3000);
+        }
+      }
+    }
+
+    poll();
+    return () => {
+      cancelled = true;
+      if (timer) window.clearTimeout(timer);
+    };
+  }, [activeIngestRun?.run_id, activeIngestRun?.status]);
+
   return (
     <ErrorBoundary>
-      <Layout page={page} setPage={setPage} health={health}>
-        {page === "overview" ? <OverviewPage setPage={setPage} setSelectedContractId={setSelectedContractId} setSelectedWikiPath={setSelectedWikiPath} setCitation={setCitation} /> : null}
+      <I18nProvider>
+      <Layout page={page} setPage={setPage} health={health} activeIngestRun={activeIngestRun}>
+        {page === "overview" ? <OverviewPage activeIngestRun={activeIngestRun} refreshActiveIngestRun={async () => setActiveIngestRun(await api.activeIngestRun())} setPage={setPage} setSelectedContractId={setSelectedContractId} setSelectedWikiPath={setSelectedWikiPath} setCitation={setCitation} /> : null}
         {page === "detail" ? <ContractDetailPage contractId={selectedContractId} setSelectedContractId={setSelectedContractId} setSelectedMilestoneId={setSelectedMilestoneId} setSelectedWikiPath={setSelectedWikiPath} setPage={setPage} setCitation={setCitation} /> : null}
         {page === "milestone" ? <MilestoneDetailPage milestoneId={selectedMilestoneId} setSelectedMilestoneId={setSelectedMilestoneId} setSelectedWikiPath={setSelectedWikiPath} setPage={setPage} setCitation={setCitation} /> : null}
         {page === "workflow" ? <WorkflowPage contractId={selectedContractId} setSelectedContractId={setSelectedContractId} /> : null}
@@ -57,6 +90,7 @@ export function App() {
           }}
         />
       </Layout>
+      </I18nProvider>
     </ErrorBoundary>
   );
 }
