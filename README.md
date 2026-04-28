@@ -27,14 +27,35 @@ Install and start Ollama on the host machine:
 
 ```bash
 ollama serve
-ollama pull qwen2.5:7b
+ollama pull qwen3:8b
 ```
 
-The backend defaults to `LOCAL_MODEL_BASE_URL=http://localhost:11434`. If you run the backend in Docker, the compose file uses `http://host.docker.internal:11434`.
+The chat model is always hosted by a **host-native Ollama process**, not inside Docker. The backend defaults to `LOCAL_MODEL_BASE_URL=http://localhost:11434`. If you run the backend in Docker, the backend container connects outward to the host Ollama endpoint at `http://host.docker.internal:11434`.
 
 The backend also sets Ollama context length with `LOCAL_MODEL_NUM_CTX=8192`. This is passed to LangChain `ChatOllama` and the lower-level Ollama `/api/generate` helper.
 
-For embeddings, the backend uses `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`. In Docker, the weights are stored in the named volume `huggingface-cache` so the backend container keeps its own persistent embedding cache.
+The active chat model is controlled by `LOCAL_MODEL_NAME`.
+
+Recommended local choices on Apple Silicon 16 GB:
+
+- `qwen3:8b` as the default general contract QA model
+- `deepseek-r1:8b` if you want stronger reasoning on harder legal logic questions
+
+Examples:
+
+```bash
+export LOCAL_MODEL_NAME=qwen3:8b
+export LOCAL_MODEL_NUM_CTX=8192
+```
+
+If you run with Docker Compose, you can switch the model by setting `LOCAL_MODEL_NAME` before startup:
+
+```bash
+export LOCAL_MODEL_NAME=deepseek-r1:8b
+docker compose up --build
+```
+
+For embeddings, the backend uses `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`. In Docker, the embedding weights are stored in the named volume `huggingface-cache` so the backend container keeps its own persistent embedding cache. This does not apply to the chat model, which remains host-native under Ollama.
 
 ## Installation
 
@@ -76,13 +97,13 @@ Open `http://localhost:5173`. Vite proxies `/api/*` to `http://localhost:8000`.
 
 ## Run With Docker
 
-This project dockerizes the frontend, backend, and Qdrant. Ollama stays on the host machine. LibreOffice and the embedding cache live inside the backend container.
+This project dockerizes the frontend, backend, and Qdrant. The chat model does **not** run inside any project container. Ollama stays on the host machine, and the backend container calls the host Ollama endpoint. LibreOffice and the embedding cache live inside the backend container.
 
 Start host Ollama first:
 
 ```bash
 ollama serve
-ollama pull qwen2.5:7b
+ollama pull qwen3:8b
 ```
 
 Build and run the full stack:

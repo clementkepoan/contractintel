@@ -288,15 +288,25 @@ cd ..
 
 This is the **only step that requires internet**. Run it once; all subsequent use is fully offline.
 
+Ollama is expected to run **natively on the host machine**. The project does not run the chat model inside Docker.
+
 ### Pull the LLM
 
 ```bash
-ollama pull qwen2.5:7b
+ollama pull qwen3:8b
 ```
 
-- Model size: ~4.7 GB on disk
-- RAM usage at inference: ~6 GB
+- Model size: ~5.2 GB on disk
+- RAM usage at inference: ~6-8 GB
 - Supports Traditional Chinese natively
+
+Alternative reasoning-focused option:
+
+```bash
+ollama pull deepseek-r1:8b
+```
+
+Model selection is controlled by `LOCAL_MODEL_NAME`.
 
 ### Pull the embedding model (optional — auto-downloaded by sentence-transformers)
 
@@ -312,7 +322,7 @@ After this, disconnect from the internet. Everything runs offline.
 
 ```bash
 ollama serve &           # Start Ollama daemon (if not already running as a service)
-ollama list              # Should show qwen2.5:7b
+ollama list              # Should show qwen3:8b or your selected model
 ```
 
 ---

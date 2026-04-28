@@ -18,7 +18,7 @@ Use these commands from `ProjectSetup.md` once the scaffold exists:
 
 - `python3 -m venv .venv && source .venv/bin/activate`: create and activate the backend environment.
 - `pip install -r requirements.txt`: install backend dependencies.
-- `ollama pull qwen2.5:7b`: download the local LLM; this is the expected network-dependent setup step.
+- `ollama pull qwen3:8b`: download the local host-native LLM; this is the expected network-dependent setup step.
 - `uvicorn backend.main:app --port 8000 --reload`: run the FastAPI backend locally.
 - `cd frontend && npm install`: install frontend dependencies.
 - `cd frontend && npm run dev`: run the Vite development server.

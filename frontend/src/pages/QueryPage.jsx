@@ -165,7 +165,7 @@ export function QueryPage({ contractId, setSelectedContractId, setSelectedWikiPa
                     <div className="query-message-copy">{turn.answer}</div>
                     <div className="analysis-meta">
                       <span>Mode: {turn.retrieval_mode || "-"}</span>
-                      <span>Model: qwen2.5</span>
+                      <span>Model: {turn.model_name || result?.model_name || "-"}</span>
                       <span>Session ID: {chatSessionId || "-"}</span>
                       {turn.wiki_path ? (
                         <button type="button" className="ghost-button" onClick={() => { setSelectedWikiPath(turn.wiki_path); setPage("wiki"); }}>

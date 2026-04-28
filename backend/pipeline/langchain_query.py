@@ -401,6 +401,7 @@ def answer_with_langchain(
             "citations": [],
             "answer_method": "no_evidence",
             "retrieval_mode": retrieval_mode(),
+            "model_name": settings.local_model_name,
             "wiki_path": None,
         }
 
@@ -489,5 +490,6 @@ def answer_with_langchain(
         "citations": citations,
         "answer_method": "langchain_ollama",
         "retrieval_mode": retrieval_mode(),
+        "model_name": settings.local_model_name,
         "wiki_path": wiki_path,
     }

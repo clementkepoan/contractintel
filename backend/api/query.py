@@ -8,6 +8,7 @@ from sqlmodel import select
 
 from backend.db.database import get_session
 from backend.db.models import ChatMessage, ChatSession, FiledQuery
+from backend.config import settings
 from backend.pipeline.langchain_query import answer_with_langchain
 from backend.pipeline.llm import llm_available
 from backend.pipeline.service import get_all_contracts
@@ -118,6 +119,7 @@ def get_latest_query(chat_session_id: str) -> dict | None:
             "wiki_path": row.wiki_path or None,
             "answer_method": row.answer_method,
             "retrieval_mode": row.retrieval_mode,
+            "model_name": settings.local_model_name,
             "contract_id": contract_scope[0] if contract_scope else None,
             "created_at": row.created_at,
         }
@@ -145,6 +147,7 @@ def get_chat_turns(chat_session_id: str) -> list[dict]:
                     "wiki_path": row.wiki_path or None,
                     "answer_method": row.answer_method,
                     "retrieval_mode": row.retrieval_mode,
+                    "model_name": settings.local_model_name,
                     "contract_id": contract_scope[0] if contract_scope else None,
                     "created_at": row.created_at,
                 }

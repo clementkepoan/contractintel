@@ -17,7 +17,7 @@ class Settings(BaseModel):
     chunk_size: int = int(os.getenv("CHUNK_SIZE", "800"))
     chunk_overlap: int = int(os.getenv("CHUNK_OVERLAP", "100"))
     default_currency: str = os.getenv("DEFAULT_CURRENCY", "TWD")
-    local_model_name: str = os.getenv("LOCAL_MODEL_NAME", "qwen2.5:7b")
+    local_model_name: str = os.getenv("LOCAL_MODEL_NAME", "qwen3:8b")
     local_model_base_url: str = os.getenv("LOCAL_MODEL_BASE_URL", "http://localhost:11434")
     local_model_num_ctx: int = int(os.getenv("LOCAL_MODEL_NUM_CTX", "8192"))
     embedding_model_name: str = os.getenv("EMBEDDING_MODEL_NAME", "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
