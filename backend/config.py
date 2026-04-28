@@ -17,7 +17,7 @@ class Settings(BaseModel):
     chunk_size: int = int(os.getenv("CHUNK_SIZE", "800"))
     chunk_overlap: int = int(os.getenv("CHUNK_OVERLAP", "100"))
     default_currency: str = os.getenv("DEFAULT_CURRENCY", "TWD")
-    local_model_name: str = os.getenv("LOCAL_MODEL_NAME", "Qwen3.5-4B-MLX-4bit")
+    local_model_name: str = os.getenv("LOCAL_MODEL_NAME", "Qwen3.5-9B-Claude-4.6-HighIQ-INSTRUCT-HERETIC-UNCENSORED-mlx-4Bit")
     local_model_base_url: str = os.getenv("LOCAL_MODEL_BASE_URL", "http://127.0.0.1:11434/v1")
     local_model_api_key: str = os.getenv("LOCAL_MODEL_API_KEY", "1111")
     local_model_num_ctx: int = int(os.getenv("LOCAL_MODEL_NUM_CTX", "8192"))

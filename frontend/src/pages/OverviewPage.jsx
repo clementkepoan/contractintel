@@ -70,9 +70,12 @@ export function OverviewPage({ activeIngestRun, refreshActiveIngestRun, setPage,
   const [typeFilter, setTypeFilter] = useState("all");
   const [validationFilter, setValidationFilter] = useState("all");
   const lastCompletedCount = useRef(-1);
+  const previousRunId = useRef(null);
 
-  async function load() {
-    setLoading(true);
+  async function load({ silent = false } = {}) {
+    if (!silent) {
+      setLoading(true);
+    }
     setError(null);
     try {
       const list = await api.contracts();
@@ -82,7 +85,9 @@ export function OverviewPage({ activeIngestRun, refreshActiveIngestRun, setPage,
     } catch (err) {
       setError(err);
     } finally {
-      setLoading(false);
+      if (!silent) {
+        setLoading(false);
+      }
     }
   }
 
@@ -92,14 +97,34 @@ export function OverviewPage({ activeIngestRun, refreshActiveIngestRun, setPage,
 
   useEffect(() => {
     const completedCount = activeIngestRun?.completed_files ?? -1;
+    const currentRunId = activeIngestRun?.run_id ?? null;
+
     if (completedCount > lastCompletedCount.current) {
       lastCompletedCount.current = completedCount;
-      load();
+      load({ silent: true });
     }
+
+    // When the backend stops reporting an active run after completion,
+    // refresh once so newly imported contracts appear without a manual reload.
+    if (!currentRunId && previousRunId.current) {
+      window.setTimeout(() => {
+        load({ silent: true });
+      }, 500);
+    }
+
     if (!activeIngestRun) {
       lastCompletedCount.current = -1;
     }
+    previousRunId.current = currentRunId;
   }, [activeIngestRun?.completed_files, activeIngestRun?.run_id]);
+
+  useEffect(() => {
+    if (!activeIngestRun?.run_id) return undefined;
+    const timer = window.setInterval(() => {
+      load({ silent: true });
+    }, 2000);
+    return () => window.clearInterval(timer);
+  }, [activeIngestRun?.run_id]);
 
   const totals = useMemo(() => {
     const totalAmount = contracts.reduce((sum, item) => sum + Number(item.total_amount || 0), 0);
