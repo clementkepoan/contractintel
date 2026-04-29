@@ -116,6 +116,8 @@ def upsert_contract_chunks(contract_id: str, chunks: list[dict[str, Any]], embed
                     "wiki_source_path": chunk.get("wiki_source_path"),
                     "source_label": chunk.get("source_label"),
                     "block_ids": chunk.get("block_ids", []),
+                    "parent_chunk_id": chunk.get("parent_chunk_id"),
+                    "clause_family": chunk.get("clause_family", []),
                 },
             )
         )
@@ -147,6 +149,8 @@ def search_contract_chunks(contract_id: str | None, query: str, top_k: int) -> l
                 "wiki_source_path": payload.get("wiki_source_path"),
                 "source_label": payload.get("source_label"),
                 "block_ids": payload.get("block_ids", []),
+                "parent_chunk_id": payload.get("parent_chunk_id"),
+                "clause_family": payload.get("clause_family", []),
                 "retrieval_score": float(score or 0.0),
                 "contract_id": payload.get("contract_id"),
             }

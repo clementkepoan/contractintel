@@ -88,9 +88,12 @@ def format_evidence(citations: list[dict[str, Any]]) -> str:
     if clause_like:
         sections.append("【原始條款證據】")
         for index, citation in enumerate(clause_like, start=1):
+            expansion_note = ""
+            if citation.get("retrieval_method") == "parent_expansion":
+                expansion_note = f", 上下文補足自={citation.get('triggered_by') or '-'}"
             sections.append(
                 f"[C{index}] {citation.get('text_snippet', '')} "
-                f"(條款={citation.get('clause_label') or '-'}, 合約={citation.get('contract_id')}, 段落={citation.get('para_start')}, 頁~{citation.get('page_estimate')})"
+                f"(條款={citation.get('clause_label') or '-'}, 合約={citation.get('contract_id')}, 段落={citation.get('para_start')}, 頁~{citation.get('page_estimate')}{expansion_note})"
             )
     return "\n".join(sections)
 
@@ -112,15 +115,21 @@ QUERY_EXPANSIONS: dict[str, str] = {
     "warranty": "保固 保證金 缺失 修繕",
     "delay": "逾期 展延 工程進度落後 扣罰",
     "change": "變更 追加工程款 固定總價 不得追加",
+    "price_adjustment": "固定總價 不得追加 不得調整 法令變更 情事變更 單價",
+    "force_majeure": "關稅措施 情事變更 免責 不補償 終止 不可抗力",
 }
 
 ACTION_QUERY_RE = re.compile(r"(可以採取哪些行動|可以怎麼做|可以如何處理|有哪些權利|得採取|得否|甲方可以|乙方可以)")
 PROGRESS_DELAY_RE = re.compile(r"(進度|落後|逾期|延誤)")
 PAYMENT_RE = re.compile(r"(付款|請款|工程款|期款|給付)")
 RISK_RE = re.compile(r"(風險|違約|罰款|扣罰|賠償)")
+PRICE_ADJUSTMENT_RE = re.compile(r"(關稅|貿易|法令|政策|調價|固定總價|不得追加|tariff|trade)", re.IGNORECASE)
+FORCE_MAJEURE_RE = re.compile(r"(不可抗力|天災|force majeure)", re.IGNORECASE)
 CHINESE_CHAR_RE = re.compile(r"[\u4e00-\u9fff]")
 ACTION_FALLBACK_TERMS = "得 暫停付款 違約金 扣罰 終止 解除 另覓廠商 書面通知 不補償 費用由乙方負擔"
 PROGRESS_ACTION_TERMS = "進度落後 逾期 履約期限 暫停付款 違約金 終止契約 解除契約 另覓廠商"
+PRICE_ADJUSTMENT_TERMS = "固定總價 不得追加 不得調整 法令變更 政策變更 情事變更 單價"
+FORCE_MAJEURE_TERMS = "不可抗力 關稅措施 情事變更 免責 不補償 終止"
 
 
 def classify_query_intents(query: str) -> set[str]:
@@ -135,6 +144,10 @@ def classify_query_intents(query: str) -> set[str]:
         intents.add("payment")
     if RISK_RE.search(text) or "risk" in lowered or "penalty" in lowered:
         intents.add("risk")
+    if PRICE_ADJUSTMENT_RE.search(text):
+        intents.add("price_adjustment")
+    if FORCE_MAJEURE_RE.search(text):
+        intents.add("force_majeure")
     return intents
 
 
@@ -145,6 +158,10 @@ def expand_query(query: str, intents: set[str]) -> str:
         expansions.append(ACTION_FALLBACK_TERMS)
     if "progress_delay" in intents:
         expansions.append(PROGRESS_ACTION_TERMS)
+    if "price_adjustment" in intents:
+        expansions.append(PRICE_ADJUSTMENT_TERMS)
+    if "force_majeure" in intents:
+        expansions.append(FORCE_MAJEURE_TERMS)
     if not expansions:
         return query
     return f"{query}\n" + "\n".join(expansions)
@@ -276,6 +293,7 @@ def source_weight(item: dict[str, Any], intents: set[str]) -> float:
     chunk_type = item.get("chunk_type")
     structured_kind = item.get("structured_kind")
     text = item.get("text_snippet", "")
+    clause_family = set(item.get("clause_family") or [])
     weight = 0.0
     if chunk_type == "clause":
         weight += 0.2
@@ -301,6 +319,14 @@ def source_weight(item: dict[str, Any], intents: set[str]) -> float:
             weight += 0.08
     if "progress_delay" in intents and any(term in text for term in ["進度", "落後", "逾期", "延誤"]):
         weight += 0.08
+    if "payment" in intents and clause_family & {"payment", "milestone", "retention"}:
+        weight += 0.10
+    if "risk" in intents and clause_family & {"penalty", "termination", "damages", "warranty", "subcontracting", "price_adjustment", "force_majeure"}:
+        weight += 0.10
+    if "price_adjustment" in intents and "price_adjustment" in clause_family:
+        weight += 0.16
+    if "force_majeure" in intents and "force_majeure" in clause_family:
+        weight += 0.16
     return weight
 
 
@@ -379,7 +405,7 @@ def answer_with_langchain(
     candidate_k = max(top_k * 4, 24)
     for current_contract_id in contract_ids:
         contract = session.get(Contract, current_contract_id)
-        for hit in hybrid_search_chunks(current_contract_id, expanded_query, candidate_k):
+        for hit in hybrid_search_chunks(current_contract_id, expanded_query, candidate_k, intents=intents):
             hit["contract_id"] = current_contract_id
             hit["source_file"] = contract.source_file if contract else None
             try:

@@ -5,8 +5,6 @@ import re
 from pathlib import Path
 from typing import Any
 
-from langchain_community.retrievers import BM25Retriever
-from langchain_core.documents import Document
 from rank_bm25 import BM25Okapi
 
 from backend.config import settings
@@ -17,7 +15,9 @@ CLAUSE_HEADER_RE = re.compile(r"^第[一二三四五六七八九十百千\d]+條
 MILESTONE_HEADER_RE = re.compile(
     r"(?:第[一二三四五六七八九十\d]+期|里程碑[一二三四五六七八九十A-Z\d]+|工程節點[一二三四五六七八九十\d]+|階段[一二三四五六七八九十\d]+)"
 )
-SUBCLAUSE_SIGNAL_RE = re.compile(r"(?:給付|付款|請款|驗收|違約|違約金|扣罰|保固|保證金|固定總價|追加工程款)")
+SUBCLAUSE_SIGNAL_RE = re.compile(
+    r"(?:給付|付款|請款|驗收|違約|違約金|扣罰|保固|保證金|固定總價|追加工程款|不得追加|法令變更|政策變更|不得調整|單價不予調整|情事變更)"
+)
 ACTION_SIGNAL_RE = re.compile(r"(?:得|暫停付款|違約金|扣罰|終止|解除|另覓廠商|書面通知|不補償|費用由乙方負擔)")
 HEADING_RE = re.compile(r"^##\s+")
 LOW_SIGNAL_WIKI_HEADINGS = {
@@ -28,6 +28,20 @@ LOW_SIGNAL_WIKI_HEADINGS = {
     "context",
     "related pages",
     "page metadata",
+}
+
+CLAUSE_FAMILY_KEYWORDS: dict[str, tuple[str, ...]] = {
+    "payment": ("付款", "給付", "請款", "期款", "發票"),
+    "acceptance": ("驗收", "核定", "確認", "測試通過"),
+    "penalty": ("違約金", "扣罰", "罰則", "逾期"),
+    "termination": ("終止", "解除", "另覓廠商", "收回自辦"),
+    "warranty": ("保固", "修補", "換新", "缺失"),
+    "retention": ("保留款", "保證金", "保固保證金", "履約保證金"),
+    "price_adjustment": ("固定總價", "不得追加", "不得調整", "單價不予調整", "法令變更", "政策變更", "情事變更"),
+    "force_majeure": ("不可抗力", "天災", "關稅措施", "情事變更"),
+    "subcontracting": ("轉包", "分包", "轉讓"),
+    "damages": ("損害賠償", "賠償", "求償", "扣抵"),
+    "milestone": ("第一期", "第二期", "第三期", "第四期", "里程碑", "工程節點"),
 }
 
 
@@ -62,6 +76,17 @@ def split_text_with_overlap(text: str, target_size: int, overlap: int) -> list[s
     return chunks
 
 
+def detect_clause_family(text: str) -> list[str]:
+    normalized = normalize_space(text)
+    if not normalized:
+        return []
+    families: list[str] = []
+    for family, keywords in CLAUSE_FAMILY_KEYWORDS.items():
+        if any(keyword in normalized for keyword in keywords):
+            families.append(family)
+    return families
+
+
 def chunk_record(
     *,
     chunk_id: str,
@@ -75,6 +100,8 @@ def chunk_record(
     wiki_source_path: str | None = None,
     source_label: str | None = None,
     block_ids: list[str] | None = None,
+    parent_chunk_id: str | None = None,
+    clause_family: list[str] | None = None,
 ) -> dict[str, Any]:
     return {
         "chunk_id": chunk_id,
@@ -88,6 +115,8 @@ def chunk_record(
         "wiki_source_path": wiki_source_path,
         "source_label": source_label,
         "block_ids": block_ids or [],
+        "parent_chunk_id": parent_chunk_id,
+        "clause_family": clause_family or [],
     }
 
 
@@ -113,12 +142,28 @@ def build_clause_groups(blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return groups
 
 
-def build_clause_chunks(extracted: dict[str, Any]) -> list[dict[str, Any]]:
+def build_clause_chunks(extracted: dict[str, Any]) -> tuple[list[dict[str, Any]], dict[str, dict[str, Any]]]:
     chunks: list[dict[str, Any]] = []
+    parent_chunks: dict[str, dict[str, Any]] = {}
     for group_index, group in enumerate(build_clause_groups(extracted.get("blocks", [])), start=1):
         blocks = group["blocks"]
         label = group.get("label") or normalize_space(blocks[0]["text"])[:80]
         merged_text = "\n".join(block["text"] for block in blocks if normalize_space(block.get("text", "")))
+        clause_family = detect_clause_family(merged_text)
+        parent_chunk_id = f"clause-parent::{group_index:03d}"
+        parent_chunks[parent_chunk_id] = chunk_record(
+            chunk_id=parent_chunk_id,
+            text=merged_text,
+            para_start=int(blocks[0].get("para_start", 0)),
+            para_end=int(blocks[-1].get("para_end", blocks[-1].get("para_start", 0))),
+            page_estimate=int(blocks[0].get("page_estimate", 0)),
+            chunk_type="clause_parent",
+            clause_label=label,
+            source_label=label,
+            block_ids=[str(block.get("block_id")) for block in blocks if block.get("block_id")],
+            parent_chunk_id=parent_chunk_id,
+            clause_family=clause_family,
+        )
         parts = split_text_with_overlap(merged_text, settings.chunk_size, settings.chunk_overlap)
         for part_index, part in enumerate(parts, start=1):
             suffix = f"__part{part_index:02d}" if len(parts) > 1 else ""
@@ -133,6 +178,8 @@ def build_clause_chunks(extracted: dict[str, Any]) -> list[dict[str, Any]]:
                     clause_label=label,
                     source_label=label,
                     block_ids=[str(block.get("block_id")) for block in blocks if block.get("block_id")],
+                    parent_chunk_id=parent_chunk_id,
+                    clause_family=clause_family,
                 )
             )
         member_blocks = blocks[1:] if group.get("label") else blocks
@@ -162,9 +209,11 @@ def build_clause_chunks(extracted: dict[str, Any]) -> list[dict[str, Any]]:
                     clause_label=label,
                     source_label=label,
                     block_ids=block_ids,
+                    parent_chunk_id=parent_chunk_id,
+                    clause_family=clause_family,
                 )
             )
-    return chunks
+    return chunks, parent_chunks
 
 
 def summarize_action_sentences(text: str) -> str:
@@ -195,6 +244,7 @@ def build_structured_chunks(extracted: dict[str, Any], clause_groups: list[dict[
             chunk_type="structured",
             structured_kind="contract_summary",
             source_label="contract_summary",
+            clause_family=["payment"] if payment_type == "installment" else [],
         )
     )
     for milestone in extracted.get("milestones", []):
@@ -217,6 +267,7 @@ def build_structured_chunks(extracted: dict[str, Any], clause_groups: list[dict[
                 structured_kind="milestone_summary",
                 source_label=milestone.get("name"),
                 block_ids=[citation.get("block_id") for citation in milestone.get("citations", []) if citation.get("block_id")],
+                clause_family=["milestone", "payment"],
             )
         )
     retention = extracted.get("retention") or {}
@@ -237,6 +288,7 @@ def build_structured_chunks(extracted: dict[str, Any], clause_groups: list[dict[
                 structured_kind="retention_summary",
                 source_label="retention",
                 block_ids=[citation.get("block_id") for citation in retention.get("citations", []) if citation.get("block_id")],
+                clause_family=["retention", "payment"],
             )
         )
     for index, conflict in enumerate(extracted.get("version_conflicts", []), start=1):
@@ -270,6 +322,7 @@ def build_structured_chunks(extracted: dict[str, Any], clause_groups: list[dict[
                 clause_label=label,
                 source_label=label,
                 block_ids=[str(block.get("block_id")) for block in blocks if block.get("block_id")],
+                clause_family=detect_clause_family(merged_text),
             )
         )
     return chunks
@@ -349,23 +402,24 @@ def build_wiki_chunks(extracted: dict[str, Any]) -> list[dict[str, Any]]:
 
 def build_chunks(extracted: dict[str, Any]) -> list[dict[str, Any]]:
     clause_groups = build_clause_groups(extracted.get("blocks", []))
-    chunks = build_clause_chunks(extracted)
+    clause_chunks, _parent_chunks = build_clause_chunks(extracted)
+    chunks = clause_chunks
     chunks.extend(build_structured_chunks(extracted, clause_groups))
     return [chunk for chunk in chunks if chunk.get("text")]
 
 
 def write_chunk_index(contract_id: str, extracted: dict[str, Any]) -> Path:
-    chunks = build_chunks(extracted)
+    clause_groups = build_clause_groups(extracted.get("blocks", []))
+    clause_chunks, parent_chunks = build_clause_chunks(extracted)
+    chunks = clause_chunks + build_structured_chunks(extracted, clause_groups)
     tokenized = [tokenize(chunk["text"]) for chunk in chunks]
-    bm25 = BM25Okapi(tokenized) if tokenized else None
     index_payload: dict[str, Any] = {
         "contract_id": contract_id,
         "chunks": chunks,
+        "parent_chunks": parent_chunks,
         "tokenized_chunks": tokenized,
         "embedding_model": settings.embedding_model_name if embedding_model_ready() else None,
     }
-    if bm25:
-        index_payload["bm25_idf"] = bm25.idf
     if chunks and embedding_model_ready():
         embeddings = embed_texts([chunk["text"] for chunk in chunks])
         index_payload["embeddings"] = embeddings
@@ -383,8 +437,8 @@ def load_chunk_index(contract_id: str) -> dict[str, Any] | None:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def search_chunks(contract_id: str, query: str, top_k: int = 5) -> list[dict[str, Any]]:
-    return hybrid_search_chunks(contract_id, query, top_k)
+def search_chunks(contract_id: str, query: str, top_k: int = 5, intents: set[str] | None = None) -> list[dict[str, Any]]:
+    return hybrid_search_chunks(contract_id, query, top_k, intents=intents)
 
 
 def cosine_similarity(query_vector: list[float], chunk_vector: list[float]) -> float:
@@ -397,6 +451,17 @@ def reciprocal_rank_fusion(rankings: list[list[tuple[str, float]]], k: int = 60)
         for position, (chunk_id, _score) in enumerate(ranking, start=1):
             fused[chunk_id] = fused.get(chunk_id, 0.0) + (1.0 / (k + position))
     return fused
+
+
+def normalize_score_map(pairs: list[tuple[str, float]]) -> dict[str, float]:
+    if not pairs:
+        return {}
+    values = [float(score) for _chunk_id, score in pairs]
+    max_value = max(values)
+    min_value = min(values)
+    if max_value == min_value:
+        return {chunk_id: 1.0 for chunk_id, _score in pairs}
+    return {chunk_id: (float(score) - min_value) / (max_value - min_value) for chunk_id, score in pairs}
 
 
 def vector_search(index_payload: dict[str, Any], query: str, top_k: int) -> list[tuple[str, float]]:
@@ -418,46 +483,43 @@ def qdrant_vector_search(contract_id: str, query: str, top_k: int) -> list[tuple
     return [(item["chunk_id"], item["retrieval_score"]) for item in results if item.get("chunk_id")]
 
 
-def hybrid_search_chunks(contract_id: str, query: str, top_k: int = 5) -> list[dict[str, Any]]:
+def hybrid_search_chunks(contract_id: str, query: str, top_k: int = 5, intents: set[str] | None = None) -> list[dict[str, Any]]:
     index_payload = load_chunk_index(contract_id)
     if not index_payload:
         return []
     chunks = index_payload.get("chunks", [])
+    parent_chunks = index_payload.get("parent_chunks", {})
     if not chunks:
         return []
-    documents = [
-        Document(
-            page_content=chunk["text"],
-            metadata={
-                "chunk_id": chunk["chunk_id"],
-                "para_start": chunk["para_start"],
-                "para_end": chunk["para_end"],
-                "page_estimate": chunk["page_estimate"],
-                "chunk_type": chunk.get("chunk_type"),
-                "clause_label": chunk.get("clause_label"),
-                "structured_kind": chunk.get("structured_kind"),
-                "wiki_source_path": chunk.get("wiki_source_path"),
-                "source_label": chunk.get("source_label"),
-                "block_ids": chunk.get("block_ids", []),
-            },
-        )
-        for chunk in chunks
-    ]
-    bm25 = BM25Retriever.from_documents(documents, preprocess_func=tokenize, k=top_k)
-    bm25_docs = bm25.invoke(query)
-    bm25_pairs = [(document.metadata["chunk_id"], 1.0 / rank) for rank, document in enumerate(bm25_docs, start=1)]
+
+    tokenized_chunks = index_payload.get("tokenized_chunks") or [tokenize(chunk["text"]) for chunk in chunks]
+    bm25_pairs: list[tuple[str, float]] = []
+    if tokenized_chunks:
+        bm25_model = BM25Okapi(tokenized_chunks)
+        bm25_scores = bm25_model.get_scores(tokenize(query))
+        bm25_pairs = sorted(
+            [(chunk["chunk_id"], float(score)) for chunk, score in zip(chunks, bm25_scores, strict=False)],
+            key=lambda item: item[1],
+            reverse=True,
+        )[:top_k]
+
     vector_pairs = qdrant_vector_search(contract_id, query, top_k)
     if not vector_pairs:
         vector_pairs = vector_search(index_payload, query, top_k)
+
     fused = reciprocal_rank_fusion([bm25_pairs, vector_pairs] if vector_pairs else [bm25_pairs])
     chunk_map = {chunk["chunk_id"]: chunk for chunk in chunks}
-    results: list[dict[str, Any]] = []
-    ranked_chunk_ids = sorted(fused.items(), key=lambda item: item[1], reverse=True)[:top_k]
     bm25_score_map = dict(bm25_pairs)
     vector_score_map = dict(vector_pairs)
+    bm25_norm_map = normalize_score_map(bm25_pairs)
+    vector_norm_map = normalize_score_map(vector_pairs)
+
+    base_results: list[dict[str, Any]] = []
+    ranked_chunk_ids = sorted(fused.items(), key=lambda item: item[1], reverse=True)[: max(top_k, 12)]
     for rank, (chunk_id, score) in enumerate(ranked_chunk_ids, start=1):
         chunk = chunk_map[chunk_id]
-        results.append(
+        combined_score = float(score) + (0.15 * float(bm25_norm_map.get(chunk_id, 0.0))) + (0.10 * float(vector_norm_map.get(chunk_id, 0.0)))
+        base_results.append(
             {
                 "rank": rank,
                 "chunk_id": chunk["chunk_id"],
@@ -471,10 +533,84 @@ def hybrid_search_chunks(contract_id: str, query: str, top_k: int = 5) -> list[d
                 "wiki_source_path": chunk.get("wiki_source_path"),
                 "source_label": chunk.get("source_label"),
                 "block_ids": chunk.get("block_ids", []),
-                "retrieval_score": float(score),
+                "parent_chunk_id": chunk.get("parent_chunk_id"),
+                "clause_family": chunk.get("clause_family", []),
+                "retrieval_score": combined_score,
                 "bm25_score": float(bm25_score_map.get(chunk_id, 0.0)),
                 "vector_score": float(vector_score_map.get(chunk_id, 0.0)),
                 "retrieval_method": "hybrid_qdrant" if qdrant_ready() and vector_pairs else ("hybrid_local" if vector_pairs else "bm25"),
             }
         )
-    return results
+
+    intents = intents or set()
+    is_action_like = "action" in intents or "progress_delay" in intents
+    parent_expansion_cap = 2 if is_action_like else 3
+    parent_expansion_threshold = 0.04 if is_action_like else 0.02
+    parent_expansion_multiplier = 0.65 if is_action_like else 0.85
+
+    direct_parent_ids = {
+        item.get("parent_chunk_id")
+        for item in base_results
+        if item.get("chunk_type") == "clause" and item.get("parent_chunk_id")
+    }
+    expanded_results: list[dict[str, Any]] = []
+    expanded_parent_ids: set[str] = set()
+    expanded_clause_families: set[str] = set()
+    replaced_child_ids: set[str] = set()
+    for item in base_results:
+        if len(expanded_results) >= parent_expansion_cap:
+            break
+        if item.get("chunk_type") != "subclause":
+            continue
+        if float(item.get("retrieval_score", 0.0)) < parent_expansion_threshold:
+            continue
+        parent_chunk_id = item.get("parent_chunk_id")
+        if not parent_chunk_id or parent_chunk_id in expanded_parent_ids or parent_chunk_id in direct_parent_ids:
+            continue
+        parent = parent_chunks.get(parent_chunk_id)
+        if not parent:
+            continue
+        parent_families = set(parent.get("clause_family", []))
+        if is_action_like and parent_families and parent_families & expanded_clause_families:
+            continue
+        expanded_parent_ids.add(parent_chunk_id)
+        expanded_clause_families.update(parent_families)
+        replaced_child_ids.add(item["chunk_id"])
+        expanded_results.append(
+            {
+                "rank": 0,
+                "chunk_id": parent["chunk_id"],
+                "text_snippet": parent["text"][:500],
+                "para_start": parent["para_start"],
+                "para_end": parent["para_end"],
+                "page_estimate": parent["page_estimate"],
+                "chunk_type": "clause",
+                "clause_label": parent.get("clause_label"),
+                "structured_kind": parent.get("structured_kind"),
+                "wiki_source_path": parent.get("wiki_source_path"),
+                "source_label": parent.get("source_label"),
+                "block_ids": parent.get("block_ids", []),
+                "parent_chunk_id": parent["chunk_id"],
+                "clause_family": parent.get("clause_family", []),
+                "retrieval_score": float(item["retrieval_score"]) * parent_expansion_multiplier,
+                "bm25_score": float(item.get("bm25_score", 0.0)),
+                "vector_score": float(item.get("vector_score", 0.0)),
+                "retrieval_method": "parent_expansion",
+                "triggered_by": item["chunk_id"],
+            }
+        )
+
+    deduped_results: list[dict[str, Any]] = []
+    seen_chunk_ids: set[str] = set()
+    for item in sorted(base_results + expanded_results, key=lambda row: float(row["retrieval_score"]), reverse=True):
+        if item["chunk_id"] in replaced_child_ids and item.get("chunk_type") == "subclause":
+            continue
+        if item["chunk_id"] in seen_chunk_ids:
+            continue
+        seen_chunk_ids.add(item["chunk_id"])
+        deduped_results.append(item)
+        if len(deduped_results) >= top_k:
+            break
+    for rank, item in enumerate(deduped_results, start=1):
+        item["rank"] = rank
+    return deduped_results

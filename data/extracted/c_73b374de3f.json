@@ -8,7 +8,7 @@
   "doc_category": "contract",
   "milestones": [
     {
-      "milestone_id": "m_b9d12494333c",
+      "milestone_id": "m_239543b7977a",
       "name": "第一期：乙方提交細部設計圖經甲方及客戶核定後",
       "amount": 3339000,
       "percentage": 20.0,
@@ -110,15 +110,15 @@
       "milestone_key": "m001"
     },
     {
-      "milestone_id": "m_bf176c3d848f",
+      "milestone_id": "m_c759b378ef3f",
       "name": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
       "amount": 5008500,
       "percentage": 30.0,
       "work_items": [
-        "乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目)經甲方及客戶確認"
+        "乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目)"
       ],
       "acceptance_criteria": "甲方及客戶確認",
-      "payment_condition": "乙方完成設備交貨經甲方及客戶確認後",
+      "payment_condition": "乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -212,7 +212,7 @@
       "milestone_key": "m002"
     },
     {
-      "milestone_id": "m_c87366de7538",
+      "milestone_id": "m_94ec1e5e8ab9",
       "name": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
       "amount": 5008500,
       "percentage": 30.0,
@@ -314,14 +314,14 @@
       "milestone_key": "m003"
     },
     {
-      "milestone_id": "m_7515c6dd8270",
+      "milestone_id": "m_cdf3be2fd514",
       "name": "第四期：本工程全部經甲方及客戶驗收合格後",
       "amount": 3339000,
       "percentage": 20.0,
       "work_items": [
         "本工程全部經甲方及客戶驗收合格"
       ],
-      "acceptance_criteria": "甲方及客戶驗收合格",
+      "acceptance_criteria": "本工程全部經甲方及客戶驗收合格",
       "payment_condition": "本工程全部經甲方及客戶驗收合格後",
       "status": "pending_acceptance",
       "citations": [
@@ -2306,7 +2306,7 @@
     "extraction_path": "llm_tasks",
     "fallback_reason": "version:no_blocks",
     "prompt_tokens": 1600,
-    "llm_ms": 32940,
+    "llm_ms": 25527,
     "pipeline_revision": "2026-04-27-citation-summary-v1"
   },
   "segment_map": {
