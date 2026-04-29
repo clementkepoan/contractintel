@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 import time
 from typing import Any
 
@@ -89,11 +90,57 @@ def _extract_json_object(raw: str) -> dict[str, Any] | None:
     end = text.rfind("}")
     if start == -1 or end == -1 or end <= start:
         return None
+    candidate = text[start : end + 1]
     try:
-        parsed = json.loads(text[start : end + 1])
+        parsed = json.loads(candidate)
         return parsed if isinstance(parsed, dict) else None
     except json.JSONDecodeError:
-        return None
+        repaired = _repair_block_id_arrays(candidate)
+        if repaired == candidate:
+            return None
+        try:
+            parsed = json.loads(repaired)
+            return parsed if isinstance(parsed, dict) else None
+        except json.JSONDecodeError:
+            return None
+
+
+def _repair_block_id_arrays(text: str) -> str:
+    evidence_keys = (
+        "name_block_ids",
+        "amount_block_ids",
+        "percentage_block_ids",
+        "work_item_block_ids",
+        "acceptance_block_ids",
+        "payment_block_ids",
+        "evidence_block_ids",
+        "total_amount_block_ids",
+    )
+
+    def repl(match: re.Match[str]) -> str:
+        key = match.group("key")
+        inner = match.group("inner")
+        parts = []
+        changed = False
+        for raw_part in inner.split(","):
+            token = raw_part.strip()
+            if not token:
+                continue
+            if token.startswith('"') and token.endswith('"'):
+                parts.append(token)
+                continue
+            if re.fullmatch(r"\d+", token):
+                parts.append(f'"{token}"')
+                changed = True
+                continue
+            parts.append(token)
+        rebuilt = ", ".join(parts)
+        return f'"{key}": [{rebuilt}]' if changed else match.group(0)
+
+    pattern = re.compile(
+        r'"(?P<key>' + "|".join(re.escape(key) for key in evidence_keys) + r')"\s*:\s*\[(?P<inner>[^\]]*)\]'
+    )
+    return pattern.sub(repl, text)
 
 
 def validate_llm_response_schema(parsed: dict[str, Any]) -> tuple[bool, str]:
@@ -370,6 +417,9 @@ def _task_prompt(task: str, blocks: list[dict[str, Any]]) -> str:
             "若金額或百分比分在相鄰區塊，必須合併判讀。"
             "付款條件=含給付/付款/請款的句子；驗收條件=完成/核定/確認/驗收/測試通過條件。"
             "若無條列工作項目，從每期觸發條件提取短工作項目。"
+            "evidence 裡的所有 block_id 必須是字串，必須加雙引號，且必須直接使用來源中的 block_id。"
+            '例如："name_block_ids":["block_0056"]。'
+            '不可輸出："name_block_ids":[0056] 或 "name_block_ids":[56]。'
             "金額整數不含逗號，百分比數字，未知 null。\n"
             '{"payment_type":null,"milestones":[{"source_order":1,"name":"","amount":null,"percentage":null,'
             '"work_items":[],"acceptance_criteria":null,"payment_condition":null,"status":"pending_acceptance",'

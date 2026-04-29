@@ -50,6 +50,7 @@ def query_local_messages_detailed(
     messages: list[dict[str, str]],
     timeout: float = 20.0,
     response_format: str | None = None,
+    model_name: str | None = None,
 ) -> dict[str, Any]:
     payload: dict[str, Any] = {
         "messages": messages,
@@ -64,8 +65,9 @@ def query_local_messages_detailed(
         "max_tokens": 8192,
         "chat_template_kwargs": {"enable_thinking": settings.local_model_enable_thinking},
     }
-    if settings.local_model_name:
-        payload["model"] = settings.local_model_name
+    effective_model_name = model_name if model_name is not None else settings.local_model_name
+    if effective_model_name:
+        payload["model"] = effective_model_name
     if response_format == "json":
         payload["response_format"] = {"type": "json_object"}
     try:
@@ -85,11 +87,17 @@ def query_local_messages_detailed(
         return {"response": None, "error": "request_error"}
 
 
-def query_local_llm_detailed(prompt: str, timeout: float = 20.0, response_format: str | None = None) -> dict[str, Any]:
+def query_local_llm_detailed(
+    prompt: str,
+    timeout: float = 20.0,
+    response_format: str | None = None,
+    model_name: str | None = None,
+) -> dict[str, Any]:
     return query_local_messages_detailed(
         [
             {"role": "user", "content": prompt},
         ],
         timeout=timeout,
         response_format=response_format,
+        model_name=model_name,
     )

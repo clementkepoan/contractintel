@@ -119,7 +119,7 @@ def get_latest_query(chat_session_id: str) -> dict | None:
             "wiki_path": row.wiki_path or None,
             "answer_method": row.answer_method,
             "retrieval_mode": row.retrieval_mode,
-            "model_name": settings.local_model_name,
+            "model_name": settings.local_query_model_name,
             "contract_id": contract_scope[0] if contract_scope else None,
             "created_at": row.created_at,
         }
@@ -147,7 +147,7 @@ def get_chat_turns(chat_session_id: str) -> list[dict]:
                     "wiki_path": row.wiki_path or None,
                     "answer_method": row.answer_method,
                     "retrieval_mode": row.retrieval_mode,
-                    "model_name": settings.local_model_name,
+                    "model_name": settings.local_query_model_name,
                     "contract_id": contract_scope[0] if contract_scope else None,
                     "created_at": row.created_at,
                 }

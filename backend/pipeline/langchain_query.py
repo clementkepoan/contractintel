@@ -209,6 +209,7 @@ def build_answer_instructions(intents: set[str], output_language: str) -> str:
         f"最終回答語言必須使用：{output_language}。",
         "回答長度應適中：先給直接答案，再列 3 到 6 個最重要重點；除非使用者要求詳細說明，不要寫成長篇報告。",
         "避免重複同一條款、避免逐字重述長段條文、避免輸出不必要的標題或自我檢查內容。",
+        "不要輸出 Markdown 表格，不要使用 |---| 或欄位表；一律改用條列或短段落。",
     ]
     if "action" in intents or "progress_delay" in intents:
         lines.extend(
@@ -412,7 +413,7 @@ def answer_with_langchain(
             "citations": [],
             "answer_method": "no_evidence",
             "retrieval_mode": retrieval_mode(),
-            "model_name": settings.local_model_name,
+            "model_name": settings.local_query_model_name,
             "wiki_path": None,
         }
 
@@ -430,6 +431,7 @@ def answer_with_langchain(
         "回答時要像合約分析師，而不是一般摘要器。"
         "對於工程承攬契約，應特別檢查：固定總價與不得追加、付款辦法、驗收標準、遲延罰款、暫停給付、損害賠償、契約終止與解除、不可抗力、關稅是否被排除於不可抗力、保固責任、轉包/分包限制。"
         "若問題詢問風險、可採取的行動、可否請款、保固期是否相同、或關稅是否屬不可抗力，通常必須綜合多個條款回答，不可只依賴單一條款。"
+        "不要輸出 Markdown 表格；請使用條列或短段落。"
         "最終回答必須跟隨使用者問題的主要語言；中文問題用繁體中文回答，英文問題用英文回答。"
     )
     user_prompt = (
@@ -441,7 +443,11 @@ def answer_with_langchain(
     messages = [{"role": "system", "content": system_prompt}]
     messages.extend(history_to_messages(load_history(session, chat_session.chat_session_id)))
     messages.append({"role": "user", "content": user_prompt})
-    llm_result = query_local_messages_detailed(messages, timeout=60.0)
+    llm_result = query_local_messages_detailed(
+        messages,
+        timeout=60.0,
+        model_name=settings.local_query_model_name,
+    )
     answer = (llm_result.get("response") or "").strip()
     if not answer:
         raise RuntimeError(f"Local model server did not return an answer: {llm_result.get('error') or 'empty_response'}")
@@ -482,6 +488,6 @@ def answer_with_langchain(
         "citations": citations,
         "answer_method": "openai_compatible_chat",
         "retrieval_mode": retrieval_mode(),
-        "model_name": settings.local_model_name,
+        "model_name": settings.local_query_model_name,
         "wiki_path": wiki_path,
     }

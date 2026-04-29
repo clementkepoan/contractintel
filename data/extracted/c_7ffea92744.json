@@ -1,0 +1,3016 @@
+{
+  "contract_name": "10XX專案─太陽能光電系統建置工程（屋頂型）",
+  "total_amount": 23800000,
+  "currency": "TWD",
+  "contract_type": "lump_sum",
+  "payment_type": "installment",
+  "total_amount_is_tax_included": true,
+  "doc_category": "contract",
+  "milestones": [
+    {
+      "milestone_id": "m_a4179afbc776",
+      "name": "第一期（20%）：合約簽訂後7天內",
+      "amount": 4760000,
+      "percentage": 20.0,
+      "work_items": [
+        "施工計畫書提交",
+        "設備採購下單（提供採購訂單證明）",
+        "工程保險投保完成"
+      ],
+      "acceptance_criteria": "（20%）：合約簽訂後7天內",
+      "payment_condition": "合約簽訂後7天內",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "10XX專案.docx",
+          "para_start": 40,
+          "para_end": 40,
+          "page_estimate": 3,
+          "char_offset_start": 7,
+          "char_offset_end": 24,
+          "text_snippet": "第一期（20%）：合約簽訂後7天內",
+          "block_id": "10XX專案_block_0040",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "10XX專案.docx",
+          "para_start": 40,
+          "para_end": 40,
+          "page_estimate": 3,
+          "char_offset_start": 25,
+          "char_offset_end": 40,
+          "text_snippet": "給付 NT$4,760,000",
+          "block_id": "10XX專案_block_0040",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "10XX專案.docx",
+          "para_start": 40,
+          "para_end": 40,
+          "page_estimate": 3,
+          "char_offset_start": 11,
+          "char_offset_end": 14,
+          "text_snippet": "20%",
+          "block_id": "10XX專案_block_0040",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "10XX專案.docx",
+          "para_start": 40,
+          "para_end": 40,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 44,
+          "text_snippet": "[V2修訂] 第一期（20%）：合約簽訂後7天內，給付 NT$4,760,000（含稅）",
+          "block_id": "10XX專案_block_0040",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "10XX專案.docx",
+          "para_start": 40,
+          "para_end": 40,
+          "page_estimate": 3,
+          "char_offset_start": 10,
+          "char_offset_end": 24,
+          "text_snippet": "（20%）：合約簽訂後7天內",
+          "block_id": "10XX專案_block_0040",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "10XX專案.docx",
+          "para_start": 41,
+          "para_end": 41,
+          "page_estimate": 3,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "施工計畫書提交\n設備採購下單（提供採購訂單證明）\n工程保險投保完成",
+          "block_id": "10XX專案_block_0041",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 1,
+      "start_paragraph_index": 40,
+      "end_paragraph_index": 44,
+      "milestone_key": "m001"
+    },
+    {
+      "milestone_id": "m_1ee4581ef7a3",
+      "name": "第二期（30%）：A棟及B棟太陽能板安裝完成",
+      "amount": 7140000,
+      "percentage": 30.0,
+      "work_items": [
+        "A棟150kWp系統安裝完成並通過單機測試",
+        "B棟150kWp系統安裝完成並通過單機測試",
+        "停車棚100kWp系統安裝完成"
+      ],
+      "acceptance_criteria": "A棟及B棟太陽能板安裝完成，單機測試通過",
+      "payment_condition": "A棟及B棟太陽能板安裝完成，單機測試通過後",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "10XX專案.docx",
+          "para_start": 46,
+          "para_end": 46,
+          "page_estimate": 4,
+          "char_offset_start": 7,
+          "char_offset_end": 29,
+          "text_snippet": "第二期（30%）：A棟及B棟太陽能板安裝完成",
+          "block_id": "10XX專案_block_0046",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "10XX專案.docx",
+          "para_start": 46,
+          "para_end": 46,
+          "page_estimate": 4,
+          "char_offset_start": 38,
+          "char_offset_end": 53,
+          "text_snippet": "給付 NT$7,140,000",
+          "block_id": "10XX專案_block_0046",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "10XX專案.docx",
+          "para_start": 46,
+          "para_end": 46,
+          "page_estimate": 4,
+          "char_offset_start": 11,
+          "char_offset_end": 14,
+          "text_snippet": "30%",
+          "block_id": "10XX專案_block_0046",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "10XX專案.docx",
+          "para_start": 46,
+          "para_end": 46,
+          "page_estimate": 4,
+          "char_offset_start": 0,
+          "char_offset_end": 57,
+          "text_snippet": "[V2修訂] 第二期（30%）：A棟及B棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）",
+          "block_id": "10XX專案_block_0046",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "10XX專案.docx",
+          "para_start": 46,
+          "para_end": 46,
+          "page_estimate": 4,
+          "char_offset_start": 0,
+          "char_offset_end": 37,
+          "text_snippet": "[V2修訂] 第二期（30%）：A棟及B棟太陽能板安裝完成，單機測試通過後",
+          "block_id": "10XX專案_block_0046",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "10XX專案.docx",
+          "para_start": 47,
+          "para_end": 47,
+          "page_estimate": 4,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "A棟150kWp系統安裝完成並通過單機測試\nB棟150kWp系統安裝完成並通過單機測試\n停車棚100kWp系統安裝完成",
+          "block_id": "10XX專案_block_0047",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 2,
+      "start_paragraph_index": 46,
+      "end_paragraph_index": 50,
+      "milestone_key": "m002"
+    },
+    {
+      "milestone_id": "m_1bfe93954229",
+      "name": "第三期（30%）：C棟結構補強完成且C棟太陽能板安裝完成",
+      "amount": 7140000,
+      "percentage": 30.0,
+      "work_items": [
+        "C棟屋頂結構補強工程完成（甲方結構技師簽證）",
+        "C棟100kWp系統安裝完成並通過單機測試"
+      ],
+      "acceptance_criteria": "C棟結構補強完成且C棟太陽能板安裝完成，單機測試通過",
+      "payment_condition": "C棟結構補強完成且C棟太陽能板安裝完成，單機測試通過後",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "10XX專案.docx",
+          "para_start": 52,
+          "para_end": 52,
+          "page_estimate": 4,
+          "char_offset_start": 7,
+          "char_offset_end": 35,
+          "text_snippet": "第三期（30%）：C棟結構補強完成且C棟太陽能板安裝完成",
+          "block_id": "10XX專案_block_0052",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "10XX專案.docx",
+          "para_start": 52,
+          "para_end": 52,
+          "page_estimate": 4,
+          "char_offset_start": 44,
+          "char_offset_end": 59,
+          "text_snippet": "給付 NT$7,140,000",
+          "block_id": "10XX專案_block_0052",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "10XX專案.docx",
+          "para_start": 52,
+          "para_end": 52,
+          "page_estimate": 4,
+          "char_offset_start": 11,
+          "char_offset_end": 14,
+          "text_snippet": "30%",
+          "block_id": "10XX專案_block_0052",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "10XX專案.docx",
+          "para_start": 52,
+          "para_end": 52,
+          "page_estimate": 4,
+          "char_offset_start": 0,
+          "char_offset_end": 63,
+          "text_snippet": "[V2修訂] 第三期（30%）：C棟結構補強完成且C棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）",
+          "block_id": "10XX專案_block_0052",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "10XX專案.docx",
+          "para_start": 52,
+          "para_end": 52,
+          "page_estimate": 4,
+          "char_offset_start": 0,
+          "char_offset_end": 43,
+          "text_snippet": "[V2修訂] 第三期（30%）：C棟結構補強完成且C棟太陽能板安裝完成，單機測試通過後",
+          "block_id": "10XX專案_block_0052",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "10XX專案.docx",
+          "para_start": 53,
+          "para_end": 53,
+          "page_estimate": 4,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "C棟屋頂結構補強工程完成（甲方結構技師簽證）\nC棟100kWp系統安裝完成並通過單機測試",
+          "block_id": "10XX專案_block_0053",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 3,
+      "start_paragraph_index": 52,
+      "end_paragraph_index": 55,
+      "milestone_key": "m003"
+    },
+    {
+      "milestone_id": "m_60abca63b6b7",
+      "name": "第四期（20%）：全廠區系統整合測試完成",
+      "amount": 4760000,
+      "percentage": 20.0,
+      "work_items": [
+        "500kWp全系統整合測試通過",
+        "台電併網申請及竣工查驗合格",
+        "能源監控系統建置及設定完成",
+        "完工圖說、保固書、設備保固卡提交"
+      ],
+      "acceptance_criteria": "全廠區系統整合測試完成，取得台電竣工查驗合格，並完成所有驗收後",
+      "payment_condition": "全廠區系統整合測試完成，取得台電竣工查驗合格，並完成所有驗收後",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "10XX專案.docx",
+          "para_start": 57,
+          "para_end": 57,
+          "page_estimate": 4,
+          "char_offset_start": 7,
+          "char_offset_end": 27,
+          "text_snippet": "第四期（20%）：全廠區系統整合測試完成",
+          "block_id": "10XX專案_block_0057",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "10XX專案.docx",
+          "para_start": 57,
+          "para_end": 57,
+          "page_estimate": 4,
+          "char_offset_start": 48,
+          "char_offset_end": 63,
+          "text_snippet": "給付 NT$4,760,000",
+          "block_id": "10XX專案_block_0057",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "10XX專案.docx",
+          "para_start": 57,
+          "para_end": 57,
+          "page_estimate": 4,
+          "char_offset_start": 11,
+          "char_offset_end": 14,
+          "text_snippet": "20%",
+          "block_id": "10XX專案_block_0057",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "10XX專案.docx",
+          "para_start": 57,
+          "para_end": 57,
+          "page_estimate": 4,
+          "char_offset_start": 0,
+          "char_offset_end": 67,
+          "text_snippet": "[V2修訂] 第四期（20%）：全廠區系統整合測試完成，取得台電竣工查驗合格，並完成所有驗收後，給付 NT$4,760,000（含稅）",
+          "block_id": "10XX專案_block_0057",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "10XX專案.docx",
+          "para_start": 57,
+          "para_end": 57,
+          "page_estimate": 4,
+          "char_offset_start": 10,
+          "char_offset_end": 27,
+          "text_snippet": "（20%）：全廠區系統整合測試完成",
+          "block_id": "10XX專案_block_0057",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "10XX專案.docx",
+          "para_start": 58,
+          "para_end": 58,
+          "page_estimate": 4,
+          "char_offset_start": -1,
+          "char_offset_end": -1,
+          "text_snippet": "500kWp全系統整合測試通過\n台電併網申請及竣工查驗合格\n能源監控系統建置及設定完成\n完工圖說、保固書、設備保固卡提交",
+          "block_id": "10XX專案_block_0058",
+          "citation_mode": "block_support",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 4,
+      "start_paragraph_index": 57,
+      "end_paragraph_index": 64,
+      "milestone_key": "m004"
+    }
+  ],
+  "superseded_milestones": [
+    {
+      "milestone_id": "m_afac8b8a77",
+      "name": "第一期（35%）：簽約後7天內",
+      "amount": 7525000,
+      "percentage": 35.0,
+      "work_items": [
+        "[舊版V1內容-已廢除] 第一期（35%）：簽約後7天內"
+      ],
+      "acceptance_criteria": "（35%）：簽約後7天內",
+      "payment_condition": "[舊版V1內容-已廢除] 第一期（35%）：簽約後7天內，給付 NT$7,525,000",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "10XX專案.docx",
+          "para_start": 34,
+          "para_end": 34,
+          "page_estimate": 3,
+          "char_offset_start": 13,
+          "char_offset_end": 28,
+          "text_snippet": "第一期（35%）：簽約後7天內",
+          "block_id": "10XX專案_block_0034",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "10XX專案.docx",
+          "para_start": 34,
+          "para_end": 34,
+          "page_estimate": 3,
+          "char_offset_start": 29,
+          "char_offset_end": 44,
+          "text_snippet": "給付 NT$7,525,000",
+          "block_id": "10XX專案_block_0034",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "10XX專案.docx",
+          "para_start": 34,
+          "para_end": 34,
+          "page_estimate": 3,
+          "char_offset_start": 17,
+          "char_offset_end": 20,
+          "text_snippet": "35%",
+          "block_id": "10XX專案_block_0034",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "10XX專案.docx",
+          "para_start": 34,
+          "para_end": 34,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 44,
+          "text_snippet": "[舊版V1內容-已廢除] 第一期（35%）：簽約後7天內，給付 NT$7,525,000",
+          "block_id": "10XX專案_block_0034",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "10XX專案.docx",
+          "para_start": 34,
+          "para_end": 34,
+          "page_estimate": 3,
+          "char_offset_start": 16,
+          "char_offset_end": 28,
+          "text_snippet": "（35%）：簽約後7天內",
+          "block_id": "10XX專案_block_0034",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "10XX專案.docx",
+          "para_start": 34,
+          "para_end": 34,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 45,
+          "text_snippet": "[舊版V1內容-已廢除] 第一期（35%）：簽約後7天內，給付 NT$7,525,000。",
+          "block_id": "10XX專案_block_0034",
+          "citation_mode": "derived_from_block",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 1,
+      "start_paragraph_index": 34,
+      "end_paragraph_index": 34
+    },
+    {
+      "milestone_id": "m_5fb44d295d",
+      "name": "第二期（35%）：設備安裝完成",
+      "amount": 7525000,
+      "percentage": 35.0,
+      "work_items": [
+        "[舊版V1內容-已廢除] 第二期（35%）：設備安裝完成，驗收合格"
+      ],
+      "acceptance_criteria": "[舊版V1內容-已廢除] 第二期（35%）：設備安裝完成，驗收合格後",
+      "payment_condition": "[舊版V1內容-已廢除] 第二期（35%）：設備安裝完成，驗收合格後，給付 NT$7,525,000",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "10XX專案.docx",
+          "para_start": 35,
+          "para_end": 35,
+          "page_estimate": 3,
+          "char_offset_start": 13,
+          "char_offset_end": 28,
+          "text_snippet": "第二期（35%）：設備安裝完成",
+          "block_id": "10XX專案_block_0035",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "10XX專案.docx",
+          "para_start": 35,
+          "para_end": 35,
+          "page_estimate": 3,
+          "char_offset_start": 35,
+          "char_offset_end": 50,
+          "text_snippet": "給付 NT$7,525,000",
+          "block_id": "10XX專案_block_0035",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "10XX專案.docx",
+          "para_start": 35,
+          "para_end": 35,
+          "page_estimate": 3,
+          "char_offset_start": 17,
+          "char_offset_end": 20,
+          "text_snippet": "35%",
+          "block_id": "10XX專案_block_0035",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "10XX專案.docx",
+          "para_start": 35,
+          "para_end": 35,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 50,
+          "text_snippet": "[舊版V1內容-已廢除] 第二期（35%）：設備安裝完成，驗收合格後，給付 NT$7,525,000",
+          "block_id": "10XX專案_block_0035",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "10XX專案.docx",
+          "para_start": 35,
+          "para_end": 35,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 34,
+          "text_snippet": "[舊版V1內容-已廢除] 第二期（35%）：設備安裝完成，驗收合格後",
+          "block_id": "10XX專案_block_0035",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "10XX專案.docx",
+          "para_start": 35,
+          "para_end": 35,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 51,
+          "text_snippet": "[舊版V1內容-已廢除] 第二期（35%）：設備安裝完成，驗收合格後，給付 NT$7,525,000。",
+          "block_id": "10XX專案_block_0035",
+          "citation_mode": "derived_from_block",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 2,
+      "start_paragraph_index": 35,
+      "end_paragraph_index": 35
+    },
+    {
+      "milestone_id": "m_b81eb30ec1",
+      "name": "第三期（30%）：全部完工驗收合格後",
+      "amount": 6450000,
+      "percentage": 30.0,
+      "work_items": [
+        "[舊版V1內容-已廢除] 第三期（30%）：全部完工驗收合格"
+      ],
+      "acceptance_criteria": "[舊版V1內容-已廢除] 第三期（30%）：全部完工驗收合格後",
+      "payment_condition": "[舊版V1內容-已廢除] 第三期（30%）：全部完工驗收合格後，給付 NT$6,450,000",
+      "status": "pending_acceptance",
+      "citations": [
+        {
+          "field_name": "milestone.name",
+          "source_file": "10XX專案.docx",
+          "para_start": 36,
+          "para_end": 36,
+          "page_estimate": 3,
+          "char_offset_start": 13,
+          "char_offset_end": 31,
+          "text_snippet": "第三期（30%）：全部完工驗收合格後",
+          "block_id": "10XX專案_block_0036",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+        },
+        {
+          "field_name": "milestone.amount",
+          "source_file": "10XX專案.docx",
+          "para_start": 36,
+          "para_end": 36,
+          "page_estimate": 3,
+          "char_offset_start": 32,
+          "char_offset_end": 47,
+          "text_snippet": "給付 NT$6,450,000",
+          "block_id": "10XX專案_block_0036",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+        },
+        {
+          "field_name": "milestone.percentage",
+          "source_file": "10XX專案.docx",
+          "para_start": 36,
+          "para_end": 36,
+          "page_estimate": 3,
+          "char_offset_start": 17,
+          "char_offset_end": 20,
+          "text_snippet": "30%",
+          "block_id": "10XX專案_block_0036",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "([\\d.]+)\\s*[％%]"
+        },
+        {
+          "field_name": "milestone.payment_condition",
+          "source_file": "10XX專案.docx",
+          "para_start": 36,
+          "para_end": 36,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 47,
+          "text_snippet": "[舊版V1內容-已廢除] 第三期（30%）：全部完工驗收合格後，給付 NT$6,450,000",
+          "block_id": "10XX專案_block_0036",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.acceptance_criteria",
+          "source_file": "10XX專案.docx",
+          "para_start": 36,
+          "para_end": 36,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 31,
+          "text_snippet": "[舊版V1內容-已廢除] 第三期（30%）：全部完工驗收合格後",
+          "block_id": "10XX專案_block_0036",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "stitched_clause"
+        },
+        {
+          "field_name": "milestone.work_items",
+          "source_file": "10XX專案.docx",
+          "para_start": 36,
+          "para_end": 36,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 48,
+          "text_snippet": "[舊版V1內容-已廢除] 第三期（30%）：全部完工驗收合格後，給付 NT$6,450,000。",
+          "block_id": "10XX專案_block_0036",
+          "citation_mode": "derived_from_block",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ],
+      "source_order": 3,
+      "start_paragraph_index": 36,
+      "end_paragraph_index": 37
+    }
+  ],
+  "has_version_conflict": true,
+  "document_versions": [
+    {
+      "version": "V1.0",
+      "date": "2024/10/01",
+      "summary": "初版發行",
+      "citations": [
+        {
+          "field_name": "document_versions",
+          "source_file": "10XX專案.docx",
+          "para_start": 161,
+          "para_end": 161,
+          "page_estimate": 11,
+          "char_offset_start": 0,
+          "char_offset_end": 25,
+          "text_snippet": "V1.0 | 2024/10/01 | 初版發行 ",
+          "block_id": "10XX專案_table_01_row_001",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "version_table"
+        }
+      ]
+    },
+    {
+      "version": "V2.0",
+      "date": "2025/02/15",
+      "summary": "總價、工期、付款期數調整",
+      "citations": [
+        {
+          "field_name": "document_versions",
+          "source_file": "10XX專案.docx",
+          "para_start": 162,
+          "para_end": 162,
+          "page_estimate": 11,
+          "char_offset_start": 0,
+          "char_offset_end": 33,
+          "text_snippet": "V2.0 | 2025/02/15 | 總價、工期、付款期數調整 ",
+          "block_id": "10XX專案_table_01_row_002",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": "version_table"
+        }
+      ]
+    }
+  ],
+  "currency_breakdown": [],
+  "retention": null,
+  "progress_checkpoints": [],
+  "citations": [
+    {
+      "field_name": "total_amount",
+      "source_file": "10XX專案.docx",
+      "para_start": 23,
+      "para_end": 23,
+      "page_estimate": 2,
+      "char_offset_start": 31,
+      "char_offset_end": 44,
+      "text_snippet": "NT$23,800,000",
+      "block_id": "10XX專案_block_0023",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "NT\\$\\s*([\\d,]+)"
+    },
+    {
+      "field_name": "total_amount",
+      "source_file": "10XX專案.docx",
+      "para_start": 23,
+      "para_end": 23,
+      "page_estimate": 2,
+      "char_offset_start": 21,
+      "char_offset_end": 28,
+      "text_snippet": "貳仟參佰捌拾萬",
+      "block_id": "10XX專案_block_0023",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "[零一二三四五六七八九十百千萬億壹貳參肆伍陸柒捌玖拾佰仟兩]+"
+    },
+    {
+      "field_name": "total_amount",
+      "source_file": "10XX專案.docx",
+      "para_start": 64,
+      "para_end": 64,
+      "page_estimate": 5,
+      "char_offset_start": 7,
+      "char_offset_end": 20,
+      "text_snippet": "NT$23,800,000",
+      "block_id": "10XX專案_block_0064",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "NT\\$\\s*([\\d,]+)"
+    },
+    {
+      "field_name": "milestone.name",
+      "source_file": "10XX專案.docx",
+      "para_start": 40,
+      "para_end": 40,
+      "page_estimate": 3,
+      "char_offset_start": 7,
+      "char_offset_end": 24,
+      "text_snippet": "第一期（20%）：合約簽訂後7天內",
+      "block_id": "10XX專案_block_0040",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+    },
+    {
+      "field_name": "milestone.amount",
+      "source_file": "10XX專案.docx",
+      "para_start": 40,
+      "para_end": 40,
+      "page_estimate": 3,
+      "char_offset_start": 25,
+      "char_offset_end": 40,
+      "text_snippet": "給付 NT$4,760,000",
+      "block_id": "10XX專案_block_0040",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+    },
+    {
+      "field_name": "milestone.percentage",
+      "source_file": "10XX專案.docx",
+      "para_start": 40,
+      "para_end": 40,
+      "page_estimate": 3,
+      "char_offset_start": 11,
+      "char_offset_end": 14,
+      "text_snippet": "20%",
+      "block_id": "10XX專案_block_0040",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "([\\d.]+)\\s*[％%]"
+    },
+    {
+      "field_name": "milestone.payment_condition",
+      "source_file": "10XX專案.docx",
+      "para_start": 40,
+      "para_end": 40,
+      "page_estimate": 3,
+      "char_offset_start": 0,
+      "char_offset_end": 44,
+      "text_snippet": "[V2修訂] 第一期（20%）：合約簽訂後7天內，給付 NT$4,760,000（含稅）",
+      "block_id": "10XX專案_block_0040",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "10XX專案.docx",
+      "para_start": 40,
+      "para_end": 40,
+      "page_estimate": 3,
+      "char_offset_start": 10,
+      "char_offset_end": 24,
+      "text_snippet": "（20%）：合約簽訂後7天內",
+      "block_id": "10XX專案_block_0040",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.work_items",
+      "source_file": "10XX專案.docx",
+      "para_start": 41,
+      "para_end": 41,
+      "page_estimate": 3,
+      "char_offset_start": -1,
+      "char_offset_end": -1,
+      "text_snippet": "施工計畫書提交\n設備採購下單（提供採購訂單證明）\n工程保險投保完成",
+      "block_id": "10XX專案_block_0041",
+      "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    },
+    {
+      "field_name": "milestone.name",
+      "source_file": "10XX專案.docx",
+      "para_start": 46,
+      "para_end": 46,
+      "page_estimate": 4,
+      "char_offset_start": 7,
+      "char_offset_end": 29,
+      "text_snippet": "第二期（30%）：A棟及B棟太陽能板安裝完成",
+      "block_id": "10XX專案_block_0046",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+    },
+    {
+      "field_name": "milestone.amount",
+      "source_file": "10XX專案.docx",
+      "para_start": 46,
+      "para_end": 46,
+      "page_estimate": 4,
+      "char_offset_start": 38,
+      "char_offset_end": 53,
+      "text_snippet": "給付 NT$7,140,000",
+      "block_id": "10XX專案_block_0046",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+    },
+    {
+      "field_name": "milestone.percentage",
+      "source_file": "10XX專案.docx",
+      "para_start": 46,
+      "para_end": 46,
+      "page_estimate": 4,
+      "char_offset_start": 11,
+      "char_offset_end": 14,
+      "text_snippet": "30%",
+      "block_id": "10XX專案_block_0046",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "([\\d.]+)\\s*[％%]"
+    },
+    {
+      "field_name": "milestone.payment_condition",
+      "source_file": "10XX專案.docx",
+      "para_start": 46,
+      "para_end": 46,
+      "page_estimate": 4,
+      "char_offset_start": 0,
+      "char_offset_end": 57,
+      "text_snippet": "[V2修訂] 第二期（30%）：A棟及B棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）",
+      "block_id": "10XX專案_block_0046",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "10XX專案.docx",
+      "para_start": 46,
+      "para_end": 46,
+      "page_estimate": 4,
+      "char_offset_start": 0,
+      "char_offset_end": 37,
+      "text_snippet": "[V2修訂] 第二期（30%）：A棟及B棟太陽能板安裝完成，單機測試通過後",
+      "block_id": "10XX專案_block_0046",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.work_items",
+      "source_file": "10XX專案.docx",
+      "para_start": 47,
+      "para_end": 47,
+      "page_estimate": 4,
+      "char_offset_start": -1,
+      "char_offset_end": -1,
+      "text_snippet": "A棟150kWp系統安裝完成並通過單機測試\nB棟150kWp系統安裝完成並通過單機測試\n停車棚100kWp系統安裝完成",
+      "block_id": "10XX專案_block_0047",
+      "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    },
+    {
+      "field_name": "milestone.name",
+      "source_file": "10XX專案.docx",
+      "para_start": 52,
+      "para_end": 52,
+      "page_estimate": 4,
+      "char_offset_start": 7,
+      "char_offset_end": 35,
+      "text_snippet": "第三期（30%）：C棟結構補強完成且C棟太陽能板安裝完成",
+      "block_id": "10XX專案_block_0052",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+    },
+    {
+      "field_name": "milestone.amount",
+      "source_file": "10XX專案.docx",
+      "para_start": 52,
+      "para_end": 52,
+      "page_estimate": 4,
+      "char_offset_start": 44,
+      "char_offset_end": 59,
+      "text_snippet": "給付 NT$7,140,000",
+      "block_id": "10XX專案_block_0052",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+    },
+    {
+      "field_name": "milestone.percentage",
+      "source_file": "10XX專案.docx",
+      "para_start": 52,
+      "para_end": 52,
+      "page_estimate": 4,
+      "char_offset_start": 11,
+      "char_offset_end": 14,
+      "text_snippet": "30%",
+      "block_id": "10XX專案_block_0052",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "([\\d.]+)\\s*[％%]"
+    },
+    {
+      "field_name": "milestone.payment_condition",
+      "source_file": "10XX專案.docx",
+      "para_start": 52,
+      "para_end": 52,
+      "page_estimate": 4,
+      "char_offset_start": 0,
+      "char_offset_end": 63,
+      "text_snippet": "[V2修訂] 第三期（30%）：C棟結構補強完成且C棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）",
+      "block_id": "10XX專案_block_0052",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "10XX專案.docx",
+      "para_start": 52,
+      "para_end": 52,
+      "page_estimate": 4,
+      "char_offset_start": 0,
+      "char_offset_end": 43,
+      "text_snippet": "[V2修訂] 第三期（30%）：C棟結構補強完成且C棟太陽能板安裝完成，單機測試通過後",
+      "block_id": "10XX專案_block_0052",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.work_items",
+      "source_file": "10XX專案.docx",
+      "para_start": 53,
+      "para_end": 53,
+      "page_estimate": 4,
+      "char_offset_start": -1,
+      "char_offset_end": -1,
+      "text_snippet": "C棟屋頂結構補強工程完成（甲方結構技師簽證）\nC棟100kWp系統安裝完成並通過單機測試",
+      "block_id": "10XX專案_block_0053",
+      "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    },
+    {
+      "field_name": "milestone.name",
+      "source_file": "10XX專案.docx",
+      "para_start": 57,
+      "para_end": 57,
+      "page_estimate": 4,
+      "char_offset_start": 7,
+      "char_offset_end": 27,
+      "text_snippet": "第四期（20%）：全廠區系統整合測試完成",
+      "block_id": "10XX專案_block_0057",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
+    },
+    {
+      "field_name": "milestone.amount",
+      "source_file": "10XX專案.docx",
+      "para_start": 57,
+      "para_end": 57,
+      "page_estimate": 4,
+      "char_offset_start": 48,
+      "char_offset_end": 63,
+      "text_snippet": "給付 NT$4,760,000",
+      "block_id": "10XX專案_block_0057",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
+    },
+    {
+      "field_name": "milestone.percentage",
+      "source_file": "10XX專案.docx",
+      "para_start": 57,
+      "para_end": 57,
+      "page_estimate": 4,
+      "char_offset_start": 11,
+      "char_offset_end": 14,
+      "text_snippet": "20%",
+      "block_id": "10XX專案_block_0057",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "([\\d.]+)\\s*[％%]"
+    },
+    {
+      "field_name": "milestone.payment_condition",
+      "source_file": "10XX專案.docx",
+      "para_start": 57,
+      "para_end": 57,
+      "page_estimate": 4,
+      "char_offset_start": 0,
+      "char_offset_end": 67,
+      "text_snippet": "[V2修訂] 第四期（20%）：全廠區系統整合測試完成，取得台電竣工查驗合格，並完成所有驗收後，給付 NT$4,760,000（含稅）",
+      "block_id": "10XX專案_block_0057",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.acceptance_criteria",
+      "source_file": "10XX專案.docx",
+      "para_start": 57,
+      "para_end": 57,
+      "page_estimate": 4,
+      "char_offset_start": 10,
+      "char_offset_end": 27,
+      "text_snippet": "（20%）：全廠區系統整合測試完成",
+      "block_id": "10XX專案_block_0057",
+      "citation_mode": "exact_span",
+      "extraction_method": "regex",
+      "regex_pattern": "stitched_clause"
+    },
+    {
+      "field_name": "milestone.work_items",
+      "source_file": "10XX專案.docx",
+      "para_start": 58,
+      "para_end": 58,
+      "page_estimate": 4,
+      "char_offset_start": -1,
+      "char_offset_end": -1,
+      "text_snippet": "500kWp全系統整合測試通過\n台電併網申請及竣工查驗合格\n能源監控系統建置及設定完成\n完工圖說、保固書、設備保固卡提交",
+      "block_id": "10XX專案_block_0058",
+      "citation_mode": "block_support",
+      "extraction_method": "regex",
+      "regex_pattern": null
+    }
+  ],
+  "validation": [
+    {
+      "code": "version_conflict_detected",
+      "severity": "WARNING",
+      "message": "Version conflict detected: deprecated clauses were excluded from primary extraction and stored as superseded content.",
+      "citations": [
+        {
+          "field_name": "deprecated_clause",
+          "source_file": "10XX專案.docx",
+          "para_start": 4,
+          "para_end": 4,
+          "page_estimate": 1,
+          "char_offset_start": 0,
+          "char_offset_end": 32,
+          "text_snippet": "※ 本文件為V2版本，紅字為修訂內容，灰色刪除線為舊版已廢除條款",
+          "block_id": "10XX專案_block_0004",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        },
+        {
+          "field_name": "deprecated_clause",
+          "source_file": "10XX專案.docx",
+          "para_start": 22,
+          "para_end": 22,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 53,
+          "text_snippet": "[舊版V1內容-已廢除] 本工程承攬總價為新台幣 貳仟壹佰伍拾萬元整（NT$21,500,000，含稅）。",
+          "block_id": "10XX專案_block_0022",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        },
+        {
+          "field_name": "deprecated_clause",
+          "source_file": "10XX專案.docx",
+          "para_start": 29,
+          "para_end": 29,
+          "page_estimate": 2,
+          "char_offset_start": 0,
+          "char_offset_end": 48,
+          "text_snippet": "[舊版V1內容-已廢除] 本工程應於合約簽訂日起 6 個月內完成（預計2025年4月1日完工）。",
+          "block_id": "10XX專案_block_0029",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        },
+        {
+          "field_name": "deprecated_clause",
+          "source_file": "10XX專案.docx",
+          "para_start": 33,
+          "para_end": 33,
+          "page_estimate": 3,
+          "char_offset_start": 0,
+          "char_offset_end": 20,
+          "text_snippet": "（一）V1版付款辦法（已廢除，僅供參考）",
+          "block_id": "10XX專案_block_0033",
+          "citation_mode": "exact_span",
+          "extraction_method": "regex",
+          "regex_pattern": null
+        }
+      ]
+    }
+  ],
+  "extraction_method": "hybrid_llm",
+  "confidence": 100,
+  "source_candidates": {
+    "total_amount_candidates": [
+      23800000,
+      23800000,
+      23800000
+    ]
+  },
+  "declared_installment_count": null,
+  "blocks": [
+    {
+      "block_id": "10XX專案_block_0000",
+      "text": "工程承攬契約書",
+      "para_start": 0,
+      "para_end": 0,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "10XX專案_block_0001",
+      "text": "10XX專案─太陽能光電系統建置工程",
+      "para_start": 1,
+      "para_end": 1,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "10XX專案_block_0002",
+      "text": "合約版本：V1.0（2024/10/01）  →  V2.0（2025/02/15）",
+      "para_start": 2,
+      "para_end": 2,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "10XX專案_block_0003",
+      "text": "合約編號：SOLAR-2024-10-PV",
+      "para_start": 3,
+      "para_end": 3,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "10XX專案_block_0004",
+      "text": "※ 本文件為V2版本，紅字為修訂內容，灰色刪除線為舊版已廢除條款",
+      "para_start": 4,
+      "para_end": 4,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "10XX專案_block_0006",
+      "text": "第一條　工程名稱",
+      "para_start": 6,
+      "para_end": 6,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "10XX專案_block_0007",
+      "text": "工程名稱：10XX專案─太陽能光電系統建置工程（屋頂型）",
+      "para_start": 7,
+      "para_end": 7,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "10XX專案_block_0009",
+      "text": "第二條　工程地點",
+      "para_start": 9,
+      "para_end": 9,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "10XX專案_block_0010",
+      "text": "工程地點：台中市工業區○○路○○號（甲方廠區）",
+      "para_start": 10,
+      "para_end": 10,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "10XX專案_block_0011",
+      "text": "安裝位置：廠區屋頂（A棟、B棟、C棟）及停車棚頂",
+      "para_start": 11,
+      "para_end": 11,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "10XX專案_block_0013",
+      "text": "第三條　工程規模及技術規格",
+      "para_start": 13,
+      "para_end": 13,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "10XX專案_block_0014",
+      "text": "本工程安裝太陽能光電系統，主要技術規格如下：",
+      "para_start": 14,
+      "para_end": 14,
+      "page_estimate": 1
+    },
+    {
+      "block_id": "10XX專案_block_0015",
+      "text": "系統裝置容量：500kWp（A棟150kWp + B棟150kWp + C棟100kWp + 停車棚100kWp）",
+      "para_start": 15,
+      "para_end": 15,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "10XX專案_block_0016",
+      "text": "太陽能板：單晶矽，效率≥21%，25年線性功率保證",
+      "para_start": 16,
+      "para_end": 16,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "10XX專案_block_0017",
+      "text": "變流器（Inverter）：三相，轉換效率≥97.5%，具備孤島效應保護",
+      "para_start": 17,
+      "para_end": 17,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "10XX專案_block_0018",
+      "text": "結構系統：鋁合金固定型支架，耐風速≥60m/s",
+      "para_start": 18,
+      "para_end": 18,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "10XX專案_block_0019",
+      "text": "電能監控系統：即時發電量監控，雲端資料儲存10年",
+      "para_start": 19,
+      "para_end": 19,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "10XX專案_block_0021",
+      "text": "第四條　合約總價",
+      "para_start": 21,
+      "para_end": 21,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "10XX專案_block_0022",
+      "text": "[舊版V1內容-已廢除] 本工程承攬總價為新台幣 貳仟壹佰伍拾萬元整（NT$21,500,000，含稅）。",
+      "para_start": 22,
+      "para_end": 22,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "10XX專案_block_0023",
+      "text": "[V2修訂] 本工程承攬總價修訂為新台幣 貳仟參佰捌拾萬元整（NT$23,800,000，含稅）。",
+      "para_start": 23,
+      "para_end": 23,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "10XX專案_block_0024",
+      "text": "（金額調整原因：C棟屋頂結構補強工程追加，及銅材料價格上漲調整，詳V2變更單CH-2025-001）",
+      "para_start": 24,
+      "para_end": 24,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "10XX專案_block_0026",
+      "text": "本工程採固定總價承攬，乙方不得以材料漲價或匯率變動為由要求調整合約金額。",
+      "para_start": 26,
+      "para_end": 26,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "10XX專案_block_0028",
+      "text": "第五條　工程期限",
+      "para_start": 28,
+      "para_end": 28,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "10XX專案_block_0029",
+      "text": "[舊版V1內容-已廢除] 本工程應於合約簽訂日起 6 個月內完成（預計2025年4月1日完工）。",
+      "para_start": 29,
+      "para_end": 29,
+      "page_estimate": 2
+    },
+    {
+      "block_id": "10XX專案_block_0030",
+      "text": "[V2修訂] 本工程應於合約簽訂日起 8 個月內完成（預計2025年10月15日完工）。工期展延原因：C棟結構補強工程增加施工時間2個月。",
+      "para_start": 30,
+      "para_end": 30,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "10XX專案_block_0032",
+      "text": "第六條　付款辦法",
+      "para_start": 32,
+      "para_end": 32,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "10XX專案_block_0033",
+      "text": "（一）V1版付款辦法（已廢除，僅供參考）",
+      "para_start": 33,
+      "para_end": 33,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "10XX專案_block_0034",
+      "text": "[舊版V1內容-已廢除] 第一期（35%）：簽約後7天內，給付 NT$7,525,000。",
+      "para_start": 34,
+      "para_end": 34,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "10XX專案_block_0035",
+      "text": "[舊版V1內容-已廢除] 第二期（35%）：設備安裝完成，驗收合格後，給付 NT$7,525,000。",
+      "para_start": 35,
+      "para_end": 35,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "10XX專案_block_0036",
+      "text": "[舊版V1內容-已廢除] 第三期（30%）：全部完工驗收合格後，給付 NT$6,450,000。",
+      "para_start": 36,
+      "para_end": 36,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "10XX專案_block_0037",
+      "text": "[舊版V1內容-已廢除] 各期合計：NT$21,500,000。",
+      "para_start": 37,
+      "para_end": 37,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "10XX專案_block_0039",
+      "text": "（二）V2版付款辦法（現行有效）",
+      "para_start": 39,
+      "para_end": 39,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "10XX專案_block_0040",
+      "text": "[V2修訂] 第一期（20%）：合約簽訂後7天內，給付 NT$4,760,000（含稅）。",
+      "para_start": 40,
+      "para_end": 40,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "10XX專案_block_0041",
+      "text": "工作項目：",
+      "para_start": 41,
+      "para_end": 41,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "10XX專案_block_0042",
+      "text": "施工計畫書提交",
+      "para_start": 42,
+      "para_end": 42,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "10XX專案_block_0043",
+      "text": "設備採購下單（提供採購訂單證明）",
+      "para_start": 43,
+      "para_end": 43,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "10XX專案_block_0044",
+      "text": "工程保險投保完成",
+      "para_start": 44,
+      "para_end": 44,
+      "page_estimate": 3
+    },
+    {
+      "block_id": "10XX專案_block_0046",
+      "text": "[V2修訂] 第二期（30%）：A棟及B棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）。",
+      "para_start": 46,
+      "para_end": 46,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "10XX專案_block_0047",
+      "text": "工作項目：",
+      "para_start": 47,
+      "para_end": 47,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "10XX專案_block_0048",
+      "text": "A棟150kWp系統安裝完成並通過單機測試",
+      "para_start": 48,
+      "para_end": 48,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "10XX專案_block_0049",
+      "text": "B棟150kWp系統安裝完成並通過單機測試",
+      "para_start": 49,
+      "para_end": 49,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "10XX專案_block_0050",
+      "text": "停車棚100kWp系統安裝完成",
+      "para_start": 50,
+      "para_end": 50,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "10XX專案_block_0052",
+      "text": "[V2修訂] 第三期（30%）：C棟結構補強完成且C棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）。",
+      "para_start": 52,
+      "para_end": 52,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "10XX專案_block_0053",
+      "text": "工作項目：",
+      "para_start": 53,
+      "para_end": 53,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "10XX專案_block_0054",
+      "text": "C棟屋頂結構補強工程完成（甲方結構技師簽證）",
+      "para_start": 54,
+      "para_end": 54,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "10XX專案_block_0055",
+      "text": "C棟100kWp系統安裝完成並通過單機測試",
+      "para_start": 55,
+      "para_end": 55,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "10XX專案_block_0057",
+      "text": "[V2修訂] 第四期（20%）：全廠區系統整合測試完成，取得台電竣工查驗合格，並完成所有驗收後，給付 NT$4,760,000（含稅）。",
+      "para_start": 57,
+      "para_end": 57,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "10XX專案_block_0058",
+      "text": "工作項目：",
+      "para_start": 58,
+      "para_end": 58,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "10XX專案_block_0059",
+      "text": "500kWp全系統整合測試通過",
+      "para_start": 59,
+      "para_end": 59,
+      "page_estimate": 4
+    },
+    {
+      "block_id": "10XX專案_block_0060",
+      "text": "台電併網申請及竣工查驗合格",
+      "para_start": 60,
+      "para_end": 60,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "10XX專案_block_0061",
+      "text": "能源監控系統建置及設定完成",
+      "para_start": 61,
+      "para_end": 61,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "10XX專案_block_0062",
+      "text": "完工圖說、保固書、設備保固卡提交",
+      "para_start": 62,
+      "para_end": 62,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "10XX專案_block_0064",
+      "text": "V2各期合計：NT$23,800,000（與V2合約總價相符）。",
+      "para_start": 64,
+      "para_end": 64,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "10XX專案_block_0066",
+      "text": "【注意】本合約付款條件以V2版為準，如有任何舊版（V1）文件與本版本牴觸，一律以本V2版本為準。乙方不得以V1版本內容主張任何權利。",
+      "para_start": 66,
+      "para_end": 66,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "10XX專案_block_0068",
+      "text": "第七條　驗收標準",
+      "para_start": 68,
+      "para_end": 68,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "10XX專案_block_0069",
+      "text": "本工程驗收以下列標準為準：",
+      "para_start": 69,
+      "para_end": 69,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "10XX專案_block_0070",
+      "text": "太陽能板安裝傾斜角誤差 ≤ 2°",
+      "para_start": 70,
+      "para_end": 70,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "10XX專案_block_0071",
+      "text": "系統發電效率：安裝完成後連續30天，實際發電量不低於理論發電量之 92%",
+      "para_start": 71,
+      "para_end": 71,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "10XX專案_block_0072",
+      "text": "取得台電公司「再生能源系統竣工查驗合格通知書」",
+      "para_start": 72,
+      "para_end": 72,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "10XX專案_block_0073",
+      "text": "通過甲方委託之第三方能源查驗機構現場查驗",
+      "para_start": 73,
+      "para_end": 73,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "10XX專案_block_0074",
+      "text": "能源監控系統可正常顯示即時及歷史發電資料",
+      "para_start": 74,
+      "para_end": 74,
+      "page_estimate": 5
+    },
+    {
+      "block_id": "10XX專案_block_0076",
+      "text": "第八條　保固",
+      "para_start": 76,
+      "para_end": 76,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "10XX專案_block_0077",
+      "text": "本工程完工驗收後，各項設備保固期如下：",
+      "para_start": 77,
+      "para_end": 77,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "10XX專案_block_0079",
+      "text": "第九條　版本控制聲明",
+      "para_start": 79,
+      "para_end": 79,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "10XX專案_block_0080",
+      "text": "本合約歷次版本如下：",
+      "para_start": 80,
+      "para_end": 80,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "10XX專案_block_0082",
+      "text": "本合約 V2.0 版一式二份，雙方簽章後生效，並取代 V1.0 版之一切效力。",
+      "para_start": 82,
+      "para_end": 82,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "10XX專案_block_0084",
+      "text": "甲方代表人：___________________　日期：___________________",
+      "para_start": 84,
+      "para_end": 84,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "10XX專案_block_0085",
+      "text": "乙方代表人：___________________　日期：___________________",
+      "para_start": 85,
+      "para_end": 85,
+      "page_estimate": 6
+    },
+    {
+      "block_id": "10XX專案_table_00_row_000",
+      "text": "設備項目 | 保固年限 | 保固內容",
+      "para_start": 154,
+      "para_end": 154,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "10XX專案_table_00_row_001",
+      "text": "太陽能板 | 25年（線性功率保證） | 第1年功率≥98%，第25年功率≥80%",
+      "para_start": 155,
+      "para_end": 155,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "10XX專案_table_00_row_002",
+      "text": "變流器（Inverter） | 10年 | 零件及人工維修",
+      "para_start": 156,
+      "para_end": 156,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "10XX專案_table_00_row_003",
+      "text": "鋼構支架系統 | 10年 | 結構完整性保證",
+      "para_start": 157,
+      "para_end": 157,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "10XX專案_table_00_row_004",
+      "text": "電氣配線工程 | 2年 | 施工瑕疵修補",
+      "para_start": 158,
+      "para_end": 158,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "10XX專案_table_00_row_005",
+      "text": "能源監控系統（軟硬體） | 3年 | 軟體更新及硬體維修",
+      "para_start": 159,
+      "para_end": 159,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "10XX專案_table_01_row_000",
+      "text": "版本 | 日期 | 修訂項目 | 修訂原因",
+      "para_start": 160,
+      "para_end": 160,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "10XX專案_table_01_row_001",
+      "text": "V1.0 | 2024/10/01 | 初版發行 | —",
+      "para_start": 161,
+      "para_end": 161,
+      "page_estimate": 11
+    },
+    {
+      "block_id": "10XX專案_table_01_row_002",
+      "text": "V2.0 | 2025/02/15 | 總價、工期、付款期數調整 | C棟結構補強追加及材料漲價",
+      "para_start": 162,
+      "para_end": 162,
+      "page_estimate": 11
+    }
+  ],
+  "raw_text_preview": "工程承攬契約書\n10XX專案─太陽能光電系統建置工程\n合約版本：V1.0（2024/10/01）  →  V2.0（2025/02/15）\n合約編號：SOLAR-2024-10-PV\n※ 本文件為V2版本，紅字為修訂內容，灰色刪除線為舊版已廢除條款\n第一條　工程名稱\n工程名稱：10XX專案─太陽能光電系統建置工程（屋頂型）\n第二條　工程地點\n工程地點：台中市工業區○○路○○號（甲方廠區）\n安裝位置：廠區屋頂（A棟、B棟、C棟）及停車棚頂\n第三條　工程規模及技術規格\n本工程安裝太陽能光電系統，主要技術規格如下：\n系統裝置容量：500kWp（A棟150kWp + B棟150kWp + C棟100kWp + 停車棚100kWp）\n太陽能板：單晶矽，效率≥21%，25年線性功率保證\n變流器（Inverter）：三相，轉換效率≥97.5%，具備孤島效應保護\n結構系統：鋁合金固定型支架，耐風速≥60m/s\n電能監控系統：即時發電量監控，雲端資料儲存10年\n第四條　合約總價\n[舊版V1內容-已廢除] 本工程承攬總價為新台幣 貳仟壹佰伍拾萬元整（NT$21,500,000，含稅）。\n[V2修訂] 本工程承攬總價修訂為新台幣 貳仟參佰捌拾萬元整（NT$23,800,000，含稅）。",
+  "pipeline_revision": "2026-04-27-citation-summary-v1",
+  "_meta": {
+    "extraction_path": "llm_tasks",
+    "fallback_reason": "retention:no_blocks",
+    "prompt_tokens": 1562,
+    "llm_ms": 42875,
+    "pipeline_revision": "2026-04-27-citation-summary-v1"
+  },
+  "segment_map": {
+    "payment_header_offsets": [
+      24,
+      29,
+      34,
+      38
+    ],
+    "checkpoint_offsets": [],
+    "work_item_label_offsets": [
+      25,
+      30,
+      35,
+      39
+    ],
+    "amount_block_ids": [
+      "10XX專案_block_0040",
+      "10XX專案_block_0046",
+      "10XX專案_block_0052",
+      "10XX專案_block_0057",
+      "10XX專案_block_0064"
+    ],
+    "percentage_block_ids": [
+      "10XX專案_block_0016",
+      "10XX專案_block_0017",
+      "10XX專案_block_0040",
+      "10XX專案_block_0046",
+      "10XX專案_block_0052",
+      "10XX專案_block_0057",
+      "10XX專案_block_0071",
+      "10XX專案_table_00_row_001"
+    ],
+    "deprecated_block_ids": [
+      "10XX專案_block_0004",
+      "10XX專案_block_0022",
+      "10XX專案_block_0029",
+      "10XX專案_block_0033",
+      "10XX專案_block_0034",
+      "10XX專案_block_0035",
+      "10XX專案_block_0036",
+      "10XX專案_block_0037"
+    ]
+  },
+  "scope_items": [
+    "10XX專案─太陽能光電系統建置工程",
+    "工程名稱：10XX專案─太陽能光電系統建置工程（屋頂型）",
+    "本工程安裝太陽能光電系統，主要技術規格如下：",
+    "系統裝置容量：500kWp（A棟150kWp + B棟150kWp + C棟100kWp + 停車棚100kWp）"
+  ],
+  "acceptance_requirements": [
+    "[V2修訂] 本工程應於合約簽訂日起 8 個月內完成（預計2025年10月15日完工）。工期展延原因：C棟結構補強工程增加施工時間2個月。",
+    "[V2修訂] 第二期（30%）：A棟及B棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）。",
+    "A棟150kWp系統安裝完成並通過單機測試",
+    "B棟150kWp系統安裝完成並通過單機測試",
+    "[V2修訂] 第三期（30%）：C棟結構補強完成且C棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）。",
+    "C棟100kWp系統安裝完成並通過單機測試",
+    "[V2修訂] 第四期（20%）：全廠區系統整合測試完成，取得台電竣工查驗合格，並完成所有驗收後，給付 NT$4,760,000（含稅）。",
+    "500kWp全系統整合測試通過"
+  ],
+  "safety_requirements": [],
+  "warranty_requirements": [
+    "完工圖說、保固書、設備保固卡提交",
+    "第八條　保固",
+    "本工程完工驗收後，各項設備保固期如下：",
+    "設備項目 | 保固年限 | 保固內容"
+  ],
+  "normalization": {
+    "llm_attempted": true,
+    "llm_applied": true
+  },
+  "locator_blocks": [
+    {
+      "block_id": "10XX專案_block_0001",
+      "paragraph_index": 1,
+      "page_estimate": 1,
+      "labels": [
+        "context"
+      ],
+      "text": "10XX專案─太陽能光電系統建置工程",
+      "context_before": [
+        "工程承攬契約書"
+      ],
+      "context_after": [
+        "合約版本：V1.0（2024/10/01）  →  V2.0（2025/02/15）",
+        "合約編號：SOLAR-2024-10-PV"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0002",
+      "paragraph_index": 2,
+      "page_estimate": 1,
+      "labels": [
+        "version"
+      ],
+      "text": "合約版本：V1.0（2024/10/01）  →  V2.0（2025/02/15）",
+      "context_before": [
+        "10XX專案─太陽能光電系統建置工程"
+      ],
+      "context_after": [
+        "合約編號：SOLAR-2024-10-PV",
+        "※ 本文件為V2版本，紅字為修訂內容，灰色刪除線為舊版已廢除條款"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0003",
+      "paragraph_index": 3,
+      "page_estimate": 1,
+      "labels": [
+        "context"
+      ],
+      "text": "合約編號：SOLAR-2024-10-PV",
+      "context_before": [
+        "合約版本：V1.0（2024/10/01）  →  V2.0（2025/02/15）"
+      ],
+      "context_after": [
+        "※ 本文件為V2版本，紅字為修訂內容，灰色刪除線為舊版已廢除條款",
+        "第一條　工程名稱"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0004",
+      "paragraph_index": 4,
+      "page_estimate": 1,
+      "labels": [
+        "version"
+      ],
+      "text": "※ 本文件為V2版本，紅字為修訂內容，灰色刪除線為舊版已廢除條款",
+      "context_before": [
+        "合約編號：SOLAR-2024-10-PV"
+      ],
+      "context_after": [
+        "第一條　工程名稱",
+        "工程名稱：10XX專案─太陽能光電系統建置工程（屋頂型）"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0006",
+      "paragraph_index": 6,
+      "page_estimate": 1,
+      "labels": [
+        "context"
+      ],
+      "text": "第一條　工程名稱",
+      "context_before": [
+        "※ 本文件為V2版本，紅字為修訂內容，灰色刪除線為舊版已廢除條款"
+      ],
+      "context_after": [
+        "工程名稱：10XX專案─太陽能光電系統建置工程（屋頂型）",
+        "第二條　工程地點"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0007",
+      "paragraph_index": 7,
+      "page_estimate": 1,
+      "labels": [
+        "context"
+      ],
+      "text": "工程名稱：10XX專案─太陽能光電系統建置工程（屋頂型）",
+      "context_before": [
+        "第一條　工程名稱"
+      ],
+      "context_after": [
+        "第二條　工程地點",
+        "工程地點：台中市工業區○○路○○號（甲方廠區）"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0015",
+      "paragraph_index": 15,
+      "page_estimate": 2,
+      "labels": [
+        "context"
+      ],
+      "text": "系統裝置容量：500kWp（A棟150kWp + B棟150kWp + C棟100kWp + 停車棚100kWp）",
+      "context_before": [
+        "本工程安裝太陽能光電系統，主要技術規格如下："
+      ],
+      "context_after": [
+        "太陽能板：單晶矽，效率≥21%，25年線性功率保證",
+        "變流器（Inverter）：三相，轉換效率≥97.5%，具備孤島效應保護"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0016",
+      "paragraph_index": 16,
+      "page_estimate": 2,
+      "labels": [
+        "percentage"
+      ],
+      "text": "太陽能板：單晶矽，效率≥21%，25年線性功率保證",
+      "context_before": [
+        "系統裝置容量：500kWp（A棟150kWp + B棟150kWp + C棟100kWp + 停車棚100kWp）"
+      ],
+      "context_after": [
+        "變流器（Inverter）：三相，轉換效率≥97.5%，具備孤島效應保護",
+        "結構系統：鋁合金固定型支架，耐風速≥60m/s"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0017",
+      "paragraph_index": 17,
+      "page_estimate": 2,
+      "labels": [
+        "percentage"
+      ],
+      "text": "變流器（Inverter）：三相，轉換效率≥97.5%，具備孤島效應保護",
+      "context_before": [
+        "太陽能板：單晶矽，效率≥21%，25年線性功率保證"
+      ],
+      "context_after": [
+        "結構系統：鋁合金固定型支架，耐風速≥60m/s",
+        "電能監控系統：即時發電量監控，雲端資料儲存10年"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0018",
+      "paragraph_index": 18,
+      "page_estimate": 2,
+      "labels": [
+        "context"
+      ],
+      "text": "結構系統：鋁合金固定型支架，耐風速≥60m/s",
+      "context_before": [
+        "變流器（Inverter）：三相，轉換效率≥97.5%，具備孤島效應保護"
+      ],
+      "context_after": [
+        "電能監控系統：即時發電量監控，雲端資料儲存10年",
+        "第四條　合約總價"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0019",
+      "paragraph_index": 19,
+      "page_estimate": 2,
+      "labels": [
+        "context"
+      ],
+      "text": "電能監控系統：即時發電量監控，雲端資料儲存10年",
+      "context_before": [
+        "結構系統：鋁合金固定型支架，耐風速≥60m/s"
+      ],
+      "context_after": [
+        "第四條　合約總價",
+        "[舊版V1內容-已廢除] 本工程承攬總價為新台幣 貳仟壹佰伍拾萬元整（NT$21,500,000，含稅）。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0021",
+      "paragraph_index": 21,
+      "page_estimate": 2,
+      "labels": [
+        "total_amount"
+      ],
+      "text": "第四條　合約總價",
+      "context_before": [
+        "電能監控系統：即時發電量監控，雲端資料儲存10年"
+      ],
+      "context_after": [
+        "[舊版V1內容-已廢除] 本工程承攬總價為新台幣 貳仟壹佰伍拾萬元整（NT$21,500,000，含稅）。",
+        "[V2修訂] 本工程承攬總價修訂為新台幣 貳仟參佰捌拾萬元整（NT$23,800,000，含稅）。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0022",
+      "paragraph_index": 22,
+      "page_estimate": 2,
+      "labels": [
+        "total_amount",
+        "version"
+      ],
+      "text": "[舊版V1內容-已廢除] 本工程承攬總價為新台幣 貳仟壹佰伍拾萬元整（NT$21,500,000，含稅）。",
+      "context_before": [
+        "第四條　合約總價"
+      ],
+      "context_after": [
+        "[V2修訂] 本工程承攬總價修訂為新台幣 貳仟參佰捌拾萬元整（NT$23,800,000，含稅）。",
+        "（金額調整原因：C棟屋頂結構補強工程追加，及銅材料價格上漲調整，詳V2變更單CH-2025-001）"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0023",
+      "paragraph_index": 23,
+      "page_estimate": 2,
+      "labels": [
+        "total_amount",
+        "version"
+      ],
+      "text": "[V2修訂] 本工程承攬總價修訂為新台幣 貳仟參佰捌拾萬元整（NT$23,800,000，含稅）。",
+      "context_before": [
+        "[舊版V1內容-已廢除] 本工程承攬總價為新台幣 貳仟壹佰伍拾萬元整（NT$21,500,000，含稅）。"
+      ],
+      "context_after": [
+        "（金額調整原因：C棟屋頂結構補強工程追加，及銅材料價格上漲調整，詳V2變更單CH-2025-001）",
+        "本工程採固定總價承攬，乙方不得以材料漲價或匯率變動為由要求調整合約金額。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0024",
+      "paragraph_index": 24,
+      "page_estimate": 2,
+      "labels": [
+        "version"
+      ],
+      "text": "（金額調整原因：C棟屋頂結構補強工程追加，及銅材料價格上漲調整，詳V2變更單CH-2025-001）",
+      "context_before": [
+        "[V2修訂] 本工程承攬總價修訂為新台幣 貳仟參佰捌拾萬元整（NT$23,800,000，含稅）。"
+      ],
+      "context_after": [
+        "本工程採固定總價承攬，乙方不得以材料漲價或匯率變動為由要求調整合約金額。",
+        "第五條　工程期限"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0026",
+      "paragraph_index": 26,
+      "page_estimate": 2,
+      "labels": [
+        "total_amount"
+      ],
+      "text": "本工程採固定總價承攬，乙方不得以材料漲價或匯率變動為由要求調整合約金額。",
+      "context_before": [
+        "（金額調整原因：C棟屋頂結構補強工程追加，及銅材料價格上漲調整，詳V2變更單CH-2025-001）"
+      ],
+      "context_after": [
+        "第五條　工程期限",
+        "[舊版V1內容-已廢除] 本工程應於合約簽訂日起 6 個月內完成（預計2025年4月1日完工）。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0028",
+      "paragraph_index": 28,
+      "page_estimate": 2,
+      "labels": [
+        "context"
+      ],
+      "text": "第五條　工程期限",
+      "context_before": [
+        "本工程採固定總價承攬，乙方不得以材料漲價或匯率變動為由要求調整合約金額。"
+      ],
+      "context_after": [
+        "[舊版V1內容-已廢除] 本工程應於合約簽訂日起 6 個月內完成（預計2025年4月1日完工）。",
+        "[V2修訂] 本工程應於合約簽訂日起 8 個月內完成（預計2025年10月15日完工）。工期展延原因：C棟結構補強工程增加施工時間2個月。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0029",
+      "paragraph_index": 29,
+      "page_estimate": 2,
+      "labels": [
+        "version"
+      ],
+      "text": "[舊版V1內容-已廢除] 本工程應於合約簽訂日起 6 個月內完成（預計2025年4月1日完工）。",
+      "context_before": [
+        "第五條　工程期限"
+      ],
+      "context_after": [
+        "[V2修訂] 本工程應於合約簽訂日起 8 個月內完成（預計2025年10月15日完工）。工期展延原因：C棟結構補強工程增加施工時間2個月。",
+        "第六條　付款辦法"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0030",
+      "paragraph_index": 30,
+      "page_estimate": 3,
+      "labels": [
+        "version"
+      ],
+      "text": "[V2修訂] 本工程應於合約簽訂日起 8 個月內完成（預計2025年10月15日完工）。工期展延原因：C棟結構補強工程增加施工時間2個月。",
+      "context_before": [
+        "[舊版V1內容-已廢除] 本工程應於合約簽訂日起 6 個月內完成（預計2025年4月1日完工）。"
+      ],
+      "context_after": [
+        "第六條　付款辦法",
+        "（一）V1版付款辦法（已廢除，僅供參考）"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0032",
+      "paragraph_index": 32,
+      "page_estimate": 3,
+      "labels": [
+        "payment"
+      ],
+      "text": "第六條　付款辦法",
+      "context_before": [
+        "[V2修訂] 本工程應於合約簽訂日起 8 個月內完成（預計2025年10月15日完工）。工期展延原因：C棟結構補強工程增加施工時間2個月。"
+      ],
+      "context_after": [
+        "（一）V1版付款辦法（已廢除，僅供參考）",
+        "[舊版V1內容-已廢除] 第一期（35%）：簽約後7天內，給付 NT$7,525,000。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0033",
+      "paragraph_index": 33,
+      "page_estimate": 3,
+      "labels": [
+        "payment",
+        "version"
+      ],
+      "text": "（一）V1版付款辦法（已廢除，僅供參考）",
+      "context_before": [
+        "第六條　付款辦法"
+      ],
+      "context_after": [
+        "[舊版V1內容-已廢除] 第一期（35%）：簽約後7天內，給付 NT$7,525,000。",
+        "[舊版V1內容-已廢除] 第二期（35%）：設備安裝完成，驗收合格後，給付 NT$7,525,000。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0034",
+      "paragraph_index": 34,
+      "page_estimate": 3,
+      "labels": [
+        "amount",
+        "milestone_header",
+        "payment",
+        "percentage",
+        "version"
+      ],
+      "text": "[舊版V1內容-已廢除] 第一期（35%）：簽約後7天內，給付 NT$7,525,000。",
+      "context_before": [
+        "（一）V1版付款辦法（已廢除，僅供參考）"
+      ],
+      "context_after": [
+        "[舊版V1內容-已廢除] 第二期（35%）：設備安裝完成，驗收合格後，給付 NT$7,525,000。",
+        "[舊版V1內容-已廢除] 第三期（30%）：全部完工驗收合格後，給付 NT$6,450,000。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0035",
+      "paragraph_index": 35,
+      "page_estimate": 3,
+      "labels": [
+        "acceptance",
+        "amount",
+        "milestone_header",
+        "payment",
+        "percentage",
+        "version"
+      ],
+      "text": "[舊版V1內容-已廢除] 第二期（35%）：設備安裝完成，驗收合格後，給付 NT$7,525,000。",
+      "context_before": [
+        "[舊版V1內容-已廢除] 第一期（35%）：簽約後7天內，給付 NT$7,525,000。"
+      ],
+      "context_after": [
+        "[舊版V1內容-已廢除] 第三期（30%）：全部完工驗收合格後，給付 NT$6,450,000。",
+        "[舊版V1內容-已廢除] 各期合計：NT$21,500,000。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0036",
+      "paragraph_index": 36,
+      "page_estimate": 3,
+      "labels": [
+        "acceptance",
+        "amount",
+        "milestone_header",
+        "payment",
+        "percentage",
+        "version"
+      ],
+      "text": "[舊版V1內容-已廢除] 第三期（30%）：全部完工驗收合格後，給付 NT$6,450,000。",
+      "context_before": [
+        "[舊版V1內容-已廢除] 第二期（35%）：設備安裝完成，驗收合格後，給付 NT$7,525,000。"
+      ],
+      "context_after": [
+        "[舊版V1內容-已廢除] 各期合計：NT$21,500,000。",
+        "（二）V2版付款辦法（現行有效）"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0037",
+      "paragraph_index": 37,
+      "page_estimate": 3,
+      "labels": [
+        "version"
+      ],
+      "text": "[舊版V1內容-已廢除] 各期合計：NT$21,500,000。",
+      "context_before": [
+        "[舊版V1內容-已廢除] 第三期（30%）：全部完工驗收合格後，給付 NT$6,450,000。"
+      ],
+      "context_after": [
+        "（二）V2版付款辦法（現行有效）",
+        "[V2修訂] 第一期（20%）：合約簽訂後7天內，給付 NT$4,760,000（含稅）。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0039",
+      "paragraph_index": 39,
+      "page_estimate": 3,
+      "labels": [
+        "payment",
+        "version"
+      ],
+      "text": "（二）V2版付款辦法（現行有效）",
+      "context_before": [
+        "[舊版V1內容-已廢除] 各期合計：NT$21,500,000。"
+      ],
+      "context_after": [
+        "[V2修訂] 第一期（20%）：合約簽訂後7天內，給付 NT$4,760,000（含稅）。",
+        "工作項目："
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0040",
+      "paragraph_index": 40,
+      "page_estimate": 3,
+      "labels": [
+        "amount",
+        "milestone_header",
+        "payment",
+        "percentage",
+        "version"
+      ],
+      "text": "[V2修訂] 第一期（20%）：合約簽訂後7天內，給付 NT$4,760,000（含稅）。",
+      "context_before": [
+        "（二）V2版付款辦法（現行有效）"
+      ],
+      "context_after": [
+        "工作項目：",
+        "施工計畫書提交"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0041",
+      "paragraph_index": 41,
+      "page_estimate": 3,
+      "labels": [
+        "work_item"
+      ],
+      "text": "工作項目：",
+      "context_before": [
+        "[V2修訂] 第一期（20%）：合約簽訂後7天內，給付 NT$4,760,000（含稅）。"
+      ],
+      "context_after": [
+        "施工計畫書提交",
+        "設備採購下單（提供採購訂單證明）"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0042",
+      "paragraph_index": 42,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "施工計畫書提交",
+      "context_before": [
+        "工作項目："
+      ],
+      "context_after": [
+        "設備採購下單（提供採購訂單證明）",
+        "工程保險投保完成"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0043",
+      "paragraph_index": 43,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "設備採購下單（提供採購訂單證明）",
+      "context_before": [
+        "施工計畫書提交"
+      ],
+      "context_after": [
+        "工程保險投保完成",
+        "[V2修訂] 第二期（30%）：A棟及B棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0044",
+      "paragraph_index": 44,
+      "page_estimate": 3,
+      "labels": [
+        "context"
+      ],
+      "text": "工程保險投保完成",
+      "context_before": [
+        "設備採購下單（提供採購訂單證明）"
+      ],
+      "context_after": [
+        "[V2修訂] 第二期（30%）：A棟及B棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）。",
+        "工作項目："
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0046",
+      "paragraph_index": 46,
+      "page_estimate": 4,
+      "labels": [
+        "amount",
+        "milestone_header",
+        "payment",
+        "percentage",
+        "version"
+      ],
+      "text": "[V2修訂] 第二期（30%）：A棟及B棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）。",
+      "context_before": [
+        "工程保險投保完成"
+      ],
+      "context_after": [
+        "工作項目：",
+        "A棟150kWp系統安裝完成並通過單機測試"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0047",
+      "paragraph_index": 47,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "工作項目：",
+      "context_before": [
+        "[V2修訂] 第二期（30%）：A棟及B棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）。"
+      ],
+      "context_after": [
+        "A棟150kWp系統安裝完成並通過單機測試",
+        "B棟150kWp系統安裝完成並通過單機測試"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0048",
+      "paragraph_index": 48,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "A棟150kWp系統安裝完成並通過單機測試",
+      "context_before": [
+        "工作項目："
+      ],
+      "context_after": [
+        "B棟150kWp系統安裝完成並通過單機測試",
+        "停車棚100kWp系統安裝完成"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0049",
+      "paragraph_index": 49,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "B棟150kWp系統安裝完成並通過單機測試",
+      "context_before": [
+        "A棟150kWp系統安裝完成並通過單機測試"
+      ],
+      "context_after": [
+        "停車棚100kWp系統安裝完成",
+        "[V2修訂] 第三期（30%）：C棟結構補強完成且C棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0050",
+      "paragraph_index": 50,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "停車棚100kWp系統安裝完成",
+      "context_before": [
+        "B棟150kWp系統安裝完成並通過單機測試"
+      ],
+      "context_after": [
+        "[V2修訂] 第三期（30%）：C棟結構補強完成且C棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）。",
+        "工作項目："
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0052",
+      "paragraph_index": 52,
+      "page_estimate": 4,
+      "labels": [
+        "amount",
+        "milestone_header",
+        "payment",
+        "percentage",
+        "version"
+      ],
+      "text": "[V2修訂] 第三期（30%）：C棟結構補強完成且C棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）。",
+      "context_before": [
+        "停車棚100kWp系統安裝完成"
+      ],
+      "context_after": [
+        "工作項目：",
+        "C棟屋頂結構補強工程完成（甲方結構技師簽證）"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0053",
+      "paragraph_index": 53,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "工作項目：",
+      "context_before": [
+        "[V2修訂] 第三期（30%）：C棟結構補強完成且C棟太陽能板安裝完成，單機測試通過後，給付 NT$7,140,000（含稅）。"
+      ],
+      "context_after": [
+        "C棟屋頂結構補強工程完成（甲方結構技師簽證）",
+        "C棟100kWp系統安裝完成並通過單機測試"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0054",
+      "paragraph_index": 54,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "C棟屋頂結構補強工程完成（甲方結構技師簽證）",
+      "context_before": [
+        "工作項目："
+      ],
+      "context_after": [
+        "C棟100kWp系統安裝完成並通過單機測試",
+        "[V2修訂] 第四期（20%）：全廠區系統整合測試完成，取得台電竣工查驗合格，並完成所有驗收後，給付 NT$4,760,000（含稅）。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0055",
+      "paragraph_index": 55,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "C棟100kWp系統安裝完成並通過單機測試",
+      "context_before": [
+        "C棟屋頂結構補強工程完成（甲方結構技師簽證）"
+      ],
+      "context_after": [
+        "[V2修訂] 第四期（20%）：全廠區系統整合測試完成，取得台電竣工查驗合格，並完成所有驗收後，給付 NT$4,760,000（含稅）。",
+        "工作項目："
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0057",
+      "paragraph_index": 57,
+      "page_estimate": 4,
+      "labels": [
+        "acceptance",
+        "amount",
+        "milestone_header",
+        "payment",
+        "percentage",
+        "version"
+      ],
+      "text": "[V2修訂] 第四期（20%）：全廠區系統整合測試完成，取得台電竣工查驗合格，並完成所有驗收後，給付 NT$4,760,000（含稅）。",
+      "context_before": [
+        "C棟100kWp系統安裝完成並通過單機測試"
+      ],
+      "context_after": [
+        "工作項目：",
+        "500kWp全系統整合測試通過"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0058",
+      "paragraph_index": 58,
+      "page_estimate": 4,
+      "labels": [
+        "work_item"
+      ],
+      "text": "工作項目：",
+      "context_before": [
+        "[V2修訂] 第四期（20%）：全廠區系統整合測試完成，取得台電竣工查驗合格，並完成所有驗收後，給付 NT$4,760,000（含稅）。"
+      ],
+      "context_after": [
+        "500kWp全系統整合測試通過",
+        "台電併網申請及竣工查驗合格"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0059",
+      "paragraph_index": 59,
+      "page_estimate": 4,
+      "labels": [
+        "context"
+      ],
+      "text": "500kWp全系統整合測試通過",
+      "context_before": [
+        "工作項目："
+      ],
+      "context_after": [
+        "台電併網申請及竣工查驗合格",
+        "能源監控系統建置及設定完成"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0060",
+      "paragraph_index": 60,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "台電併網申請及竣工查驗合格",
+      "context_before": [
+        "500kWp全系統整合測試通過"
+      ],
+      "context_after": [
+        "能源監控系統建置及設定完成",
+        "完工圖說、保固書、設備保固卡提交"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0061",
+      "paragraph_index": 61,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "能源監控系統建置及設定完成",
+      "context_before": [
+        "台電併網申請及竣工查驗合格"
+      ],
+      "context_after": [
+        "完工圖說、保固書、設備保固卡提交",
+        "V2各期合計：NT$23,800,000（與V2合約總價相符）。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0062",
+      "paragraph_index": 62,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "完工圖說、保固書、設備保固卡提交",
+      "context_before": [
+        "能源監控系統建置及設定完成"
+      ],
+      "context_after": [
+        "V2各期合計：NT$23,800,000（與V2合約總價相符）。",
+        "【注意】本合約付款條件以V2版為準，如有任何舊版（V1）文件與本版本牴觸，一律以本V2版本為準。乙方不得以V1版本內容主張任何權利。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0064",
+      "paragraph_index": 64,
+      "page_estimate": 5,
+      "labels": [
+        "amount",
+        "total_amount",
+        "version"
+      ],
+      "text": "V2各期合計：NT$23,800,000（與V2合約總價相符）。",
+      "context_before": [
+        "完工圖說、保固書、設備保固卡提交"
+      ],
+      "context_after": [
+        "【注意】本合約付款條件以V2版為準，如有任何舊版（V1）文件與本版本牴觸，一律以本V2版本為準。乙方不得以V1版本內容主張任何權利。",
+        "第七條　驗收標準"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0066",
+      "paragraph_index": 66,
+      "page_estimate": 5,
+      "labels": [
+        "payment",
+        "version"
+      ],
+      "text": "【注意】本合約付款條件以V2版為準，如有任何舊版（V1）文件與本版本牴觸，一律以本V2版本為準。乙方不得以V1版本內容主張任何權利。",
+      "context_before": [
+        "V2各期合計：NT$23,800,000（與V2合約總價相符）。"
+      ],
+      "context_after": [
+        "第七條　驗收標準",
+        "本工程驗收以下列標準為準："
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0068",
+      "paragraph_index": 68,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "第七條　驗收標準",
+      "context_before": [
+        "【注意】本合約付款條件以V2版為準，如有任何舊版（V1）文件與本版本牴觸，一律以本V2版本為準。乙方不得以V1版本內容主張任何權利。"
+      ],
+      "context_after": [
+        "本工程驗收以下列標準為準：",
+        "太陽能板安裝傾斜角誤差 ≤ 2°"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0069",
+      "paragraph_index": 69,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "本工程驗收以下列標準為準：",
+      "context_before": [
+        "第七條　驗收標準"
+      ],
+      "context_after": [
+        "太陽能板安裝傾斜角誤差 ≤ 2°",
+        "系統發電效率：安裝完成後連續30天，實際發電量不低於理論發電量之 92%"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0070",
+      "paragraph_index": 70,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "太陽能板安裝傾斜角誤差 ≤ 2°",
+      "context_before": [
+        "本工程驗收以下列標準為準："
+      ],
+      "context_after": [
+        "系統發電效率：安裝完成後連續30天，實際發電量不低於理論發電量之 92%",
+        "取得台電公司「再生能源系統竣工查驗合格通知書」"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0071",
+      "paragraph_index": 71,
+      "page_estimate": 5,
+      "labels": [
+        "percentage"
+      ],
+      "text": "系統發電效率：安裝完成後連續30天，實際發電量不低於理論發電量之 92%",
+      "context_before": [
+        "太陽能板安裝傾斜角誤差 ≤ 2°"
+      ],
+      "context_after": [
+        "取得台電公司「再生能源系統竣工查驗合格通知書」",
+        "通過甲方委託之第三方能源查驗機構現場查驗"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0072",
+      "paragraph_index": 72,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "取得台電公司「再生能源系統竣工查驗合格通知書」",
+      "context_before": [
+        "系統發電效率：安裝完成後連續30天，實際發電量不低於理論發電量之 92%"
+      ],
+      "context_after": [
+        "通過甲方委託之第三方能源查驗機構現場查驗",
+        "能源監控系統可正常顯示即時及歷史發電資料"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0073",
+      "paragraph_index": 73,
+      "page_estimate": 5,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "通過甲方委託之第三方能源查驗機構現場查驗",
+      "context_before": [
+        "取得台電公司「再生能源系統竣工查驗合格通知書」"
+      ],
+      "context_after": [
+        "能源監控系統可正常顯示即時及歷史發電資料",
+        "第八條　保固"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0074",
+      "paragraph_index": 74,
+      "page_estimate": 5,
+      "labels": [
+        "context"
+      ],
+      "text": "能源監控系統可正常顯示即時及歷史發電資料",
+      "context_before": [
+        "通過甲方委託之第三方能源查驗機構現場查驗"
+      ],
+      "context_after": [
+        "第八條　保固",
+        "本工程完工驗收後，各項設備保固期如下："
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0076",
+      "paragraph_index": 76,
+      "page_estimate": 6,
+      "labels": [
+        "context"
+      ],
+      "text": "第八條　保固",
+      "context_before": [
+        "能源監控系統可正常顯示即時及歷史發電資料"
+      ],
+      "context_after": [
+        "本工程完工驗收後，各項設備保固期如下：",
+        "第九條　版本控制聲明"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0077",
+      "paragraph_index": 77,
+      "page_estimate": 6,
+      "labels": [
+        "acceptance"
+      ],
+      "text": "本工程完工驗收後，各項設備保固期如下：",
+      "context_before": [
+        "第八條　保固"
+      ],
+      "context_after": [
+        "第九條　版本控制聲明",
+        "本合約歷次版本如下："
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0079",
+      "paragraph_index": 79,
+      "page_estimate": 6,
+      "labels": [
+        "context"
+      ],
+      "text": "第九條　版本控制聲明",
+      "context_before": [
+        "本工程完工驗收後，各項設備保固期如下："
+      ],
+      "context_after": [
+        "本合約歷次版本如下：",
+        "本合約 V2.0 版一式二份，雙方簽章後生效，並取代 V1.0 版之一切效力。"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0080",
+      "paragraph_index": 80,
+      "page_estimate": 6,
+      "labels": [
+        "context"
+      ],
+      "text": "本合約歷次版本如下：",
+      "context_before": [
+        "第九條　版本控制聲明"
+      ],
+      "context_after": [
+        "本合約 V2.0 版一式二份，雙方簽章後生效，並取代 V1.0 版之一切效力。",
+        "甲方代表人：___________________　日期：___________________"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0082",
+      "paragraph_index": 82,
+      "page_estimate": 6,
+      "labels": [
+        "version"
+      ],
+      "text": "本合約 V2.0 版一式二份，雙方簽章後生效，並取代 V1.0 版之一切效力。",
+      "context_before": [
+        "本合約歷次版本如下："
+      ],
+      "context_after": [
+        "甲方代表人：___________________　日期：___________________",
+        "乙方代表人：___________________　日期：___________________"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0084",
+      "paragraph_index": 84,
+      "page_estimate": 6,
+      "labels": [
+        "context"
+      ],
+      "text": "甲方代表人：___________________　日期：___________________",
+      "context_before": [
+        "本合約 V2.0 版一式二份，雙方簽章後生效，並取代 V1.0 版之一切效力。"
+      ],
+      "context_after": [
+        "乙方代表人：___________________　日期：___________________",
+        "設備項目 | 保固年限 | 保固內容"
+      ]
+    },
+    {
+      "block_id": "10XX專案_block_0085",
+      "paragraph_index": 85,
+      "page_estimate": 6,
+      "labels": [
+        "context"
+      ],
+      "text": "乙方代表人：___________________　日期：___________________",
+      "context_before": [
+        "甲方代表人：___________________　日期：___________________"
+      ],
+      "context_after": [
+        "設備項目 | 保固年限 | 保固內容",
+        "太陽能板 | 25年（線性功率保證） | 第1年功率≥98%，第25年功率≥80%"
+      ]
+    },
+    {
+      "block_id": "10XX專案_table_00_row_000",
+      "paragraph_index": 154,
+      "page_estimate": 11,
+      "labels": [
+        "context"
+      ],
+      "text": "設備項目 | 保固年限 | 保固內容",
+      "context_before": [
+        "乙方代表人：___________________　日期：___________________"
+      ],
+      "context_after": [
+        "太陽能板 | 25年（線性功率保證） | 第1年功率≥98%，第25年功率≥80%",
+        "變流器（Inverter） | 10年 | 零件及人工維修"
+      ]
+    },
+    {
+      "block_id": "10XX專案_table_00_row_001",
+      "paragraph_index": 155,
+      "page_estimate": 11,
+      "labels": [
+        "percentage"
+      ],
+      "text": "太陽能板 | 25年（線性功率保證） | 第1年功率≥98%，第25年功率≥80%",
+      "context_before": [
+        "設備項目 | 保固年限 | 保固內容"
+      ],
+      "context_after": [
+        "變流器（Inverter） | 10年 | 零件及人工維修",
+        "鋼構支架系統 | 10年 | 結構完整性保證"
+      ]
+    },
+    {
+      "block_id": "10XX專案_table_00_row_002",
+      "paragraph_index": 156,
+      "page_estimate": 11,
+      "labels": [
+        "context"
+      ],
+      "text": "變流器（Inverter） | 10年 | 零件及人工維修",
+      "context_before": [
+        "太陽能板 | 25年（線性功率保證） | 第1年功率≥98%，第25年功率≥80%"
+      ],
+      "context_after": [
+        "鋼構支架系統 | 10年 | 結構完整性保證",
+        "電氣配線工程 | 2年 | 施工瑕疵修補"
+      ]
+    },
+    {
+      "block_id": "10XX專案_table_00_row_003",
+      "paragraph_index": 157,
+      "page_estimate": 11,
+      "labels": [
+        "context"
+      ],
+      "text": "鋼構支架系統 | 10年 | 結構完整性保證",
+      "context_before": [
+        "變流器（Inverter） | 10年 | 零件及人工維修"
+      ],
+      "context_after": [
+        "電氣配線工程 | 2年 | 施工瑕疵修補",
+        "能源監控系統（軟硬體） | 3年 | 軟體更新及硬體維修"
+      ]
+    },
+    {
+      "block_id": "10XX專案_table_00_row_005",
+      "paragraph_index": 159,
+      "page_estimate": 11,
+      "labels": [
+        "context"
+      ],
+      "text": "能源監控系統（軟硬體） | 3年 | 軟體更新及硬體維修",
+      "context_before": [
+        "電氣配線工程 | 2年 | 施工瑕疵修補"
+      ],
+      "context_after": [
+        "版本 | 日期 | 修訂項目 | 修訂原因",
+        "V1.0 | 2024/10/01 | 初版發行 | —"
+      ]
+    },
+    {
+      "block_id": "10XX專案_table_01_row_000",
+      "paragraph_index": 160,
+      "page_estimate": 11,
+      "labels": [
+        "version"
+      ],
+      "text": "版本 | 日期 | 修訂項目 | 修訂原因",
+      "context_before": [
+        "能源監控系統（軟硬體） | 3年 | 軟體更新及硬體維修"
+      ],
+      "context_after": [
+        "V1.0 | 2024/10/01 | 初版發行 | —",
+        "V2.0 | 2025/02/15 | 總價、工期、付款期數調整 | C棟結構補強追加及材料漲價"
+      ]
+    },
+    {
+      "block_id": "10XX專案_table_01_row_001",
+      "paragraph_index": 161,
+      "page_estimate": 11,
+      "labels": [
+        "version"
+      ],
+      "text": "V1.0 | 2024/10/01 | 初版發行 | —",
+      "context_before": [
+        "版本 | 日期 | 修訂項目 | 修訂原因"
+      ],
+      "context_after": [
+        "V2.0 | 2025/02/15 | 總價、工期、付款期數調整 | C棟結構補強追加及材料漲價"
+      ]
+    },
+    {
+      "block_id": "10XX專案_table_01_row_002",
+      "paragraph_index": 162,
+      "page_estimate": 11,
+      "labels": [
+        "payment",
+        "total_amount",
+        "version"
+      ],
+      "text": "V2.0 | 2025/02/15 | 總價、工期、付款期數調整 | C棟結構補強追加及材料漲價",
+      "context_before": [
+        "V1.0 | 2024/10/01 | 初版發行 | —"
+      ],
+      "context_after": []
+    }
+  ],
+  "validation_status": "passed",
+  "contract_key": "10xx專案",
+  "version_number": 1,
+  "version_conflicts": []
+}

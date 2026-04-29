@@ -3,20 +3,20 @@
   "total_amount": 16695000,
   "currency": "TWD",
   "contract_type": "lump_sum",
-  "payment_type": "分期付款，於甲方就乙方完成下開各期之工作，且已收到客戶之各期工程款項後分期付款",
+  "payment_type": "installment",
   "total_amount_is_tax_included": true,
   "doc_category": "contract",
   "milestones": [
     {
-      "milestone_id": "m_63f6613e1ece",
+      "milestone_id": "m_b9d12494333c",
       "name": "第一期：乙方提交細部設計圖經甲方及客戶核定後",
       "amount": 3339000,
       "percentage": 20.0,
       "work_items": [
-        "提交細部設計圖"
+        "乙方提交細部設計圖經甲方及客戶核定"
       ],
-      "acceptance_criteria": "乙方提交細部設計圖經甲方及客戶核定後",
-      "payment_condition": "第一期：乙方提交細部設計圖經甲方及客戶核定後，甲方應給付本契約總價 20%即 3,339,000 元(含稅)予乙方",
+      "acceptance_criteria": "甲方及客戶核定",
+      "payment_condition": "乙方提交細部設計圖經甲方及客戶核定後",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -110,15 +110,15 @@
       "milestone_key": "m001"
     },
     {
-      "milestone_id": "m_593c455e63cc",
+      "milestone_id": "m_bf176c3d848f",
       "name": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
       "amount": 5008500,
       "percentage": 30.0,
       "work_items": [
-        "完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目)"
+        "乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目)經甲方及客戶確認"
       ],
-      "acceptance_criteria": "乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
-      "payment_condition": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後， 甲方應給付本契約總價 30% 即 5,008,500 元(含稅)予乙方",
+      "acceptance_criteria": "甲方及客戶確認",
+      "payment_condition": "乙方完成設備交貨經甲方及客戶確認後",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -212,15 +212,15 @@
       "milestone_key": "m002"
     },
     {
-      "milestone_id": "m_803bdce02ecb",
+      "milestone_id": "m_c87366de7538",
       "name": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
       "amount": 5008500,
       "percentage": 30.0,
       "work_items": [
         "軟體(系統)及硬體設備安裝完成"
       ],
-      "acceptance_criteria": "軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
-      "payment_condition": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後，甲方應給付本契約總價 30%即 5,008,500 元(含稅)予乙方",
+      "acceptance_criteria": "甲方及客戶核定",
+      "payment_condition": "軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -314,15 +314,15 @@
       "milestone_key": "m003"
     },
     {
-      "milestone_id": "m_49d6b3f6aa8e",
+      "milestone_id": "m_7515c6dd8270",
       "name": "第四期：本工程全部經甲方及客戶驗收合格後",
       "amount": 3339000,
       "percentage": 20.0,
       "work_items": [
-        "本工程全部驗收合格"
+        "本工程全部經甲方及客戶驗收合格"
       ],
-      "acceptance_criteria": "本工程全部經甲方及客戶驗收合格後",
-      "payment_condition": "第四期：本工程全部經甲方及客戶驗收合格後，甲方應給付本契約總價20%即 3,339,000 元(含稅)予乙方",
+      "acceptance_criteria": "甲方及客戶驗收合格",
+      "payment_condition": "本工程全部經甲方及客戶驗收合格後",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -816,154 +816,7 @@
       "regex_pattern": null
     }
   ],
-  "validation": [
-    {
-      "code": "llm_unmatched_milestones_ignored",
-      "severity": "WARNING",
-      "message": "LLM returned unmatched milestone orders [5]; they were ignored because regex already defined the milestone schedule.",
-      "citations": []
-    },
-    {
-      "code": "llm_regex_amount_disagreement",
-      "severity": "WARNING",
-      "message": "Milestone \"第一期：乙方提交細部設計圖經甲方及客戶核定後\" LLM amount 2000000 disagreed with regex amount 3339000; regex value was used.",
-      "citations": [
-        {
-          "field_name": "milestone.name",
-          "source_file": "05XX專案.docx",
-          "para_start": 56,
-          "para_end": 56,
-          "page_estimate": 4,
-          "char_offset_start": 0,
-          "char_offset_end": 22,
-          "text_snippet": "第一期：乙方提交細部設計圖經甲方及客戶核定後",
-          "block_id": "05XX專案_block_0056",
-          "citation_mode": "exact_span",
-          "extraction_method": "regex",
-          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
-        },
-        {
-          "field_name": "milestone.amount",
-          "source_file": "05XX專案.docx",
-          "para_start": 57,
-          "para_end": 57,
-          "page_estimate": 4,
-          "char_offset_start": 5,
-          "char_offset_end": 18,
-          "text_snippet": "即 3,339,000 元",
-          "block_id": "05XX專案_block_0057",
-          "citation_mode": "exact_span",
-          "extraction_method": "regex",
-          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
-        }
-      ]
-    },
-    {
-      "code": "llm_regex_amount_disagreement",
-      "severity": "WARNING",
-      "message": "Milestone \"第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後\" LLM amount 3000000 disagreed with regex amount 5008500; regex value was used.",
-      "citations": [
-        {
-          "field_name": "milestone.name",
-          "source_file": "05XX專案.docx",
-          "para_start": 58,
-          "para_end": 58,
-          "page_estimate": 4,
-          "char_offset_start": 0,
-          "char_offset_end": 49,
-          "text_snippet": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
-          "block_id": "05XX專案_block_0058",
-          "citation_mode": "exact_span",
-          "extraction_method": "regex",
-          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
-        },
-        {
-          "field_name": "milestone.amount",
-          "source_file": "05XX專案.docx",
-          "para_start": 58,
-          "para_end": 58,
-          "page_estimate": 4,
-          "char_offset_start": 66,
-          "char_offset_end": 79,
-          "text_snippet": "即 5,008,500 元",
-          "block_id": "05XX專案_block_0058",
-          "citation_mode": "exact_span",
-          "extraction_method": "regex",
-          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
-        }
-      ]
-    },
-    {
-      "code": "llm_regex_amount_disagreement",
-      "severity": "WARNING",
-      "message": "Milestone \"第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後\" LLM amount 3000000 disagreed with regex amount 5008500; regex value was used.",
-      "citations": [
-        {
-          "field_name": "milestone.name",
-          "source_file": "05XX專案.docx",
-          "para_start": 59,
-          "para_end": 59,
-          "page_estimate": 4,
-          "char_offset_start": 0,
-          "char_offset_end": 28,
-          "text_snippet": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
-          "block_id": "05XX專案_block_0059",
-          "citation_mode": "exact_span",
-          "extraction_method": "regex",
-          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
-        },
-        {
-          "field_name": "milestone.amount",
-          "source_file": "05XX專案.docx",
-          "para_start": 59,
-          "para_end": 59,
-          "page_estimate": 4,
-          "char_offset_start": 43,
-          "char_offset_end": 56,
-          "text_snippet": "即 5,008,500 元",
-          "block_id": "05XX專案_block_0059",
-          "citation_mode": "exact_span",
-          "extraction_method": "regex",
-          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
-        }
-      ]
-    },
-    {
-      "code": "llm_regex_amount_disagreement",
-      "severity": "WARNING",
-      "message": "Milestone \"第四期：本工程全部經甲方及客戶驗收合格後\" LLM amount 2000000 disagreed with regex amount 3339000; regex value was used.",
-      "citations": [
-        {
-          "field_name": "milestone.name",
-          "source_file": "05XX專案.docx",
-          "para_start": 60,
-          "para_end": 60,
-          "page_estimate": 5,
-          "char_offset_start": 0,
-          "char_offset_end": 20,
-          "text_snippet": "第四期：本工程全部經甲方及客戶驗收合格後",
-          "block_id": "05XX專案_block_0060",
-          "citation_mode": "exact_span",
-          "extraction_method": "regex",
-          "regex_pattern": "((?:【?里程碑[一二三四五六七八九十A-Z\\d]+】?|工程節點[一二三四五六七八九十\\d]+|第[一二三四五六七八九十\\d]+期款?|階段[一二三四五六七八九十\\d]+尾?款?|Phase\\s*\\d+|節點\\d+)[：:、）)]?\\s*[^\\n，。]*)"
-        },
-        {
-          "field_name": "milestone.amount",
-          "source_file": "05XX專案.docx",
-          "para_start": 61,
-          "para_end": 61,
-          "page_estimate": 5,
-          "char_offset_start": 3,
-          "char_offset_end": 16,
-          "text_snippet": "即 3,339,000 元",
-          "block_id": "05XX專案_block_0061",
-          "citation_mode": "exact_span",
-          "extraction_method": "regex",
-          "regex_pattern": "(?:給付|付款|支付|付款金額|即)[：:\\s]*(?:新[臺台]幣\\s*)?(?:NT\\$|NTD|TWD)?\\s*([\\d,]+)\\s*元?"
-        }
-      ]
-    }
-  ],
+  "validation": [],
   "extraction_method": "hybrid_llm",
   "confidence": 100,
   "source_candidates": {
@@ -2452,8 +2305,8 @@
   "_meta": {
     "extraction_path": "llm_tasks",
     "fallback_reason": "version:no_blocks",
-    "prompt_tokens": 1539,
-    "llm_ms": 40552,
+    "prompt_tokens": 1600,
+    "llm_ms": 32940,
     "pipeline_revision": "2026-04-27-citation-summary-v1"
   },
   "segment_map": {

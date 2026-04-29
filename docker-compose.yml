@@ -21,7 +21,8 @@ services:
       - huggingface-cache:/models/huggingface
     environment:
       - LOCAL_MODEL_BASE_URL=${LOCAL_MODEL_BASE_URL:-http://host.docker.internal:11434/v1}
-      - LOCAL_MODEL_NAME=${LOCAL_MODEL_NAME:-Qwen3.5-9B-Claude-4.6-HighIQ-INSTRUCT-HERETIC-UNCENSORED-mlx-4Bit}
+      - LOCAL_MODEL_NAME=${LOCAL_MODEL_NAME:-lmstudio-community/Qwen3-4B-Instruct-2507-MLX-5bit}
+      - LOCAL_QUERY_MODEL_NAME=${LOCAL_QUERY_MODEL_NAME:-Qwen3.5-9B-Claude-4.6-HighIQ-INSTRUCT-HERETIC-UNCENSORED-mlx-4Bit}
       - LOCAL_MODEL_API_KEY=${LOCAL_MODEL_API_KEY:-1111}
       - LOCAL_MODEL_NUM_CTX=${LOCAL_MODEL_NUM_CTX:-8192}
       - HF_HOME=/models/huggingface
