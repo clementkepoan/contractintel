@@ -37,6 +37,7 @@ Current intents:
 - `risk`
 - `price_adjustment`
 - `force_majeure`
+- `subcontracting`
 
 This is regex-based, not model-based.
 
@@ -60,9 +61,9 @@ This allows later stages to:
 
 If intent classification misses the real query type, all downstream weighting drifts.
 
-Example:
-- a query that is really about `subcontracting` is currently not a first-class intent in the restored baseline.
-- that means no dedicated lexical/semantic shaping exists for it.
+Current live example:
+- `subcontracting` is now a first-class intent, but earlier versions were over-broad because the regex matched `承包`, which caused ordinary contractor/remedy questions to be misclassified as subcontracting.
+- that bug has now been removed by narrowing the subcontracting trigger to true transfer/subcontract terms only.
 
 ## Stage 2: Query expansion
 
@@ -422,6 +423,22 @@ It applies a staged selection policy:
 
 ### Specific behavior
 
+Current branch also includes three additional safety behaviors before or during final selection:
+
+1. **post-weight normalization**
+- after heuristic source weighting, candidate scores are renormalized to `[0,1]`
+- this keeps threshold logic meaningful across runs
+
+2. **tail filtering**
+- candidates below `25%` of the top candidate score are dropped before final selection
+- guardrail: if this would leave too few candidates, the selector falls back to the top `top_k`
+
+3. **anchor confidence gating**
+- for anchor-sensitive intents, the selector checks:
+  - whether the top score clears a confidence floor
+  - whether the top evidence contains real lexical anchors for that intent
+- if a non-formal document fails the check, the selector falls back to a short summary-only evidence set instead of forcing 10 weak citations
+
 For non-formal docs on intents like overview/risk/payment/acceptance/price adjustment/force majeure:
 - up to 3 structured summary chunks can be pushed early
 
@@ -444,6 +461,10 @@ This is trying to avoid two bad extremes:
 The selector can still preserve repetitions or weak clause-like evidence if the candidate pool itself is poor.
 
 This is why some non-formal legal-style queries still look bad even after reranking.
+
+Another current failure mode:
+- if a question type is not included in anchor-sensitive handling, the system may stop misclassifying it but still return weak technical approximations with false confidence.
+- this is exactly the current `V4` problem on non-formal documents after the subcontracting regex was fixed.
 
 ## Current strengths
 
@@ -496,6 +517,24 @@ The system is weakest on **non-formal documents** for **legal-style questions th
 4. Reranker can only reorder what it was given.
 5. Final selection still has to return something unless abstention is stronger.
 
+### Current live examples from the varied retrieval set
+
+`01XX V7`, `03XX V7`:
+- current behavior is now reasonable
+- retrieval marks them low-confidence with `missing_anchor:force_majeure`
+- returns 2 to 3 summary-style citations instead of 10 noisy technical ones
+
+`01XX V8`, `03XX V8`:
+- current behavior is also safer
+- retrieval marks them low-confidence with `missing_anchor:subcontracting`
+- this is preferable to pretending the file contains a real subcontract clause
+
+`03XX V4`:
+- this is the next real blocker
+- after removing the false subcontracting trigger, the query is no longer misclassified
+- but because `action` is not yet anchor-gated, retrieval now returns 10 weak technical sections with `confident=True`
+- this is a genuine structural gap, not just a prompt issue
+
 ## Best retrieval outputs so far
 
 If we ignore the test-number labels and judge by behavior:
@@ -531,6 +570,83 @@ The current bottleneck is now more specific:
 1. **candidate quality on non-formal legal-style queries**
 2. **when to abstain instead of returning weak approximate evidence**
 3. **a few formal-contract ordering edge cases**
+
+## Is the next `action` fix overfitting?
+
+Short answer:
+- **not if scoped correctly**
+- **yes if implemented too broadly**
+
+### Why `action` anchor gating is defensible
+
+The current failure class is not “one benchmark question is bad.”
+It is:
+- non-formal documents
+- legal/remedy-style questions
+- no real remedy anchors in the source
+- retrieval still returns weak technical approximations with false confidence
+
+That is the same failure pattern already observed for:
+- `force_majeure`
+- `subcontracting`
+
+Adding `action` to the same anchor-gating framework is structurally consistent if it is framed as:
+- “do not claim remedy evidence exists when the document does not contain remedy anchors”
+
+That is a document-type and evidence-quality rule, not a one-query hack.
+
+### What would make it overfitting
+
+It becomes overfitting if the implementation does any of the following:
+
+1. adds wording tailored to only one regression prompt
+- for example, matching a specific sentence like `what can Party A do if performance slips`
+
+2. encodes one contract’s section titles directly
+- for example, boosting `家庭能源管理系統(HEMS) / 施工說明` because it appeared in a past miss
+
+3. adds more summary fallback exceptions per document
+- for example, “if 01XX and V4 then return Bug Fix summary”
+
+4. keeps expanding phrase lists without anchoring them to a general failure class
+
+### What makes it safe enough
+
+An `action` anchor-gating fix is still acceptable if it is limited to:
+
+1. a small general anchor set such as:
+- `違約`
+- `遲延`
+- `逾期`
+- `終止`
+- `解除`
+- `暫停付款`
+- `違約金`
+- `另覓廠商`
+
+2. only applying the abstention behavior to:
+- non-formal docs
+- action/remedy style queries
+
+3. using the same fallback policy already used for:
+- `force_majeure`
+- `subcontracting`
+
+4. not changing formal-contract behavior unless regression evidence proves it is needed
+
+### Honest recommendation
+
+Yes, the next `action` anchor-gating fix is **needed**.
+
+It is not the kind of change I would call bad overfitting, because:
+- it addresses a repeatable failure class
+- it follows the same architectural rule already used elsewhere
+- it makes the system more honest, not more “clever”
+
+The important constraint is:
+- do **not** add another broad stack of hand-tuned boosts
+- do **not** special-case one document
+- keep it as a narrow abstention rule for missing remedy anchors on non-formal files
 
 ## What this means for future tuning
 
