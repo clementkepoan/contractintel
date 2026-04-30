@@ -30,6 +30,17 @@ LOW_SIGNAL_WIKI_HEADINGS = {
     "related pages",
     "page metadata",
 }
+SUMMARY_SECTION_FAMILY_HINTS = {
+    "契約目的": [],
+    "商務與付款": ["payment", "milestone", "price_adjustment"],
+    "交付與驗收": ["acceptance", "warranty"],
+    "風險與注意事項": ["damages", "warranty", "price_adjustment", "force_majeure"],
+    "At A Glance": [],
+    "Milestone And Payment Structure": ["payment", "milestone", "price_adjustment"],
+    "Delivery And Acceptance": ["acceptance", "warranty"],
+    "Payment Procedures And Commercial Notes": ["payment", "price_adjustment"],
+    "Risks And Open Issues": ["damages", "warranty", "price_adjustment", "force_majeure"],
+}
 NONFORMAL_ALLOWED_FAMILIES = {
     "payment",
     "acceptance",
@@ -553,6 +564,112 @@ def split_markdown_sections(text: str) -> list[tuple[str, str]]:
     return filtered
 
 
+def extract_named_markdown_section(text: str, heading: str) -> str:
+    lines = strip_frontmatter(text).splitlines()
+    capture = False
+    captured: list[str] = []
+    target = normalize_space(heading).lower()
+    for line in lines:
+        if line.startswith("## "):
+            current = normalize_space(line[3:]).lower()
+            if current == target:
+                capture = True
+                continue
+            if capture:
+                break
+        if capture:
+            captured.append(line)
+    return "\n".join(captured).strip()
+
+
+def split_h3_sections(text: str) -> list[tuple[str, str]]:
+    sections: list[tuple[str, str]] = []
+    current_heading: str | None = None
+    current_lines: list[str] = []
+    for line in text.splitlines():
+        if line.startswith("### "):
+            if current_heading and current_lines:
+                sections.append((current_heading, "\n".join(current_lines).strip()))
+            current_heading = normalize_space(line[4:])
+            current_lines = []
+            continue
+        if current_heading:
+            current_lines.append(line)
+    if current_heading and current_lines:
+        sections.append((current_heading, "\n".join(current_lines).strip()))
+    return [(heading, body) for heading, body in sections if normalize_space(body)]
+
+
+def build_contract_summary_chunks(extracted: dict[str, Any], *, document_type: str) -> list[dict[str, Any]]:
+    contract_key = extracted.get("contract_key")
+    if not contract_key:
+        return []
+    contract_page = settings.wiki_dir / "contracts" / f"{contract_key}.md"
+    if not contract_page.exists():
+        return []
+    try:
+        text = contract_page.read_text(encoding="utf-8")
+    except OSError:
+        return []
+    chunks: list[dict[str, Any]] = []
+    for section_name, kind in [("Contract Summary", "wiki_contract_summary"), ("LLM Summary", "wiki_llm_summary")]:
+        section_text = extract_named_markdown_section(text, section_name)
+        if not section_text:
+            continue
+        for section_index, (heading, body) in enumerate(split_h3_sections(section_text), start=1):
+            families = list(SUMMARY_SECTION_FAMILY_HINTS.get(heading, []))
+            detected = detect_clause_family(body, document_type=document_type)
+            for family in detected:
+                if family not in families:
+                    families.append(family)
+            chunks.append(
+                chunk_record(
+                    chunk_id=f"structured::{kind}::{section_index:03d}",
+                    text=f"{heading}\n{normalize_space(body)}",
+                    para_start=0,
+                    para_end=0,
+                    page_estimate=0,
+                    chunk_type="structured",
+                    structured_kind=kind,
+                    clause_label=heading,
+                    source_label=heading,
+                    clause_family=families,
+                    document_type=document_type,
+                    section_label=heading,
+                    section_path=f"{section_name} / {heading}",
+                )
+            )
+    return chunks
+
+
+def summary_injection_base_score(chunk: dict[str, Any], intents: set[str]) -> float:
+    label = normalize_space(str(chunk.get("clause_label") or ""))
+    kind = chunk.get("structured_kind")
+    if "overview" in intents:
+        if label in {"契約目的", "At A Glance"}:
+            return 0.36
+        if kind == "wiki_contract_summary":
+            return 0.30
+        return 0.24
+    if "payment" in intents:
+        if label in {"商務與付款", "Milestone And Payment Structure", "Payment Procedures And Commercial Notes"}:
+            return 0.34
+        return 0.22
+    if "acceptance" in intents:
+        if label in {"交付與驗收", "Delivery And Acceptance"}:
+            return 0.34
+        return 0.22
+    if "price_adjustment" in intents or "force_majeure" in intents:
+        if label in {"風險與注意事項", "Risks And Open Issues", "商務與付款", "Payment Procedures And Commercial Notes"}:
+            return 0.34
+        return 0.24
+    if "risk" in intents:
+        if label in {"風險與注意事項", "Risks And Open Issues"}:
+            return 0.34
+        return 0.24
+    return 0.18
+
+
 def build_wiki_chunks(extracted: dict[str, Any]) -> list[dict[str, Any]]:
     chunks: list[dict[str, Any]] = []
     contract_key = extracted.get("contract_key")
@@ -600,6 +717,7 @@ def build_chunks(extracted: dict[str, Any]) -> list[dict[str, Any]]:
         body_chunks, _parent_chunks, clause_groups = build_nonformal_chunks(extracted, document_type=document_type)
     chunks = body_chunks
     chunks.extend(build_structured_chunks(extracted, clause_groups, document_type=document_type))
+    chunks.extend(build_contract_summary_chunks(extracted, document_type=document_type))
     return [chunk for chunk in chunks if chunk.get("text")]
 
 
@@ -611,6 +729,7 @@ def write_chunk_index(contract_id: str, extracted: dict[str, Any]) -> Path:
     else:
         body_chunks, parent_chunks, clause_groups = build_nonformal_chunks(extracted, document_type=document_type)
     chunks = body_chunks + build_structured_chunks(extracted, clause_groups, document_type=document_type)
+    chunks.extend(build_contract_summary_chunks(extracted, document_type=document_type))
     tokenized = [tokenize(chunk["text"]) for chunk in chunks]
     index_payload: dict[str, Any] = {
         "contract_id": contract_id,
@@ -719,7 +838,9 @@ def hybrid_search_chunks(contract_id: str, query: str, top_k: int = 5, intents: 
     ranked_chunk_ids = sorted(fused.items(), key=lambda item: item[1], reverse=True)[: max(top_k, 12)]
     for rank, (chunk_id, score) in enumerate(ranked_chunk_ids, start=1):
         chunk = chunk_map[chunk_id]
-        combined_score = float(score) + (0.15 * float(bm25_norm_map.get(chunk_id, 0.0))) + (0.10 * float(vector_norm_map.get(chunk_id, 0.0)))
+        bm25_weight = 0.28 if document_type in {"spec_rfp", "instruction_manual", "mixed"} else 0.15
+        vector_weight = 0.06 if document_type in {"spec_rfp", "instruction_manual", "mixed"} else 0.10
+        combined_score = float(score) + (bm25_weight * float(bm25_norm_map.get(chunk_id, 0.0))) + (vector_weight * float(vector_norm_map.get(chunk_id, 0.0)))
         base_results.append(
             {
                 "rank": rank,
@@ -745,8 +866,42 @@ def hybrid_search_chunks(contract_id: str, query: str, top_k: int = 5, intents: 
                 "retrieval_method": "hybrid_qdrant" if qdrant_ready() and vector_pairs else ("hybrid_local" if vector_pairs else "bm25"),
             }
         )
-
     intents = intents or set()
+    if document_type in {"spec_rfp", "instruction_manual", "mixed"} and ({"overview", "risk", "payment", "acceptance", "price_adjustment", "force_majeure"} & intents):
+        summary_candidates = [
+            chunk for chunk in chunks
+            if chunk.get("chunk_type") == "structured" and chunk.get("structured_kind") in {"wiki_llm_summary", "wiki_contract_summary"}
+        ]
+        existing_ids = {item["chunk_id"] for item in base_results}
+        for chunk in summary_candidates:
+            if chunk["chunk_id"] in existing_ids:
+                continue
+            chunk_id = chunk["chunk_id"]
+            base_results.append(
+                {
+                    "rank": 0,
+                    "chunk_id": chunk_id,
+                    "text_snippet": chunk["text"][:500],
+                    "para_start": chunk["para_start"],
+                    "para_end": chunk["para_end"],
+                    "page_estimate": chunk["page_estimate"],
+                    "chunk_type": chunk.get("chunk_type"),
+                    "clause_label": chunk.get("clause_label"),
+                    "structured_kind": chunk.get("structured_kind"),
+                    "wiki_source_path": chunk.get("wiki_source_path"),
+                    "source_label": chunk.get("source_label"),
+                    "block_ids": chunk.get("block_ids", []),
+                    "parent_chunk_id": chunk.get("parent_chunk_id"),
+                    "clause_family": chunk.get("clause_family", []),
+                    "document_type": chunk.get("document_type") or document_type,
+                    "section_label": chunk.get("section_label"),
+                    "section_path": chunk.get("section_path"),
+                    "retrieval_score": summary_injection_base_score(chunk, intents) + (bm25_weight * float(bm25_norm_map.get(chunk_id, 0.0))) + (vector_weight * float(vector_norm_map.get(chunk_id, 0.0))),
+                    "bm25_score": float(bm25_score_map.get(chunk_id, 0.0)),
+                    "vector_score": float(vector_score_map.get(chunk_id, 0.0)),
+                    "retrieval_method": "summary_injection",
+                }
+            )
     is_action_like = "action" in intents or "progress_delay" in intents
     is_nonformal = document_type in {"spec_rfp", "instruction_manual", "mixed"}
     parent_expansion_cap = 0 if is_nonformal else (2 if is_action_like else 3)

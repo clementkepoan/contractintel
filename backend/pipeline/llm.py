@@ -51,6 +51,7 @@ def query_local_messages_detailed(
     timeout: float = 20.0,
     response_format: str | None = None,
     model_name: str | None = None,
+    sampling_overrides: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     payload: dict[str, Any] = {
         "messages": messages,
@@ -65,6 +66,8 @@ def query_local_messages_detailed(
         "max_tokens": 8192,
         "chat_template_kwargs": {"enable_thinking": settings.local_model_enable_thinking},
     }
+    if sampling_overrides:
+        payload.update(sampling_overrides)
     effective_model_name = model_name if model_name is not None else settings.local_model_name
     if effective_model_name:
         payload["model"] = effective_model_name
@@ -92,6 +95,7 @@ def query_local_llm_detailed(
     timeout: float = 20.0,
     response_format: str | None = None,
     model_name: str | None = None,
+    sampling_overrides: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     return query_local_messages_detailed(
         [
@@ -100,4 +104,5 @@ def query_local_llm_detailed(
         timeout=timeout,
         response_format=response_format,
         model_name=model_name,
+        sampling_overrides=sampling_overrides,
     )

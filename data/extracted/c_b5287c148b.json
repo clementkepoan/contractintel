@@ -796,9 +796,66 @@
   "pipeline_revision": "2026-04-27-citation-summary-v1",
   "_meta": {
     "extraction_path": "llm_tasks",
-    "fallback_reason": "total:no_blocks,payment:no_blocks",
+    "fallback_reason": "total:no_blocks,payment:no_blocks,retention:invalid_json",
     "prompt_tokens": 603,
-    "llm_ms": 2904,
+    "llm_ms": 2558,
+    "tasks": [
+      {
+        "task": "total",
+        "status": "skipped",
+        "fallback_reason": "no_blocks",
+        "prompt_tokens": 0,
+        "llm_ms": 0,
+        "json_parse_status": "skipped",
+        "raw_length": 0
+      },
+      {
+        "task": "payment",
+        "status": "skipped",
+        "fallback_reason": "no_blocks",
+        "prompt_tokens": 0,
+        "llm_ms": 0,
+        "json_parse_status": "skipped",
+        "raw_length": 0,
+        "normalized_milestone_count": 0,
+        "normalized_milestone_names": [],
+        "normalized_source_orders": []
+      },
+      {
+        "task": "retention",
+        "status": "fallback",
+        "fallback_reason": "invalid_json",
+        "prompt_tokens": 345,
+        "llm_ms": 1684,
+        "json_parse_status": "invalid_json",
+        "raw_length": 141,
+        "raw_preview": "{\"retention\":{\"amount\":null,\"percentage\":null,\"release_condition\":null,\"release_after_months\":null,\"evidence_block_ids\":[01XX專案_block_0093]}}"
+      },
+      {
+        "task": "version",
+        "status": "llm",
+        "fallback_reason": "none",
+        "prompt_tokens": 258,
+        "llm_ms": 874,
+        "json_parse_status": "ok",
+        "raw_length": 84,
+        "parsed_top_keys": [
+          "deprecated_block_ids",
+          "document_versions",
+          "has_version_conflict"
+        ]
+      }
+    ],
+    "payment_debug": {
+      "json_parse_status": "skipped",
+      "fallback_reason": "no_blocks",
+      "raw_length": 0,
+      "raw_milestone_count": 0,
+      "normalized_milestone_count": 0,
+      "normalized_milestone_names": [],
+      "normalized_source_orders": [],
+      "raw_preview": null
+    },
     "pipeline_revision": "2026-04-27-citation-summary-v1"
   },
   "segment_map": {

@@ -107,6 +107,7 @@ def retrieval_mode() -> str:
 
 
 QUERY_EXPANSIONS: dict[str, str] = {
+    "overview": "摘要 重點 文件目的 範圍 說明 文件主要內容",
     "risk": "風險 違約 違約金 扣罰 賠償 逾期 固定總價 不得追加",
     "payment": "付款 給付 工程款 請款 期款",
     "acceptance": "驗收 核定 確認 完工 測試通過 交付",
@@ -127,6 +128,7 @@ ACCEPTANCE_RE = re.compile(r"(驗收|核定|確認|完工|測試通過|交付)")
 RISK_RE = re.compile(r"(風險|違約|罰款|扣罰|賠償)")
 PRICE_ADJUSTMENT_RE = re.compile(r"(關稅|貿易|法令|政策|調價|固定總價|不得追加|tariff|trade)", re.IGNORECASE)
 FORCE_MAJEURE_RE = re.compile(r"(不可抗力|天災|force majeure)", re.IGNORECASE)
+OVERVIEW_RE = re.compile(r"(主要是在規範什麼|主要內容|這份文件.*規範|what is this document about|summarize)", re.IGNORECASE)
 CHINESE_CHAR_RE = re.compile(r"[\u4e00-\u9fff]")
 ACTION_FALLBACK_TERMS = "得 暫停付款 違約金 扣罰 終止 解除 另覓廠商 書面通知 不補償 費用由乙方負擔"
 PROGRESS_ACTION_TERMS = "進度落後 逾期 履約期限 暫停付款 違約金 終止契約 解除契約 另覓廠商"
@@ -140,6 +142,8 @@ def classify_query_intents(query: str) -> set[str]:
     lowered = text.lower()
     if ACTION_QUERY_RE.search(text):
         intents.add("action")
+    if OVERVIEW_RE.search(text):
+        intents.add("overview")
     if PROGRESS_DELAY_RE.search(text):
         intents.add("progress_delay")
     if PAYMENT_RE.search(text) or "payment" in lowered:
@@ -169,6 +173,22 @@ def expand_query(query: str, intents: set[str]) -> str:
     if not expansions:
         return query
     return f"{query}\n" + "\n".join(expansions)
+
+
+def exact_match_terms(intents: set[str], document_type: str) -> tuple[str, ...]:
+    if "payment" in intents:
+        return ("付款", "請款", "期款", "工程款", "金額", "總價", "保證金", "費用")
+    if "acceptance" in intents:
+        return ("驗收", "核定", "確認", "完工", "測試", "交付", "施工計劃書")
+    if "price_adjustment" in intents:
+        return ("關稅", "法令變更", "政策變更", "調整", "總價", "追加工程款", "固定總價")
+    if "force_majeure" in intents:
+        return ("不可抗力", "天災", "關稅", "法令變更", "政策變更")
+    if "risk" in intents and document_type in {"spec_rfp", "instruction_manual", "mixed"}:
+        return ("保固", "責任", "安全", "賠償", "查驗", "瑕疵")
+    if "overview" in intents:
+        return ("摘要", "目的", "範圍", "內容", "系統", "說明")
+    return ()
 
 
 def detect_output_language(query: str) -> str:
@@ -351,6 +371,30 @@ def source_weight(item: dict[str, Any], intents: set[str]) -> float:
     elif chunk_type == "structured":
         if structured_kind == "clause_action_summary":
             weight += 0.22
+        elif structured_kind in {"wiki_llm_summary", "wiki_contract_summary"}:
+            label = item.get("clause_label") or ""
+            if "overview" in intents or not intents:
+                weight += 0.18
+                if label in {"契約目的", "At A Glance"}:
+                    weight += 0.10
+                elif label in {"風險與注意事項", "Risks And Open Issues"}:
+                    weight -= 0.03
+            if "risk" in intents and clause_family & {"damages", "warranty", "price_adjustment"}:
+                weight += 0.16
+                if label in {"風險與注意事項", "Risks And Open Issues"}:
+                    weight += 0.08
+            if "payment" in intents and clause_family & {"payment", "milestone"}:
+                weight += 0.16
+                if label in {"商務與付款", "Milestone And Payment Structure", "Payment Procedures And Commercial Notes"}:
+                    weight += 0.08
+            if "acceptance" in intents and "acceptance" in clause_family:
+                weight += 0.16
+                if label in {"交付與驗收", "Delivery And Acceptance"}:
+                    weight += 0.08
+            if "price_adjustment" in intents and "price_adjustment" in clause_family:
+                weight += 0.18
+            if "force_majeure" in intents and "force_majeure" in clause_family:
+                weight += 0.18
         elif structured_kind == "contract_summary":
             weight -= 0.05
         elif structured_kind == "milestone_summary":
@@ -379,12 +423,17 @@ def source_weight(item: dict[str, Any], intents: set[str]) -> float:
         weight += 0.16
     if "force_majeure" in intents and "force_majeure" in clause_family and not is_nonformal:
         weight += 0.16
+    if is_nonformal and float(item.get("bm25_score", 0.0)) > 0.0:
+        weight += 0.10
+    if is_nonformal:
+        label_text = f"{item.get('clause_label') or ''} {text}"
+        terms = exact_match_terms(intents, document_type)
+        if terms and any(term in label_text for term in terms):
+            weight += 0.18
     return weight
 
 
 def expand_related_action_candidates(citations: list[dict[str, Any]], intents: set[str]) -> list[dict[str, Any]]:
-    if "action" not in intents and "progress_delay" not in intents:
-        return citations
     expanded: list[dict[str, Any]] = []
     for item in citations:
         boosted = dict(item)
@@ -398,6 +447,8 @@ def select_diverse_citations(citations: list[dict[str, Any]], top_k: int, intent
     clause_like = [item for item in ordered if item.get("chunk_type") in {"clause", "subclause", "section", "requirement"}]
     structured = [item for item in ordered if item.get("chunk_type") == "structured"]
     wiki = [item for item in ordered if item.get("chunk_type") == "wiki"]
+    document_types = {item.get("document_type") for item in ordered if item.get("document_type")}
+    is_nonformal = any(item in {"spec_rfp", "instruction_manual", "mixed"} for item in document_types)
     selected: list[dict[str, Any]] = []
     seen: set[tuple[str | None, str | None]] = set()
 
@@ -413,9 +464,24 @@ def select_diverse_citations(citations: list[dict[str, Any]], top_k: int, intent
             if added >= limit:
                 break
 
-    if clause_like:
-        push(clause_like, min(max(5, top_k - 2), len(clause_like)))
     if structured:
+        structured_sorted = sorted(
+            structured,
+            key=lambda item: (
+                not (
+                    is_nonformal
+                    and item.get("structured_kind") in {"wiki_llm_summary", "wiki_contract_summary"}
+                    and ({"overview", "risk", "payment", "acceptance", "price_adjustment", "force_majeure"} & intents or "overview" in intents)
+                ),
+                item.get("structured_kind") != "clause_action_summary",
+                -float(item["retrieval_score"]),
+            ),
+        )
+        if is_nonformal and ({"overview", "risk", "payment", "acceptance", "price_adjustment", "force_majeure"} & intents):
+            push(structured_sorted, min(3, len(structured_sorted)))
+    if clause_like:
+        push(clause_like, min(max(5, top_k - (3 if is_nonformal else 2)), len(clause_like)))
+    if structured and not (is_nonformal and ({"overview", "risk", "payment", "acceptance", "price_adjustment", "force_majeure"} & intents)):
         structured_sorted = sorted(
             structured,
             key=lambda item: (item.get("structured_kind") != "clause_action_summary", -float(item["retrieval_score"])),
@@ -435,6 +501,28 @@ def select_diverse_citations(citations: list[dict[str, Any]], top_k: int, intent
             break
     if len(selected) < top_k and wiki and not clause_like:
         push(wiki, min(1, top_k - len(selected)))
+    nonformal_with_bm25 = [
+        item for item in ordered
+        if (item.get("document_type") in {"spec_rfp", "instruction_manual", "mixed"})
+        and float(item.get("bm25_score", 0.0)) > 0.0
+    ]
+    if nonformal_with_bm25:
+        terms = exact_match_terms(intents, "spec_rfp")
+        best_bm25 = max(
+            nonformal_with_bm25,
+            key=lambda item: (
+                item.get("structured_kind") in {"wiki_llm_summary", "wiki_contract_summary"},
+                any(term in f"{item.get('clause_label') or ''} {item.get('text_snippet') or ''}" for term in terms),
+                float(item.get("bm25_score", 0.0)),
+                float(item.get("retrieval_score", 0.0)),
+            ),
+        )
+        key = (best_bm25.get("contract_id"), best_bm25.get("chunk_id"))
+        if key not in seen:
+            if len(selected) >= top_k:
+                selected[-1] = best_bm25
+            else:
+                selected.append(best_bm25)
     return selected[:top_k]
 
 

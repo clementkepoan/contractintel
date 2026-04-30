@@ -52,9 +52,12 @@ def health() -> dict:
         "doc_conversion_available": which("soffice") is not None,
         "infrastructure": {
             "local_model_name": settings.local_model_name,
+            "local_extraction_model_name": settings.local_model_name,
             "local_query_model_name": settings.local_query_model_name,
+            "local_model_base_url": settings.local_model_base_url,
             "local_model_num_ctx": settings.local_model_num_ctx,
             "embedding_model_name": settings.embedding_model_name,
+            "embedding_model_base_url": settings.embedding_model_base_url,
             "qdrant_url": settings.qdrant_url,
             "qdrant_collection_name": settings.qdrant_collection_name,
             "api_docs_path": "/docs",

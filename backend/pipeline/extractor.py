@@ -13,6 +13,16 @@ from backend.pipeline.llm import llm_available, query_local_llm_detailed
 from backend.pipeline.validation import validate_contract_data
 
 logger = logging.getLogger(__name__)
+_EXTRACTION_JSON_SAMPLING = {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 1,
+    "min_p": 0.0,
+    "presence_penalty": 0.0,
+    "repetition_penalty": 1.0,
+    "frequency_penalty": 0.0,
+    "chat_template_kwargs": {"enable_thinking": False},
+}
 
 TOTAL_PATTERNS = [
     re.compile(r"新[臺台]幣\s*(?:[零一二三四五六七八九十百千萬億壹貳參肆伍陸柒捌玖拾佰仟兩]+)?\s*[（(]?(?:NT\$|NTD|TWD)?\s*([\d,]+)\s*[）)]?\s*元?"),
@@ -383,7 +393,12 @@ def normalize_milestone_terms_with_llm(
             '輸出格式：{"work_items":[""],"acceptance_criteria":"","payment_condition":""}',
         ]
     )
-    response = query_local_llm_detailed(prompt, timeout=180.0, response_format="json")
+    response = query_local_llm_detailed(
+        prompt,
+        timeout=180.0,
+        response_format="json",
+        sampling_overrides=_EXTRACTION_JSON_SAMPLING,
+    )
     parsed = parse_json_object(response.get("response"))
     if not parsed:
         return work_items, acceptance_criteria, payment_condition
@@ -1612,6 +1627,8 @@ def merge_llm_extraction(
             "fallback_reason": llm_result.get("_meta", {}).get("fallback_reason", "none"),
             "prompt_tokens": llm_result.get("_meta", {}).get("prompt_tokens", 0),
             "llm_ms": llm_result.get("_meta", {}).get("llm_ms", 0),
+            "tasks": llm_result.get("_meta", {}).get("tasks", []),
+            "payment_debug": llm_result.get("_meta", {}).get("payment_debug", {}),
             "pipeline_revision": EXTRACTION_PIPELINE_VERSION,
         },
         "normalization": {"llm_attempted": True, "llm_applied": True},

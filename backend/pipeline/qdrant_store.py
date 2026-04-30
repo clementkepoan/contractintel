@@ -7,19 +7,17 @@ from uuid import NAMESPACE_URL, uuid5
 
 try:
     from langchain_core.documents import Document
-    from langchain_huggingface import HuggingFaceEmbeddings
     from langchain_qdrant import QdrantVectorStore
     from qdrant_client import QdrantClient
     from qdrant_client.http import models as qdrant_models
 except Exception:  # pragma: no cover - optional at runtime
     Document = None  # type: ignore[assignment]
-    HuggingFaceEmbeddings = None  # type: ignore[assignment]
     QdrantVectorStore = None  # type: ignore[assignment]
     QdrantClient = None  # type: ignore[assignment]
     qdrant_models = None  # type: ignore[assignment]
 
 from backend.config import settings
-from backend.pipeline.embeddings import embedding_model_ready
+from backend.pipeline.embeddings import embedding_model_ready, get_embedding_adapter
 
 
 def qdrant_available() -> bool:
@@ -47,27 +45,13 @@ def point_id_for_chunk(contract_id: str, chunk_id: str) -> str:
     return str(uuid5(NAMESPACE_URL, f"{contract_id}:{chunk_id}"))
 
 
-@lru_cache(maxsize=1)
-def get_langchain_embeddings() -> Any:
-    if HuggingFaceEmbeddings is None:
-        raise RuntimeError("langchain-huggingface is not installed.")
-    if not embedding_model_ready():
-        raise RuntimeError("Embedding model is not cached locally.")
-    return HuggingFaceEmbeddings(
-        model=settings.embedding_model_name,
-        cache_folder=os.getenv("SENTENCE_TRANSFORMERS_HOME") or os.getenv("HF_HOME"),
-        model_kwargs={"local_files_only": True},
-        encode_kwargs={"normalize_embeddings": True},
-    )
-
-
 def get_vector_store() -> Any:
     if QdrantVectorStore is None:
         raise RuntimeError("langchain-qdrant is not installed.")
     return QdrantVectorStore(
         client=get_qdrant_client(),
         collection_name=settings.qdrant_collection_name,
-        embedding=get_langchain_embeddings(),
+        embedding=get_embedding_adapter(),
     )
 
 
@@ -77,7 +61,13 @@ def ensure_collection(vector_size: int) -> None:
     client = get_qdrant_client()
     exists = client.collection_exists(settings.qdrant_collection_name)
     if exists:
-        return
+        info = client.get_collection(settings.qdrant_collection_name)
+        current_size = getattr(getattr(info, "config", None), "params", None)
+        current_vectors = getattr(current_size, "vectors", None)
+        existing_size = getattr(current_vectors, "size", None)
+        if existing_size == vector_size:
+            return
+        client.delete_collection(settings.qdrant_collection_name)
     client.create_collection(
         collection_name=settings.qdrant_collection_name,
         vectors_config=qdrant_models.VectorParams(size=vector_size, distance=qdrant_models.Distance.COSINE),

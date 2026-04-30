@@ -58,7 +58,7 @@ export function HealthPage({ health, setHealth }) {
   const warning = !health?.doc_conversion_available
     ? "Document conversion service is unavailable in the current runtime. `.doc` ingestion will stay blocked until LibreOffice is present."
     : !health?.embedding_model_ready
-      ? "Embedding cache is not ready yet. Querying will fall back to BM25 until the local embedding model is downloaded."
+      ? "Embedding service is not ready yet. Vector retrieval will stay degraded until the local embedding model endpoint responds."
       : null;
 
   return (
@@ -103,8 +103,12 @@ export function HealthPage({ health, setHealth }) {
         <Section title={t("health.infrastructureDetails")}>
           <div className="infra-table">
             <div className="infra-row">
-              <span>{t("health.largeLanguageModel")}</span>
-              <code>{infrastructure.local_model_name || "-"}</code>
+              <span>{t("health.extractionModel")}</span>
+              <code>{infrastructure.local_extraction_model_name || infrastructure.local_model_name || "-"}</code>
+            </div>
+            <div className="infra-row">
+              <span>{t("health.queryModel")}</span>
+              <code>{infrastructure.local_query_model_name || "-"}</code>
             </div>
             <div className="infra-row">
               <span>{t("health.modelContextWindow")}</span>

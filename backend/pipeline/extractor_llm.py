@@ -23,6 +23,16 @@ _MAX_WORK_ITEMS = 3
 _MAX_TEXT = 400
 _MAX_CONTEXT_TEXT = 220
 _MAX_TASK_PROMPT_TOKENS = 2800
+_EXTRACTION_SAMPLING_OVERRIDES = {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 1,
+    "min_p": 0.0,
+    "presence_penalty": 0.0,
+    "repetition_penalty": 1.0,
+    "frequency_penalty": 0.0,
+    "chat_template_kwargs": {"enable_thinking": False},
+}
 
 
 def estimate_prompt_tokens(prompt: str) -> int:
@@ -95,7 +105,8 @@ def _extract_json_object(raw: str) -> dict[str, Any] | None:
         parsed = json.loads(candidate)
         return parsed if isinstance(parsed, dict) else None
     except json.JSONDecodeError:
-        repaired = _repair_block_id_arrays(candidate)
+        repaired = _repair_malformed_object_arrays(candidate)
+        repaired = _repair_block_id_arrays(repaired)
         if repaired == candidate:
             return None
         try:
@@ -143,6 +154,16 @@ def _repair_block_id_arrays(text: str) -> str:
     return pattern.sub(repl, text)
 
 
+def _repair_malformed_object_arrays(text: str) -> str:
+    repaired = text
+    repaired = re.sub(r'(\}\s*\})\s*,\s*"source_order"\s*:', r'\1, {"source_order":', repaired)
+    repaired = re.sub(r'(\]\s*)\s*,\s*"source_order"\s*:', r'\1, {"source_order":', repaired)
+    repaired = re.sub(r'(\[\s*)"\s*source_order"\s*:', r'\1{"source_order":', repaired)
+    repaired = re.sub(r'(\}\s*\})\s*,\s*"name"\s*:', r'\1, {"name":', repaired)
+    repaired = re.sub(r'(\]\s*)\s*,\s*"name"\s*:', r'\1, {"name":', repaired)
+    return repaired
+
+
 def validate_llm_response_schema(parsed: dict[str, Any]) -> tuple[bool, str]:
     required_top_level = ["milestones"]
     for field in required_top_level:
@@ -166,6 +187,19 @@ def _coerce_block_ids(value: Any) -> list[str]:
     if not isinstance(value, list):
         return []
     return [item for item in value if isinstance(item, str) and item.strip()]
+
+
+def _preview_text(value: str, limit: int = 700) -> str:
+    compact = value.replace("\n", " ").replace("\r", " ").strip()
+    if len(compact) <= limit:
+        return compact
+    return compact[:limit] + " ..."
+
+
+def _candidate_milestone_count(value: Any) -> int:
+    if not isinstance(value, list):
+        return 0
+    return sum(1 for item in value if isinstance(item, dict))
 
 
 def _normalize_milestones(value: Any) -> list[dict[str, Any]]:
@@ -450,7 +484,15 @@ def _task_prompt(task: str, blocks: list[dict[str, Any]]) -> str:
 
 def _call_json_task(task: str, blocks: list[dict[str, Any]], timeout: float = 180.0) -> tuple[dict[str, Any] | None, dict[str, Any]]:
     if not blocks:
-        return None, {"task": task, "status": "skipped", "fallback_reason": "no_blocks", "prompt_tokens": 0, "llm_ms": 0}
+        return None, {
+            "task": task,
+            "status": "skipped",
+            "fallback_reason": "no_blocks",
+            "prompt_tokens": 0,
+            "llm_ms": 0,
+            "json_parse_status": "skipped",
+            "raw_length": 0,
+        }
     prompt = _task_prompt(task, blocks)
     prompt_tokens = estimate_prompt_tokens(prompt)
     max_prompt_tokens = min(_MAX_TASK_PROMPT_TOKENS, max(1200, int(settings.local_model_num_ctx * 0.35)))
@@ -461,22 +503,70 @@ def _call_json_task(task: str, blocks: list[dict[str, Any]], timeout: float = 18
             "fallback_reason": f"prompt_too_large:{prompt_tokens}>{max_prompt_tokens}",
             "prompt_tokens": prompt_tokens,
             "llm_ms": 0,
+            "json_parse_status": "skipped",
+            "raw_length": 0,
         }
 
     started = time.perf_counter()
-    llm_response = query_local_llm_detailed(prompt, timeout=timeout, response_format="json")
+    llm_response = query_local_llm_detailed(
+        prompt,
+        timeout=timeout,
+        response_format="json",
+        sampling_overrides=_EXTRACTION_SAMPLING_OVERRIDES,
+    )
     llm_ms = int((time.perf_counter() - started) * 1000)
     raw = llm_response.get("response")
     error = llm_response.get("error")
     if error == "timeout":
-        return None, {"task": task, "status": "fallback", "fallback_reason": "timeout", "prompt_tokens": prompt_tokens, "llm_ms": llm_ms}
+        return None, {
+            "task": task,
+            "status": "fallback",
+            "fallback_reason": "timeout",
+            "prompt_tokens": prompt_tokens,
+            "llm_ms": llm_ms,
+            "json_parse_status": "timeout",
+            "raw_length": 0,
+        }
     if not raw:
         fallback_reason = "empty_response" if error is None else error
-        return None, {"task": task, "status": "fallback", "fallback_reason": fallback_reason, "prompt_tokens": prompt_tokens, "llm_ms": llm_ms}
+        return None, {
+            "task": task,
+            "status": "fallback",
+            "fallback_reason": fallback_reason,
+            "prompt_tokens": prompt_tokens,
+            "llm_ms": llm_ms,
+            "json_parse_status": "empty_response",
+            "raw_length": 0,
+        }
     parsed = _extract_json_object(raw)
     if not parsed:
-        return None, {"task": task, "status": "fallback", "fallback_reason": "invalid_json", "prompt_tokens": prompt_tokens, "llm_ms": llm_ms}
-    return parsed, {"task": task, "status": "llm", "fallback_reason": "none", "prompt_tokens": prompt_tokens, "llm_ms": llm_ms}
+        return None, {
+            "task": task,
+            "status": "fallback",
+            "fallback_reason": "invalid_json",
+            "prompt_tokens": prompt_tokens,
+            "llm_ms": llm_ms,
+            "json_parse_status": "invalid_json",
+            "raw_length": len(raw),
+            "raw_preview": _preview_text(raw),
+        }
+
+    meta = {
+        "task": task,
+        "status": "llm",
+        "fallback_reason": "none",
+        "prompt_tokens": prompt_tokens,
+        "llm_ms": llm_ms,
+        "json_parse_status": "ok",
+        "raw_length": len(raw),
+        "parsed_top_keys": sorted(parsed.keys())[:12],
+    }
+    if task == "payment":
+        meta["raw_preview"] = _preview_text(raw)
+        meta["raw_milestone_count"] = _candidate_milestone_count(parsed.get("milestones"))
+        meta["raw_progress_checkpoint_count"] = _candidate_milestone_count(parsed.get("progress_checkpoints"))
+        meta["raw_payment_type"] = parsed.get("payment_type")
+    return parsed, meta
 
 
 def _task_allowed_block_ids(task_blocks: dict[str, list[dict[str, Any]]]) -> list[str]:
@@ -546,8 +636,40 @@ def extract_contract_with_llm(
     total_result = total_result or {}
     retention_result = retention_result or {}
     version_result = version_result or {}
+    payment_task_meta = next((item for item in task_meta if item.get("task") == "payment"), {})
+    raw_payment_milestones = payment_result.get("milestones")
+    raw_payment_milestone_count = _candidate_milestone_count(raw_payment_milestones)
     milestones = _normalize_milestones(payment_result.get("milestones"))
+    normalized_milestone_count = len(milestones)
+    payment_task_meta["normalized_milestone_count"] = normalized_milestone_count
+    payment_task_meta["normalized_milestone_names"] = [item["name"] for item in milestones[:6]]
+    payment_task_meta["normalized_source_orders"] = [item["source_order"] for item in milestones[:6]]
     total_amount = _coerce_int(total_result.get("total_amount"))
+    logger.info(
+        "[EXTRACTION_PAYMENT_DEBUG] file=%s | parse=%s | raw_len=%s | raw_milestones=%s | normalized_milestones=%s | fallback_reason=%s",
+        source_file,
+        payment_task_meta.get("json_parse_status", "unknown"),
+        payment_task_meta.get("raw_length", 0),
+        raw_payment_milestone_count,
+        normalized_milestone_count,
+        payment_task_meta.get("fallback_reason", "none"),
+    )
+    if normalized_milestone_count == 0:
+        logger.warning(
+            "[EXTRACTION_PAYMENT_DEBUG] file=%s | payment task produced zero normalized milestones | meta=%s",
+            source_file,
+            json.dumps(
+                {
+                    "json_parse_status": payment_task_meta.get("json_parse_status"),
+                    "fallback_reason": payment_task_meta.get("fallback_reason"),
+                    "raw_length": payment_task_meta.get("raw_length"),
+                    "raw_milestone_count": payment_task_meta.get("raw_milestone_count", raw_payment_milestone_count),
+                    "parsed_top_keys": payment_task_meta.get("parsed_top_keys"),
+                    "raw_preview": payment_task_meta.get("raw_preview"),
+                },
+                ensure_ascii=False,
+            ),
+        )
     return {
         "doc_category": doc_category,
         "contract_type": _coerce_string(regex_fallback.get("contract_type")) or "lump_sum",
@@ -566,5 +688,15 @@ def extract_contract_with_llm(
             "prompt_tokens": total_prompt_tokens,
             "llm_ms": total_llm_ms,
             "tasks": task_meta,
+            "payment_debug": {
+                "json_parse_status": payment_task_meta.get("json_parse_status", "unknown"),
+                "fallback_reason": payment_task_meta.get("fallback_reason", "none"),
+                "raw_length": payment_task_meta.get("raw_length", 0),
+                "raw_milestone_count": payment_task_meta.get("raw_milestone_count", raw_payment_milestone_count),
+                "normalized_milestone_count": normalized_milestone_count,
+                "normalized_milestone_names": payment_task_meta.get("normalized_milestone_names", []),
+                "normalized_source_orders": payment_task_meta.get("normalized_source_orders", []),
+                "raw_preview": payment_task_meta.get("raw_preview"),
+            },
         },
     }
