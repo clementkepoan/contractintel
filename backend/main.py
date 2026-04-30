@@ -58,6 +58,7 @@ def health() -> dict:
             "local_model_num_ctx": settings.local_model_num_ctx,
             "embedding_model_name": settings.embedding_model_name,
             "embedding_model_base_url": settings.embedding_model_base_url,
+            "reranker_model_name": settings.reranker_model_name,
             "qdrant_url": settings.qdrant_url,
             "qdrant_collection_name": settings.qdrant_collection_name,
             "api_docs_path": "/docs",

@@ -87,6 +87,9 @@ class Settings(BaseModel):
     embedding_model_name: str = _env_str("EMBEDDING_MODEL_NAME", "Qwen3-Embedding-0.6B-4bit-DWQ")
     embedding_model_base_url: str = _env_str("EMBEDDING_MODEL_BASE_URL", _env_str("LOCAL_MODEL_BASE_URL", _default_local_model_base_url()))
     embedding_model_api_key: str = _env_str("EMBEDDING_MODEL_API_KEY", _env_str("LOCAL_MODEL_API_KEY", "1111"))
+    reranker_model_name: str = _env_str("RERANKER_MODEL_NAME", "Qwen3-Reranker-0.6B-mlx-8Bit")
+    reranker_model_base_url: str = _env_str("RERANKER_MODEL_BASE_URL", _env_str("LOCAL_MODEL_BASE_URL", _default_local_model_base_url()))
+    reranker_model_api_key: str = _env_str("RERANKER_MODEL_API_KEY", _env_str("LOCAL_MODEL_API_KEY", "1111"))
     qdrant_url: str = _env_str("QDRANT_URL", _default_qdrant_url())
     qdrant_collection_name: str = _env_str("QDRANT_COLLECTION_NAME", "contract_chunks")
 

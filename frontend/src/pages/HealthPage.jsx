@@ -119,6 +119,10 @@ export function HealthPage({ health, setHealth }) {
               <code>{infrastructure.embedding_model_name || "-"}</code>
             </div>
             <div className="infra-row">
+              <span>{t("health.rerankerModel")}</span>
+              <code>{infrastructure.reranker_model_name || "-"}</code>
+            </div>
+            <div className="infra-row">
               <span>{t("health.qdrantCollection")}</span>
               <code>{infrastructure.qdrant_collection_name || "-"}</code>
             </div>

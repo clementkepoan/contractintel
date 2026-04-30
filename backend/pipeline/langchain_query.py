@@ -14,6 +14,7 @@ from backend.pipeline.embeddings import embedding_model_ready
 from backend.pipeline.indexer import hybrid_search_chunks
 from backend.pipeline.llm import llm_available, query_local_messages_detailed
 from backend.pipeline.qdrant_store import qdrant_ready
+from backend.pipeline.reranker import rerank_citations
 from backend.wiki.generator import append_query_note, resolve_contract_wiki_paths
 
 
@@ -536,6 +537,7 @@ def retrieve_query_evidence(
     intents = classify_query_intents(query)
     expanded_query = expand_query(query, intents)
     citations: list[dict[str, Any]] = []
+    mode = retrieval_mode()
     candidate_k = max(top_k * 4, 24)
     for current_contract_id in contract_ids:
         contract = session.get(Contract, current_contract_id)
@@ -549,12 +551,17 @@ def retrieve_query_evidence(
             citations.append(hit)
     citations = [item for item in citations if item.get("chunk_type") != "wiki"]
     citations = [item for item in citations if item.get("structured_kind") != "validation_risk"]
+    reranked = rerank_citations(expanded_query, citations, top_n=min(len(citations), candidate_k), timeout=20.0)
+    if reranked:
+        citations = reranked
+        mode = f"{mode}_reranked"
     citations = select_diverse_citations(citations, top_k, intents)
     return {
         "intents": sorted(intents),
         "expanded_query": expanded_query,
         "citations": citations,
-        "retrieval_mode": retrieval_mode(),
+        "retrieval_mode": mode,
+        "reranker_model_name": settings.reranker_model_name if reranked else None,
     }
 
 
@@ -600,6 +607,7 @@ def answer_with_langchain(
             "answer_method": "no_evidence",
             "retrieval_mode": retrieval_mode(),
             "model_name": settings.local_query_model_name,
+            "reranker_model_name": settings.reranker_model_name,
             "wiki_path": None,
         }
 
@@ -687,5 +695,6 @@ def answer_with_langchain(
         "answer_method": "openai_compatible_chat",
         "retrieval_mode": retrieval_mode(),
         "model_name": settings.local_query_model_name,
+        "reranker_model_name": retrieval.get("reranker_model_name"),
         "wiki_path": wiki_path,
     }

@@ -86,6 +86,7 @@ def query_retrieval_only(payload: QueryPayload) -> dict:
             "expanded_query": retrieval["expanded_query"],
             "citations": retrieval["citations"],
             "retrieval_mode": retrieval["retrieval_mode"],
+            "reranker_model_name": retrieval.get("reranker_model_name"),
             "answer_method": "retrieval_only",
             "model_name": None,
         }

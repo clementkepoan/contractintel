@@ -190,6 +190,7 @@ export function RegressionPage() {
             answer_method: response.answer_method,
             retrieval_mode: response.retrieval_mode,
             model_name: response.model_name,
+            reranker_model_name: response.reranker_model_name || null,
             intents: response.intents || [],
             expanded_query: response.expanded_query || null,
             runner_mode: runnerMode,
