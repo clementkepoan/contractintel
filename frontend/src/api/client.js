@@ -63,6 +63,7 @@ export const api = {
   chatSessionLatestQuery: (chatSessionId) => apiFetch(`/api/chat/sessions/${chatSessionId}/latest-query`),
   chatSessionTurns: (chatSessionId) => apiFetch(`/api/chat/sessions/${chatSessionId}/turns`),
   query: (payload) => apiFetch("/api/query", { method: "POST", headers: jsonHeaders, body: JSON.stringify(payload) }),
+  queryRetrievalOnly: (payload) => apiFetch("/api/query/retrieval", { method: "POST", headers: jsonHeaders, body: JSON.stringify(payload) }),
   accept: (payload) => apiFetch("/api/acceptance", { method: "POST", headers: jsonHeaders, body: JSON.stringify(payload) }),
   requestPayment: (payload) => apiFetch("/api/payment-request", { method: "POST", headers: jsonHeaders, body: JSON.stringify(payload) }),
   logPayment: (payload) => apiFetch("/api/payment", { method: "POST", headers: jsonHeaders, body: JSON.stringify(payload) }),

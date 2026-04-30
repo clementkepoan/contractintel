@@ -10,10 +10,11 @@ import { HealthPage } from "./pages/HealthPage.jsx";
 import { MilestoneDetailPage } from "./pages/MilestoneDetailPage.jsx";
 import { OverviewPage } from "./pages/OverviewPage.jsx";
 import { QueryPage } from "./pages/QueryPage.jsx";
+import { RegressionPage } from "./pages/RegressionPage.jsx";
 import { WikiPage } from "./pages/WikiPage.jsx";
 import { WorkflowPage } from "./pages/WorkflowPage.jsx";
 
-const validPages = new Set(["overview", "detail", "milestone", "workflow", "query", "wiki", "graph", "health"]);
+const validPages = new Set(["overview", "detail", "milestone", "workflow", "query", "regression", "wiki", "graph", "health"]);
 
 function initialPage() {
   const hash = window.location.hash.replace("#/", "");
@@ -77,6 +78,7 @@ export function App() {
         {page === "milestone" ? <MilestoneDetailPage milestoneId={selectedMilestoneId} setSelectedMilestoneId={setSelectedMilestoneId} setSelectedWikiPath={setSelectedWikiPath} setPage={setPage} setCitation={setCitation} /> : null}
         {page === "workflow" ? <WorkflowPage contractId={selectedContractId} setSelectedContractId={setSelectedContractId} /> : null}
         {page === "query" ? <QueryPage contractId={selectedContractId} setSelectedContractId={setSelectedContractId} setSelectedWikiPath={setSelectedWikiPath} setPage={setPage} setCitation={setCitation} /> : null}
+        {page === "regression" ? <RegressionPage /> : null}
         {page === "wiki" ? <WikiPage setPage={setPage} selectedWikiPath={selectedWikiPath} setSelectedWikiPath={setSelectedWikiPath} selectedContractId={selectedContractId} selectedMilestoneId={selectedMilestoneId} setSelectedContractId={setSelectedContractId} setSelectedMilestoneId={setSelectedMilestoneId} /> : null}
         {page === "graph" ? <GraphPage contractId={selectedContractId} milestoneId={selectedMilestoneId} setSelectedContractId={setSelectedContractId} setSelectedMilestoneId={setSelectedMilestoneId} setPage={setPage} /> : null}
         {page === "health" ? <HealthPage health={health} setHealth={setHealth} /> : null}

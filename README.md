@@ -130,6 +130,8 @@ Or use the single command:
 make reset-demo
 ```
 
+This also bumps the demo reset marker used by the frontend. On the next load of the Regression Runner page, saved regression results/config are cleared automatically.
+
 If you also want to clear Docker volumes for Qdrant and the embedding cache:
 
 ```bash

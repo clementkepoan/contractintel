@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
 
@@ -21,6 +22,9 @@ from backend.pipeline.qdrant_store import qdrant_ready
 from shutil import which
 
 
+RESET_MARKER_PATH = Path("data/reset_marker.txt")
+
+
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     ensure_runtime_dirs()
@@ -33,6 +37,12 @@ app = FastAPI(title="Contract RAG Backend", version="0.1.0", lifespan=lifespan)
 
 @app.get("/api/health")
 def health() -> dict:
+    reset_marker = None
+    if RESET_MARKER_PATH.exists():
+        try:
+            reset_marker = RESET_MARKER_PATH.read_text(encoding="utf-8").strip() or None
+        except Exception:
+            reset_marker = None
     return {
         "status": "ok",
         "offline_only": True,
@@ -49,6 +59,7 @@ def health() -> dict:
             "qdrant_collection_name": settings.qdrant_collection_name,
             "api_docs_path": "/docs",
             "qdrant_dashboard_url": "http://localhost:6333/dashboard",
+            "reset_marker": reset_marker,
         },
     }
 

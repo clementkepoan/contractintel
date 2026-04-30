@@ -1,4 +1,4 @@
-import { Activity, BookOpen, Boxes, CreditCard, FileSearch, GitBranch, HeartPulse, Landmark, Network } from "lucide-react";
+import { Activity, BookOpen, Boxes, CreditCard, FileSearch, FlaskConical, GitBranch, HeartPulse, Landmark, Network } from "lucide-react";
 import { useI18n } from "../i18n.jsx";
 
 const navItems = [
@@ -7,6 +7,7 @@ const navItems = [
   { id: "milestone", labelKey: "nav.milestone", icon: Boxes },
   { id: "workflow", labelKey: "nav.workflow", icon: CreditCard },
   { id: "query", labelKey: "nav.query", icon: GitBranch },
+  { id: "regression", labelKey: "nav.regression", icon: FlaskConical },
   { id: "wiki", labelKey: "nav.wiki", icon: BookOpen },
   { id: "graph", labelKey: "nav.graph", icon: Network },
   { id: "health", labelKey: "nav.health", icon: HeartPulse },

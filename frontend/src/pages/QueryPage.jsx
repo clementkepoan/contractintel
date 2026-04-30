@@ -92,13 +92,22 @@ export function QueryPage({ contractId, setSelectedContractId, setSelectedWikiPa
   const [turns, setTurns] = useState([]);
   const [chatSessionId, setChatSessionId] = useState("");
   const [query, setQuery] = useState("");
-  const [topK, setTopK] = useState(12);
+  const [topK, setTopK] = useState(10);
   const [persistToWiki, setPersistToWiki] = useState(true);
   const [result, setResult] = useState(null);
   const [expandedEvidence, setExpandedEvidence] = useState({});
   const [loading, setLoading] = useState(true);
   const [asking, setAsking] = useState(false);
   const [error, setError] = useState(null);
+
+  function startNewSession() {
+    setChatSessionId("");
+    setTurns([]);
+    setResult(null);
+    setExpandedEvidence({});
+    setError(null);
+    setQuery("");
+  }
 
   async function loadBase() {
     setLoading(true);
@@ -183,7 +192,12 @@ export function QueryPage({ contractId, setSelectedContractId, setSelectedWikiPa
       <ErrorBlock error={error} />
       <div className="query-left-rail">
         <div className="session-history-card">
-          <h3>{t("query.sessionHistory")}</h3>
+          <div className="session-history-head">
+            <h3>{t("query.sessionHistory")}</h3>
+            <button type="button" className="ghost-button" onClick={startNewSession}>
+              {t("query.newSession")}
+            </button>
+          </div>
           {sessions.length ? sessions.map((session) => (
             <button
               key={session.chat_session_id}
@@ -240,7 +254,11 @@ export function QueryPage({ contractId, setSelectedContractId, setSelectedWikiPa
           <div className="composer-toolbar">
             <select value={contractId || ""} onChange={(event) => setSelectedContractId(event.target.value || "")}>
               <option value="">{t("query.allContracts")}</option>
-              {contracts.map((item) => <option key={item.contract_id} value={item.contract_id}>{item.contract_name}</option>)}
+              {contracts.map((item) => (
+                <option key={item.contract_id} value={item.contract_id}>
+                  {item.source_file || item.contract_name}
+                </option>
+              ))}
             </select>
             <label>{t("query.topK")}: {topK}<input type="range" min="1" max="12" value={topK} onChange={(event) => setTopK(event.target.value)} /></label>
             <span className="composer-hybrid">{t("query.llmQuery")}</span>

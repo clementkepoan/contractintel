@@ -3,11 +3,13 @@ from __future__ import annotations
 import argparse
 import shutil
 from pathlib import Path
+from datetime import UTC, datetime
 
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data"
 WIKI_DIR = ROOT / "wiki"
+RESET_MARKER = DATA_DIR / "reset_marker.txt"
 
 
 def remove_path(path: Path) -> None:
@@ -36,6 +38,8 @@ def reset_state() -> None:
     remove_path(DATA_DIR / "db.sqlite")
     remove_path(WIKI_DIR / "index.md")
     remove_path(WIKI_DIR / "log.md")
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    RESET_MARKER.write_text(datetime.now(UTC).isoformat(), encoding="utf-8")
 
 
 def main() -> None:

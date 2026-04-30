@@ -1,103 +1,377 @@
 {
   "nodes": [
     {
-      "id": "c_73b374de3f",
+      "id": "c_f5e87d0268",
       "type": "Contract",
       "name": "XX專案",
       "status": "passed"
     },
     {
-      "id": "m_239543b7977a",
+      "id": "warning_1",
+      "type": "Clause",
+      "text": "No total contract amount found; document may be an RFP or pre-award document.",
+      "risk_level": "warning"
+    },
+    {
+      "id": "warning_2",
+      "type": "Clause",
+      "text": "No milestone blocks were extracted.",
+      "risk_level": "warning"
+    },
+    {
+      "id": "c_084bbb3495",
+      "type": "Contract",
+      "name": "XX專案",
+      "status": "passed"
+    },
+    {
+      "id": "m_913672b61d95",
+      "type": "Milestone",
+      "name": "第一期：於本契約簽訂後",
+      "status": "pending_acceptance",
+      "amount": 7149193
+    },
+    {
+      "id": "m_913672b61d95:work:8560070417154393306",
+      "type": "WorkItem",
+      "description": "本契約簽訂後"
+    },
+    {
+      "id": "m_8650958109e4",
+      "type": "Milestone",
+      "name": "第二期：於完成本契約約定之項目並進入系統測試後",
+      "status": "pending_acceptance",
+      "amount": 9532257
+    },
+    {
+      "id": "m_8650958109e4:work:1744203940569974302",
+      "type": "WorkItem",
+      "description": "完成本契約約定之項目並進入系統測試"
+    },
+    {
+      "id": "m_f68ba3072855",
+      "type": "Milestone",
+      "name": "第三期：於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後",
+      "status": "pending_acceptance",
+      "amount": 7149193
+    },
+    {
+      "id": "m_f68ba3072855:work:2564525670066621721",
+      "type": "WorkItem",
+      "description": "完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線"
+    },
+    {
+      "id": "c_c444dbce12",
+      "type": "Contract",
+      "name": "施工說明書",
+      "status": "passed"
+    },
+    {
+      "id": "warning_3",
+      "type": "Clause",
+      "text": "No total contract amount found; document may be an RFP or pre-award document.",
+      "risk_level": "warning"
+    },
+    {
+      "id": "warning_4",
+      "type": "Clause",
+      "text": "No milestone blocks were extracted.",
+      "risk_level": "warning"
+    },
+    {
+      "id": "c_211918ec2f",
+      "type": "Contract",
+      "name": "XX專案",
+      "status": "failed"
+    },
+    {
+      "id": "m_6d75274040d4",
+      "type": "Milestone",
+      "name": "簽約金(20%)",
+      "status": "pending_acceptance",
+      "amount": 6457113
+    },
+    {
+      "id": "m_6d75274040d4:work:7401800678048955290",
+      "type": "WorkItem",
+      "description": "本合約簽訂後"
+    },
+    {
+      "id": "m_37ed739c446a",
+      "type": "Milestone",
+      "name": "工程設備款(20%)",
+      "status": "pending_acceptance",
+      "amount": 6457113
+    },
+    {
+      "id": "m_37ed739c446a:work:9024698986880430214",
+      "type": "WorkItem",
+      "description": "乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後"
+    },
+    {
+      "id": "m_8c3fcf613d5e",
+      "type": "Milestone",
+      "name": "設備安裝工程款(20%)",
+      "status": "pending_acceptance",
+      "amount": 6457113
+    },
+    {
+      "id": "m_8c3fcf613d5e:work:5339448582376731227",
+      "type": "WorkItem",
+      "description": "乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後"
+    },
+    {
+      "id": "m_dca7996f8bed",
+      "type": "Milestone",
+      "name": "功能檢測款(20%)",
+      "status": "pending_acceptance",
+      "amount": 6457113
+    },
+    {
+      "id": "m_dca7996f8bed:work:506605545716189062",
+      "type": "WorkItem",
+      "description": "乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後"
+    },
+    {
+      "id": "m_d0e02b5b676c",
+      "type": "Milestone",
+      "name": "功能整合款(20%)",
+      "status": "pending_acceptance",
+      "amount": 6457111
+    },
+    {
+      "id": "m_d0e02b5b676c:work:4254257728304292862",
+      "type": "WorkItem",
+      "description": "乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後"
+    },
+    {
+      "id": "warning_5",
+      "type": "Clause",
+      "text": "Document declares 6 payment installments but 5 milestones were extracted.",
+      "risk_level": "warning"
+    },
+    {
+      "id": "warning_6",
+      "type": "Clause",
+      "text": "Milestone \"功能整合款(20%)\" states 20.0% (expected 6457113) but amount is 6457111 (= 20.0%).",
+      "risk_level": "error"
+    },
+    {
+      "id": "c_965c489632",
+      "type": "Contract",
+      "name": "XX專案",
+      "status": "passed"
+    },
+    {
+      "id": "m_98ffa0b5a3f1",
       "type": "Milestone",
       "name": "第一期：乙方提交細部設計圖經甲方及客戶核定後",
       "status": "pending_acceptance",
       "amount": 3339000
     },
     {
-      "id": "m_239543b7977a:work:5294050901725877557",
+      "id": "m_98ffa0b5a3f1:work:9152268879834586777",
       "type": "WorkItem",
       "description": "乙方提交細部設計圖經甲方及客戶核定"
     },
     {
-      "id": "m_c759b378ef3f",
+      "id": "m_7fad15952833",
       "type": "Milestone",
       "name": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
       "status": "pending_acceptance",
       "amount": 5008500
     },
     {
-      "id": "m_c759b378ef3f:work:5853072104142058543",
+      "id": "m_7fad15952833:work:7427260431238672017",
       "type": "WorkItem",
-      "description": "乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目)"
+      "description": "乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目)經甲方及客戶確認"
     },
     {
-      "id": "m_94ec1e5e8ab9",
+      "id": "m_a8848ea8fce9",
       "type": "Milestone",
       "name": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
       "status": "pending_acceptance",
       "amount": 5008500
     },
     {
-      "id": "m_94ec1e5e8ab9:work:5967911051880947317",
+      "id": "m_a8848ea8fce9:work:4843656868225776055",
       "type": "WorkItem",
-      "description": "軟體(系統)及硬體設備安裝完成"
+      "description": "軟體(系統)及硬體設備安裝完成經甲方及客戶核定"
     },
     {
-      "id": "m_cdf3be2fd514",
+      "id": "m_368bcf9f1003",
       "type": "Milestone",
       "name": "第四期：本工程全部經甲方及客戶驗收合格後",
       "status": "pending_acceptance",
       "amount": 3339000
     },
     {
-      "id": "m_cdf3be2fd514:work:2493169070278152177",
+      "id": "m_368bcf9f1003:work:2199134849513517757",
       "type": "WorkItem",
       "description": "本工程全部經甲方及客戶驗收合格"
     }
   ],
   "edges": [
     {
-      "source": "c_73b374de3f",
-      "target": "m_239543b7977a",
+      "source": "warning_1",
+      "target": "c_f5e87d0268",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_2",
+      "target": "c_f5e87d0268",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "c_084bbb3495",
+      "target": "m_913672b61d95",
       "type": "HAS_MILESTONE",
       "order": 1
     },
     {
-      "source": "c_73b374de3f",
-      "target": "m_c759b378ef3f",
+      "source": "c_084bbb3495",
+      "target": "m_8650958109e4",
       "type": "HAS_MILESTONE",
       "order": 2
     },
     {
-      "source": "c_73b374de3f",
-      "target": "m_94ec1e5e8ab9",
+      "source": "c_084bbb3495",
+      "target": "m_f68ba3072855",
       "type": "HAS_MILESTONE",
       "order": 3
     },
     {
-      "source": "c_73b374de3f",
-      "target": "m_cdf3be2fd514",
+      "source": "m_913672b61d95",
+      "target": "m_913672b61d95:work:8560070417154393306",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_8650958109e4",
+      "target": "m_8650958109e4:work:1744203940569974302",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_f68ba3072855",
+      "target": "m_f68ba3072855:work:2564525670066621721",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "warning_3",
+      "target": "c_c444dbce12",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_4",
+      "target": "c_c444dbce12",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "c_211918ec2f",
+      "target": "m_6d75274040d4",
+      "type": "HAS_MILESTONE",
+      "order": 1
+    },
+    {
+      "source": "c_211918ec2f",
+      "target": "m_37ed739c446a",
+      "type": "HAS_MILESTONE",
+      "order": 2
+    },
+    {
+      "source": "c_211918ec2f",
+      "target": "m_8c3fcf613d5e",
+      "type": "HAS_MILESTONE",
+      "order": 3
+    },
+    {
+      "source": "c_211918ec2f",
+      "target": "m_dca7996f8bed",
       "type": "HAS_MILESTONE",
       "order": 4
     },
     {
-      "source": "m_239543b7977a",
-      "target": "m_239543b7977a:work:5294050901725877557",
+      "source": "c_211918ec2f",
+      "target": "m_d0e02b5b676c",
+      "type": "HAS_MILESTONE",
+      "order": 5
+    },
+    {
+      "source": "m_6d75274040d4",
+      "target": "m_6d75274040d4:work:7401800678048955290",
       "type": "HAS_WORKITEM"
     },
     {
-      "source": "m_c759b378ef3f",
-      "target": "m_c759b378ef3f:work:5853072104142058543",
+      "source": "m_37ed739c446a",
+      "target": "m_37ed739c446a:work:9024698986880430214",
       "type": "HAS_WORKITEM"
     },
     {
-      "source": "m_94ec1e5e8ab9",
-      "target": "m_94ec1e5e8ab9:work:5967911051880947317",
+      "source": "m_8c3fcf613d5e",
+      "target": "m_8c3fcf613d5e:work:5339448582376731227",
       "type": "HAS_WORKITEM"
     },
     {
-      "source": "m_cdf3be2fd514",
-      "target": "m_cdf3be2fd514:work:2493169070278152177",
+      "source": "m_dca7996f8bed",
+      "target": "m_dca7996f8bed:work:506605545716189062",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_d0e02b5b676c",
+      "target": "m_d0e02b5b676c:work:4254257728304292862",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "warning_5",
+      "target": "c_211918ec2f",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "warning_6",
+      "target": "c_211918ec2f",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "c_965c489632",
+      "target": "m_98ffa0b5a3f1",
+      "type": "HAS_MILESTONE",
+      "order": 1
+    },
+    {
+      "source": "c_965c489632",
+      "target": "m_7fad15952833",
+      "type": "HAS_MILESTONE",
+      "order": 2
+    },
+    {
+      "source": "c_965c489632",
+      "target": "m_a8848ea8fce9",
+      "type": "HAS_MILESTONE",
+      "order": 3
+    },
+    {
+      "source": "c_965c489632",
+      "target": "m_368bcf9f1003",
+      "type": "HAS_MILESTONE",
+      "order": 4
+    },
+    {
+      "source": "m_98ffa0b5a3f1",
+      "target": "m_98ffa0b5a3f1:work:9152268879834586777",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_7fad15952833",
+      "target": "m_7fad15952833:work:7427260431238672017",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_a8848ea8fce9",
+      "target": "m_a8848ea8fce9:work:4843656868225776055",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_368bcf9f1003",
+      "target": "m_368bcf9f1003:work:2199134849513517757",
       "type": "HAS_WORKITEM"
     }
   ]

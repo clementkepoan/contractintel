@@ -2418,8 +2418,70 @@ td strong, td small {
     flex-wrap: wrap;
   }
 
-  .graph-tools {
+.graph-tools {
     right: 12px;
     top: 140px;
+  }
+}
+
+.panel-body {
+  padding: 14px;
+}
+
+.regression-config {
+  display: grid;
+  gap: 16px;
+}
+
+.regression-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.regression-stat {
+  align-self: end;
+  background: var(--surface-low);
+  border: 1px solid var(--surface-line);
+  border-radius: 4px;
+  min-height: 34px;
+  padding: 10px 12px;
+}
+
+.regression-stat strong,
+.regression-stat small {
+  display: block;
+}
+
+.regression-contracts {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.regression-contract-option {
+  align-items: center;
+  background: white;
+  border: 1px solid var(--surface-line);
+  border-radius: 4px;
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+}
+
+.regression-contract-option input {
+  width: auto;
+  min-height: 0;
+  margin: 0;
+}
+
+.regression-answer-cell {
+  max-width: 640px;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 1080px) {
+  .regression-grid {
+    grid-template-columns: 1fr;
   }
 }

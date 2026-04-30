@@ -9,7 +9,7 @@ from sqlmodel import select
 from backend.db.database import get_session
 from backend.db.models import ChatMessage, ChatSession, FiledQuery
 from backend.config import settings
-from backend.pipeline.langchain_query import answer_with_langchain
+from backend.pipeline.langchain_query import answer_with_langchain, retrieve_query_evidence
 from backend.pipeline.llm import llm_available
 from backend.pipeline.service import get_all_contracts
 
@@ -39,10 +39,11 @@ def dedupe_filed_queries(rows: list[FiledQuery]) -> list[FiledQuery]:
 
 class QueryPayload(BaseModel):
     query: str
-    top_k: int = 12
+    top_k: int = 10
     contract_id: str | None = None
     chat_session_id: str | None = None
     persist_to_wiki: bool = False
+    persist_chat: bool = True
 
 
 @router.post("/query")
@@ -61,7 +62,33 @@ def query_documents(payload: QueryPayload) -> dict:
             top_k=payload.top_k,
             chat_session_id=payload.chat_session_id,
             persist_to_wiki=payload.persist_to_wiki,
+            persist_chat=payload.persist_chat,
         )
+
+
+@router.post("/query/retrieval")
+def query_retrieval_only(payload: QueryPayload) -> dict:
+    with get_session() as session:
+        contract_ids = [payload.contract_id] if payload.contract_id else [item["contract_id"] for item in get_all_contracts(session)]
+        if not contract_ids:
+            raise HTTPException(status_code=404, detail="No ingested contracts available.")
+        retrieval = retrieve_query_evidence(
+            session=session,
+            query=payload.query,
+            contract_ids=contract_ids,
+            top_k=payload.top_k,
+        )
+        return {
+            "query": payload.query,
+            "contract_id": payload.contract_id,
+            "top_k": payload.top_k,
+            "intents": retrieval["intents"],
+            "expanded_query": retrieval["expanded_query"],
+            "citations": retrieval["citations"],
+            "retrieval_mode": retrieval["retrieval_mode"],
+            "answer_method": "retrieval_only",
+            "model_name": None,
+        }
 
 
 @router.get("/chat/sessions")

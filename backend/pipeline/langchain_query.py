@@ -218,15 +218,24 @@ def build_structured_context(session: Any, contract_ids: list[str], intents: set
 def build_answer_instructions(intents: set[str], output_language: str) -> str:
     lines = [
         "回答時必須嚴格以證據為準，不可補充未檢索到的條款。",
+        "不可自行補入一般法律原則、法院可能見解、情勢變更、誠信原則、協商建議、仲裁或訴訟策略，除非使用者明確要求你回答『一般法律上』或『若依民法/法律原則』如何判斷。",
         "如果不同條款提供不同權利、救濟或後果，應合併整理，但只保留與問題直接相關的重點。",
         "每一個結論後面都要標明對應條款。",
         "先判斷文件屬於正式契約、RFP、修訂版本文件，或僅有百分比排程但沒有總價的文件，再決定回答方式。",
+        "如果判斷為 RFP、施工說明書、技術規格書、招標需求文件、建議書或其他非正式契約文件，必須明確指出該性質，且只能回答文件中實際寫出的需求、規格、程序或責任；不得把正式工程承攬契約常見條款（如違約金、不可抗力、轉包限制、調價機制）當成當然存在。",
+        "如果文件沒有寫明付款、不可抗力、調價、轉包、終止/解除等條款，就直接回答『文件未明確規定／證據不足』，不要延伸討論一般可能做法。",
         "如果問題涉及合約風險、付款、驗收、保固、違約、終止/解除、不可抗力、關稅、轉包/分包、損害賠償，應主動檢查多個相關條款。",
         "對工程承攬契約，優先留意：工程總價、不得追加工程款、付款辦法、驗收標準、遲延罰款、暫停給付、損害賠償、契約終止與解除、不可抗力、保固、轉包限制。",
         f"最終回答語言必須使用：{output_language}。",
         "回答長度應適中：先給直接答案，再列 3 到 6 個最重要重點；除非使用者要求詳細說明，不要寫成長篇報告。",
+        "回答應偏短，不要過度解釋；每個段落以 1 到 3 句為上限。",
         "避免重複同一條款、避免逐字重述長段條文、避免輸出不必要的標題或自我檢查內容。",
         "不要輸出 Markdown 表格，不要使用 |---| 或欄位表；一律改用條列或短段落。",
+        "不要輸出 Markdown 水平線（---）、不要輸出『相關註記』、『解析說明』、『文件性質判斷』這類額外前言或後記。",
+        "不要輸出 emoji、圖示、流程圖、ASCII 圖、表情符號、區塊引言（>）。",
+        "不要輸出 <analysis>、<think>、Thought、Analysis、Reasoning、Draft、內部分析、思考過程、推理過程、草稿、檢查清單或任何自我對話。",
+        "格式必須固定且簡潔，只能使用簡單標題與單層條列。",
+        "若使用者以中文提問，必須只用繁體中文作答，不可混用簡體中文。",
     ]
     if "action" in intents or "progress_delay" in intents:
         lines.extend(
@@ -235,7 +244,13 @@ def build_answer_instructions(intents: set[str], output_language: str) -> str:
                 "應列出主要可主張的行動，例如：暫停付款、扣罰違約金、終止或解除契約、另覓廠商、扣抵款項、請求損害賠償。",
                 "如果多個條款都成立，請合併整理，但不要把相近效果拆成重複段落。",
                 "若某行動有門檻條件，請明確寫出門檻與本題事實是否符合。",
-                "回答格式優先使用精簡清單：『可採取的行動』，必要時再補『條款依據』或『限制／條件』。",
+                "固定輸出格式：",
+                "## 結論",
+                "用 1 到 2 句直接回答。",
+                "## 可採取的行動",
+                "列 3 到 6 點，每點 1 句，格式為：行動：內容（條款）。",
+                "## 限制／條件",
+                "列出真正重要的門檻條件，沒有就寫「- 無額外限制」。",
             ]
         )
     if "payment" in intents:
@@ -243,7 +258,15 @@ def build_answer_instructions(intents: set[str], output_language: str) -> str:
             [
                 "這是一個付款／請款問題。",
                 "必須區分付款觸發條件、驗收條件、請款文件要求、實際金額、百分比、保留款、以及是否存在暫停付款或扣抵權利。",
-                "優先整理成簡短表列；每一期只保留金額、比例、付款條件、付款期限等核心資訊。",
+                "固定輸出格式：",
+                "## 結論",
+                "先用 1 到 2 句直接回答付款模式與付款期限。",
+                "## 各期付款",
+                "依期數列點；每一期固定格式為：第X期：金額／比例／請款條件。",
+                "## 付款期限",
+                "只寫付款期限與請款文件要求。",
+                "## 條款依據",
+                "列 1 到 3 點最關鍵條款。",
             ]
         )
     if "risk" in intents:
@@ -251,7 +274,27 @@ def build_answer_instructions(intents: set[str], output_language: str) -> str:
             [
                 "這是一個風險問題。",
                 "必須優先檢查：遲延罰款、暫停付款、終止/解除、另覓廠商、扣抵款項、損害賠償、保固責任、不可抗力排除、關稅不屬不可抗力、客戶責任轉嫁、不得追加工程款。",
+                "如果文件屬於 RFP、施工說明書、技術規格書或其他非正式契約文件，風險只能寫：文件中明示的責任、文件缺少的商務保護條款、以及由此造成的不確定性；不得擴寫為正式契約風險備忘錄。",
                 "只列最重要的風險類別，不要把相近風險拆成過多小節。",
+                "固定輸出格式：",
+                "## 結論",
+                "先用 1 到 2 句總結風險高低與主要風險方向。",
+                "## 主要風險",
+                "列 3 到 6 點；每點格式為：風險名稱：簡短說明（條款）。",
+                "## 注意事項",
+                "只補充 1 到 3 點真正重要的限制或例外。",
+            ]
+        )
+    if "payment" not in intents and "action" not in intents and "progress_delay" not in intents and "risk" not in intents:
+        lines.extend(
+            [
+                "固定輸出格式：",
+                "## 結論",
+                "先用 1 到 2 句直接回答。",
+                "## 主要重點",
+                "列 3 到 5 點，每點 1 句。",
+                "## 條款依據",
+                "列 1 到 3 點最關鍵條款。",
             ]
         )
     return "\n".join(f"- {line}" for line in lines)
@@ -386,22 +429,16 @@ def select_diverse_citations(citations: list[dict[str, Any]], top_k: int, intent
     return selected[:top_k]
 
 
-def answer_with_langchain(
+def retrieve_query_evidence(
     *,
     session: Any,
     query: str,
     contract_ids: list[str],
-    contract_id: str | None,
     top_k: int,
-    chat_session_id: str | None,
-    persist_to_wiki: bool = False,
 ) -> dict[str, Any]:
-    if not llm_available():
-        raise RuntimeError("Local LLM is not ready.")
-    chat_session = ensure_chat_session(session, chat_session_id, contract_id, query)
     intents = classify_query_intents(query)
     expanded_query = expand_query(query, intents)
-    citations = []
+    citations: list[dict[str, Any]] = []
     candidate_k = max(top_k * 4, 24)
     for current_contract_id in contract_ids:
         contract = session.get(Contract, current_contract_id)
@@ -416,25 +453,51 @@ def answer_with_langchain(
     citations = [item for item in citations if item.get("chunk_type") != "wiki"]
     citations = [item for item in citations if item.get("structured_kind") != "validation_risk"]
     citations = select_diverse_citations(citations, top_k, intents)
+    return {
+        "intents": sorted(intents),
+        "expanded_query": expanded_query,
+        "citations": citations,
+        "retrieval_mode": retrieval_mode(),
+    }
+
+
+def answer_with_langchain(
+    *,
+    session: Any,
+    query: str,
+    contract_ids: list[str],
+    contract_id: str | None,
+    top_k: int,
+    chat_session_id: str | None,
+    persist_to_wiki: bool = False,
+    persist_chat: bool = True,
+) -> dict[str, Any]:
+    if not llm_available():
+        raise RuntimeError("Local LLM is not ready.")
+    chat_session = ensure_chat_session(session, chat_session_id, contract_id, query) if persist_chat else None
+    retrieval = retrieve_query_evidence(session=session, query=query, contract_ids=contract_ids, top_k=top_k)
+    intents = set(retrieval["intents"])
+    citations = list(retrieval["citations"])
     if not citations:
         answer = "No matching evidence found in the local indexes."
-        human_row = append_message(session, chat_session.chat_session_id, "human", query)
-        ai_row = append_message(session, chat_session.chat_session_id, "ai", answer)
-        record_query_result(
-            session=session,
-            chat_session_id=chat_session.chat_session_id,
-            human_message_id=human_row.id,
-            ai_message_id=ai_row.id,
-            contract_id=contract_id,
-            query=query,
-            answer=answer,
-            citations=[],
-            wiki_path="",
-            answer_method="no_evidence",
-            retrieval_mode_value=retrieval_mode(),
-        )
+        if persist_chat and chat_session is not None:
+            human_row = append_message(session, chat_session.chat_session_id, "human", query)
+            ai_row = append_message(session, chat_session.chat_session_id, "ai", answer)
+            record_query_result(
+                session=session,
+                chat_session_id=chat_session.chat_session_id,
+                human_message_id=human_row.id,
+                ai_message_id=ai_row.id,
+                contract_id=contract_id,
+                query=query,
+                answer=answer,
+                citations=[],
+                wiki_path="",
+                answer_method="no_evidence",
+                retrieval_mode_value=retrieval_mode(),
+            )
         return {
-            "chat_session_id": chat_session.chat_session_id,
+            "chat_session_id": chat_session.chat_session_id if chat_session is not None else None,
             "answer": answer,
             "citations": [],
             "answer_method": "no_evidence",
@@ -455,9 +518,19 @@ def answer_with_langchain(
         "如果證據不足，必須明確說明證據不足。"
         "你正在處理的文件主要是台灣工程承攬契約、里程碑付款契約、RFP 與修訂版本文件。"
         "回答時要像合約分析師，而不是一般摘要器。"
+        "你必須先判斷文件性質：正式契約、RFP、施工說明書、技術規格書、招標需求文件、修訂版本文件。"
+        "如果文件屬於 RFP、施工說明書、技術規格書或其他非正式契約文件，就只回答文件中實際存在的需求、規格、程序與責任，不得自行補出正式契約常見但未出現的商務或法律條款。"
+        "若文件未明確規定不可抗力、調價、轉包/分包、終止/解除、違約金、付款門檻或驗收標準，就必須直接回答文件未明確規定或證據不足。"
+        "除非使用者明確要求一般法律分析，否則不得引入民法、情勢變更、誠信原則、法院可能見解、協商策略、訴訟或仲裁建議。"
         "對於工程承攬契約，應特別檢查：固定總價與不得追加、付款辦法、驗收標準、遲延罰款、暫停給付、損害賠償、契約終止與解除、不可抗力、關稅是否被排除於不可抗力、保固責任、轉包/分包限制。"
         "若問題詢問風險、可採取的行動、可否請款、保固期是否相同、或關稅是否屬不可抗力，通常必須綜合多個條款回答，不可只依賴單一條款。"
         "不要輸出 Markdown 表格；請使用條列或短段落。"
+        "不要輸出 Markdown 水平線（---），不要輸出『相關註記』、『解析說明』、『文件性質判斷』這類前言或後記。"
+        "不要輸出 emoji、圖示、流程圖、ASCII 圖、區塊引言或裝飾性符號。"
+        "不要輸出 <analysis>、<think>、Thought、Analysis、Reasoning、Draft、內部分析、思考過程、推理過程、草稿、檢查清單或任何自我對話。"
+        "回答應簡短直接；若證據不足，就明確寫『文件未明確規定』或『證據不足』後停止，不要再延伸一般性說明。"
+        "若使用者以中文提問，必須只用繁體中文作答，不可混用簡體中文。"
+        "輸出格式必須穩定、簡潔、可解析，只使用簡單標題與單層條列。"
         "最終回答必須跟隨使用者問題的主要語言；中文問題用繁體中文回答，英文問題用英文回答。"
     )
     user_prompt = (
@@ -467,7 +540,8 @@ def answer_with_langchain(
         f"【問題】\n{query}\n\n【回答】"
     )
     messages = [{"role": "system", "content": system_prompt}]
-    messages.extend(history_to_messages(load_history(session, chat_session.chat_session_id)))
+    if persist_chat and chat_session is not None:
+        messages.extend(history_to_messages(load_history(session, chat_session.chat_session_id)))
     messages.append({"role": "user", "content": user_prompt})
     llm_result = query_local_messages_detailed(
         messages,
@@ -478,38 +552,39 @@ def answer_with_langchain(
     if not answer:
         raise RuntimeError(f"Local model server did not return an answer: {llm_result.get('error') or 'empty_response'}")
 
-    human_row = append_message(session, chat_session.chat_session_id, "human", query)
-    ai_row = append_message(session, chat_session.chat_session_id, "ai", answer)
     wiki_path = None
-    if persist_to_wiki:
-        wiki_path = append_query_note(
-            session=session,
-            chat_session_id=chat_session.chat_session_id,
-            human_message_id=human_row.id,
-            ai_message_id=ai_row.id,
-            contract_id=contract_id,
-            query=query,
-            answer=answer,
-            citations=citations,
-            answer_method="openai_compatible_chat",
-            retrieval_mode=retrieval_mode(),
-        )
-    else:
-        record_query_result(
-            session=session,
-            chat_session_id=chat_session.chat_session_id,
-            human_message_id=human_row.id,
-            ai_message_id=ai_row.id,
-            contract_id=contract_id,
-            query=query,
-            answer=answer,
-            citations=citations,
-            wiki_path="",
-            answer_method="openai_compatible_chat",
-            retrieval_mode_value=retrieval_mode(),
-        )
+    if persist_chat and chat_session is not None:
+        human_row = append_message(session, chat_session.chat_session_id, "human", query)
+        ai_row = append_message(session, chat_session.chat_session_id, "ai", answer)
+        if persist_to_wiki:
+            wiki_path = append_query_note(
+                session=session,
+                chat_session_id=chat_session.chat_session_id,
+                human_message_id=human_row.id,
+                ai_message_id=ai_row.id,
+                contract_id=contract_id,
+                query=query,
+                answer=answer,
+                citations=citations,
+                answer_method="openai_compatible_chat",
+                retrieval_mode=retrieval_mode(),
+            )
+        else:
+            record_query_result(
+                session=session,
+                chat_session_id=chat_session.chat_session_id,
+                human_message_id=human_row.id,
+                ai_message_id=ai_row.id,
+                contract_id=contract_id,
+                query=query,
+                answer=answer,
+                citations=citations,
+                wiki_path="",
+                answer_method="openai_compatible_chat",
+                retrieval_mode_value=retrieval_mode(),
+            )
     return {
-        "chat_session_id": chat_session.chat_session_id,
+        "chat_session_id": chat_session.chat_session_id if chat_session is not None else None,
         "answer": answer,
         "citations": citations,
         "answer_method": "openai_compatible_chat",

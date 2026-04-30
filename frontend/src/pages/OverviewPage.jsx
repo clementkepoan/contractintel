@@ -126,15 +126,37 @@ export function OverviewPage({ activeIngestRun, refreshActiveIngestRun, setPage,
     return () => window.clearInterval(timer);
   }, [activeIngestRun?.run_id]);
 
-  const totals = useMemo(() => {
-    const totalAmount = contracts.reduce((sum, item) => sum + Number(item.total_amount || 0), 0);
-    const requested = Object.values(financials).reduce((sum, item) => sum + Number(item.payment_requested || 0), 0);
-    const paid = Object.values(financials).reduce((sum, item) => sum + Number(item.paid || 0), 0);
-    const warnings = contracts.reduce((sum, item) => sum + (item.validation || []).length, 0);
-    return { totalAmount, requested, paid, unpaid: Math.max(totalAmount - paid, 0), warnings };
-  }, [contracts, financials]);
+  const pendingRunContracts = useMemo(() => {
+    const pendingContractIds = new Set();
+    const pendingSourceFiles = new Set();
+    for (const item of activeIngestRun?.items || []) {
+      if (item.status === "completed") continue;
+      if (item.contract_id) pendingContractIds.add(item.contract_id);
+      if (item.source_file) pendingSourceFiles.add(item.source_file);
+    }
+    return { pendingContractIds, pendingSourceFiles };
+  }, [activeIngestRun?.items]);
 
-  const filtered = contracts.filter((contract) => {
+  const visibleContracts = contracts.filter((contract) => {
+    if (pendingRunContracts.pendingContractIds.has(contract.contract_id)) return false;
+    if (pendingRunContracts.pendingSourceFiles.has(contract.source_file)) return false;
+    return true;
+  });
+
+  const totals = useMemo(() => {
+    const visibleIds = new Set(visibleContracts.map((contract) => contract.contract_id));
+    const totalAmount = visibleContracts.reduce((sum, item) => sum + Number(item.total_amount || 0), 0);
+    const requested = Object.values(financials)
+      .filter((item) => visibleIds.has(item.contract_id))
+      .reduce((sum, item) => sum + Number(item.payment_requested || 0), 0);
+    const paid = Object.values(financials)
+      .filter((item) => visibleIds.has(item.contract_id))
+      .reduce((sum, item) => sum + Number(item.paid || 0), 0);
+    const warnings = visibleContracts.reduce((sum, item) => sum + (item.validation || []).length, 0);
+    return { totalAmount, requested, paid, unpaid: Math.max(totalAmount - paid, 0), warnings };
+  }, [visibleContracts, financials]);
+
+  const filtered = visibleContracts.filter((contract) => {
     const typeOk = typeFilter === "all" || contract.doc_category === typeFilter || contract.contract_type === typeFilter;
     const validationState = contract.validation?.length ? "warning" : "passed";
     const validationOk = validationFilter === "all" || validationFilter === validationState;
