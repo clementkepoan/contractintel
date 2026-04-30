@@ -20,6 +20,18 @@ const promptSets = {
     { id: "Q9", label: "English overview", prompt: "What is this document about? Summarize it in 4 concise bullet points." },
     { id: "Q10", label: "English risk", prompt: "What are the main contractor-side risks in this document?" },
   ],
+  varied: [
+    { id: "V1", label: "Plain-language overview", prompt: "用白話說明，這份文件到底是在做什麼？只抓最重要的 3 到 5 點。" },
+    { id: "V2", label: "Direct total and count", prompt: "這份文件的總金額是多少？有幾期付款或幾個里程碑？" },
+    { id: "V3", label: "Acceptance trigger phrasing", prompt: "要到什麼程度才算完成、驗收通過或可以往下一步走？" },
+    { id: "V4", label: "What can Party A do", prompt: "如果承包商做太慢、進度拖延或沒有照要求做，甲方實際可以怎麼處理？" },
+    { id: "V5", label: "Contractor downside", prompt: "如果我是乙方，這份文件裡最容易踩雷的地方是什麼？" },
+    { id: "V6", label: "Can price go up", prompt: "如果後面成本變高，例如關稅、政策或法規改變，乙方還能不能要求加價？" },
+    { id: "V7", label: "Does force majeure help", prompt: "如果碰到天災、政策改變、關稅變動，乙方可不可以主張不可抗力或免責？" },
+    { id: "V8", label: "Can the work be handed off", prompt: "乙方能不能把工作交給別人做，像是分包、轉包，或把契約權利義務轉出去？" },
+    { id: "V9", label: "English payment paraphrase", prompt: "How does payment actually work here? Include amount, milestone count, and what must happen before the vendor gets paid." },
+    { id: "V10", label: "English remedy paraphrase", prompt: "If performance slips or the contractor falls behind schedule, what remedies does the other side have?" },
+  ],
   full: [
     { id: "Q1", label: "Contract overview", prompt: "這份文件主要是在規範什麼？請用 3 到 5 點整理重點。" },
     { id: "Q2", label: "Payment structure", prompt: "這份文件的付款方式是什麼？如果有分期付款，請列出每一期的條件、比例與金額。" },
@@ -191,6 +203,8 @@ export function RegressionPage() {
             retrieval_mode: response.retrieval_mode,
             model_name: response.model_name,
             reranker_model_name: response.reranker_model_name || null,
+            retrieval_confident: response.retrieval_confident,
+            anchor_failure_reason: response.anchor_failure_reason || null,
             intents: response.intents || [],
             expanded_query: response.expanded_query || null,
             runner_mode: runnerMode,
@@ -269,11 +283,12 @@ export function RegressionPage() {
             </label>
             <label>
               <span className="label-caps">{t("regression.promptSet")}</span>
-              <select value={promptSetKey} onChange={(event) => setPromptSetKey(event.target.value)} disabled={isRunning}>
-                <option value="core">{t("regression.coreSet")}</option>
-                <option value="full">{t("regression.fullSet")}</option>
-              </select>
-            </label>
+                  <select value={promptSetKey} onChange={(event) => setPromptSetKey(event.target.value)} disabled={isRunning}>
+                    <option value="core">{t("regression.coreSet")}</option>
+                    <option value="varied">{t("regression.variedSet")}</option>
+                    <option value="full">{t("regression.fullSet")}</option>
+                  </select>
+                </label>
             <label>
               <span className="label-caps">{t("regression.topK")}</span>
               <input type="number" min="1" max="24" value={topK} onChange={(event) => setTopK(Number(event.target.value) || 10)} disabled={isRunning} />

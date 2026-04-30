@@ -1,7 +1,7 @@
 ---
 kind: index
 title: Repository Index
-updated_at: 2026-04-30 08:43 UTC
+updated_at: 2026-04-30 15:33 UTC
 tags:
   - index
   - wiki
@@ -24,7 +24,9 @@ tags:
 - [05XX專案.docx](sources/05xx專案__v1.md) · `05xx專案` · v1 · contract
 
 ## Query Notes
-- No query notes have been filed yet.
+- [is the contract considered complex?
+](queries/query_09c715be1f88.md)
+- [how much is the total contract? and how many milestones/ payment terms are there](queries/query_4740d5952826.md)
 
 ## Operations
 - [Wiki Log](log.md)

@@ -1,7 +1,7 @@
 ---
 kind: log
 title: Wiki Log
-updated_at: 2026-04-30 08:43 UTC
+updated_at: 2026-04-30 15:33 UTC
 tags:
   - log
   - wiki
@@ -73,3 +73,14 @@ tags:
 - Page: `milestones/05xx專案__m002.md`
 - Page: `milestone_versions/05xx專案__m002__v1.md`
 - Page: `milestones/05xx專案__m003.md`
+
+## [2026-04-30 15:30 UTC] query | query_4740d5952826
+- Chat session: `chat_b03e0f451332`
+- Question: how much is the total contract? and how many milestones/ payment terms are there?
+- Wiki page: `queries/query_4740d5952826.md`
+
+## [2026-04-30 15:33 UTC] query | query_09c715be1f88
+- Chat session: `chat_b03e0f451332`
+- Question: is the contract considered complex?
+
+- Wiki page: `queries/query_09c715be1f88.md`

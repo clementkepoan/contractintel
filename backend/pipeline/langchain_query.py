@@ -120,6 +120,7 @@ QUERY_EXPANSIONS: dict[str, str] = {
     "change": "變更 追加工程款 固定總價 不得追加",
     "price_adjustment": "固定總價 不得追加 不得調整 法令變更 情事變更 單價",
     "force_majeure": "關稅措施 情事變更 免責 不補償 終止 不可抗力",
+    "subcontracting": "分包商 下包商 轉包 讓與 同意 批准 指定分包 主承包 授權 契約權利義務轉讓",
 }
 
 ACTION_QUERY_RE = re.compile(r"(可以採取哪些行動|可以怎麼做|可以如何處理|有哪些權利|得採取|得否|甲方可以|乙方可以)")
@@ -130,11 +131,22 @@ RISK_RE = re.compile(r"(風險|違約|罰款|扣罰|賠償)")
 PRICE_ADJUSTMENT_RE = re.compile(r"(關稅|貿易|法令|政策|調價|固定總價|不得追加|tariff|trade)", re.IGNORECASE)
 FORCE_MAJEURE_RE = re.compile(r"(不可抗力|天災|force majeure)", re.IGNORECASE)
 OVERVIEW_RE = re.compile(r"(主要是在規範什麼|主要內容|這份文件.*規範|what is this document about|summarize)", re.IGNORECASE)
+SUBCONTRACTING_RE = re.compile(r"(分包|轉包|下包|分包商|轉讓|讓與|指定分包|承包)", re.IGNORECASE)
 CHINESE_CHAR_RE = re.compile(r"[\u4e00-\u9fff]")
 ACTION_FALLBACK_TERMS = "得 暫停付款 違約金 扣罰 終止 解除 另覓廠商 書面通知 不補償 費用由乙方負擔"
 PROGRESS_ACTION_TERMS = "進度落後 逾期 履約期限 暫停付款 違約金 終止契約 解除契約 另覓廠商"
 PRICE_ADJUSTMENT_TERMS = "固定總價 不得追加 不得調整 法令變更 政策變更 情事變更 單價"
 FORCE_MAJEURE_TERMS = "不可抗力 關稅措施 情事變更 免責 不補償 終止"
+SUBCONTRACTING_TERMS = "分包 轉包 下包 轉讓 讓與 契約權利義務 主承包 書面同意"
+ANCHOR_TERMS: dict[str, tuple[str, ...]] = {
+    "subcontracting": ("分包", "轉包", "讓與", "下包", "轉讓"),
+    "progress_delay": ("逾期", "遲延", "延誤", "進度", "落後"),
+    "force_majeure": ("不可抗力", "情事變更", "免責"),
+    "payment": ("付款", "給付", "工程款", "請款", "期款"),
+    "price_adjustment": ("固定總價", "不得追加", "不得調整", "法令變更", "政策變更", "關稅"),
+}
+SCORE_FLOOR = {"formal": 0.12, "non_formal": 0.20}
+ANCHOR_SENSITIVE_INTENTS = {"subcontracting", "progress_delay", "force_majeure", "payment", "price_adjustment"}
 
 
 def classify_query_intents(query: str) -> set[str]:
@@ -157,6 +169,8 @@ def classify_query_intents(query: str) -> set[str]:
         intents.add("price_adjustment")
     if FORCE_MAJEURE_RE.search(text):
         intents.add("force_majeure")
+    if SUBCONTRACTING_RE.search(text):
+        intents.add("subcontracting")
     return intents
 
 
@@ -171,6 +185,8 @@ def expand_query(query: str, intents: set[str]) -> str:
         expansions.append(PRICE_ADJUSTMENT_TERMS)
     if "force_majeure" in intents:
         expansions.append(FORCE_MAJEURE_TERMS)
+    if "subcontracting" in intents:
+        expansions.append(SUBCONTRACTING_TERMS)
     if not expansions:
         return query
     return f"{query}\n" + "\n".join(expansions)
@@ -185,6 +201,8 @@ def exact_match_terms(intents: set[str], document_type: str) -> tuple[str, ...]:
         return ("關稅", "法令變更", "政策變更", "調整", "總價", "追加工程款", "固定總價")
     if "force_majeure" in intents:
         return ("不可抗力", "天災", "關稅", "法令變更", "政策變更")
+    if "subcontracting" in intents:
+        return ("分包", "轉包", "下包", "轉讓", "讓與", "契約權利義務")
     if "risk" in intents and document_type in {"spec_rfp", "instruction_manual", "mixed"}:
         return ("保固", "責任", "安全", "賠償", "查驗", "瑕疵")
     if "overview" in intents:
@@ -325,6 +343,32 @@ def build_answer_instructions(intents: set[str], output_language: str) -> str:
     return "\n".join(f"- {line}" for line in lines)
 
 
+def build_low_confidence_answer_instructions(intents: set[str], output_language: str) -> str:
+    lines = [
+        "目前檢索證據信心偏低。",
+        "你只能根據已提供的證據回答，不可補充一般法律原則、商業慣例、推測性救濟、協商建議或任何未明示內容。",
+        "如果證據沒有直接回答問題，必須明確回答『文件未明確規定』或『證據不足』，然後停止，不可延伸推論。",
+        "不要猜測甲方或乙方可能享有的權利、行動、救濟、後果、付款安排或風險分配。",
+        "不得輸出內部狀態、偵錯原因、檢索信心、anchor、missing_anchor、score、threshold 或任何系統訊息。",
+        f"最終回答語言必須使用：{output_language}。",
+        "回答必須非常短。",
+        "固定輸出格式：",
+        "## 結論",
+        "只寫 1 到 2 句；若無直接依據，就寫『文件未明確規定』或『證據不足』。",
+        "## 依據",
+        "最多列 1 到 3 點；每點只可描述已檢索到的內容，不可延伸。",
+        "不要輸出 Markdown 表格，不要使用 Markdown 水平線（---），不要輸出額外前言、後記、分析說明或自我檢查內容。",
+        "若使用者以中文提問，必須只用繁體中文作答，不可混用簡體中文。",
+    ]
+    if "action" in intents or "progress_delay" in intents:
+        lines.append("若問題是在問可採取的行動，但證據未明示行動或救濟，只能回答文件未明確規定，不得自行補出暫停付款、終止、解除、扣罰、另覓廠商或損害賠償。")
+    if "risk" in intents:
+        lines.append("若問題是在問風險，只能指出文件中已明示的責任或文件缺少的條款，不得寫成一般化風險備忘錄。")
+    if "payment" in intents:
+        lines.append("若問題是在問付款，只能回答已明示的付款條件、金額、比例或期限；沒有就回答文件未明確規定。")
+    return "\n".join(f"- {line}" for line in lines)
+
+
 def record_query_result(
     *,
     session: Any,
@@ -424,6 +468,11 @@ def source_weight(item: dict[str, Any], intents: set[str]) -> float:
         weight += 0.16
     if "force_majeure" in intents and "force_majeure" in clause_family and not is_nonformal:
         weight += 0.16
+    if "subcontracting" in intents:
+        if "subcontracting" in clause_family:
+            weight += 0.14
+        if any(term in text for term in ["分包", "轉包", "下包", "轉讓", "讓與"]):
+            weight += 0.08
     if is_nonformal and float(item.get("bm25_score", 0.0)) > 0.0:
         weight += 0.10
     if is_nonformal:
@@ -458,10 +507,46 @@ def normalize_candidate_scores(citations: list[dict[str, Any]]) -> list[dict[str
     return normalized
 
 
+def filter_tail_noise(citations: list[dict[str, Any]], top_k: int, relative_threshold: float = 0.25) -> list[dict[str, Any]]:
+    if not citations:
+        return citations
+    top_score = float(citations[0].get("retrieval_score", 0.0))
+    if top_score <= 0.0:
+        return citations
+    filtered = [item for item in citations if float(item.get("retrieval_score", 0.0)) >= top_score * relative_threshold]
+    if len(filtered) >= top_k:
+        return filtered
+    return citations[:top_k]
+
+
+def check_anchor_confidence(intents: set[str], citations: list[dict[str, Any]]) -> tuple[bool, str | None]:
+    if not citations:
+        return False, "no_citations"
+    relevant_intents = [intent for intent in intents if intent in ANCHOR_SENSITIVE_INTENTS]
+    if not relevant_intents:
+        return True, None
+    document_types = {item.get("document_type") for item in citations if item.get("document_type")}
+    doc_bucket = "non_formal" if any(item in {"spec_rfp", "instruction_manual", "mixed"} for item in document_types) else "formal"
+    top_score = float(citations[0].get("retrieval_score", 0.0))
+    floor = SCORE_FLOOR[doc_bucket]
+    if top_score < floor:
+        return False, f"top_score_below_floor:{top_score:.3f}<{floor:.2f}"
+    top_text = " ".join(
+        f"{item.get('clause_label') or ''} {item.get('section_label') or ''} {item.get('source_label') or ''} {item.get('text_snippet') or ''}"
+        for item in citations[:5]
+    )
+    for intent in relevant_intents:
+        terms = ANCHOR_TERMS.get(intent, ())
+        if terms and not any(term in top_text for term in terms):
+            return False, f"missing_anchor:{intent}"
+    return True, None
+
+
 def select_diverse_citations(citations: list[dict[str, Any]], top_k: int, intents: set[str]) -> list[dict[str, Any]]:
     weighted = expand_related_action_candidates(citations, intents)
     normalized = normalize_candidate_scores(weighted)
     ordered = sorted(normalized, key=lambda item: item["retrieval_score"], reverse=True)
+    ordered = filter_tail_noise(ordered, top_k)
     clause_like = [item for item in ordered if item.get("chunk_type") in {"clause", "subclause", "section", "requirement"}]
     structured = [item for item in ordered if item.get("chunk_type") == "structured"]
     wiki = [item for item in ordered if item.get("chunk_type") == "wiki"]
@@ -541,7 +626,22 @@ def select_diverse_citations(citations: list[dict[str, Any]], top_k: int, intent
                 selected[-1] = best_bm25
             else:
                 selected.append(best_bm25)
-    return selected[:top_k]
+    final_selected = selected[:top_k]
+    confident, reason = check_anchor_confidence(intents, final_selected)
+    if not confident and is_nonformal and (ANCHOR_SENSITIVE_INTENTS & intents):
+        summary_only = [item for item in final_selected if item.get("chunk_type") == "structured"]
+        if summary_only:
+            final_selected = summary_only[: min(top_k, 3)]
+        else:
+            final_selected = []
+        if reason:
+            for item in final_selected:
+                item["anchor_failure_reason"] = reason
+                item["retrieval_confident"] = False
+    else:
+        for item in final_selected:
+            item["retrieval_confident"] = True
+    return final_selected
 
 
 def retrieve_query_evidence(
@@ -573,12 +673,15 @@ def retrieve_query_evidence(
         citations = reranked
         mode = f"{mode}_reranked"
     citations = select_diverse_citations(citations, top_k, intents)
+    retrieval_confident, anchor_failure_reason = check_anchor_confidence(intents, citations)
     return {
         "intents": sorted(intents),
         "expanded_query": expanded_query,
         "citations": citations,
         "retrieval_mode": mode,
         "reranker_model_name": settings.reranker_model_name if reranked else None,
+        "retrieval_confident": retrieval_confident,
+        "anchor_failure_reason": anchor_failure_reason,
     }
 
 
@@ -600,6 +703,8 @@ def answer_with_langchain(
     intents = set(retrieval["intents"])
     citations = list(retrieval["citations"])
     retrieval_mode_value = str(retrieval["retrieval_mode"])
+    retrieval_confident = bool(retrieval.get("retrieval_confident"))
+    anchor_failure_reason = retrieval.get("anchor_failure_reason")
     if not citations:
         answer = "No matching evidence found in the local indexes."
         if persist_chat and chat_session is not None:
@@ -626,13 +731,19 @@ def answer_with_langchain(
             "retrieval_mode": retrieval_mode_value,
             "model_name": settings.local_query_model_name,
             "reranker_model_name": retrieval.get("reranker_model_name"),
+            "retrieval_confident": retrieval_confident,
+            "anchor_failure_reason": anchor_failure_reason,
             "wiki_path": None,
         }
 
     evidence = format_evidence(citations)
     structured_context = build_structured_context(session, contract_ids, intents)
     output_language = detect_output_language(query)
-    answer_instructions = build_answer_instructions(intents, output_language)
+    answer_instructions = (
+        build_low_confidence_answer_instructions(intents, output_language)
+        if not retrieval_confident
+        else build_answer_instructions(intents, output_language)
+    )
     system_prompt = (
         "你是一個離線合約分析助理。"
         "只能根據提供的結構化資料與檢索證據回答。"
@@ -656,8 +767,16 @@ def answer_with_langchain(
         "輸出格式必須穩定、簡潔、可解析，只使用簡單標題與單層條列。"
         "最終回答必須跟隨使用者問題的主要語言；中文問題用繁體中文回答，英文問題用英文回答。"
     )
+    confidence_warning = ""
+    if not retrieval_confident:
+        confidence_warning = (
+            "【檢索限制】\n"
+            "目前檢索到的證據可能沒有直接回答此問題。"
+            "若條款未明示，必須直接回答『文件未明確規定』或『證據不足』，不得推論，也不得輸出任何系統原因或內部狀態。\n\n"
+        )
     user_prompt = (
         f"【合約結構化資料】\n{structured_context}\n\n"
+        f"{confidence_warning}"
         f"【檢索證據】\n{evidence}\n\n"
         f"【回答要求】\n{answer_instructions}\n\n"
         f"【問題】\n{query}\n\n【回答】"
@@ -714,5 +833,7 @@ def answer_with_langchain(
         "retrieval_mode": retrieval_mode_value,
         "model_name": settings.local_query_model_name,
         "reranker_model_name": retrieval.get("reranker_model_name"),
+        "retrieval_confident": retrieval_confident,
+        "anchor_failure_reason": anchor_failure_reason,
         "wiki_path": wiki_path,
     }
