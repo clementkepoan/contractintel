@@ -438,13 +438,30 @@ def expand_related_action_candidates(citations: list[dict[str, Any]], intents: s
     expanded: list[dict[str, Any]] = []
     for item in citations:
         boosted = dict(item)
-        boosted["retrieval_score"] = float(boosted["retrieval_score"]) + source_weight(boosted, intents)
+        boosted["weighted_retrieval_score_raw"] = float(boosted["retrieval_score"]) + source_weight(boosted, intents)
+        boosted["retrieval_score"] = float(boosted["weighted_retrieval_score_raw"])
         expanded.append(boosted)
     return expanded
 
 
+def normalize_candidate_scores(citations: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    if not citations:
+        return citations
+    max_score = max(float(item.get("retrieval_score", 0.0)) for item in citations)
+    if max_score <= 0.0:
+        return citations
+    normalized: list[dict[str, Any]] = []
+    for item in citations:
+        updated = dict(item)
+        updated["retrieval_score"] = float(updated.get("retrieval_score", 0.0)) / max_score
+        normalized.append(updated)
+    return normalized
+
+
 def select_diverse_citations(citations: list[dict[str, Any]], top_k: int, intents: set[str]) -> list[dict[str, Any]]:
-    ordered = sorted(expand_related_action_candidates(citations, intents), key=lambda item: item["retrieval_score"], reverse=True)
+    weighted = expand_related_action_candidates(citations, intents)
+    normalized = normalize_candidate_scores(weighted)
+    ordered = sorted(normalized, key=lambda item: item["retrieval_score"], reverse=True)
     clause_like = [item for item in ordered if item.get("chunk_type") in {"clause", "subclause", "section", "requirement"}]
     structured = [item for item in ordered if item.get("chunk_type") == "structured"]
     wiki = [item for item in ordered if item.get("chunk_type") == "wiki"]
@@ -582,6 +599,7 @@ def answer_with_langchain(
     retrieval = retrieve_query_evidence(session=session, query=query, contract_ids=contract_ids, top_k=top_k)
     intents = set(retrieval["intents"])
     citations = list(retrieval["citations"])
+    retrieval_mode_value = str(retrieval["retrieval_mode"])
     if not citations:
         answer = "No matching evidence found in the local indexes."
         if persist_chat and chat_session is not None:
@@ -598,16 +616,16 @@ def answer_with_langchain(
                 citations=[],
                 wiki_path="",
                 answer_method="no_evidence",
-                retrieval_mode_value=retrieval_mode(),
+                retrieval_mode_value=retrieval_mode_value,
             )
         return {
             "chat_session_id": chat_session.chat_session_id if chat_session is not None else None,
             "answer": answer,
             "citations": [],
             "answer_method": "no_evidence",
-            "retrieval_mode": retrieval_mode(),
+            "retrieval_mode": retrieval_mode_value,
             "model_name": settings.local_query_model_name,
-            "reranker_model_name": settings.reranker_model_name,
+            "reranker_model_name": retrieval.get("reranker_model_name"),
             "wiki_path": None,
         }
 
@@ -672,7 +690,7 @@ def answer_with_langchain(
                 answer=answer,
                 citations=citations,
                 answer_method="openai_compatible_chat",
-                retrieval_mode=retrieval_mode(),
+                retrieval_mode=retrieval_mode_value,
             )
         else:
             record_query_result(
@@ -686,14 +704,14 @@ def answer_with_langchain(
                 citations=citations,
                 wiki_path="",
                 answer_method="openai_compatible_chat",
-                retrieval_mode_value=retrieval_mode(),
+                retrieval_mode_value=retrieval_mode_value,
             )
     return {
         "chat_session_id": chat_session.chat_session_id if chat_session is not None else None,
         "answer": answer,
         "citations": citations,
         "answer_method": "openai_compatible_chat",
-        "retrieval_mode": retrieval_mode(),
+        "retrieval_mode": retrieval_mode_value,
         "model_name": settings.local_query_model_name,
         "reranker_model_name": retrieval.get("reranker_model_name"),
         "wiki_path": wiki_path,

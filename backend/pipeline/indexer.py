@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import re
 from pathlib import Path
 from typing import Any
@@ -10,6 +11,8 @@ from rank_bm25 import BM25Okapi
 from backend.config import settings
 from backend.pipeline.embeddings import embed_texts, embedding_model_ready
 from backend.pipeline.qdrant_store import qdrant_ready, search_contract_chunks, upsert_contract_chunks
+
+logger = logging.getLogger(__name__)
 
 CLAUSE_HEADER_RE = re.compile(r"^第[一二三四五六七八九十百千\d]+條")
 MILESTONE_HEADER_RE = re.compile(
@@ -91,7 +94,77 @@ def tokenize(text: str) -> list[str]:
     if not text:
         return []
     normalized = normalize_space(text).lower()
-    return re.findall(r"[a-z0-9_]+|[\u4e00-\u9fff]{1,4}|[%％]+", normalized)
+    primary = re.findall(r"[a-z0-9_]+|[\u4e00-\u9fff]{1,4}|[%％]+", normalized)
+    if len(primary) >= 3:
+        return primary
+    fallback = re.findall(r"[a-z0-9_]+|[\u4e00-\u9fff]{2,}", normalized)
+    if len(fallback) >= 3:
+        return fallback
+    compact_cjk = re.sub(r"[^\u4e00-\u9fff]", "", normalized)
+    if len(compact_cjk) >= 4:
+        bigrams = [compact_cjk[idx : idx + 2] for idx in range(len(compact_cjk) - 1)]
+        if bigrams:
+            return bigrams
+    ascii_words = re.findall(r"[a-z0-9_]+", normalized)
+    if ascii_words:
+        return ascii_words
+    last_resort = [char for char in compact_cjk[:10] if char.strip()]
+    return last_resort
+
+
+def tokenization_stats(contract_id: str, chunks: list[dict[str, Any]], tokenized_chunks: list[list[str]]) -> dict[str, float | int]:
+    total = len(tokenized_chunks)
+    empty = sum(1 for tokens in tokenized_chunks if len(tokens) == 0)
+    avg_len = (sum(len(tokens) for tokens in tokenized_chunks) / total) if total else 0.0
+    short = sum(1 for tokens in tokenized_chunks if len(tokens) < 3)
+    if empty or avg_len < 3.0 or short > max(3, total // 2):
+        sample_text = ""
+        for chunk, tokens in zip(chunks, tokenized_chunks, strict=False):
+            if len(tokens) == 0:
+                sample_text = normalize_space(chunk.get("text", ""))[:80]
+                break
+        logger.warning(
+            "BM25 tokenization sparse for %s: empty=%s/%s short=%s avg_tokens=%.2f sample=%r",
+            contract_id,
+            empty,
+            total,
+            short,
+            avg_len,
+            sample_text,
+        )
+    return {"total": total, "empty": empty, "short": short, "avg_len": avg_len}
+
+
+def _retokenize_if_sparse(contract_id: str, chunks: list[dict[str, Any]], tokenized_chunks: list[list[str]]) -> list[list[str]]:
+    stats = tokenization_stats(contract_id, chunks, tokenized_chunks)
+    total = int(stats["total"])
+    if not total:
+        return tokenized_chunks
+    empty = int(stats["empty"])
+    short = int(stats["short"])
+    avg_len = float(stats["avg_len"])
+    should_refresh = empty > 0 or avg_len < 3.0 or short > max(3, total // 2)
+    if not should_refresh:
+        return tokenized_chunks
+    refreshed = [tokenize(chunk["text"]) for chunk in chunks]
+    refreshed_stats = tokenization_stats(contract_id, chunks, refreshed)
+    if (
+        int(refreshed_stats["empty"]) < empty
+        or float(refreshed_stats["avg_len"]) > avg_len
+        or int(refreshed_stats["short"]) < short
+    ):
+        logger.info(
+            "BM25 tokenization refreshed for %s: empty %s->%s avg_tokens %.2f->%.2f short %s->%s",
+            contract_id,
+            empty,
+            int(refreshed_stats["empty"]),
+            avg_len,
+            float(refreshed_stats["avg_len"]),
+            short,
+            int(refreshed_stats["short"]),
+        )
+        return refreshed
+    return tokenized_chunks
 
 
 def split_text_with_overlap(text: str, target_size: int, overlap: int) -> list[str]:
@@ -731,6 +804,7 @@ def write_chunk_index(contract_id: str, extracted: dict[str, Any]) -> Path:
     chunks = body_chunks + build_structured_chunks(extracted, clause_groups, document_type=document_type)
     chunks.extend(build_contract_summary_chunks(extracted, document_type=document_type))
     tokenized = [tokenize(chunk["text"]) for chunk in chunks]
+    tokenization_stats(contract_id, chunks, tokenized)
     index_payload: dict[str, Any] = {
         "contract_id": contract_id,
         "document_type": document_type,
@@ -813,6 +887,7 @@ def hybrid_search_chunks(contract_id: str, query: str, top_k: int = 5, intents: 
         return []
 
     tokenized_chunks = index_payload.get("tokenized_chunks") or [tokenize(chunk["text"]) for chunk in chunks]
+    tokenized_chunks = _retokenize_if_sparse(contract_id, chunks, tokenized_chunks)
     bm25_pairs: list[tuple[str, float]] = []
     if tokenized_chunks:
         bm25_model = BM25Okapi(tokenized_chunks)
