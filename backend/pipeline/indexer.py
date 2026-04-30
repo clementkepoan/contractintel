@@ -19,6 +19,7 @@ SUBCLAUSE_SIGNAL_RE = re.compile(
     r"(?:給付|付款|請款|驗收|違約|違約金|扣罰|保固|保證金|固定總價|追加工程款|不得追加|法令變更|政策變更|不得調整|單價不予調整|情事變更)"
 )
 ACTION_SIGNAL_RE = re.compile(r"(?:得|暫停付款|違約金|扣罰|終止|解除|另覓廠商|書面通知|不補償|費用由乙方負擔)")
+NONFORMAL_SIGNAL_RE = re.compile(r"(?:付款|請款|驗收|保固|安全|規範|功能|要求|不得|應|須|完成|測試|圖說|範圍)")
 HEADING_RE = re.compile(r"^##\s+")
 LOW_SIGNAL_WIKI_HEADINGS = {
     "overview",
@@ -28,6 +29,32 @@ LOW_SIGNAL_WIKI_HEADINGS = {
     "context",
     "related pages",
     "page metadata",
+}
+NONFORMAL_ALLOWED_FAMILIES = {
+    "payment",
+    "acceptance",
+    "warranty",
+    "price_adjustment",
+    "force_majeure",
+    "damages",
+    "milestone",
+}
+NONFORMAL_SECTION_HINTS = {
+    "專案名稱",
+    "專案地點",
+    "施工名稱",
+    "施工地點",
+    "施工內容",
+    "工程說明",
+    "設計原則與內容範圍",
+    "耗能管理",
+    "界面操作使用規範",
+    "智慧辦公室",
+    "建築能源管理系統",
+    "家庭能源管理系統",
+    "資安要求",
+    "保固要求",
+    "驗收標準",
 }
 
 CLAUSE_FAMILY_KEYWORDS: dict[str, tuple[str, ...]] = {
@@ -76,15 +103,32 @@ def split_text_with_overlap(text: str, target_size: int, overlap: int) -> list[s
     return chunks
 
 
-def detect_clause_family(text: str) -> list[str]:
+def detect_document_type(extracted: dict[str, Any]) -> str:
+    category = normalize_space(str(extracted.get("doc_category") or extracted.get("document_type") or "")).lower()
+    if category == "contract":
+        return "formal_contract"
+    if category == "construction_instruction":
+        return "instruction_manual"
+    if category == "rfp":
+        return "spec_rfp"
+    return "mixed"
+
+
+def detect_clause_family(text: str, *, document_type: str = "formal_contract") -> list[str]:
     normalized = normalize_space(text)
     if not normalized:
         return []
-    families: list[str] = []
+    family_scores: list[tuple[str, int]] = []
     for family, keywords in CLAUSE_FAMILY_KEYWORDS.items():
-        if any(keyword in normalized for keyword in keywords):
-            families.append(family)
-    return families
+        count = sum(1 for keyword in keywords if keyword in normalized)
+        if count <= 0:
+            continue
+        family_scores.append((family, count))
+    if document_type == "formal_contract":
+        return [family for family, _count in family_scores]
+    constrained = [(family, count) for family, count in family_scores if family in NONFORMAL_ALLOWED_FAMILIES]
+    constrained.sort(key=lambda item: (-item[1], item[0]))
+    return [family for family, _count in constrained[:2]]
 
 
 def chunk_record(
@@ -102,6 +146,9 @@ def chunk_record(
     block_ids: list[str] | None = None,
     parent_chunk_id: str | None = None,
     clause_family: list[str] | None = None,
+    document_type: str | None = None,
+    section_label: str | None = None,
+    section_path: str | None = None,
 ) -> dict[str, Any]:
     return {
         "chunk_id": chunk_id,
@@ -117,6 +164,9 @@ def chunk_record(
         "block_ids": block_ids or [],
         "parent_chunk_id": parent_chunk_id,
         "clause_family": clause_family or [],
+        "document_type": document_type,
+        "section_label": section_label,
+        "section_path": section_path,
     }
 
 
@@ -142,14 +192,64 @@ def build_clause_groups(blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return groups
 
 
-def build_clause_chunks(extracted: dict[str, Any]) -> tuple[list[dict[str, Any]], dict[str, dict[str, Any]]]:
+def strip_section_heading(text: str) -> str:
+    return normalize_space(re.sub(r"[:：]\s*$", "", text))
+
+
+def is_nonformal_heading(text: str, next_text: str) -> bool:
+    normalized = strip_section_heading(text)
+    if not normalized or CLAUSE_HEADER_RE.match(normalized):
+        return False
+    if normalized in NONFORMAL_SECTION_HINTS:
+        return True
+    if len(normalized) <= 22 and not re.search(r"[。；，,]", normalized):
+        if text.endswith((":", "：")):
+            return True
+        if next_text and len(normalize_space(next_text)) >= max(18, len(normalized) + 6):
+            return True
+    return False
+
+
+def build_nonformal_section_groups(blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    groups: list[dict[str, Any]] = []
+    current: dict[str, Any] | None = None
+    major_heading: str | None = None
+    total = len(blocks)
+    for index, block in enumerate(blocks):
+        text = normalize_space(block.get("text", ""))
+        if not text:
+            continue
+        next_text = normalize_space(blocks[index + 1].get("text", "")) if index + 1 < total else ""
+        if is_nonformal_heading(text, next_text):
+            heading = strip_section_heading(text)
+            level = 2 if text.endswith((":", "：")) else 1
+            if level == 1:
+                major_heading = heading
+                section_path = heading
+            else:
+                section_path = f"{major_heading} / {heading}" if major_heading and major_heading != heading else heading
+            if current and current["blocks"]:
+                groups.append(current)
+            current = {"label": section_path, "heading": heading, "section_path": section_path, "level": level, "blocks": [block]}
+            continue
+        if current is None:
+            fallback_label = major_heading or strip_section_heading(text)[:80]
+            current = {"label": fallback_label, "heading": fallback_label, "section_path": fallback_label, "level": 1, "blocks": [block]}
+        else:
+            current["blocks"].append(block)
+    if current and current["blocks"]:
+        groups.append(current)
+    return groups
+
+
+def build_clause_chunks(extracted: dict[str, Any], *, document_type: str = "formal_contract") -> tuple[list[dict[str, Any]], dict[str, dict[str, Any]]]:
     chunks: list[dict[str, Any]] = []
     parent_chunks: dict[str, dict[str, Any]] = {}
     for group_index, group in enumerate(build_clause_groups(extracted.get("blocks", [])), start=1):
         blocks = group["blocks"]
         label = group.get("label") or normalize_space(blocks[0]["text"])[:80]
         merged_text = "\n".join(block["text"] for block in blocks if normalize_space(block.get("text", "")))
-        clause_family = detect_clause_family(merged_text)
+        clause_family = detect_clause_family(merged_text, document_type=document_type)
         parent_chunk_id = f"clause-parent::{group_index:03d}"
         parent_chunks[parent_chunk_id] = chunk_record(
             chunk_id=parent_chunk_id,
@@ -163,6 +263,9 @@ def build_clause_chunks(extracted: dict[str, Any]) -> tuple[list[dict[str, Any]]
             block_ids=[str(block.get("block_id")) for block in blocks if block.get("block_id")],
             parent_chunk_id=parent_chunk_id,
             clause_family=clause_family,
+            document_type=document_type,
+            section_label=label,
+            section_path=label,
         )
         parts = split_text_with_overlap(merged_text, settings.chunk_size, settings.chunk_overlap)
         for part_index, part in enumerate(parts, start=1):
@@ -180,6 +283,9 @@ def build_clause_chunks(extracted: dict[str, Any]) -> tuple[list[dict[str, Any]]
                     block_ids=[str(block.get("block_id")) for block in blocks if block.get("block_id")],
                     parent_chunk_id=parent_chunk_id,
                     clause_family=clause_family,
+                    document_type=document_type,
+                    section_label=label,
+                    section_path=label,
                 )
             )
         member_blocks = blocks[1:] if group.get("label") else blocks
@@ -211,9 +317,89 @@ def build_clause_chunks(extracted: dict[str, Any]) -> tuple[list[dict[str, Any]]
                     block_ids=block_ids,
                     parent_chunk_id=parent_chunk_id,
                     clause_family=clause_family,
+                    document_type=document_type,
+                    section_label=label,
+                    section_path=label,
                 )
             )
     return chunks, parent_chunks
+
+
+def build_nonformal_chunks(extracted: dict[str, Any], *, document_type: str) -> tuple[list[dict[str, Any]], dict[str, dict[str, Any]], list[dict[str, Any]]]:
+    chunks: list[dict[str, Any]] = []
+    parent_chunks: dict[str, dict[str, Any]] = {}
+    groups = build_nonformal_section_groups(extracted.get("blocks", []))
+    target_size = min(settings.chunk_size, 520)
+    overlap = min(settings.chunk_overlap, 80)
+    for group_index, group in enumerate(groups, start=1):
+        blocks = group["blocks"]
+        label = group.get("label") or normalize_space(blocks[0]["text"])[:80]
+        section_label = group.get("heading") or label
+        section_path = group.get("section_path") or label
+        merged_text = "\n".join(block["text"] for block in blocks if normalize_space(block.get("text", "")))
+        clause_family = detect_clause_family(merged_text, document_type=document_type)
+        parent_chunk_id = f"section-parent::{group_index:03d}"
+        parent_chunks[parent_chunk_id] = chunk_record(
+            chunk_id=parent_chunk_id,
+            text=merged_text,
+            para_start=int(blocks[0].get("para_start", 0)),
+            para_end=int(blocks[-1].get("para_end", blocks[-1].get("para_start", 0))),
+            page_estimate=int(blocks[0].get("page_estimate", 0)),
+            chunk_type="section_parent",
+            clause_label=section_path,
+            source_label=section_path,
+            block_ids=[str(block.get("block_id")) for block in blocks if block.get("block_id")],
+            parent_chunk_id=parent_chunk_id,
+            clause_family=clause_family,
+            document_type=document_type,
+            section_label=section_label,
+            section_path=section_path,
+        )
+        parts = split_text_with_overlap(merged_text, target_size, overlap)
+        for part_index, part in enumerate(parts, start=1):
+            suffix = f"__part{part_index:02d}" if len(parts) > 1 else ""
+            chunks.append(
+                chunk_record(
+                    chunk_id=f"section::{group_index:03d}{suffix}",
+                    text=part,
+                    para_start=int(blocks[0].get("para_start", 0)),
+                    para_end=int(blocks[-1].get("para_end", blocks[-1].get("para_start", 0))),
+                    page_estimate=int(blocks[0].get("page_estimate", 0)),
+                    chunk_type="section",
+                    clause_label=section_path,
+                    source_label=section_path,
+                    block_ids=[str(block.get("block_id")) for block in blocks if block.get("block_id")],
+                    parent_chunk_id=parent_chunk_id,
+                    clause_family=clause_family,
+                    document_type=document_type,
+                    section_label=section_label,
+                    section_path=section_path,
+                )
+            )
+        member_blocks = blocks[1:] if len(blocks) > 1 else blocks
+        for block in member_blocks:
+            text = normalize_space(block.get("text", ""))
+            if not text or not NONFORMAL_SIGNAL_RE.search(text):
+                continue
+            chunks.append(
+                chunk_record(
+                    chunk_id=f"requirement::{group_index:03d}:{int(block.get('para_start', 0)):04d}",
+                    text=text,
+                    para_start=int(block.get("para_start", 0)),
+                    para_end=int(block.get("para_end", block.get("para_start", 0))),
+                    page_estimate=int(block.get("page_estimate", 0)),
+                    chunk_type="requirement",
+                    clause_label=section_path,
+                    source_label=section_path,
+                    block_ids=[str(block.get("block_id"))] if block.get("block_id") else [],
+                    parent_chunk_id=parent_chunk_id,
+                    clause_family=clause_family,
+                    document_type=document_type,
+                    section_label=section_label,
+                    section_path=section_path,
+                )
+            )
+    return chunks, parent_chunks, groups
 
 
 def summarize_action_sentences(text: str) -> str:
@@ -222,7 +408,7 @@ def summarize_action_sentences(text: str) -> str:
     return "；".join(chosen[:3]) if chosen else normalize_space(text)[:300]
 
 
-def build_structured_chunks(extracted: dict[str, Any], clause_groups: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def build_structured_chunks(extracted: dict[str, Any], clause_groups: list[dict[str, Any]], *, document_type: str) -> list[dict[str, Any]]:
     chunks: list[dict[str, Any]] = []
     contract_key = extracted.get("contract_key") or "contract"
     currency = extracted.get("currency") or "TWD"
@@ -245,6 +431,7 @@ def build_structured_chunks(extracted: dict[str, Any], clause_groups: list[dict[
             structured_kind="contract_summary",
             source_label="contract_summary",
             clause_family=["payment"] if payment_type == "installment" else [],
+            document_type=document_type,
         )
     )
     for milestone in extracted.get("milestones", []):
@@ -268,6 +455,7 @@ def build_structured_chunks(extracted: dict[str, Any], clause_groups: list[dict[
                 source_label=milestone.get("name"),
                 block_ids=[citation.get("block_id") for citation in milestone.get("citations", []) if citation.get("block_id")],
                 clause_family=["milestone", "payment"],
+                document_type=document_type,
             )
         )
     retention = extracted.get("retention") or {}
@@ -289,6 +477,7 @@ def build_structured_chunks(extracted: dict[str, Any], clause_groups: list[dict[
                 source_label="retention",
                 block_ids=[citation.get("block_id") for citation in retention.get("citations", []) if citation.get("block_id")],
                 clause_family=["retention", "payment"],
+                document_type=document_type,
             )
         )
     for index, conflict in enumerate(extracted.get("version_conflicts", []), start=1):
@@ -302,6 +491,7 @@ def build_structured_chunks(extracted: dict[str, Any], clause_groups: list[dict[
                 chunk_type="structured",
                 structured_kind="version_conflict_summary",
                 source_label="version_conflict",
+                document_type=document_type,
             )
         )
     for group_index, group in enumerate(clause_groups, start=1):
@@ -322,7 +512,8 @@ def build_structured_chunks(extracted: dict[str, Any], clause_groups: list[dict[
                 clause_label=label,
                 source_label=label,
                 block_ids=[str(block.get("block_id")) for block in blocks if block.get("block_id")],
-                clause_family=detect_clause_family(merged_text),
+                clause_family=detect_clause_family(merged_text, document_type=document_type),
+                document_type=document_type,
             )
         )
     return chunks
@@ -401,20 +592,29 @@ def build_wiki_chunks(extracted: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def build_chunks(extracted: dict[str, Any]) -> list[dict[str, Any]]:
-    clause_groups = build_clause_groups(extracted.get("blocks", []))
-    clause_chunks, _parent_chunks = build_clause_chunks(extracted)
-    chunks = clause_chunks
-    chunks.extend(build_structured_chunks(extracted, clause_groups))
+    document_type = detect_document_type(extracted)
+    if document_type == "formal_contract":
+        clause_groups = build_clause_groups(extracted.get("blocks", []))
+        body_chunks, _parent_chunks = build_clause_chunks(extracted, document_type=document_type)
+    else:
+        body_chunks, _parent_chunks, clause_groups = build_nonformal_chunks(extracted, document_type=document_type)
+    chunks = body_chunks
+    chunks.extend(build_structured_chunks(extracted, clause_groups, document_type=document_type))
     return [chunk for chunk in chunks if chunk.get("text")]
 
 
 def write_chunk_index(contract_id: str, extracted: dict[str, Any]) -> Path:
-    clause_groups = build_clause_groups(extracted.get("blocks", []))
-    clause_chunks, parent_chunks = build_clause_chunks(extracted)
-    chunks = clause_chunks + build_structured_chunks(extracted, clause_groups)
+    document_type = detect_document_type(extracted)
+    if document_type == "formal_contract":
+        clause_groups = build_clause_groups(extracted.get("blocks", []))
+        body_chunks, parent_chunks = build_clause_chunks(extracted, document_type=document_type)
+    else:
+        body_chunks, parent_chunks, clause_groups = build_nonformal_chunks(extracted, document_type=document_type)
+    chunks = body_chunks + build_structured_chunks(extracted, clause_groups, document_type=document_type)
     tokenized = [tokenize(chunk["text"]) for chunk in chunks]
     index_payload: dict[str, Any] = {
         "contract_id": contract_id,
+        "document_type": document_type,
         "chunks": chunks,
         "parent_chunks": parent_chunks,
         "tokenized_chunks": tokenized,
@@ -489,6 +689,7 @@ def hybrid_search_chunks(contract_id: str, query: str, top_k: int = 5, intents: 
         return []
     chunks = index_payload.get("chunks", [])
     parent_chunks = index_payload.get("parent_chunks", {})
+    document_type = index_payload.get("document_type") or "formal_contract"
     if not chunks:
         return []
 
@@ -535,6 +736,9 @@ def hybrid_search_chunks(contract_id: str, query: str, top_k: int = 5, intents: 
                 "block_ids": chunk.get("block_ids", []),
                 "parent_chunk_id": chunk.get("parent_chunk_id"),
                 "clause_family": chunk.get("clause_family", []),
+                "document_type": chunk.get("document_type") or document_type,
+                "section_label": chunk.get("section_label"),
+                "section_path": chunk.get("section_path"),
                 "retrieval_score": combined_score,
                 "bm25_score": float(bm25_score_map.get(chunk_id, 0.0)),
                 "vector_score": float(vector_score_map.get(chunk_id, 0.0)),
@@ -544,9 +748,10 @@ def hybrid_search_chunks(contract_id: str, query: str, top_k: int = 5, intents: 
 
     intents = intents or set()
     is_action_like = "action" in intents or "progress_delay" in intents
-    parent_expansion_cap = 2 if is_action_like else 3
-    parent_expansion_threshold = 0.04 if is_action_like else 0.02
-    parent_expansion_multiplier = 0.65 if is_action_like else 0.85
+    is_nonformal = document_type in {"spec_rfp", "instruction_manual", "mixed"}
+    parent_expansion_cap = 0 if is_nonformal else (2 if is_action_like else 3)
+    parent_expansion_threshold = 1.0 if is_nonformal else (0.04 if is_action_like else 0.02)
+    parent_expansion_multiplier = 0.0 if is_nonformal else (0.65 if is_action_like else 0.85)
 
     direct_parent_ids = {
         item.get("parent_chunk_id")
@@ -592,6 +797,9 @@ def hybrid_search_chunks(contract_id: str, query: str, top_k: int = 5, intents: 
                 "block_ids": parent.get("block_ids", []),
                 "parent_chunk_id": parent["chunk_id"],
                 "clause_family": parent.get("clause_family", []),
+                "document_type": parent.get("document_type") or document_type,
+                "section_label": parent.get("section_label"),
+                "section_path": parent.get("section_path"),
                 "retrieval_score": float(item["retrieval_score"]) * parent_expansion_multiplier,
                 "bm25_score": float(item.get("bm25_score", 0.0)),
                 "vector_score": float(item.get("vector_score", 0.0)),

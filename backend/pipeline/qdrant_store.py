@@ -118,6 +118,9 @@ def upsert_contract_chunks(contract_id: str, chunks: list[dict[str, Any]], embed
                     "block_ids": chunk.get("block_ids", []),
                     "parent_chunk_id": chunk.get("parent_chunk_id"),
                     "clause_family": chunk.get("clause_family", []),
+                    "document_type": chunk.get("document_type"),
+                    "section_label": chunk.get("section_label"),
+                    "section_path": chunk.get("section_path"),
                 },
             )
         )
@@ -151,6 +154,9 @@ def search_contract_chunks(contract_id: str | None, query: str, top_k: int) -> l
                 "block_ids": payload.get("block_ids", []),
                 "parent_chunk_id": payload.get("parent_chunk_id"),
                 "clause_family": payload.get("clause_family", []),
+                "document_type": payload.get("document_type"),
+                "section_label": payload.get("section_label"),
+                "section_path": payload.get("section_path"),
                 "retrieval_score": float(score or 0.0),
                 "contract_id": payload.get("contract_id"),
             }

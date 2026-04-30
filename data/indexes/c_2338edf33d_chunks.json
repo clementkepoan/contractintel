@@ -1,5 +1,6 @@
 {
-  "contract_id": "c_965c489632",
+  "contract_id": "c_2338edf33d",
+  "document_type": "formal_contract",
   "chunks": [
     {
       "chunk_id": "clause::001",
@@ -25,7 +26,10 @@
         "05XX專案_block_0025"
       ],
       "parent_chunk_id": "clause-parent::001",
-      "clause_family": []
+      "clause_family": [],
+      "document_type": "formal_contract",
+      "section_label": "XX專案",
+      "section_path": "XX專案"
     },
     {
       "chunk_id": "clause::002",
@@ -43,7 +47,10 @@
         "05XX專案_block_0028"
       ],
       "parent_chunk_id": "clause-parent::002",
-      "clause_family": []
+      "clause_family": [],
+      "document_type": "formal_contract",
+      "section_label": "第一條 工程案名稱",
+      "section_path": "第一條 工程案名稱"
     },
     {
       "chunk_id": "clause::003",
@@ -61,7 +68,10 @@
         "05XX專案_block_0031"
       ],
       "parent_chunk_id": "clause-parent::003",
-      "clause_family": []
+      "clause_family": [],
+      "document_type": "formal_contract",
+      "section_label": "第二條 工程案地點",
+      "section_path": "第二條 工程案地點"
     },
     {
       "chunk_id": "clause::004",
@@ -87,7 +97,10 @@
         "payment",
         "warranty",
         "price_adjustment"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第三條 工程總價",
+      "section_path": "第三條 工程總價"
     },
     {
       "chunk_id": "subclause::004:0034",
@@ -109,7 +122,10 @@
         "payment",
         "warranty",
         "price_adjustment"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第三條 工程總價",
+      "section_path": "第三條 工程總價"
     },
     {
       "chunk_id": "subclause::004:0035",
@@ -131,7 +147,10 @@
         "payment",
         "warranty",
         "price_adjustment"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第三條 工程總價",
+      "section_path": "第三條 工程總價"
     },
     {
       "chunk_id": "subclause::004:0036",
@@ -153,7 +172,10 @@
         "payment",
         "warranty",
         "price_adjustment"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第三條 工程總價",
+      "section_path": "第三條 工程總價"
     },
     {
       "chunk_id": "subclause::004:0038",
@@ -174,7 +196,10 @@
         "payment",
         "warranty",
         "price_adjustment"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第三條 工程總價",
+      "section_path": "第三條 工程總價"
     },
     {
       "chunk_id": "clause::005",
@@ -201,7 +226,10 @@
         "acceptance",
         "termination",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第四條 工程範圍",
+      "section_path": "第四條 工程範圍"
     },
     {
       "chunk_id": "subclause::005:0045",
@@ -223,7 +251,10 @@
         "acceptance",
         "termination",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第四條 工程範圍",
+      "section_path": "第四條 工程範圍"
     },
     {
       "chunk_id": "clause::006",
@@ -247,7 +278,10 @@
         "acceptance",
         "force_majeure",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第五條 工程期限",
+      "section_path": "第五條 工程期限"
     },
     {
       "chunk_id": "clause::007",
@@ -278,7 +312,10 @@
         "payment",
         "acceptance",
         "milestone"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第六條 付款辦法",
+      "section_path": "第六條 付款辦法"
     },
     {
       "chunk_id": "subclause::007:0054",
@@ -300,7 +337,10 @@
         "payment",
         "acceptance",
         "milestone"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第六條 付款辦法",
+      "section_path": "第六條 付款辦法"
     },
     {
       "chunk_id": "subclause::007:0055",
@@ -321,7 +361,10 @@
         "payment",
         "acceptance",
         "milestone"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第六條 付款辦法",
+      "section_path": "第六條 付款辦法"
     },
     {
       "chunk_id": "subclause::007:0056",
@@ -343,7 +386,10 @@
         "payment",
         "acceptance",
         "milestone"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第六條 付款辦法",
+      "section_path": "第六條 付款辦法"
     },
     {
       "chunk_id": "subclause::007:0058",
@@ -364,7 +410,10 @@
         "payment",
         "acceptance",
         "milestone"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第六條 付款辦法",
+      "section_path": "第六條 付款辦法"
     },
     {
       "chunk_id": "subclause::007:0059",
@@ -385,7 +434,10 @@
         "payment",
         "acceptance",
         "milestone"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第六條 付款辦法",
+      "section_path": "第六條 付款辦法"
     },
     {
       "chunk_id": "subclause::007:0060",
@@ -407,7 +459,10 @@
         "payment",
         "acceptance",
         "milestone"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第六條 付款辦法",
+      "section_path": "第六條 付款辦法"
     },
     {
       "chunk_id": "subclause::007:0062",
@@ -429,7 +484,10 @@
         "payment",
         "acceptance",
         "milestone"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第六條 付款辦法",
+      "section_path": "第六條 付款辦法"
     },
     {
       "chunk_id": "clause::008",
@@ -451,7 +509,10 @@
       "clause_family": [
         "warranty",
         "retention"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第七條 保證金條款",
+      "section_path": "第七條 保證金條款"
     },
     {
       "chunk_id": "subclause::008:0066",
@@ -472,7 +533,10 @@
       "clause_family": [
         "warranty",
         "retention"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第七條 保證金條款",
+      "section_path": "第七條 保證金條款"
     },
     {
       "chunk_id": "subclause::008:0067",
@@ -492,7 +556,10 @@
       "clause_family": [
         "warranty",
         "retention"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第七條 保證金條款",
+      "section_path": "第七條 保證金條款"
     },
     {
       "chunk_id": "clause::009",
@@ -518,7 +585,10 @@
         "termination",
         "retention",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第八條 遲延罰款",
+      "section_path": "第八條 遲延罰款"
     },
     {
       "chunk_id": "subclause::009:0070",
@@ -541,7 +611,10 @@
         "termination",
         "retention",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第八條 遲延罰款",
+      "section_path": "第八條 遲延罰款"
     },
     {
       "chunk_id": "subclause::009:0071",
@@ -564,7 +637,10 @@
         "termination",
         "retention",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第八條 遲延罰款",
+      "section_path": "第八條 遲延罰款"
     },
     {
       "chunk_id": "subclause::009:0072",
@@ -587,7 +663,10 @@
         "termination",
         "retention",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第八條 遲延罰款",
+      "section_path": "第八條 遲延罰款"
     },
     {
       "chunk_id": "subclause::009:0073",
@@ -609,7 +688,10 @@
         "termination",
         "retention",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第八條 遲延罰款",
+      "section_path": "第八條 遲延罰款"
     },
     {
       "chunk_id": "clause::010__part01",
@@ -655,7 +737,10 @@
         "retention",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第九條 工程品質與管理",
+      "section_path": "第九條 工程品質與管理"
     },
     {
       "chunk_id": "clause::010__part02",
@@ -701,7 +786,10 @@
         "retention",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第九條 工程品質與管理",
+      "section_path": "第九條 工程品質與管理"
     },
     {
       "chunk_id": "clause::010__part03",
@@ -747,7 +835,10 @@
         "retention",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第九條 工程品質與管理",
+      "section_path": "第九條 工程品質與管理"
     },
     {
       "chunk_id": "subclause::010:0082",
@@ -773,7 +864,10 @@
         "retention",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第九條 工程品質與管理",
+      "section_path": "第九條 工程品質與管理"
     },
     {
       "chunk_id": "subclause::010:0086",
@@ -799,7 +893,10 @@
         "retention",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第九條 工程品質與管理",
+      "section_path": "第九條 工程品質與管理"
     },
     {
       "chunk_id": "subclause::010:0090",
@@ -825,7 +922,10 @@
         "retention",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第九條 工程品質與管理",
+      "section_path": "第九條 工程品質與管理"
     },
     {
       "chunk_id": "subclause::010:0091",
@@ -851,7 +951,10 @@
         "retention",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第九條 工程品質與管理",
+      "section_path": "第九條 工程品質與管理"
     },
     {
       "chunk_id": "clause::011",
@@ -871,7 +974,10 @@
         "05XX專案_block_0102"
       ],
       "parent_chunk_id": "clause-parent::011",
-      "clause_family": []
+      "clause_family": [],
+      "document_type": "formal_contract",
+      "section_label": "第十條 施工責任",
+      "section_path": "第十條 施工責任"
     },
     {
       "chunk_id": "clause::012__part01",
@@ -900,7 +1006,10 @@
       "clause_family": [
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十一條 工地安全",
+      "section_path": "第十一條 工地安全"
     },
     {
       "chunk_id": "clause::012__part02",
@@ -929,7 +1038,10 @@
       "clause_family": [
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十一條 工地安全",
+      "section_path": "第十一條 工地安全"
     },
     {
       "chunk_id": "clause::013",
@@ -958,7 +1070,10 @@
         "acceptance",
         "penalty",
         "warranty"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十二條 驗收、保固期間及危險負擔",
+      "section_path": "第十二條 驗收、保固期間及危險負擔"
     },
     {
       "chunk_id": "subclause::013:0117",
@@ -980,7 +1095,10 @@
         "acceptance",
         "penalty",
         "warranty"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十二條 驗收、保固期間及危險負擔",
+      "section_path": "第十二條 驗收、保固期間及危險負擔"
     },
     {
       "chunk_id": "subclause::013:0118",
@@ -1002,7 +1120,10 @@
         "acceptance",
         "penalty",
         "warranty"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十二條 驗收、保固期間及危險負擔",
+      "section_path": "第十二條 驗收、保固期間及危險負擔"
     },
     {
       "chunk_id": "subclause::013:0120",
@@ -1024,7 +1145,10 @@
         "acceptance",
         "penalty",
         "warranty"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十二條 驗收、保固期間及危險負擔",
+      "section_path": "第十二條 驗收、保固期間及危險負擔"
     },
     {
       "chunk_id": "subclause::013:0121",
@@ -1046,7 +1170,10 @@
         "acceptance",
         "penalty",
         "warranty"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十二條 驗收、保固期間及危險負擔",
+      "section_path": "第十二條 驗收、保固期間及危險負擔"
     },
     {
       "chunk_id": "subclause::013:0122",
@@ -1068,7 +1195,10 @@
         "acceptance",
         "penalty",
         "warranty"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十二條 驗收、保固期間及危險負擔",
+      "section_path": "第十二條 驗收、保固期間及危險負擔"
     },
     {
       "chunk_id": "subclause::013:0124",
@@ -1090,7 +1220,10 @@
         "acceptance",
         "penalty",
         "warranty"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十二條 驗收、保固期間及危險負擔",
+      "section_path": "第十二條 驗收、保固期間及危險負擔"
     },
     {
       "chunk_id": "clause::014__part01",
@@ -1128,7 +1261,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十三條 保密責任",
+      "section_path": "第十三條 保密責任"
     },
     {
       "chunk_id": "clause::014__part02",
@@ -1166,7 +1302,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十三條 保密責任",
+      "section_path": "第十三條 保密責任"
     },
     {
       "chunk_id": "clause::015",
@@ -1189,7 +1328,10 @@
       "parent_chunk_id": "clause-parent::015",
       "clause_family": [
         "termination"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十四條 特別約定",
+      "section_path": "第十四條 特別約定"
     },
     {
       "chunk_id": "clause::016",
@@ -1223,7 +1365,10 @@
       "clause_family": [
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十五條 保險",
+      "section_path": "第十五條 保險"
     },
     {
       "chunk_id": "clause::017",
@@ -1242,7 +1387,10 @@
         "05XX專案_block_0170"
       ],
       "parent_chunk_id": "clause-parent::017",
-      "clause_family": []
+      "clause_family": [],
+      "document_type": "formal_contract",
+      "section_label": "第十六條 配合施工",
+      "section_path": "第十六條 配合施工"
     },
     {
       "chunk_id": "clause::018__part01",
@@ -1277,7 +1425,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十七條 損害賠償",
+      "section_path": "第十七條 損害賠償"
     },
     {
       "chunk_id": "clause::018__part02",
@@ -1312,7 +1463,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十七條 損害賠償",
+      "section_path": "第十七條 損害賠償"
     },
     {
       "chunk_id": "subclause::018:0181",
@@ -1336,7 +1490,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十七條 損害賠償",
+      "section_path": "第十七條 損害賠償"
     },
     {
       "chunk_id": "subclause::018:0182",
@@ -1360,7 +1517,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十七條 損害賠償",
+      "section_path": "第十七條 損害賠償"
     },
     {
       "chunk_id": "clause::019",
@@ -1393,7 +1553,10 @@
         "penalty",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十八條 暫停給付",
+      "section_path": "第十八條 暫停給付"
     },
     {
       "chunk_id": "subclause::019:0187",
@@ -1416,7 +1579,10 @@
         "penalty",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十八條 暫停給付",
+      "section_path": "第十八條 暫停給付"
     },
     {
       "chunk_id": "clause::020__part01",
@@ -1457,7 +1623,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十九條 契約終止與解除",
+      "section_path": "第十九條 契約終止與解除"
     },
     {
       "chunk_id": "clause::020__part02",
@@ -1498,7 +1667,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十九條 契約終止與解除",
+      "section_path": "第十九條 契約終止與解除"
     },
     {
       "chunk_id": "subclause::020:0203",
@@ -1521,7 +1693,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十九條 契約終止與解除",
+      "section_path": "第十九條 契約終止與解除"
     },
     {
       "chunk_id": "clause::021",
@@ -1548,7 +1723,10 @@
         "price_adjustment",
         "force_majeure",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第二十條 不可抗力",
+      "section_path": "第二十條 不可抗力"
     },
     {
       "chunk_id": "subclause::021:0222",
@@ -1572,7 +1750,10 @@
         "price_adjustment",
         "force_majeure",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第二十條 不可抗力",
+      "section_path": "第二十條 不可抗力"
     },
     {
       "chunk_id": "subclause::021:0225",
@@ -1595,7 +1776,10 @@
         "price_adjustment",
         "force_majeure",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第二十條 不可抗力",
+      "section_path": "第二十條 不可抗力"
     },
     {
       "chunk_id": "clause::022",
@@ -1616,7 +1800,10 @@
       "clause_family": [
         "termination",
         "subcontracting"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第二十一條 轉讓之禁止",
+      "section_path": "第二十一條 轉讓之禁止"
     },
     {
       "chunk_id": "clause::023",
@@ -1658,7 +1845,10 @@
       "parent_chunk_id": "clause-parent::023",
       "clause_family": [
         "retention"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第二十二條 其他條款",
+      "section_path": "第二十二條 其他條款"
     },
     {
       "chunk_id": "structured::contract_summary",
@@ -1675,7 +1865,10 @@
       "parent_chunk_id": null,
       "clause_family": [
         "payment"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "struct::milestone::m001",
@@ -1700,11 +1893,14 @@
       "clause_family": [
         "milestone",
         "payment"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "struct::milestone::m002",
-      "text": "里程碑摘要：第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後。金額 5008500 TWD。百分比 30.0。付款條件：乙方完成設備交貨經甲方及客戶確認後。驗收條件：甲方及客戶確認。工作項目：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目)經甲方及客戶確認。",
+      "text": "里程碑摘要：第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後。金額 5008500 TWD。百分比 30.0。付款條件：乙方完成設備交貨經甲方及客戶確認後。驗收條件：甲方及客戶確認。工作項目：乙方完成設備交貨（即附件五報價單各細項工程「設備交貨項目」之勾選項目）經甲方及客戶確認。",
       "para_start": 58,
       "para_end": 58,
       "page_estimate": 0,
@@ -1725,7 +1921,10 @@
       "clause_family": [
         "milestone",
         "payment"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "struct::milestone::m003",
@@ -1750,7 +1949,10 @@
       "clause_family": [
         "milestone",
         "payment"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "struct::milestone::m004",
@@ -1775,7 +1977,10 @@
       "clause_family": [
         "milestone",
         "payment"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::004",
@@ -1801,7 +2006,10 @@
         "payment",
         "warranty",
         "price_adjustment"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::005",
@@ -1828,7 +2036,10 @@
         "acceptance",
         "termination",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::006",
@@ -1852,7 +2063,10 @@
         "acceptance",
         "force_majeure",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::007",
@@ -1883,7 +2097,10 @@
         "payment",
         "acceptance",
         "milestone"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::009",
@@ -1909,7 +2126,10 @@
         "termination",
         "retention",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::010",
@@ -1955,7 +2175,10 @@
         "retention",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::011",
@@ -1975,7 +2198,10 @@
         "05XX專案_block_0102"
       ],
       "parent_chunk_id": null,
-      "clause_family": []
+      "clause_family": [],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::012",
@@ -2004,7 +2230,10 @@
       "clause_family": [
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::013",
@@ -2033,7 +2262,10 @@
         "acceptance",
         "penalty",
         "warranty"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::014",
@@ -2071,7 +2303,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::015",
@@ -2094,7 +2329,10 @@
       "parent_chunk_id": null,
       "clause_family": [
         "termination"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::016",
@@ -2128,7 +2366,10 @@
       "clause_family": [
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::017",
@@ -2147,7 +2388,10 @@
         "05XX專案_block_0170"
       ],
       "parent_chunk_id": null,
-      "clause_family": []
+      "clause_family": [],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::018",
@@ -2182,7 +2426,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::019",
@@ -2215,7 +2462,10 @@
         "penalty",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::020",
@@ -2256,7 +2506,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::021",
@@ -2283,7 +2536,10 @@
         "price_adjustment",
         "force_majeure",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::022",
@@ -2304,7 +2560,10 @@
       "clause_family": [
         "termination",
         "subcontracting"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     },
     {
       "chunk_id": "structured::action::023",
@@ -2346,7 +2605,10 @@
       "parent_chunk_id": null,
       "clause_family": [
         "retention"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": null,
+      "section_path": null
     }
   ],
   "parent_chunks": {
@@ -2374,7 +2636,10 @@
         "05XX專案_block_0025"
       ],
       "parent_chunk_id": "clause-parent::001",
-      "clause_family": []
+      "clause_family": [],
+      "document_type": "formal_contract",
+      "section_label": "XX專案",
+      "section_path": "XX專案"
     },
     "clause-parent::002": {
       "chunk_id": "clause-parent::002",
@@ -2392,7 +2657,10 @@
         "05XX專案_block_0028"
       ],
       "parent_chunk_id": "clause-parent::002",
-      "clause_family": []
+      "clause_family": [],
+      "document_type": "formal_contract",
+      "section_label": "第一條 工程案名稱",
+      "section_path": "第一條 工程案名稱"
     },
     "clause-parent::003": {
       "chunk_id": "clause-parent::003",
@@ -2410,7 +2678,10 @@
         "05XX專案_block_0031"
       ],
       "parent_chunk_id": "clause-parent::003",
-      "clause_family": []
+      "clause_family": [],
+      "document_type": "formal_contract",
+      "section_label": "第二條 工程案地點",
+      "section_path": "第二條 工程案地點"
     },
     "clause-parent::004": {
       "chunk_id": "clause-parent::004",
@@ -2436,7 +2707,10 @@
         "payment",
         "warranty",
         "price_adjustment"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第三條 工程總價",
+      "section_path": "第三條 工程總價"
     },
     "clause-parent::005": {
       "chunk_id": "clause-parent::005",
@@ -2463,7 +2737,10 @@
         "acceptance",
         "termination",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第四條 工程範圍",
+      "section_path": "第四條 工程範圍"
     },
     "clause-parent::006": {
       "chunk_id": "clause-parent::006",
@@ -2487,7 +2764,10 @@
         "acceptance",
         "force_majeure",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第五條 工程期限",
+      "section_path": "第五條 工程期限"
     },
     "clause-parent::007": {
       "chunk_id": "clause-parent::007",
@@ -2518,7 +2798,10 @@
         "payment",
         "acceptance",
         "milestone"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第六條 付款辦法",
+      "section_path": "第六條 付款辦法"
     },
     "clause-parent::008": {
       "chunk_id": "clause-parent::008",
@@ -2540,7 +2823,10 @@
       "clause_family": [
         "warranty",
         "retention"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第七條 保證金條款",
+      "section_path": "第七條 保證金條款"
     },
     "clause-parent::009": {
       "chunk_id": "clause-parent::009",
@@ -2566,7 +2852,10 @@
         "termination",
         "retention",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第八條 遲延罰款",
+      "section_path": "第八條 遲延罰款"
     },
     "clause-parent::010": {
       "chunk_id": "clause-parent::010",
@@ -2612,7 +2901,10 @@
         "retention",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第九條 工程品質與管理",
+      "section_path": "第九條 工程品質與管理"
     },
     "clause-parent::011": {
       "chunk_id": "clause-parent::011",
@@ -2632,7 +2924,10 @@
         "05XX專案_block_0102"
       ],
       "parent_chunk_id": "clause-parent::011",
-      "clause_family": []
+      "clause_family": [],
+      "document_type": "formal_contract",
+      "section_label": "第十條 施工責任",
+      "section_path": "第十條 施工責任"
     },
     "clause-parent::012": {
       "chunk_id": "clause-parent::012",
@@ -2661,7 +2956,10 @@
       "clause_family": [
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十一條 工地安全",
+      "section_path": "第十一條 工地安全"
     },
     "clause-parent::013": {
       "chunk_id": "clause-parent::013",
@@ -2690,7 +2988,10 @@
         "acceptance",
         "penalty",
         "warranty"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十二條 驗收、保固期間及危險負擔",
+      "section_path": "第十二條 驗收、保固期間及危險負擔"
     },
     "clause-parent::014": {
       "chunk_id": "clause-parent::014",
@@ -2728,7 +3029,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十三條 保密責任",
+      "section_path": "第十三條 保密責任"
     },
     "clause-parent::015": {
       "chunk_id": "clause-parent::015",
@@ -2751,7 +3055,10 @@
       "parent_chunk_id": "clause-parent::015",
       "clause_family": [
         "termination"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十四條 特別約定",
+      "section_path": "第十四條 特別約定"
     },
     "clause-parent::016": {
       "chunk_id": "clause-parent::016",
@@ -2785,7 +3092,10 @@
       "clause_family": [
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十五條 保險",
+      "section_path": "第十五條 保險"
     },
     "clause-parent::017": {
       "chunk_id": "clause-parent::017",
@@ -2804,7 +3114,10 @@
         "05XX專案_block_0170"
       ],
       "parent_chunk_id": "clause-parent::017",
-      "clause_family": []
+      "clause_family": [],
+      "document_type": "formal_contract",
+      "section_label": "第十六條 配合施工",
+      "section_path": "第十六條 配合施工"
     },
     "clause-parent::018": {
       "chunk_id": "clause-parent::018",
@@ -2839,7 +3152,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十七條 損害賠償",
+      "section_path": "第十七條 損害賠償"
     },
     "clause-parent::019": {
       "chunk_id": "clause-parent::019",
@@ -2872,7 +3188,10 @@
         "penalty",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十八條 暫停給付",
+      "section_path": "第十八條 暫停給付"
     },
     "clause-parent::020": {
       "chunk_id": "clause-parent::020",
@@ -2913,7 +3232,10 @@
         "termination",
         "subcontracting",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第十九條 契約終止與解除",
+      "section_path": "第十九條 契約終止與解除"
     },
     "clause-parent::021": {
       "chunk_id": "clause-parent::021",
@@ -2940,7 +3262,10 @@
         "price_adjustment",
         "force_majeure",
         "damages"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第二十條 不可抗力",
+      "section_path": "第二十條 不可抗力"
     },
     "clause-parent::022": {
       "chunk_id": "clause-parent::022",
@@ -2961,7 +3286,10 @@
       "clause_family": [
         "termination",
         "subcontracting"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第二十一條 轉讓之禁止",
+      "section_path": "第二十一條 轉讓之禁止"
     },
     "clause-parent::023": {
       "chunk_id": "clause-parent::023",
@@ -3003,7 +3331,10 @@
       "parent_chunk_id": "clause-parent::023",
       "clause_family": [
         "retention"
-      ]
+      ],
+      "document_type": "formal_contract",
+      "section_label": "第二十二條 其他條款",
+      "section_path": "第二十二條 其他條款"
     }
   },
   "tokenized_chunks": [

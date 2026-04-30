@@ -8,7 +8,7 @@
   "doc_category": "contract",
   "milestones": [
     {
-      "milestone_id": "m_6d75274040d4",
+      "milestone_id": "m_e365c6bfebe9",
       "name": "簽約金(20%)",
       "amount": 6457113,
       "percentage": 20.0,
@@ -96,7 +96,7 @@
       "milestone_key": "m001"
     },
     {
-      "milestone_id": "m_37ed739c446a",
+      "milestone_id": "m_ba12b1ad485d",
       "name": "工程設備款(20%)",
       "amount": 6457113,
       "percentage": 20.0,
@@ -184,14 +184,14 @@
       "milestone_key": "m002"
     },
     {
-      "milestone_id": "m_8c3fcf613d5e",
+      "milestone_id": "m_d3b5734df348",
       "name": "設備安裝工程款(20%)",
       "amount": 6457113,
       "percentage": 20.0,
       "work_items": [
         "乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後"
       ],
-      "acceptance_criteria": "經甲方及客戶驗收合格",
+      "acceptance_criteria": "乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後",
       "payment_condition": "乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方。",
       "status": "pending_acceptance",
       "citations": [
@@ -286,14 +286,14 @@
       "milestone_key": "m003"
     },
     {
-      "milestone_id": "m_dca7996f8bed",
+      "milestone_id": "m_ff6a52152ba2",
       "name": "功能檢測款(20%)",
       "amount": 6457113,
       "percentage": 20.0,
       "work_items": [
         "乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後"
       ],
-      "acceptance_criteria": "經甲方及客戶驗收合格",
+      "acceptance_criteria": "乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後",
       "payment_condition": "乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
       "status": "pending_acceptance",
       "citations": [
@@ -388,14 +388,14 @@
       "milestone_key": "m004"
     },
     {
-      "milestone_id": "m_d0e02b5b676c",
+      "milestone_id": "m_379870688744",
       "name": "功能整合款(20%)",
       "amount": 6457111,
       "percentage": 20.0,
       "work_items": [
         "乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後"
       ],
-      "acceptance_criteria": "智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格",
+      "acceptance_criteria": "乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後",
       "payment_condition": "乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方。",
       "status": "pending_acceptance",
       "citations": [
@@ -497,7 +497,7 @@
   "retention": {
     "type": "retention",
     "amount": 15,
-    "percentage": null,
+    "percentage": 15.0,
     "release_condition": "工程完工並經甲方及客戶驗收合格且客戶退還履約保證金後，無息發還，發還金額於前二期各為履約保證金額百分之三十，最後一期則發還履約保證金額百分之四十",
     "release_after_months": null,
     "citations": [
@@ -2252,7 +2252,7 @@
     "extraction_path": "llm_tasks",
     "fallback_reason": "version:no_blocks",
     "prompt_tokens": 2856,
-    "llm_ms": 55621,
+    "llm_ms": 49545,
     "pipeline_revision": "2026-04-27-citation-summary-v1"
   },
   "segment_map": {

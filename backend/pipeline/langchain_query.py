@@ -74,7 +74,7 @@ def history_to_messages(history: list[BaseMessage]) -> list[dict[str, str]]:
 
 
 def format_evidence(citations: list[dict[str, Any]]) -> str:
-    grouped: dict[str, list[dict[str, Any]]] = {"clause": [], "subclause": [], "structured": [], "wiki": []}
+    grouped: dict[str, list[dict[str, Any]]] = {"clause": [], "subclause": [], "section": [], "requirement": [], "structured": [], "wiki": []}
     for citation in citations:
         grouped.setdefault(citation.get("chunk_type") or "clause", []).append(citation)
     sections: list[str] = []
@@ -84,7 +84,7 @@ def format_evidence(citations: list[dict[str, Any]]) -> str:
             sections.append(
                 f"[S{index}] ({citation.get('structured_kind') or 'structured'}) {citation.get('text_snippet', '')}"
             )
-    clause_like = grouped["clause"] + grouped["subclause"]
+    clause_like = grouped["clause"] + grouped["subclause"] + grouped["section"] + grouped["requirement"]
     if clause_like:
         sections.append("【原始條款證據】")
         for index, citation in enumerate(clause_like, start=1):
@@ -109,6 +109,7 @@ def retrieval_mode() -> str:
 QUERY_EXPANSIONS: dict[str, str] = {
     "risk": "風險 違約 違約金 扣罰 賠償 逾期 固定總價 不得追加",
     "payment": "付款 給付 工程款 請款 期款",
+    "acceptance": "驗收 核定 確認 完工 測試通過 交付",
     "milestone": "里程碑 期款 工程節點 階段 驗收",
     "penalty": "違約金 扣罰 罰則 逾期",
     "retention": "保留款 保固保證金 履約保證金 保固期",
@@ -122,6 +123,7 @@ QUERY_EXPANSIONS: dict[str, str] = {
 ACTION_QUERY_RE = re.compile(r"(可以採取哪些行動|可以怎麼做|可以如何處理|有哪些權利|得採取|得否|甲方可以|乙方可以)")
 PROGRESS_DELAY_RE = re.compile(r"(進度|落後|逾期|延誤)")
 PAYMENT_RE = re.compile(r"(付款|請款|工程款|期款|給付)")
+ACCEPTANCE_RE = re.compile(r"(驗收|核定|確認|完工|測試通過|交付)")
 RISK_RE = re.compile(r"(風險|違約|罰款|扣罰|賠償)")
 PRICE_ADJUSTMENT_RE = re.compile(r"(關稅|貿易|法令|政策|調價|固定總價|不得追加|tariff|trade)", re.IGNORECASE)
 FORCE_MAJEURE_RE = re.compile(r"(不可抗力|天災|force majeure)", re.IGNORECASE)
@@ -142,6 +144,8 @@ def classify_query_intents(query: str) -> set[str]:
         intents.add("progress_delay")
     if PAYMENT_RE.search(text) or "payment" in lowered:
         intents.add("payment")
+    if ACCEPTANCE_RE.search(text):
+        intents.add("acceptance")
     if RISK_RE.search(text) or "risk" in lowered or "penalty" in lowered:
         intents.add("risk")
     if PRICE_ADJUSTMENT_RE.search(text):
@@ -337,10 +341,12 @@ def source_weight(item: dict[str, Any], intents: set[str]) -> float:
     structured_kind = item.get("structured_kind")
     text = item.get("text_snippet", "")
     clause_family = set(item.get("clause_family") or [])
+    document_type = item.get("document_type") or "formal_contract"
+    is_nonformal = document_type in {"spec_rfp", "instruction_manual", "mixed"}
     weight = 0.0
-    if chunk_type == "clause":
+    if chunk_type in {"clause", "section"}:
         weight += 0.2
-    elif chunk_type == "subclause":
+    elif chunk_type in {"subclause", "requirement"}:
         weight += 0.15
     elif chunk_type == "structured":
         if structured_kind == "clause_action_summary":
@@ -364,11 +370,14 @@ def source_weight(item: dict[str, Any], intents: set[str]) -> float:
         weight += 0.08
     if "payment" in intents and clause_family & {"payment", "milestone", "retention"}:
         weight += 0.10
-    if "risk" in intents and clause_family & {"penalty", "termination", "damages", "warranty", "subcontracting", "price_adjustment", "force_majeure"}:
+    if "acceptance" in intents and "acceptance" in clause_family:
+        weight += 0.14
+    risk_families = {"warranty", "price_adjustment", "damages"} if is_nonformal else {"penalty", "termination", "damages", "warranty", "subcontracting", "price_adjustment", "force_majeure"}
+    if "risk" in intents and clause_family & risk_families:
         weight += 0.10
     if "price_adjustment" in intents and "price_adjustment" in clause_family:
         weight += 0.16
-    if "force_majeure" in intents and "force_majeure" in clause_family:
+    if "force_majeure" in intents and "force_majeure" in clause_family and not is_nonformal:
         weight += 0.16
     return weight
 
@@ -386,7 +395,7 @@ def expand_related_action_candidates(citations: list[dict[str, Any]], intents: s
 
 def select_diverse_citations(citations: list[dict[str, Any]], top_k: int, intents: set[str]) -> list[dict[str, Any]]:
     ordered = sorted(expand_related_action_candidates(citations, intents), key=lambda item: item["retrieval_score"], reverse=True)
-    clause_like = [item for item in ordered if item.get("chunk_type") in {"clause", "subclause"}]
+    clause_like = [item for item in ordered if item.get("chunk_type") in {"clause", "subclause", "section", "requirement"}]
     structured = [item for item in ordered if item.get("chunk_type") == "structured"]
     wiki = [item for item in ordered if item.get("chunk_type") == "wiki"]
     selected: list[dict[str, Any]] = []
