@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 import logging
+from urllib.parse import urlparse
 
 import requests
 
@@ -22,6 +23,12 @@ def _request_headers() -> dict[str, str]:
     if settings.local_model_api_key:
         headers["Authorization"] = f"Bearer {settings.local_model_api_key}"
     return headers
+
+
+def _is_local_openai_backend() -> bool:
+    parsed = urlparse(_api_base_url())
+    host = (parsed.hostname or "").lower()
+    return host in {"127.0.0.1", "localhost", "host.docker.internal"}
 
 
 def llm_available(timeout: float = 0.5) -> bool:
@@ -55,17 +62,31 @@ def query_local_messages_detailed(
 ) -> dict[str, Any]:
     payload: dict[str, Any] = {
         "messages": messages,
-        "temperature": settings.local_model_temperature,
-        "top_p": settings.local_model_top_p,
-        "top_k": settings.local_model_top_k,
-        "min_p": settings.local_model_min_p,
-        "presence_penalty": settings.local_model_presence_penalty,
-        "repetition_penalty": settings.local_model_repetition_penalty,
-        "frequency_penalty": settings.local_model_frequency_penalty,
         "stream": False,
         "max_tokens": 8192,
-        "chat_template_kwargs": {"enable_thinking": settings.local_model_enable_thinking},
     }
+    if _is_local_openai_backend():
+        payload.update(
+            {
+                "temperature": settings.local_model_temperature,
+                "top_p": settings.local_model_top_p,
+                "top_k": settings.local_model_top_k,
+                "min_p": settings.local_model_min_p,
+                "presence_penalty": settings.local_model_presence_penalty,
+                "repetition_penalty": settings.local_model_repetition_penalty,
+                "frequency_penalty": settings.local_model_frequency_penalty,
+                "chat_template_kwargs": {"enable_thinking": settings.local_model_enable_thinking},
+            }
+        )
+    else:
+        payload.update(
+            {
+                "temperature": settings.local_model_temperature,
+                "top_p": settings.local_model_top_p,
+                "presence_penalty": settings.local_model_presence_penalty,
+                "frequency_penalty": settings.local_model_frequency_penalty,
+            }
+        )
     if sampling_overrides:
         payload.update(sampling_overrides)
     effective_model_name = model_name if model_name is not None else settings.local_model_name

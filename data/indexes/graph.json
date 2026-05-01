@@ -32,7 +32,7 @@
       "amount": 3339000
     },
     {
-      "id": "m_1c77b3beb640:work:1183612629476410751",
+      "id": "m_1c77b3beb640:work:4492004709170089104",
       "type": "WorkItem",
       "description": "提交細部設計圖"
     },
@@ -44,7 +44,7 @@
       "amount": 5008500
     },
     {
-      "id": "m_f027f0319b3a:work:3163147140953087890",
+      "id": "m_f027f0319b3a:work:4309639487002095592",
       "type": "WorkItem",
       "description": "完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目)"
     },
@@ -56,7 +56,7 @@
       "amount": 5008500
     },
     {
-      "id": "m_4ebbd74da15b:work:6797717715962244391",
+      "id": "m_4ebbd74da15b:work:5725269676580911947",
       "type": "WorkItem",
       "description": "軟體(系統)及硬體設備安裝完成"
     },
@@ -68,7 +68,7 @@
       "amount": 3339000
     },
     {
-      "id": "m_0794a77f9ccc:work:3594769351966411772",
+      "id": "m_0794a77f9ccc:work:916209201457344501",
       "type": "WorkItem",
       "description": "本工程全部驗收合格"
     },
@@ -86,7 +86,7 @@
       "amount": 6457113
     },
     {
-      "id": "m_b9f43dc762a8:work:5574880696984594436",
+      "id": "m_b9f43dc762a8:work:5379035030800808660",
       "type": "WorkItem",
       "description": "簽約金(20%)：本合約簽訂"
     },
@@ -98,7 +98,7 @@
       "amount": 6457113
     },
     {
-      "id": "m_8392d63f0776:work:1940474038402800959",
+      "id": "m_8392d63f0776:work:7951308458538972046",
       "type": "WorkItem",
       "description": "工程設備款(20%)：各項硬體設備及採購單完成下訂並提供PO單證明後，"
     },
@@ -110,7 +110,7 @@
       "amount": 6457113
     },
     {
-      "id": "m_81d11779fb6e:work:4194393901040544835",
+      "id": "m_81d11779fb6e:work:2703968898046418920",
       "type": "WorkItem",
       "description": "設備安裝工程款(20%)：完成報價單項目一至項目六之硬體設備安裝，"
     },
@@ -122,7 +122,7 @@
       "amount": 6457113
     },
     {
-      "id": "m_3714fde354d9:work:3793822669581319428",
+      "id": "m_3714fde354d9:work:1375442636112254383",
       "type": "WorkItem",
       "description": "完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成"
     },
@@ -134,7 +134,7 @@
       "amount": 6457111
     },
     {
-      "id": "m_2a01dda37ea5:work:1026174889365249139",
+      "id": "m_2a01dda37ea5:work:1452319954304417233",
       "type": "WorkItem",
       "description": "將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件"
     },
@@ -182,7 +182,7 @@
       "amount": 7149193
     },
     {
-      "id": "m_9ff2e75395e7:work:9195133765157728087",
+      "id": "m_9ff2e75395e7:work:6810084011013197168",
       "type": "WorkItem",
       "description": "於本契約簽訂"
     },
@@ -194,12 +194,12 @@
       "amount": 9532257
     },
     {
-      "id": "m_bf2c890922be:work:8326091724201130304",
+      "id": "m_bf2c890922be:work:6544394560908161728",
       "type": "WorkItem",
       "description": "完成本契約約定之項目"
     },
     {
-      "id": "m_bf2c890922be:work:93725097937135085",
+      "id": "m_bf2c890922be:work:8556827130146536638",
       "type": "WorkItem",
       "description": "進入系統測試"
     },
@@ -211,17 +211,17 @@
       "amount": 7149193
     },
     {
-      "id": "m_a62b829c21e1:work:7707142863582496900",
+      "id": "m_a62b829c21e1:work:7974352779433534053",
       "type": "WorkItem",
       "description": "完成本契約約定之項目全部功能"
     },
     {
-      "id": "m_a62b829c21e1:work:4918561390375405101",
+      "id": "m_a62b829c21e1:work:1653821169316642228",
       "type": "WorkItem",
       "description": "移交甲方測試兩週"
     },
     {
-      "id": "m_a62b829c21e1:work:1769155287737496751",
+      "id": "m_a62b829c21e1:work:8102186614634138370",
       "type": "WorkItem",
       "description": "驗收合格正式上線"
     }
@@ -263,22 +263,22 @@
     },
     {
       "source": "m_1c77b3beb640",
-      "target": "m_1c77b3beb640:work:1183612629476410751",
+      "target": "m_1c77b3beb640:work:4492004709170089104",
       "type": "HAS_WORKITEM"
     },
     {
       "source": "m_f027f0319b3a",
-      "target": "m_f027f0319b3a:work:3163147140953087890",
+      "target": "m_f027f0319b3a:work:4309639487002095592",
       "type": "HAS_WORKITEM"
     },
     {
       "source": "m_4ebbd74da15b",
-      "target": "m_4ebbd74da15b:work:6797717715962244391",
+      "target": "m_4ebbd74da15b:work:5725269676580911947",
       "type": "HAS_WORKITEM"
     },
     {
       "source": "m_0794a77f9ccc",
-      "target": "m_0794a77f9ccc:work:3594769351966411772",
+      "target": "m_0794a77f9ccc:work:916209201457344501",
       "type": "HAS_WORKITEM"
     },
     {
@@ -313,27 +313,27 @@
     },
     {
       "source": "m_b9f43dc762a8",
-      "target": "m_b9f43dc762a8:work:5574880696984594436",
+      "target": "m_b9f43dc762a8:work:5379035030800808660",
       "type": "HAS_WORKITEM"
     },
     {
       "source": "m_8392d63f0776",
-      "target": "m_8392d63f0776:work:1940474038402800959",
+      "target": "m_8392d63f0776:work:7951308458538972046",
       "type": "HAS_WORKITEM"
     },
     {
       "source": "m_81d11779fb6e",
-      "target": "m_81d11779fb6e:work:4194393901040544835",
+      "target": "m_81d11779fb6e:work:2703968898046418920",
       "type": "HAS_WORKITEM"
     },
     {
       "source": "m_3714fde354d9",
-      "target": "m_3714fde354d9:work:3793822669581319428",
+      "target": "m_3714fde354d9:work:1375442636112254383",
       "type": "HAS_WORKITEM"
     },
     {
       "source": "m_2a01dda37ea5",
-      "target": "m_2a01dda37ea5:work:1026174889365249139",
+      "target": "m_2a01dda37ea5:work:1452319954304417233",
       "type": "HAS_WORKITEM"
     },
     {
@@ -376,32 +376,32 @@
     },
     {
       "source": "m_9ff2e75395e7",
-      "target": "m_9ff2e75395e7:work:9195133765157728087",
+      "target": "m_9ff2e75395e7:work:6810084011013197168",
       "type": "HAS_WORKITEM"
     },
     {
       "source": "m_bf2c890922be",
-      "target": "m_bf2c890922be:work:8326091724201130304",
+      "target": "m_bf2c890922be:work:6544394560908161728",
       "type": "HAS_WORKITEM"
     },
     {
       "source": "m_bf2c890922be",
-      "target": "m_bf2c890922be:work:93725097937135085",
+      "target": "m_bf2c890922be:work:8556827130146536638",
       "type": "HAS_WORKITEM"
     },
     {
       "source": "m_a62b829c21e1",
-      "target": "m_a62b829c21e1:work:7707142863582496900",
+      "target": "m_a62b829c21e1:work:7974352779433534053",
       "type": "HAS_WORKITEM"
     },
     {
       "source": "m_a62b829c21e1",
-      "target": "m_a62b829c21e1:work:4918561390375405101",
+      "target": "m_a62b829c21e1:work:1653821169316642228",
       "type": "HAS_WORKITEM"
     },
     {
       "source": "m_a62b829c21e1",
-      "target": "m_a62b829c21e1:work:1769155287737496751",
+      "target": "m_a62b829c21e1:work:8102186614634138370",
       "type": "HAS_WORKITEM"
     }
   ]
