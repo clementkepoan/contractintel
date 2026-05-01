@@ -83,7 +83,8 @@ def format_evidence(citations: list[dict[str, Any]]) -> str:
         sections.append("【檢索到的結構化證據】")
         for index, citation in enumerate(grouped["structured"], start=1):
             sections.append(
-                f"[S{index}] ({citation.get('structured_kind') or 'structured'}) {citation.get('text_snippet', '')}"
+                f"【證據 S{index}】標題={citation.get('clause_label') or citation.get('source_label') or '-'}；"
+                f"類型={citation.get('structured_kind') or 'structured'}；內容={citation.get('text_snippet', '')}"
             )
     clause_like = grouped["clause"] + grouped["subclause"] + grouped["section"] + grouped["requirement"]
     if clause_like:
@@ -93,10 +94,64 @@ def format_evidence(citations: list[dict[str, Any]]) -> str:
             if citation.get("retrieval_method") == "parent_expansion":
                 expansion_note = f", 上下文補足自={citation.get('triggered_by') or '-'}"
             sections.append(
-                f"[C{index}] {citation.get('text_snippet', '')} "
+                f"【證據 C{index}】{citation.get('text_snippet', '')} "
                 f"(條款={citation.get('clause_label') or '-'}, 合約={citation.get('contract_id')}, 段落={citation.get('para_start')}, 頁~{citation.get('page_estimate')}{expansion_note})"
             )
     return "\n".join(sections)
+
+
+def build_citation_style_instructions() -> list[str]:
+    return [
+        "每個實質結論後都要加上引註。",
+        "引註格式固定為：（條款或段落名稱，證據[C1]）或（摘要段落名稱，證據[S1]）。",
+        "若同一句需要多個證據，格式固定為：（第六條 付款辦法，證據[C1][C2]）。",
+        "禁止只寫 S1、C1、C2 而不寫條款或段落名稱。",
+        "只要有原始條款證據（C#），優先引用 C#；只有在沒有直接條款或題目本身是在問摘要/文件性質時，才可引用 S#。",
+    ]
+
+
+def build_few_shot_examples(output_language: str) -> str:
+    if output_language == "English":
+        return (
+            "Example 1:\n"
+            "Question: How many payment milestones are there?\n"
+            "Answer:\n"
+            "## Conclusion\n"
+            "There are 4 payment milestones in this contract（Article 6 Payment Method, evidence[C1][C2]）.\n"
+            "## Key Points\n"
+            "- Stage 1: 20% after design approval（Article 6 Payment Method, evidence[C1]）\n"
+            "- Stage 2: 30% after delivery confirmation（Article 6 Payment Method, evidence[C2]）\n"
+            "- Stage 3: 30% after installation approval（Article 6 Payment Method, evidence[C3]）\n"
+            "- Stage 4: 20% after final acceptance（Article 6 Payment Method, evidence[C4]）\n\n"
+            "Example 2:\n"
+            "Question: Can Party A suspend payment or terminate the contract if progress slips?\n"
+            "Answer:\n"
+            "## Conclusion\n"
+            "This document does not clearly specify formal remedies such as suspension, termination, or liquidated damages（Contract Purpose, evidence[S1]）.\n"
+            "## Basis\n"
+            "- The document mainly states technical requirements and procedures, not contract remedies（Contract Purpose, evidence[S1]）\n"
+            "- No direct clause was retrieved that expressly grants suspension or termination rights（Delivery And Acceptance, evidence[S2]）"
+        )
+    return (
+        "範例一：\n"
+        "問題：這份文件有幾期付款？\n"
+        "回答：\n"
+        "## 結論\n"
+        "本文件共有 4 期付款里程碑（第六條 付款辦法，證據[C1][C2]）。\n"
+        "## 主要重點\n"
+        "- 第1期：設計圖核定後支付 20%（第六條 付款辦法，證據[C1]）\n"
+        "- 第2期：設備交貨確認後支付 30%（第六條 付款辦法，證據[C2]）\n"
+        "- 第3期：安裝完成核定後支付 30%（第六條 付款辦法，證據[C3]）\n"
+        "- 第4期：驗收合格後支付 20%（第六條 付款辦法，證據[C4]）\n\n"
+        "範例二：\n"
+        "問題：如果廠商進度拖延，甲方可以怎麼做？\n"
+        "回答：\n"
+        "## 結論\n"
+        "文件未明確規定正式契約式的救濟措施，例如暫停付款、終止或違約金（契約目的，證據[S1]）。\n"
+        "## 依據\n"
+        "- 文件主要寫的是需求、規格或程序，沒有明示救濟條款（契約目的，證據[S1]）\n"
+        "- 未檢索到直接授予甲方終止、解除或暫停付款權利的條款（交付與驗收，證據[S2]）"
+    )
 
 
 def retrieval_mode() -> str:
@@ -154,6 +209,22 @@ ANCHOR_TERMS: dict[str, tuple[str, ...]] = {
 ANCHOR_INTENT_PRIORITY = ("force_majeure", "subcontracting", "action", "progress_delay", "payment", "price_adjustment")
 SCORE_FLOOR = {"formal": 0.12, "non_formal": 0.20}
 ANCHOR_SENSITIVE_INTENTS = {"action", "subcontracting", "progress_delay", "force_majeure", "payment", "price_adjustment"}
+NONFORMAL_DOCUMENT_TYPES = {"spec_rfp", "instruction_manual", "mixed"}
+NONFORMAL_ACTION_DIRECT_TERMS = (
+    "甲方得",
+    "甲方可",
+    "機關得",
+    "機關可",
+    "逕為處理",
+    "費用由乙方負擔",
+    "費用由承包商負擔",
+    "由廠商負擔",
+    "終止",
+    "解除",
+    "違約金",
+    "暫停付款",
+    "另覓廠商",
+)
 
 
 def classify_query_intents(query: str) -> set[str]:
@@ -287,6 +358,7 @@ def build_answer_instructions(intents: set[str], output_language: str) -> str:
         "格式必須固定且簡潔，只能使用簡單標題與單層條列。",
         "若使用者以中文提問，必須只用繁體中文作答，不可混用簡體中文。",
     ]
+    lines.extend(build_citation_style_instructions())
     if "action" in intents or "progress_delay" in intents:
         lines.extend(
             [
@@ -367,12 +439,36 @@ def build_low_confidence_answer_instructions(intents: set[str], output_language:
         "不要輸出 Markdown 表格，不要使用 Markdown 水平線（---），不要輸出額外前言、後記、分析說明或自我檢查內容。",
         "若使用者以中文提問，必須只用繁體中文作答，不可混用簡體中文。",
     ]
+    lines.extend(build_citation_style_instructions())
     if "action" in intents or "progress_delay" in intents:
         lines.append("若問題是在問可採取的行動，但證據未明示行動或救濟，只能回答文件未明確規定，不得自行補出暫停付款、終止、解除、扣罰、另覓廠商或損害賠償。")
     if "risk" in intents:
         lines.append("若問題是在問風險，只能指出文件中已明示的責任或文件缺少的條款，不得寫成一般化風險備忘錄。")
     if "payment" in intents:
         lines.append("若問題是在問付款，只能回答已明示的付款條件、金額、比例或期限；沒有就回答文件未明確規定。")
+    return "\n".join(f"- {line}" for line in lines)
+
+
+def build_nonformal_action_answer_instructions(output_language: str) -> str:
+    lines = [
+        "這是一份非正式契約文件（例如 RFP、施工說明書、技術規格書或招標需求文件）中的行動／救濟問題。",
+        "你只能陳述證據中明確寫出的處理方式、程序或責任，不得把它擴寫成正式契約的救濟條款。",
+        "不得自行補出暫停付款、終止、解除、違約金、另覓廠商、損害賠償、動用保固保證金或其他處分，除非該文字已直接出現在檢索證據中。",
+        "如果證據只寫『廠商應修復』、『甲方可逕為處理』或『費用由廠商負擔』，就只回答這些已明示內容，不得延伸成更多權利。",
+        "如果除了單一處理方式外沒有其他明示救濟，必須明確寫『除此之外，文件未明確規定其他救濟方式』。",
+        f"最終回答語言必須使用：{output_language}。",
+        "回答必須短。",
+        "固定輸出格式：",
+        "## 結論",
+        "只寫 1 到 2 句，先說文件是否明確規定處理方式。",
+        "## 已明示的處理方式",
+        "最多列 1 到 3 點；每點格式為：行動：內容（條款）。",
+        "## 補充",
+        "若沒有其他明示救濟，就寫『- 除此之外，文件未明確規定其他救濟方式。』",
+        "不要輸出 Markdown 表格，不要使用 Markdown 水平線（---），不要輸出額外前言、後記、分析說明或自我檢查內容。",
+        "若使用者以中文提問，必須只用繁體中文作答，不可混用簡體中文。",
+    ]
+    lines.extend(build_citation_style_instructions())
     return "\n".join(f"- {line}" for line in lines)
 
 
@@ -408,98 +504,6 @@ def record_query_result(
     session.commit()
 
 
-def source_weight(item: dict[str, Any], intents: set[str]) -> float:
-    chunk_type = item.get("chunk_type")
-    structured_kind = item.get("structured_kind")
-    text = item.get("text_snippet", "")
-    clause_family = set(item.get("clause_family") or [])
-    document_type = item.get("document_type") or "formal_contract"
-    is_nonformal = document_type in {"spec_rfp", "instruction_manual", "mixed"}
-    weight = 0.0
-    if chunk_type in {"clause", "section"}:
-        weight += 0.2
-    elif chunk_type in {"subclause", "requirement"}:
-        weight += 0.15
-    elif chunk_type == "structured":
-        if structured_kind == "clause_action_summary":
-            weight += 0.22
-        elif structured_kind in {"wiki_llm_summary", "wiki_contract_summary"}:
-            label = item.get("clause_label") or ""
-            if "overview" in intents or not intents:
-                weight += 0.18
-                if label in {"契約目的", "At A Glance"}:
-                    weight += 0.10
-                elif label in {"風險與注意事項", "Risks And Open Issues"}:
-                    weight -= 0.03
-            if "risk" in intents and clause_family & {"damages", "warranty", "price_adjustment"}:
-                weight += 0.16
-                if label in {"風險與注意事項", "Risks And Open Issues"}:
-                    weight += 0.08
-            if "payment" in intents and clause_family & {"payment", "milestone"}:
-                weight += 0.16
-                if label in {"商務與付款", "Milestone And Payment Structure", "Payment Procedures And Commercial Notes"}:
-                    weight += 0.08
-            if "acceptance" in intents and "acceptance" in clause_family:
-                weight += 0.16
-                if label in {"交付與驗收", "Delivery And Acceptance"}:
-                    weight += 0.08
-            if "price_adjustment" in intents and "price_adjustment" in clause_family:
-                weight += 0.18
-            if "force_majeure" in intents and "force_majeure" in clause_family:
-                weight += 0.18
-        elif structured_kind == "contract_summary":
-            weight -= 0.05
-        elif structured_kind == "milestone_summary":
-            weight -= 0.08 if "action" in intents else 0.0
-        elif structured_kind == "retention_summary":
-            weight -= 0.08 if "action" in intents else 0.0
-        elif structured_kind == "validation_risk":
-            weight -= 0.15 if "action" in intents else -0.05
-    elif chunk_type == "wiki":
-        weight -= 0.25
-    if "action" in intents:
-        if any(term in text for term in ["暫停付款", "違約金", "扣罰", "終止", "解除", "另覓廠商", "書面通知", "費用由乙方負擔"]):
-            weight += 0.18
-        if structured_kind == "clause_action_summary":
-            weight += 0.08
-    if "progress_delay" in intents and any(term in text for term in ["進度", "落後", "逾期", "延誤"]):
-        weight += 0.08
-    if "payment" in intents and clause_family & {"payment", "milestone", "retention"}:
-        weight += 0.10
-    if "acceptance" in intents and "acceptance" in clause_family:
-        weight += 0.14
-    risk_families = {"warranty", "price_adjustment", "damages"} if is_nonformal else {"penalty", "termination", "damages", "warranty", "subcontracting", "price_adjustment", "force_majeure"}
-    if "risk" in intents and clause_family & risk_families:
-        weight += 0.10
-    if "price_adjustment" in intents and "price_adjustment" in clause_family:
-        weight += 0.16
-    if "force_majeure" in intents and "force_majeure" in clause_family and not is_nonformal:
-        weight += 0.16
-    if "subcontracting" in intents:
-        if "subcontracting" in clause_family:
-            weight += 0.14
-        if any(term in text for term in ["分包", "轉包", "下包", "轉讓", "讓與"]):
-            weight += 0.08
-    if is_nonformal and float(item.get("bm25_score", 0.0)) > 0.0:
-        weight += 0.10
-    if is_nonformal:
-        label_text = f"{item.get('clause_label') or ''} {text}"
-        terms = exact_match_terms(intents, document_type)
-        if terms and any(term in label_text for term in terms):
-            weight += 0.18
-    return weight
-
-
-def expand_related_action_candidates(citations: list[dict[str, Any]], intents: set[str]) -> list[dict[str, Any]]:
-    expanded: list[dict[str, Any]] = []
-    for item in citations:
-        boosted = dict(item)
-        boosted["weighted_retrieval_score_raw"] = float(boosted["retrieval_score"]) + source_weight(boosted, intents)
-        boosted["retrieval_score"] = float(boosted["weighted_retrieval_score_raw"])
-        expanded.append(boosted)
-    return expanded
-
-
 def normalize_candidate_scores(citations: list[dict[str, Any]]) -> list[dict[str, Any]]:
     if not citations:
         return citations
@@ -524,6 +528,18 @@ def filter_tail_noise(citations: list[dict[str, Any]], top_k: int, relative_thre
     if len(filtered) >= top_k:
         return filtered
     return citations[:top_k]
+
+
+def is_nonformal_document(citations: list[dict[str, Any]]) -> bool:
+    return any(item.get("document_type") in NONFORMAL_DOCUMENT_TYPES for item in citations)
+
+
+def has_explicit_nonformal_action_basis(citations: list[dict[str, Any]]) -> bool:
+    top_text = " ".join(
+        f"{item.get('clause_label') or ''} {item.get('section_label') or ''} {item.get('source_label') or ''} {item.get('text_snippet') or ''}"
+        for item in citations[:5]
+    )
+    return any(term in top_text for term in NONFORMAL_ACTION_DIRECT_TERMS)
 
 
 def check_anchor_confidence(intents: set[str], citations: list[dict[str, Any]]) -> tuple[bool, str | None]:
@@ -552,8 +568,7 @@ def check_anchor_confidence(intents: set[str], citations: list[dict[str, Any]]) 
 
 
 def select_diverse_citations(citations: list[dict[str, Any]], top_k: int, intents: set[str]) -> list[dict[str, Any]]:
-    weighted = expand_related_action_candidates(citations, intents)
-    normalized = normalize_candidate_scores(weighted)
+    normalized = normalize_candidate_scores(citations)
     ordered = sorted(normalized, key=lambda item: item["retrieval_score"], reverse=True)
     ordered = filter_tail_noise(ordered, top_k)
     clause_like = [item for item in ordered if item.get("chunk_type") in {"clause", "subclause", "section", "requirement"}]
@@ -748,10 +763,18 @@ def answer_with_langchain(
     evidence = format_evidence(citations)
     structured_context = build_structured_context(session, contract_ids, intents)
     output_language = detect_output_language(query)
+    few_shot_examples = build_few_shot_examples(output_language)
+    nonformal_action_query = is_nonformal_document(citations) and bool({"action", "progress_delay"} & intents)
+    explicit_nonformal_action_basis = has_explicit_nonformal_action_basis(citations) if nonformal_action_query else False
+    effective_low_confidence = (not retrieval_confident) or (nonformal_action_query and not explicit_nonformal_action_basis)
     answer_instructions = (
         build_low_confidence_answer_instructions(intents, output_language)
-        if not retrieval_confident
-        else build_answer_instructions(intents, output_language)
+        if effective_low_confidence
+        else (
+            build_nonformal_action_answer_instructions(output_language)
+            if nonformal_action_query
+            else build_answer_instructions(intents, output_language)
+        )
     )
     system_prompt = (
         "你是一個離線合約分析助理。"
@@ -777,7 +800,7 @@ def answer_with_langchain(
         "最終回答必須跟隨使用者問題的主要語言；中文問題用繁體中文回答，英文問題用英文回答。"
     )
     confidence_warning = ""
-    if not retrieval_confident:
+    if effective_low_confidence:
         confidence_warning = (
             "【檢索限制】\n"
             "目前檢索到的證據可能沒有直接回答此問題。"
@@ -787,6 +810,7 @@ def answer_with_langchain(
         f"【合約結構化資料】\n{structured_context}\n\n"
         f"{confidence_warning}"
         f"【檢索證據】\n{evidence}\n\n"
+        f"【回答範例】\n{few_shot_examples}\n\n"
         f"【回答要求】\n{answer_instructions}\n\n"
         f"【問題】\n{query}\n\n【回答】"
     )

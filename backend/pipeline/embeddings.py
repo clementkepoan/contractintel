@@ -23,6 +23,10 @@ def _embedding_headers() -> dict[str, str]:
     return headers
 
 
+def format_query_for_embedding(text: str) -> str:
+    return (text or "").strip()
+
+
 def embeddings_available() -> bool:
     return True
 
@@ -65,13 +69,17 @@ def embed_texts(texts: list[str]) -> list[list[float]]:
     return _request_embeddings(texts)
 
 
+def embed_query_text(text: str) -> list[float]:
+    vectors = _request_embeddings([format_query_for_embedding(text)])
+    return vectors[0] if vectors else []
+
+
 class OMLXEmbeddings(Embeddings):
     def embed_documents(self, texts: list[str]) -> list[list[float]]:
         return _request_embeddings(texts)
 
     def embed_query(self, text: str) -> list[float]:
-        vectors = _request_embeddings([text])
-        return vectors[0] if vectors else []
+        return embed_query_text(text)
 
 
 @lru_cache(maxsize=1)

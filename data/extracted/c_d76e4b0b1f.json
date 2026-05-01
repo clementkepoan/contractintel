@@ -796,9 +796,9 @@
   "pipeline_revision": "2026-04-27-citation-summary-v1",
   "_meta": {
     "extraction_path": "llm_tasks",
-    "fallback_reason": "total:no_blocks,payment:no_blocks,retention:invalid_json",
+    "fallback_reason": "total:no_blocks,payment:no_blocks",
     "prompt_tokens": 603,
-    "llm_ms": 2558,
+    "llm_ms": 9912,
     "tasks": [
       {
         "task": "total",
@@ -823,20 +823,22 @@
       },
       {
         "task": "retention",
-        "status": "fallback",
-        "fallback_reason": "invalid_json",
+        "status": "llm",
+        "fallback_reason": "none",
         "prompt_tokens": 345,
-        "llm_ms": 1684,
-        "json_parse_status": "invalid_json",
-        "raw_length": 141,
-        "raw_preview": "{\"retention\":{\"amount\":null,\"percentage\":null,\"release_condition\":null,\"release_after_months\":null,\"evidence_block_ids\":[01XX專案_block_0093]}}"
+        "llm_ms": 9066,
+        "json_parse_status": "ok",
+        "raw_length": 134,
+        "parsed_top_keys": [
+          "retention"
+        ]
       },
       {
         "task": "version",
         "status": "llm",
         "fallback_reason": "none",
         "prompt_tokens": 258,
-        "llm_ms": 874,
+        "llm_ms": 846,
         "json_parse_status": "ok",
         "raw_length": 84,
         "parsed_top_keys": [

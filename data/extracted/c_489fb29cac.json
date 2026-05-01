@@ -3,20 +3,20 @@
   "total_amount": 23830643,
   "currency": "TWD",
   "contract_type": "lump_sum",
-  "payment_type": "installment",
+  "payment_type": "分期付款",
   "total_amount_is_tax_included": true,
   "doc_category": "contract",
   "milestones": [
     {
-      "milestone_id": "m_3f3fe9b4402b",
+      "milestone_id": "m_9ff2e75395e7",
       "name": "第一期：於本契約簽訂後",
       "amount": 7149193,
       "percentage": 30.0,
       "work_items": [
-        "本契約簽訂後"
+        "於本契約簽訂"
       ],
-      "acceptance_criteria": "本契約簽訂後",
-      "payment_condition": "本契約簽訂後",
+      "acceptance_criteria": "驗收合格",
+      "payment_condition": "第一期：於本契約簽訂後，給付7,149,193元整，佔總金額 30%",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -110,15 +110,16 @@
       "milestone_key": "m001"
     },
     {
-      "milestone_id": "m_87c4e5813290",
+      "milestone_id": "m_bf2c890922be",
       "name": "第二期：於完成本契約約定之項目並進入系統測試後",
       "amount": 9532257,
       "percentage": 40.0,
       "work_items": [
-        "完成本契約約定之項目並進入系統測試後"
+        "完成本契約約定之項目",
+        "進入系統測試"
       ],
-      "acceptance_criteria": "完成本契約約定之項目並進入系統測試後",
-      "payment_condition": "完成本契約約定之項目並進入系統測試後",
+      "acceptance_criteria": "進入系統測試",
+      "payment_condition": "第二期：於完成本契約約定之項目並進入系統測試後，給付9,532,257元整，佔總金額 40%",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -212,15 +213,17 @@
       "milestone_key": "m002"
     },
     {
-      "milestone_id": "m_8ad45a4a612a",
+      "milestone_id": "m_a62b829c21e1",
       "name": "第三期：於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後",
       "amount": 7149193,
       "percentage": 30.0,
       "work_items": [
-        "完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後"
+        "完成本契約約定之項目全部功能",
+        "移交甲方測試兩週",
+        "驗收合格正式上線"
       ],
-      "acceptance_criteria": "完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後",
-      "payment_condition": "完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後",
+      "acceptance_criteria": "驗收合格正式上線",
+      "payment_condition": "第三期：於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後，給付7,149,193元整，佔總金額 30%",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -1936,14 +1939,14 @@
     "extraction_path": "llm_tasks",
     "fallback_reason": "version:no_blocks",
     "prompt_tokens": 1740,
-    "llm_ms": 14001,
+    "llm_ms": 16728,
     "tasks": [
       {
         "task": "total",
         "status": "llm",
         "fallback_reason": "none",
         "prompt_tokens": 578,
-        "llm_ms": 1736,
+        "llm_ms": 1216,
         "json_parse_status": "ok",
         "raw_length": 104,
         "parsed_top_keys": [
@@ -1957,18 +1960,18 @@
         "status": "llm",
         "fallback_reason": "none",
         "prompt_tokens": 702,
-        "llm_ms": 11702,
+        "llm_ms": 13833,
         "json_parse_status": "ok",
-        "raw_length": 1395,
+        "raw_length": 2327,
         "parsed_top_keys": [
           "milestones",
           "payment_type",
           "progress_checkpoints"
         ],
-        "raw_preview": "{\"payment_type\":null,\"milestones\":[{\"source_order\":1,\"name\":\"第一期\",\"amount\":7149193,\"percentage\":30,\"work_items\":[\"本契約簽訂後\"],\"acceptance_criteria\":\"本契約簽訂後\",\"payment_condition\":\"本契約簽訂後\",\"status\":\"pending_acceptance\",\"evidence\":{\"name_block_ids\":[\"block_0029\"],\"amount_block_ids\":[\"block_0029\"],\"percentage_block_ids\":[\"block_0029\"],\"work_item_block_ids\":[\"block_0029\"],\"acceptance_block_ids\":[\"block_0029\"],\"payment_block_ids\":[\"block_0029\"]}},\"source_order\":2,\"name\":\"第二期\",\"amount\":9532257,\"percentage\":40,\"work_items\":[\"完成本契約約定之項目並進入系統測試後\"],\"acceptance_criteria\":\"完成本契約約定之項目並進入系統測試後\",\"payment_condition\":\"完成本契約約定之項目並進入系統測試後\",\"status\":\"pending_acceptance\",\"evidence\":{\"name_block_ids\":[\"block_0030\"],\"a ...",
+        "raw_preview": "{\"payment_type\": \"\\u5206\\u671f\\u4ed8\\u6b3e\", \"milestones\": [{\"source_order\": 1, \"name\": \"\\u7b2c\\u4e00\\u671f\", \"amount\": 7149193, \"percentage\": 30, \"work_items\": [], \"acceptance_criteria\": \"\\u9a57\\u6536\\u5408\\u683c\", \"payment_condition\": \"\\u65bc\\u672c\\u5951\\u7d04\\u7c3d\\u8a02\\u5f8c\\uff0c\\u7d66\\u4ed87,149,193\\u5143\\u6574\\uff0c\\u4f54\\u7e3d\\u91d1\\u984d 30%\\u3002\", \"status\": \"pending_acceptance\", \"evidence\": {\"name_block_ids\": [\"block_0029\"], \"amount_block_ids\": [\"block_0029\"], \"percentage_block_ids\": [\"block_0029\"], \"work_item_block_ids\": [], \"acceptance_block_ids\": [\"block_0027\"], \"payment_block_ids\": []}}, {\"source_order\": 2, \"name\": \"\\u7b2c\\u4e8c\\u671f\", \"amount\": 9532257, \"percentage\": 40, \"w ...",
         "raw_milestone_count": 3,
         "raw_progress_checkpoint_count": 0,
-        "raw_payment_type": null,
+        "raw_payment_type": "分期付款",
         "normalized_milestone_count": 3,
         "normalized_milestone_names": [
           "第一期",
@@ -1986,9 +1989,9 @@
         "status": "llm",
         "fallback_reason": "none",
         "prompt_tokens": 460,
-        "llm_ms": 563,
+        "llm_ms": 1679,
         "json_parse_status": "ok",
-        "raw_length": 19,
+        "raw_length": 311,
         "parsed_top_keys": [
           "retention"
         ]
@@ -2006,7 +2009,7 @@
     "payment_debug": {
       "json_parse_status": "ok",
       "fallback_reason": "none",
-      "raw_length": 1395,
+      "raw_length": 2327,
       "raw_milestone_count": 3,
       "normalized_milestone_count": 3,
       "normalized_milestone_names": [
@@ -2019,7 +2022,7 @@
         2,
         3
       ],
-      "raw_preview": "{\"payment_type\":null,\"milestones\":[{\"source_order\":1,\"name\":\"第一期\",\"amount\":7149193,\"percentage\":30,\"work_items\":[\"本契約簽訂後\"],\"acceptance_criteria\":\"本契約簽訂後\",\"payment_condition\":\"本契約簽訂後\",\"status\":\"pending_acceptance\",\"evidence\":{\"name_block_ids\":[\"block_0029\"],\"amount_block_ids\":[\"block_0029\"],\"percentage_block_ids\":[\"block_0029\"],\"work_item_block_ids\":[\"block_0029\"],\"acceptance_block_ids\":[\"block_0029\"],\"payment_block_ids\":[\"block_0029\"]}},\"source_order\":2,\"name\":\"第二期\",\"amount\":9532257,\"percentage\":40,\"work_items\":[\"完成本契約約定之項目並進入系統測試後\"],\"acceptance_criteria\":\"完成本契約約定之項目並進入系統測試後\",\"payment_condition\":\"完成本契約約定之項目並進入系統測試後\",\"status\":\"pending_acceptance\",\"evidence\":{\"name_block_ids\":[\"block_0030\"],\"a ..."
+      "raw_preview": "{\"payment_type\": \"\\u5206\\u671f\\u4ed8\\u6b3e\", \"milestones\": [{\"source_order\": 1, \"name\": \"\\u7b2c\\u4e00\\u671f\", \"amount\": 7149193, \"percentage\": 30, \"work_items\": [], \"acceptance_criteria\": \"\\u9a57\\u6536\\u5408\\u683c\", \"payment_condition\": \"\\u65bc\\u672c\\u5951\\u7d04\\u7c3d\\u8a02\\u5f8c\\uff0c\\u7d66\\u4ed87,149,193\\u5143\\u6574\\uff0c\\u4f54\\u7e3d\\u91d1\\u984d 30%\\u3002\", \"status\": \"pending_acceptance\", \"evidence\": {\"name_block_ids\": [\"block_0029\"], \"amount_block_ids\": [\"block_0029\"], \"percentage_block_ids\": [\"block_0029\"], \"work_item_block_ids\": [], \"acceptance_block_ids\": [\"block_0027\"], \"payment_block_ids\": []}}, {\"source_order\": 2, \"name\": \"\\u7b2c\\u4e8c\\u671f\", \"amount\": 9532257, \"percentage\": 40, \"w ..."
     },
     "pipeline_revision": "2026-04-27-citation-summary-v1"
   },

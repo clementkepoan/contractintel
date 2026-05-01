@@ -3,20 +3,20 @@
   "total_amount": 32285563,
   "currency": "TWD",
   "contract_type": "lump_sum",
-  "payment_type": "installment",
+  "payment_type": "分期付款",
   "total_amount_is_tax_included": true,
   "doc_category": "contract",
   "milestones": [
     {
-      "milestone_id": "m_31cb85fb406a",
-      "name": "簽約金(20%)",
+      "milestone_id": "m_b9f43dc762a8",
+      "name": "簽約金",
       "amount": 6457113,
       "percentage": 20.0,
       "work_items": [
-        "本合約簽訂後"
+        "簽約金(20%)：本合約簽訂"
       ],
       "acceptance_criteria": null,
-      "payment_condition": "本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+      "payment_condition": "簽約金(20%)：本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -96,15 +96,15 @@
       "milestone_key": "m001"
     },
     {
-      "milestone_id": "m_83594ae8b5b0",
-      "name": "工程設備款(20%)",
+      "milestone_id": "m_8392d63f0776",
+      "name": "工程設備款",
       "amount": 6457113,
       "percentage": 20.0,
       "work_items": [
-        "各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後"
+        "工程設備款(20%)：各項硬體設備及採購單完成下訂並提供PO單證明後，"
       ],
-      "acceptance_criteria": null,
-      "payment_condition": "乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方。",
+      "acceptance_criteria": "經甲方確認",
+      "payment_condition": "工程設備款(20%)：乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -184,15 +184,15 @@
       "milestone_key": "m002"
     },
     {
-      "milestone_id": "m_289b1955ffe3",
-      "name": "設備安裝工程款(20%)",
+      "milestone_id": "m_81d11779fb6e",
+      "name": "設備安裝工程款",
       "amount": 6457113,
       "percentage": 20.0,
       "work_items": [
-        "完成報價單項目一至項目六之硬體設備安裝"
+        "設備安裝工程款(20%)：完成報價單項目一至項目六之硬體設備安裝，"
       ],
-      "acceptance_criteria": "經甲方及客戶驗收合格後",
-      "payment_condition": "乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方。",
+      "acceptance_criteria": "經甲方及客戶驗收合格",
+      "payment_condition": "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -286,15 +286,15 @@
       "milestone_key": "m003"
     },
     {
-      "milestone_id": "m_0784d92d9688",
-      "name": "功能檢測款(20%)",
+      "milestone_id": "m_3714fde354d9",
+      "name": "功能檢測款",
       "amount": 6457113,
       "percentage": 20.0,
       "work_items": [
         "完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成"
       ],
-      "acceptance_criteria": "經甲方及客戶驗收合格後",
-      "payment_condition": "乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+      "acceptance_criteria": "經甲方及客戶驗收合格",
+      "payment_condition": "功能檢測款(20%)：乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -345,9 +345,9 @@
           "para_start": 25,
           "para_end": 25,
           "page_estimate": 2,
-          "char_offset_start": 46,
+          "char_offset_start": 0,
           "char_offset_end": 91,
-          "text_snippet": "經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方",
+          "text_snippet": "功能檢測款(20%)：乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方",
           "block_id": "04XX專案_block_0025",
           "citation_mode": "exact_span",
           "extraction_method": "regex",
@@ -388,15 +388,15 @@
       "milestone_key": "m004"
     },
     {
-      "milestone_id": "m_c6e4d97910dc",
-      "name": "功能整合款(20%)",
+      "milestone_id": "m_2a01dda37ea5",
+      "name": "功能整合款",
       "amount": 6457111,
       "percentage": 20.0,
       "work_items": [
         "將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件"
       ],
-      "acceptance_criteria": "經甲方及客戶驗收合格後",
-      "payment_condition": "乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方。",
+      "acceptance_criteria": "經甲方及客戶驗收合格",
+      "payment_condition": "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -447,9 +447,9 @@
           "para_start": 26,
           "para_end": 26,
           "page_estimate": 2,
-          "char_offset_start": 80,
+          "char_offset_start": 0,
           "char_offset_end": 125,
-          "text_snippet": "經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方",
+          "text_snippet": "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方",
           "block_id": "04XX專案_block_0026",
           "citation_mode": "exact_span",
           "extraction_method": "regex",
@@ -461,9 +461,9 @@
           "para_start": 26,
           "para_end": 26,
           "page_estimate": 2,
-          "char_offset_start": 80,
+          "char_offset_start": 0,
           "char_offset_end": 91,
-          "text_snippet": "經甲方及客戶驗收合格後",
+          "text_snippet": "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後",
           "block_id": "04XX專案_block_0026",
           "citation_mode": "exact_span",
           "extraction_method": "regex",
@@ -494,43 +494,7 @@
   "has_version_conflict": false,
   "document_versions": [],
   "currency_breakdown": [],
-  "retention": {
-    "type": "retention",
-    "amount": 15,
-    "percentage": 15.0,
-    "release_condition": "工程完工並經甲方及客戶驗收合格且客戶退還履約保證金後",
-    "release_after_months": null,
-    "citations": [
-      {
-        "field_name": "retention",
-        "source_file": "04XX專案.docx",
-        "para_start": 62,
-        "para_end": 62,
-        "page_estimate": 5,
-        "char_offset_start": 0,
-        "char_offset_end": 96,
-        "text_snippet": "乙方應於訂約時繳納按合約總價百分之十五之履約保證金。繳納履約保證金得以金融機構簽發之本行支票、設定質權予甲方之金融機構定期存單、現金匯款、涵蓋完整履約期間或保固期間之金融機構的書面連帶保證函。",
-        "block_id": "04XX專案_block_0062",
-        "citation_mode": "exact_span",
-        "extraction_method": "regex",
-        "regex_pattern": "llm_locator"
-      },
-      {
-        "field_name": "retention",
-        "source_file": "04XX專案.docx",
-        "para_start": 63,
-        "para_end": 63,
-        "page_estimate": 5,
-        "char_offset_start": 0,
-        "char_offset_end": 184,
-        "text_snippet": "履約保證金依第四條工程期限分為三期按比例且俟工程完工並經甲方及客戶驗收合格且客戶退還履約保證金後，無息發還，發還金額於前二期各為履約保證金額百分之三十，最後一期則發還履約保證金額百分之四十。但乙方無力完成本工程或有違反合約之任何規定時，甲方得逕自動用該項保證金，無需經過任何法律或行政程序，以維持工程進行或保固維修，如保證金尚不足支應，乙方應依照本合約規定負賠償責任。",
-        "block_id": "04XX專案_block_0063",
-        "citation_mode": "exact_span",
-        "extraction_method": "regex",
-        "regex_pattern": "llm_locator"
-      }
-    ]
-  },
+  "retention": null,
   "progress_checkpoints": [],
   "citations": [
     {
@@ -917,9 +881,9 @@
       "para_start": 25,
       "para_end": 25,
       "page_estimate": 2,
-      "char_offset_start": 46,
+      "char_offset_start": 0,
       "char_offset_end": 91,
-      "text_snippet": "經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方",
+      "text_snippet": "功能檢測款(20%)：乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方",
       "block_id": "04XX專案_block_0025",
       "citation_mode": "exact_span",
       "extraction_method": "regex",
@@ -1001,9 +965,9 @@
       "para_start": 26,
       "para_end": 26,
       "page_estimate": 2,
-      "char_offset_start": 80,
+      "char_offset_start": 0,
       "char_offset_end": 125,
-      "text_snippet": "經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方",
+      "text_snippet": "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方",
       "block_id": "04XX專案_block_0026",
       "citation_mode": "exact_span",
       "extraction_method": "regex",
@@ -1015,9 +979,9 @@
       "para_start": 26,
       "para_end": 26,
       "page_estimate": 2,
-      "char_offset_start": 80,
+      "char_offset_start": 0,
       "char_offset_end": 91,
-      "text_snippet": "經甲方及客戶驗收合格後",
+      "text_snippet": "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後",
       "block_id": "04XX專案_block_0026",
       "citation_mode": "exact_span",
       "extraction_method": "regex",
@@ -1048,7 +1012,7 @@
     {
       "code": "percentage_amount_inconsistency",
       "severity": "ERROR",
-      "message": "Milestone \"功能整合款(20%)\" states 20.0% (expected 6457113) but amount is 6457111 (= 20.0%).",
+      "message": "Milestone \"功能整合款\" states 20.0% (expected 6457113) but amount is 6457111 (= 20.0%).",
       "citations": [
         {
           "field_name": "milestone.name",
@@ -1098,9 +1062,9 @@
           "para_start": 26,
           "para_end": 26,
           "page_estimate": 2,
-          "char_offset_start": 80,
+          "char_offset_start": 0,
           "char_offset_end": 125,
-          "text_snippet": "經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方",
+          "text_snippet": "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方",
           "block_id": "04XX專案_block_0026",
           "citation_mode": "exact_span",
           "extraction_method": "regex",
@@ -2252,14 +2216,14 @@
     "extraction_path": "llm_tasks",
     "fallback_reason": "version:no_blocks",
     "prompt_tokens": 2856,
-    "llm_ms": 27638,
+    "llm_ms": 27725,
     "tasks": [
       {
         "task": "total",
         "status": "llm",
         "fallback_reason": "none",
         "prompt_tokens": 285,
-        "llm_ms": 1317,
+        "llm_ms": 1134,
         "json_parse_status": "ok",
         "raw_length": 104,
         "parsed_top_keys": [
@@ -2273,25 +2237,25 @@
         "status": "llm",
         "fallback_reason": "none",
         "prompt_tokens": 1215,
-        "llm_ms": 23520,
+        "llm_ms": 24131,
         "json_parse_status": "ok",
-        "raw_length": 2571,
+        "raw_length": 5103,
         "parsed_top_keys": [
           "milestones",
           "payment_type",
           "progress_checkpoints"
         ],
-        "raw_preview": "{\"payment_type\":null,\"milestones\":[{\"source_order\":1,\"name\":\"簽約金(20%)\",\"amount\":6457113,\"percentage\":20,\"work_items\":[\"本合約簽訂後\"],\"acceptance_criteria\":null,\"payment_condition\":\"本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。\",\"status\":\"pending_acceptance\",\"evidence\":{\"name_block_ids\":[\"block_0022\"],\"amount_block_ids\":[\"block_0022\"],\"percentage_block_ids\":[\"block_0022\"],\"work_item_block_ids\":[\"block_0022\"],\"acceptance_block_ids\":[],\"payment_block_ids\":[\"block_0022\"]}},\"source_order\":2,\"name\":\"工程設備款(20%)\",\"amount\":6457113,\"percentage\":20,\"work_items\":[\"各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後\"],\"acceptance_criteria\":null,\"payment_condition\":\"乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方。\",\" ...",
+        "raw_preview": "{\"payment_type\": \"\\u5206\\u671f\\u4ed8\\u6b3e\", \"milestones\": [{\"source_order\": 1, \"name\": \"\\u7c3d\\u7d04\\u91d1\", \"amount\": 6457113, \"percentage\": 20, \"work_items\": [], \"acceptance_criteria\": null, \"payment_condition\": \"\\u672c\\u5408\\u7d04\\u7c3d\\u8a02\\u5f8c\\uff0c\\u7532\\u65b9\\u61c9\\u7d66\\u4ed8\\u5de5\\u7a0b\\u7e3d\\u50f9 20%\\u5373 6,457,113 \\u5143\\uff08\\u542b\\u7a05\\uff09\\u4e88\\u4e59\\u65b9\\u3002\", \"status\": \"pending_acceptance\", \"evidence\": {\"name_block_ids\": [\"block_0022\"], \"amount_block_ids\": [\"block_0022\"], \"percentage_block_ids\": [\"block_0022\"], \"work_item_block_ids\": [], \"acceptance_block_ids\": [], \"payment_block_ids\": []}}, {\"source_order\": 2, \"name\": \"\\u5de5\\u7a0b\\u8a2d\\u5099\\u6b3e\", \"amount\": 6 ...",
         "raw_milestone_count": 5,
         "raw_progress_checkpoint_count": 0,
-        "raw_payment_type": null,
+        "raw_payment_type": "分期付款",
         "normalized_milestone_count": 5,
         "normalized_milestone_names": [
-          "簽約金(20%)",
-          "工程設備款(20%)",
-          "設備安裝工程款(20%)",
-          "功能檢測款(20%)",
-          "功能整合款(20%)"
+          "簽約金",
+          "工程設備款",
+          "設備安裝工程款",
+          "功能檢測款",
+          "功能整合款"
         ],
         "normalized_source_orders": [
           1,
@@ -2306,9 +2270,9 @@
         "status": "llm",
         "fallback_reason": "none",
         "prompt_tokens": 1356,
-        "llm_ms": 2801,
+        "llm_ms": 2460,
         "json_parse_status": "ok",
-        "raw_length": 344,
+        "raw_length": 599,
         "parsed_top_keys": [
           "retention"
         ]
@@ -2326,15 +2290,15 @@
     "payment_debug": {
       "json_parse_status": "ok",
       "fallback_reason": "none",
-      "raw_length": 2571,
+      "raw_length": 5103,
       "raw_milestone_count": 5,
       "normalized_milestone_count": 5,
       "normalized_milestone_names": [
-        "簽約金(20%)",
-        "工程設備款(20%)",
-        "設備安裝工程款(20%)",
-        "功能檢測款(20%)",
-        "功能整合款(20%)"
+        "簽約金",
+        "工程設備款",
+        "設備安裝工程款",
+        "功能檢測款",
+        "功能整合款"
       ],
       "normalized_source_orders": [
         1,
@@ -2343,7 +2307,7 @@
         4,
         5
       ],
-      "raw_preview": "{\"payment_type\":null,\"milestones\":[{\"source_order\":1,\"name\":\"簽約金(20%)\",\"amount\":6457113,\"percentage\":20,\"work_items\":[\"本合約簽訂後\"],\"acceptance_criteria\":null,\"payment_condition\":\"本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。\",\"status\":\"pending_acceptance\",\"evidence\":{\"name_block_ids\":[\"block_0022\"],\"amount_block_ids\":[\"block_0022\"],\"percentage_block_ids\":[\"block_0022\"],\"work_item_block_ids\":[\"block_0022\"],\"acceptance_block_ids\":[],\"payment_block_ids\":[\"block_0022\"]}},\"source_order\":2,\"name\":\"工程設備款(20%)\",\"amount\":6457113,\"percentage\":20,\"work_items\":[\"各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後\"],\"acceptance_criteria\":null,\"payment_condition\":\"乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方。\",\" ..."
+      "raw_preview": "{\"payment_type\": \"\\u5206\\u671f\\u4ed8\\u6b3e\", \"milestones\": [{\"source_order\": 1, \"name\": \"\\u7c3d\\u7d04\\u91d1\", \"amount\": 6457113, \"percentage\": 20, \"work_items\": [], \"acceptance_criteria\": null, \"payment_condition\": \"\\u672c\\u5408\\u7d04\\u7c3d\\u8a02\\u5f8c\\uff0c\\u7532\\u65b9\\u61c9\\u7d66\\u4ed8\\u5de5\\u7a0b\\u7e3d\\u50f9 20%\\u5373 6,457,113 \\u5143\\uff08\\u542b\\u7a05\\uff09\\u4e88\\u4e59\\u65b9\\u3002\", \"status\": \"pending_acceptance\", \"evidence\": {\"name_block_ids\": [\"block_0022\"], \"amount_block_ids\": [\"block_0022\"], \"percentage_block_ids\": [\"block_0022\"], \"work_item_block_ids\": [], \"acceptance_block_ids\": [], \"payment_block_ids\": []}}, {\"source_order\": 2, \"name\": \"\\u5de5\\u7a0b\\u8a2d\\u5099\\u6b3e\", \"amount\": 6 ..."
     },
     "pipeline_revision": "2026-04-27-citation-summary-v1"
   },

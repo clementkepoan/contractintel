@@ -9,7 +9,7 @@ from typing import Any
 from rank_bm25 import BM25Okapi
 
 from backend.config import settings
-from backend.pipeline.embeddings import embed_texts, embedding_model_ready
+from backend.pipeline.embeddings import embed_query_text, embed_texts, embedding_model_ready
 from backend.pipeline.qdrant_store import qdrant_ready, search_contract_chunks, upsert_contract_chunks
 
 logger = logging.getLogger(__name__)
@@ -862,7 +862,7 @@ def vector_search(index_payload: dict[str, Any], query: str, top_k: int) -> list
     embeddings = index_payload.get("embeddings")
     if not chunks or not embeddings or not embedding_model_ready():
         return []
-    query_vector = embed_texts([query])[0]
+    query_vector = embed_query_text(query)
     scored = []
     for chunk, vector in zip(chunks, embeddings, strict=False):
         scored.append((chunk["chunk_id"], cosine_similarity(query_vector, vector)))

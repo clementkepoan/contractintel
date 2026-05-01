@@ -3,21 +3,20 @@
   "total_amount": 16695000,
   "currency": "TWD",
   "contract_type": "lump_sum",
-  "payment_type": "installment",
+  "payment_type": "分期付款",
   "total_amount_is_tax_included": true,
   "doc_category": "contract",
   "milestones": [
     {
-      "milestone_id": "m_0c61a75fc40d",
-      "name": "第一期：細部設計圖經甲方及客戶核定後",
+      "milestone_id": "m_1c77b3beb640",
+      "name": "第一期：乙方提交細部設計圖經甲方及客戶核定後",
       "amount": 3339000,
       "percentage": 20.0,
       "work_items": [
-        "提交細部設計圖",
-        "甲方及客戶核定"
+        "提交細部設計圖"
       ],
-      "acceptance_criteria": "甲方及客戶核定",
-      "payment_condition": "乙方提交細部設計圖經甲方及客戶核定後",
+      "acceptance_criteria": "乙方提交細部設計圖經甲方及客戶核定後",
+      "payment_condition": "第一期：乙方提交細部設計圖經甲方及客戶核定後，甲方應給付本契約總價 20%即 3,339,000 元(含稅)予乙方",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -111,16 +110,15 @@
       "milestone_key": "m001"
     },
     {
-      "milestone_id": "m_c75caecf9210",
-      "name": "第二期：設備交貨經甲方及客戶確認後",
+      "milestone_id": "m_f027f0319b3a",
+      "name": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
       "amount": 5008500,
       "percentage": 30.0,
       "work_items": [
-        "完成設備交貨",
-        "附件五報價單各細項工程「設備交貨項目」之勾選項目"
+        "完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目)"
       ],
-      "acceptance_criteria": "甲方及客戶確認",
-      "payment_condition": "乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
+      "acceptance_criteria": "乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
+      "payment_condition": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後， 甲方應給付本契約總價 30% 即 5,008,500 元(含稅)予乙方",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -214,15 +212,15 @@
       "milestone_key": "m002"
     },
     {
-      "milestone_id": "m_51c27425851b",
-      "name": "第三期：軟體及硬體設備安裝完成經甲方及客戶核定後",
+      "milestone_id": "m_4ebbd74da15b",
+      "name": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
       "amount": 5008500,
       "percentage": 30.0,
       "work_items": [
-        "完成軟體(系統)及硬體設備安裝"
+        "軟體(系統)及硬體設備安裝完成"
       ],
-      "acceptance_criteria": "甲方及客戶核定",
-      "payment_condition": "軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
+      "acceptance_criteria": "軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
+      "payment_condition": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後，甲方應給付本契約總價 30%即 5,008,500 元(含稅)予乙方",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -316,15 +314,15 @@
       "milestone_key": "m003"
     },
     {
-      "milestone_id": "m_de9f1ed2db7c",
+      "milestone_id": "m_0794a77f9ccc",
       "name": "第四期：本工程全部經甲方及客戶驗收合格後",
       "amount": 3339000,
       "percentage": 20.0,
       "work_items": [
         "本工程全部驗收合格"
       ],
-      "acceptance_criteria": "甲方及客戶驗收合格",
-      "payment_condition": "本工程全部經甲方及客戶驗收合格後",
+      "acceptance_criteria": "本工程全部經甲方及客戶驗收合格後",
+      "payment_condition": "第四期：本工程全部經甲方及客戶驗收合格後，甲方應給付本契約總價20%即 3,339,000 元(含稅)予乙方",
       "status": "pending_acceptance",
       "citations": [
         {
@@ -2308,14 +2306,14 @@
     "extraction_path": "llm_tasks",
     "fallback_reason": "version:no_blocks",
     "prompt_tokens": 1600,
-    "llm_ms": 17676,
+    "llm_ms": 16805,
     "tasks": [
       {
         "task": "total",
         "status": "llm",
         "fallback_reason": "none",
         "prompt_tokens": 687,
-        "llm_ms": 1919,
+        "llm_ms": 1258,
         "json_parse_status": "ok",
         "raw_length": 104,
         "parsed_top_keys": [
@@ -2329,24 +2327,24 @@
         "status": "llm",
         "fallback_reason": "none",
         "prompt_tokens": 750,
-        "llm_ms": 14559,
+        "llm_ms": 14425,
         "json_parse_status": "ok",
-        "raw_length": 1885,
+        "raw_length": 2450,
         "parsed_top_keys": [
           "milestones",
           "payment_type",
           "progress_checkpoints"
         ],
-        "raw_preview": "{\"payment_type\":null,\"milestones\":[{\"source_order\":1,\"name\":\"第一期：細部設計圖經甲方及客戶核定後\",\"amount\":3339000,\"percentage\":20,\"work_items\":[\"提交細部設計圖\",\"甲方及客戶核定\"],\"acceptance_criteria\":\"甲方及客戶核定\",\"payment_condition\":\"乙方提交細部設計圖經甲方及客戶核定後\",\"status\":\"pending_acceptance\",\"evidence\":{\"name_block_ids\":[\"block_0056\"],\"amount_block_ids\":[\"block_0057\"],\"percentage_block_ids\":[\"block_0057\"],\"work_item_block_ids\":[\"block_0056\"],\"acceptance_block_ids\":[\"block_0056\"],\"payment_block_ids\":[\"block_0054\"]}},\"source_order\":2,\"name\":\"第二期：設備交貨經甲方及客戶確認後\",\"amount\":5008500,\"percentage\":30,\"work_items\":[\"完成設備交貨\",\"附件五報價單各細項工程「設備交貨項目」之勾選項目\"],\"acceptance_criteria\":\"甲方及客戶確認\",\"payment_condition\":\"乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方 ...",
+        "raw_preview": "{\"payment_type\": \"\\u5206\\u671f\\u4ed8\\u6b3e\", \"milestones\": [{\"source_order\": 1, \"name\": \"\\u7b2c\\u4e00\\u671f\", \"amount\": 3339000, \"percentage\": null, \"work_items\": [\"\\u4e59\\u65b9\\u63d0\\u4ea4\\u7d30\\u90e8\\u8a2d\\u8a08\\u5716\"], \"acceptance_criteria\": \"\\u7532\\u65b9\\u53ca\\u5ba2\\u6236\\u6838\\u5b9a\", \"payment_condition\": \"\\u7532\\u65b9\\u61c9\\u7d66\\u4ed8\\u672c\\u5951\\u7d04\\u7e3d\\u50f9 20%\\u5373 3,339,000 \\u5143(\\u542b\\u7a05)\\u4e88\\u4e59\\u65b9\\u3002\", \"status\": \"pending_acceptance\", \"evidence\": {\"name_block_ids\": [\"block_0056\"], \"amount_block_ids\": [\"block_0057\"], \"percentage_block_ids\": []}}, {\"source_order\": 2, \"name\": \"\\u7b2c\\u4e8c\\u671f\", \"amount\": 5008500, \"percentage\": 30, \"work_items\": [\"\\u4e59\\u65 ...",
         "raw_milestone_count": 4,
         "raw_progress_checkpoint_count": 0,
-        "raw_payment_type": null,
+        "raw_payment_type": "分期付款",
         "normalized_milestone_count": 4,
         "normalized_milestone_names": [
-          "第一期：細部設計圖經甲方及客戶核定後",
-          "第二期：設備交貨經甲方及客戶確認後",
-          "第三期：軟體及硬體設備安裝完成經甲方及客戶核定後",
-          "第四期：本工程全部經甲方及客戶驗收合格後"
+          "第一期",
+          "第二期",
+          "第三期",
+          "第四期"
         ],
         "normalized_source_orders": [
           1,
@@ -2360,9 +2358,9 @@
         "status": "llm",
         "fallback_reason": "none",
         "prompt_tokens": 163,
-        "llm_ms": 1198,
+        "llm_ms": 1122,
         "json_parse_status": "ok",
-        "raw_length": 19,
+        "raw_length": 134,
         "parsed_top_keys": [
           "retention"
         ]
@@ -2380,14 +2378,14 @@
     "payment_debug": {
       "json_parse_status": "ok",
       "fallback_reason": "none",
-      "raw_length": 1885,
+      "raw_length": 2450,
       "raw_milestone_count": 4,
       "normalized_milestone_count": 4,
       "normalized_milestone_names": [
-        "第一期：細部設計圖經甲方及客戶核定後",
-        "第二期：設備交貨經甲方及客戶確認後",
-        "第三期：軟體及硬體設備安裝完成經甲方及客戶核定後",
-        "第四期：本工程全部經甲方及客戶驗收合格後"
+        "第一期",
+        "第二期",
+        "第三期",
+        "第四期"
       ],
       "normalized_source_orders": [
         1,
@@ -2395,7 +2393,7 @@
         3,
         4
       ],
-      "raw_preview": "{\"payment_type\":null,\"milestones\":[{\"source_order\":1,\"name\":\"第一期：細部設計圖經甲方及客戶核定後\",\"amount\":3339000,\"percentage\":20,\"work_items\":[\"提交細部設計圖\",\"甲方及客戶核定\"],\"acceptance_criteria\":\"甲方及客戶核定\",\"payment_condition\":\"乙方提交細部設計圖經甲方及客戶核定後\",\"status\":\"pending_acceptance\",\"evidence\":{\"name_block_ids\":[\"block_0056\"],\"amount_block_ids\":[\"block_0057\"],\"percentage_block_ids\":[\"block_0057\"],\"work_item_block_ids\":[\"block_0056\"],\"acceptance_block_ids\":[\"block_0056\"],\"payment_block_ids\":[\"block_0054\"]}},\"source_order\":2,\"name\":\"第二期：設備交貨經甲方及客戶確認後\",\"amount\":5008500,\"percentage\":30,\"work_items\":[\"完成設備交貨\",\"附件五報價單各細項工程「設備交貨項目」之勾選項目\"],\"acceptance_criteria\":\"甲方及客戶確認\",\"payment_condition\":\"乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方 ..."
+      "raw_preview": "{\"payment_type\": \"\\u5206\\u671f\\u4ed8\\u6b3e\", \"milestones\": [{\"source_order\": 1, \"name\": \"\\u7b2c\\u4e00\\u671f\", \"amount\": 3339000, \"percentage\": null, \"work_items\": [\"\\u4e59\\u65b9\\u63d0\\u4ea4\\u7d30\\u90e8\\u8a2d\\u8a08\\u5716\"], \"acceptance_criteria\": \"\\u7532\\u65b9\\u53ca\\u5ba2\\u6236\\u6838\\u5b9a\", \"payment_condition\": \"\\u7532\\u65b9\\u61c9\\u7d66\\u4ed8\\u672c\\u5951\\u7d04\\u7e3d\\u50f9 20%\\u5373 3,339,000 \\u5143(\\u542b\\u7a05)\\u4e88\\u4e59\\u65b9\\u3002\", \"status\": \"pending_acceptance\", \"evidence\": {\"name_block_ids\": [\"block_0056\"], \"amount_block_ids\": [\"block_0057\"], \"percentage_block_ids\": []}}, {\"source_order\": 2, \"name\": \"\\u7b2c\\u4e8c\\u671f\", \"amount\": 5008500, \"percentage\": 30, \"work_items\": [\"\\u4e59\\u65 ..."
     },
     "pipeline_revision": "2026-04-27-citation-summary-v1"
   },
