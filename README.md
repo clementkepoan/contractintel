@@ -1,75 +1,65 @@
 # Contract Intel Dashboard
 
-Offline engineering contract intelligence system for the technical assignment.
+Offline contract intelligence platform for engineering contracts and RFP-style documents.
 
-This project ingests `.doc` / `.docx` engineering contracts and RFP-style documents, extracts milestone and payment structure with citations, validates amount consistency, tracks acceptance-to-payment workflow, and exposes the result through a web UI, wiki, knowledge graph, and natural-language query page.
+The system ingests `.doc` and `.docx` files, extracts contract structure with citations, validates amount consistency, tracks acceptance and payment workflow state, and exposes the result through a web UI, natural-language query, wiki pages, and a knowledge graph.
 
-## Submission Scope
+## Project Scope
 
-Required assignment scope covered:
+Implemented capabilities:
+
 - offline document ingestion and processing
-- automatic extraction of total amount, milestones, milestone amount / percentage, and work items
-- validation warnings for inconsistent amounts or incomplete payment clauses
-- workflow UI for acceptance -> payment request -> payment logging
-- natural-language query with answer basis / citations
-- traceability back to source file and paragraph / block location
+- automatic extraction of total amount, milestones, milestone amount / percentage, work items, acceptance criteria, and payment conditions
+- validation warnings for inconsistent amounts, missing fields, or conflicting clauses
+- acceptance -> payment request -> payment logging workflow
+- natural-language query with traceable answer basis
+- generated wiki pages for contracts, milestones, sources, and queries
+- knowledge graph navigation for contracts, milestones, work items, invoices, payments, clauses, and validation warnings
+- regression runner for retrieval and generation evaluation
 
-Bonus scope also included:
-- LLM-generated wiki
-- knowledge graph
-- wiki x KG navigation
-- regression runner for retrieval / answer evaluation
+This repository is structured as a Docker-first application stack with local model execution on the host machine.
 
-## Offline Guarantee
+## Runtime Architecture
 
-The system is designed to run without cloud APIs.
+The system is designed around three layers:
 
-Confirmed:
-- `.doc` and `.docx` ingestion work in the current pipeline
-- document processing, retrieval, embeddings, reranking, and answer generation run through local infrastructure
-- no cloud LLM or cloud embedding API is required by the application architecture
+1. `frontend` in Docker
+2. `backend` in Docker
+3. `qdrant` in Docker
 
-Practical note:
-- local model weights may require a one-time local download into your own model server/cache before disconnecting from the network
-- after those local assets exist, the application flow itself runs offline
+Local models run outside the containers through an OpenAI-compatible host endpoint, such as a local oMLX deployment.
+The backend container talks to that host service through `host.docker.internal`.
 
-## Intended Runtime Model
+That is the intended production and demo setup for this project.
 
-This repository is **Docker-first for the application stack**.
+## Local Model Configuration
 
-The intended runtime is:
-- `frontend` in Docker
-- `backend` in Docker
-- `qdrant` in Docker
-- **oMLX / local OpenAI-compatible model server on the host machine**
+Current defaults live in [backend/config.py](backend/config.py):
 
-The local model server is not inside the project containers.
-The backend container talks to the host model server through `host.docker.internal`.
-
-That is the real operator path this repo is built around.
-
-## oMLX / Local Model Server Setup
-
-The backend expects an OpenAI-compatible local endpoint:
-- host runtime: `http://127.0.0.1:11434/v1`
-- Docker backend runtime: `http://host.docker.internal:11434/v1`
-
-This matches the defaults in [backend/config.py](backend/config.py).
-
-### Model names currently used
-
-Current defaults in [backend/config.py](backend/config.py):
 - extraction / general model: `gemma-4-e2b-it-4bit`
 - query model: `Qwen3-4B-Instruct-2507-4bit`
+- gate model: `Qwen3.5-0.8B-4bit`
 - embedding model: `harrier-oss-v1-0.6b-MLX-8bit`
 - reranker model: `Qwen3-Reranker-0.6B-mlx-8Bit`
 
-If you want the greeting / lightweight gate model path available in future work, the current intended gate model name is:
-- `Qwen3.5-0.8B-4bit`
+The backend expects an OpenAI-compatible local endpoint.
 
-### Recommended exported variables
+Default base URLs:
 
-Export these in the shell before starting Docker:
+- host: `http://127.0.0.1:11434/v1`
+- docker backend: `http://host.docker.internal:11434/v1`
+
+If your local server uses different model names or ports, override them with environment variables before starting the stack.
+
+## Getting Started
+
+### 1. Start the local model server
+
+Start your host-native OpenAI-compatible model server first.
+
+The application expects the local model service to be reachable before the backend begins handling requests.
+
+### 2. Export runtime variables
 
 ```bash
 export LOCAL_MODEL_BASE_URL=http://127.0.0.1:11434/v1
@@ -88,31 +78,19 @@ export RERANKER_MODEL_BASE_URL=http://127.0.0.1:11434/v1
 export RERANKER_MODEL_API_KEY=1111
 ```
 
-If your oMLX setup uses a different local port, API key, or published model names, replace those values.
-
-## Startup Instructions
-
-### 1. Start the host-native oMLX / OpenAI-compatible model server
-
-Make sure the host model server is already running before you start Docker.
-
-### 2. Start the application stack
+### 3. Start the full application stack
 
 ```bash
 docker compose up --build
 ```
 
-This starts:
-- frontend
-- backend
-- qdrant
+Services exposed by the stack:
 
-Open:
 - Frontend: `http://localhost:5173`
 - Backend API: `http://localhost:8000`
 - Qdrant dashboard: `http://localhost:6333/dashboard`
 
-## Repository Structure
+## Repository Layout
 
 ```text
 backend/                 FastAPI app, extraction, retrieval, validation, wiki, KG
@@ -120,22 +98,27 @@ frontend/                React + Vite web app
 data/                    runtime DB, extracted JSON, indexes, graph JSON
 wiki/                    generated wiki pages
 Database/                sample assignment documents
-tests/                   automated backend tests
 regression_test/         retrieval and generation evaluation outputs
+tests/                   automated backend tests
+plans/                   design and implementation plans
+handoff/                 implementation handoff notes
 ```
 
 ## Main Features
 
-### 1. Document Processing Pipeline
-- ingest `.doc` and `.docx`
-- normalize text and source blocks
-- chunk and index documents
-- hybrid retrieval with BM25 + vectors + reranker
-- extract contract structure into JSON / SQLite / wiki / KG
-- preserve citations on extracted fields
+### Document Processing
 
-### 2. Contract Information Extraction
-Minimum structured output includes:
+- ingest `.doc` and `.docx`
+- normalize source text and block structure
+- chunk documents and build indexes
+- run hybrid retrieval with BM25, vector search, and reranking
+- extract contract structure into JSON, SQLite, wiki pages, and KG nodes
+- preserve citations on extracted fields and validation outputs
+
+### Contract Extraction
+
+Minimum structured output:
+
 - `contract_name`
 - `total_amount`
 - `currency`
@@ -151,8 +134,10 @@ Minimum structured output includes:
 - `citations[]`
 - `validation[]`
 
-### 3. Validation
-The system checks for:
+### Validation
+
+The pipeline checks for:
+
 - missing total amount
 - missing milestones
 - milestone amount sum mismatch
@@ -160,32 +145,47 @@ The system checks for:
 - installment count mismatch
 - conflicting or incomplete payment clauses
 
-Warnings are stored and surfaced with traceable evidence.
+Validation warnings are stored with traceable source evidence and surfaced in the UI, wiki, and KG.
 
-### 4. Acceptance / Payment Workflow
+### Acceptance and Payment Workflow
+
 Each milestone supports:
+
 - acceptance record creation
-- payment request creation only after a passed acceptance
-- payment logging after request
-- real-time financial rollups for:
+- payment request creation after acceptance passes
+- payment logging after a request exists
+- live rollups for:
   - total contract amount
-  - requested amount
-  - paid amount
-  - unpaid amount
+  - payment requested
+  - paid
+  - unpaid
 
-### 5. Query Interface
-- natural-language contract query page
-- streaming answers
-- hybrid retrieval over ingested contracts
-- evidence attached to each response
-- persisted chat/session memory in SQLite
+### Query
 
-### 6. Wiki and KG Bonus
-- markdown wiki pages for contracts, milestones, source versions, and queries
-- knowledge graph for contracts, milestones, workflow artifacts, validation warnings, and evidence navigation
-- bidirectional flow between operational pages, wiki, and KG
+The contract query page supports:
 
-## Main UI Pages
+- natural-language prompts over the imported contracts
+- streaming responses
+- traceable evidence snippets
+- session persistence in SQLite
+- a lightweight gate model for non-contract prompts
+- direct injection of live payment workflow state so paid / requested / unpaid status stays queryable without VDB lookups
+
+### Wiki and Knowledge Graph
+
+The generated wiki and KG currently cover:
+
+- contracts
+- milestone pages
+- source document pages
+- query pages
+- workflow artifacts
+- validation warnings
+- evidence navigation
+
+The KG is used as a navigation layer for contracts, milestones, work items, payments, invoices, clauses, and risk or warning relationships.
+
+## UI Pages
 
 - Contract Overview
 - Contract Detail
@@ -199,6 +199,7 @@ Each milestone supports:
 ## Core API Endpoints
 
 ### Contracts and milestones
+
 - `GET /api/contracts`
 - `GET /api/contracts/{id}`
 - `GET /api/contracts/{id}/financials`
@@ -207,19 +208,22 @@ Each milestone supports:
 - `GET /api/milestones/{id}/status`
 
 ### Workflow
+
 - `POST /api/acceptance`
 - `GET /api/workflow/{milestone_id}`
 - `POST /api/payment-request`
 - `POST /api/payment`
 
 ### Query
+
 - `POST /api/query`
 - `POST /api/query/stream`
 - `GET /api/chat/sessions`
 - `GET /api/chat/sessions/{chat_session_id}/messages`
 - `GET /api/chat/sessions/{chat_session_id}/turns`
 
-### Wiki / KG
+### Wiki and KG
+
 - `GET /api/wiki`
 - `GET /api/wiki/page/{path}`
 - `GET /api/kg/graph`
@@ -236,7 +240,7 @@ curl -X POST http://localhost:8000/api/ingest \
   -F "file=@Database/02XX專案.docx"
 ```
 
-Batch ingest from runtime upload folder:
+Batch ingest from the runtime upload folder:
 
 ```bash
 python backend/pipeline/batch_ingest.py
@@ -256,25 +260,26 @@ or:
 make reset-demo
 ```
 
-If you also want to clear Docker volumes:
+To clear Docker volumes as well:
 
 ```bash
 docker compose down -v
-python scripts/reset_demo_state.py
 ```
 
 ## Tests and Verification
 
-Run automated backend tests:
+Run backend tests:
 
 ```bash
 pytest -q tests
 ```
 
-See:
+Reference test report:
+
 - [BackendTestReport.md](BackendTestReport.md)
 
-Current covered cases include:
+Current regression coverage includes:
+
 - RFP / reference document handling
 - standard contract extraction
 - inconsistent installment validation
@@ -282,42 +287,24 @@ Current covered cases include:
 - workflow rule enforcement
 - query chat memory persistence
 
-Regression outputs are also included under `regression_test/`.
+Regression outputs are included under `regression_test/`.
 
-## Deliverables Present In This Repo
+## Current State
 
-Included:
-- executable source code
-- startup instructions
-- sample assignment documents in `Database/`
-- extracted outputs in `data/extracted/`
-- generated wiki pages in `wiki/`
-- backend test report in [BackendTestReport.md](BackendTestReport.md)
-- UI screenshots / design artifacts in `stitch_contract_intel_dashboard/`
+The current codebase already includes:
 
-## Known Limitations
+- Docker-first runtime wiring
+- offline document processing
+- extraction and validation with citations
+- workflow tracking for acceptance and payment
+- query gating for lightweight non-contract prompts
+- live payment context injection into query prompts
+- wiki generation
+- KG rendering and navigation
+- regression runs for retrieval and generation experiments
 
-Main remaining limitations:
-- work item extraction is still conservative for some layouts
-- non-formal RFP/spec documents are weaker for semantic retrieval than structured contracts
-- answer quality still depends on the local model choice
-- first-time local model / embedding cache preparation remains an operator responsibility
-- KG clause visualization is still evidence-level rather than a fully normalized legal clause ontology
+## Notes
 
-## Suggested Evaluator Demo Flow
-
-1. Start the host-native oMLX/OpenAI-compatible model server
-2. Export the model environment variables
-3. Run `docker compose up --build`
-4. Ingest `Database/02XX專案.docx` and `Database/04XX專案.docx`
-5. Open Contract Overview and inspect totals / warnings
-6. Open a milestone and inspect citations
-7. Record acceptance, request payment, and log payment
-8. Ask a natural-language query in Contract Query
-9. Open the generated wiki note
-10. Open the knowledge graph and inspect workflow / warning relationships
-
-## Summary
-
-This submission meets the assignment’s core requirements and also includes the bonus wiki and KG layers.
-The intended operating model is Docker-first with a host-native oMLX/OpenAI-compatible local model server.
+- `.doc` and `.docx` ingestion is supported in the current pipeline.
+- The application can run fully offline after local model assets are available on the host machine.
+- Runtime outputs such as `data/`, `wiki/`, and regression artifacts are generated during use and are intentionally treated as working data.
