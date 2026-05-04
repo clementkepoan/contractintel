@@ -2,6 +2,15 @@ import { useEffect, useMemo, useState } from "react";
 import { AlertTriangle, ArrowLeft, Boxes, CircleDollarSign, FileText, Flag, Network, ReceiptText, Scale } from "lucide-react";
 
 import { api, formatDate, formatMoney } from "../api/client.js";
+import {
+  formatTranslation,
+  translateContractType,
+  translateGraphEdgeType,
+  translateGraphNodeType,
+  translatePaymentState,
+  translateValidationMessage,
+  useI18n,
+} from "../i18n.jsx";
 import { ErrorBlock, LoadingBlock } from "../components/Ui.jsx";
 import { StatusBadge } from "../components/StatusBadge.jsx";
 import { GraphCanvas } from "../components/graph/GraphCanvas.jsx";
@@ -34,15 +43,14 @@ const toneByType = {
   ValidationWarning: "warning",
 };
 
-const PAYMENT_STATE_LABELS = {
-  no_invoice: "No invoice",
-  invoiced_unpaid: "Invoiced, unpaid",
-  partially_paid: "Partially paid",
-  fully_paid: "Fully paid",
-};
-
-function nodeLabel(node) {
-  return node?.name || node?.description || node?.message || node?.text || node?.id || "Unknown";
+function nodeLabel(node, t) {
+  if (node?.type === "ClauseBundle") {
+    return t("graph.supportingClauses");
+  }
+  if (node?.type === "ValidationWarning") {
+    return translateValidationMessage(node.message, t) || node?.id || t("common.unknown");
+  }
+  return node?.name || node?.description || node?.message || node?.text || node?.id || t("common.unknown");
 }
 
 function filterByNodeIds(graph, ids) {
@@ -168,6 +176,7 @@ function buildRiskPresetGraph(fullGraph, contractId, warningIds) {
 }
 
 export function GraphPage({ contractId, milestoneId, setSelectedContractId, setSelectedMilestoneId, setPage }) {
+  const { t } = useI18n();
   const [contracts, setContracts] = useState([]);
   const [fullGraph, setFullGraph] = useState({ nodes: [], edges: [] });
   const [queryResult, setQueryResult] = useState(null);
@@ -365,27 +374,27 @@ export function GraphPage({ contractId, milestoneId, setSelectedContractId, setS
           <div className="graph-overlay top modern">
             <div className="graph-overlay-stack">
               <div className="graph-chip-row">
-                <button type="button" className={preset === "accepted" ? "graph-chip active warning" : "graph-chip"} onClick={() => runPreset("accepted")}><span className="dot amber" />Accepted but not fully paid</button>
-                <button type="button" className={preset === "risk" ? "graph-chip active danger" : "graph-chip"} onClick={() => runPreset("risk")}><span className="dot red" />High-risk warnings</button>
-                <button type="button" className={preset === "trail" ? "graph-chip active info" : "graph-chip"} disabled={!milestoneId} onClick={() => runPreset("trail")}><span className="dot blue" />Milestone Dependencies</button>
-                <button type="button" className={preset === "default" ? "graph-chip active" : "graph-chip"} onClick={() => runPreset("default")}><Network size={14} />Full graph</button>
+                <button type="button" className={preset === "accepted" ? "graph-chip active warning" : "graph-chip"} onClick={() => runPreset("accepted")}><span className="dot amber" />{t("graph.acceptedNotFullyPaid")}</button>
+                <button type="button" className={preset === "risk" ? "graph-chip active danger" : "graph-chip"} onClick={() => runPreset("risk")}><span className="dot red" />{t("graph.highRiskWarnings")}</button>
+                <button type="button" className={preset === "trail" ? "graph-chip active info" : "graph-chip"} disabled={!milestoneId} onClick={() => runPreset("trail")}><span className="dot blue" />{t("graph.milestoneDependencies")}</button>
+                <button type="button" className={preset === "default" ? "graph-chip active" : "graph-chip"} onClick={() => runPreset("default")}><Network size={14} />{t("graph.fullGraph")}</button>
               </div>
               <div className="graph-legend-row">
-                <span className="graph-legend-item"><span className="dot slate" />No invoice</span>
-                <span className="graph-legend-item"><span className="dot amber" />Invoiced, unpaid</span>
-                <span className="graph-legend-item"><span className="dot blue" />Partially paid</span>
-                <span className="graph-legend-item"><span className="dot green" />Fully paid</span>
+                <span className="graph-legend-item"><span className="dot slate" />{translatePaymentState("no_invoice", t)}</span>
+                <span className="graph-legend-item"><span className="dot amber" />{translatePaymentState("invoiced_unpaid", t)}</span>
+                <span className="graph-legend-item"><span className="dot blue" />{translatePaymentState("partially_paid", t)}</span>
+                <span className="graph-legend-item"><span className="dot green" />{translatePaymentState("fully_paid", t)}</span>
               </div>
             </div>
             <div className="graph-overlay-actions">
               {preset === "default" && contractId && focusedMilestoneId ? (
                 <button type="button" className="graph-chip active graph-back-button" onClick={handleBackToContractView}>
                   <ArrowLeft size={14} />
-                  Back to contract view
+                  {t("graph.backToContractView")}
                 </button>
               ) : null}
               <select className="graph-contract-filter" value={contractId || ""} onChange={(event) => handleContractFilterChange(event.target.value)}>
-                <option value="">All contracts</option>
+                <option value="">{t("common.allContracts")}</option>
                 {contracts.map((item) => <option key={item.contract_id} value={item.contract_id}>{item.contract_name}</option>)}
               </select>
             </div>
@@ -414,27 +423,27 @@ export function GraphPage({ contractId, milestoneId, setSelectedContractId, setS
                   })()}
                 </div>
                 <div>
-                  <p className="label-caps">{selectedNode.type}</p>
-                  <h2>{nodeLabel(selectedNode)}</h2>
+                  <p className="label-caps">{translateGraphNodeType(selectedNode.type, t)}</p>
+                  <h2>{nodeLabel(selectedNode, t)}</h2>
                 </div>
               </div>
               <div className="graph-drawer-body">
                 {selectedNode.type === "Milestone" ? (
                   <div className="drawer-metrics">
                     <div className="drawer-metric">
-                      <span>Status</span>
+                      <span>{t("graph.status")}</span>
                       <div>{selectedNode.status ? <StatusBadge status={selectedNode.status} /> : "-"}</div>
                     </div>
                     <div className="drawer-wide payment-state-card">
-                      <span>Payment State</span>
-                      <strong>{PAYMENT_STATE_LABELS[selectedNode.payment_state] || selectedNode.payment_state || "-"}</strong>
+                      <span>{t("graph.paymentState")}</span>
+                      <strong>{translatePaymentState(selectedNode.payment_state, t)}</strong>
                     </div>
                     <div className="drawer-wide">
-                      <span>Financial Value</span>
+                      <span>{t("graph.financialValue")}</span>
                       <strong>{formatMoney(selectedNode.amount, "TWD")}</strong>
                     </div>
                     <div className="drawer-wide align-end">
-                      <span>Invoiced</span>
+                      <span>{t("graph.invoiced")}</span>
                       <strong>{formatMoney(invoicedTotal, "TWD")}</strong>
                     </div>
                   </div>
@@ -443,11 +452,11 @@ export function GraphPage({ contractId, milestoneId, setSelectedContractId, setS
                 {selectedNode.type === "Invoice" || selectedNode.type === "Payment" ? (
                   <div className="drawer-metrics">
                     <div className="drawer-metric">
-                      <span>Date</span>
+                      <span>{t("graph.date")}</span>
                       <div>{formatDate(selectedNode.date)}</div>
                     </div>
                     <div className="drawer-wide">
-                      <span>Financial Value</span>
+                      <span>{t("graph.financialValue")}</span>
                       <strong>{formatMoney(selectedNode.amount, "TWD")}</strong>
                     </div>
                   </div>
@@ -455,19 +464,19 @@ export function GraphPage({ contractId, milestoneId, setSelectedContractId, setS
 
                 {selectedNode.type === "Contract" ? (
                   <div className="drawer-section">
-                    <p className="label-caps">Overview</p>
+                    <p className="label-caps">{t("graph.overview")}</p>
                     <article className="clause-card contract-overview-card">
-                      <p>{selectedNode.overview || "No contract overview is currently available in the graph payload."}</p>
-                      <small>{[selectedNode.overview_label, selectedNode.doc_category, selectedNode.source_file].filter(Boolean).join(" • ")}</small>
+                      <p>{selectedNode.overview || t("graph.noOverview")}</p>
+                      <small>{[selectedNode.overview_label, selectedNode.doc_category ? translateContractType(selectedNode.doc_category, t) : null, selectedNode.source_file].filter(Boolean).join(" • ")}</small>
                     </article>
                   </div>
                 ) : null}
 
                 {selectedNode.type === "ValidationWarning" ? (
                   <div className="drawer-section">
-                    <p className="label-caps">Warning Detail</p>
+                    <p className="label-caps">{t("graph.warningDetail")}</p>
                     <article className="clause-card warning">
-                      <p>{selectedNode.message || "-"}</p>
+                      <p>{translateValidationMessage(selectedNode.message, t) || "-"}</p>
                       <small>{String(selectedNode.severity || "info").toUpperCase()}</small>
                     </article>
                   </div>
@@ -475,9 +484,9 @@ export function GraphPage({ contractId, milestoneId, setSelectedContractId, setS
 
                 {selectedNode.type === "Clause" ? (
                   <div className="drawer-section">
-                    <p className="label-caps">Clause Detail</p>
+                    <p className="label-caps">{t("graph.clauseDetail")}</p>
                     <article className="clause-card">
-                      <p>{selectedNode.text || nodeLabel(selectedNode)}</p>
+                      <p>{selectedNode.text || nodeLabel(selectedNode, t)}</p>
                       <small>{[selectedNode.clause_type, selectedNode.location, selectedNode.source_file].filter(Boolean).join(" • ")}</small>
                     </article>
                   </div>
@@ -485,10 +494,10 @@ export function GraphPage({ contractId, milestoneId, setSelectedContractId, setS
 
                 {selectedNode.type === "ClauseBundle" ? (
                   <div className="drawer-section">
-                    <p className="label-caps">Supporting Clauses</p>
+                    <p className="label-caps">{t("graph.supportingClauses")}</p>
                     <article className="clause-card">
-                      <p>{selectedNode.clause_count || 0} supporting clauses are grouped into this evidence node.</p>
-                      <small>{selectedNode.name}</small>
+                      <p>{formatTranslation(t, "graph.supportingClauseCount", { count: selectedNode.clause_count || 0 })}</p>
+                      <small>{t("graph.supportingClauses")}</small>
                     </article>
                     <div className="drawer-clause-stack">
                       {(selectedNode.clauses || []).map((clause) => (
@@ -502,7 +511,7 @@ export function GraphPage({ contractId, milestoneId, setSelectedContractId, setS
                 ) : null}
 
                 <div className="drawer-section">
-                  <p className="label-caps">Direct Relationships</p>
+                  <p className="label-caps">{t("graph.directRelationships")}</p>
                   <div className="relation-list">
                     {directPeerNodes.map((peer, index) => {
                       const PeerIcon = typeToIcon[peer.type] || Network;
@@ -511,50 +520,50 @@ export function GraphPage({ contractId, milestoneId, setSelectedContractId, setS
                         <button key={`${peer.id}-${index}`} type="button" className="relation-card" onClick={() => handleNodeSelect(peer.id)}>
                           <div className={`relation-icon ${toneByType[peer.type]}`}><PeerIcon size={16} /></div>
                           <div>
-                            <span>{edge?.type?.replaceAll("_", " ") || peer.type}</span>
-                            <strong>{nodeLabel(peer)}</strong>
+                            <span>{edge?.type ? translateGraphEdgeType(edge.type, t) : translateGraphNodeType(peer.type, t)}</span>
+                            <strong>{nodeLabel(peer, t)}</strong>
                           </div>
                         </button>
                       );
                     })}
-                    {!directPeerNodes.length ? <div className="muted">No non-evidence relationships in current scope.</div> : null}
+                    {!directPeerNodes.length ? <div className="muted">{t("graph.noDirectRelationships")}</div> : null}
                   </div>
                 </div>
                 <div className="drawer-section">
-                  <p className="label-caps">Relevant Clauses</p>
+                  <p className="label-caps">{t("graph.relevantClauses")}</p>
                   {relatedClauses.length ? relatedClauses.map((clause) => (
                     clause.type === "ClauseBundle" ? (
                       <article key={clause.id} className="clause-card">
-                        <p>{clause.name}</p>
-                        <small>{clause.clause_count || 0} clauses bundled for this milestone</small>
+                        <p>{t("graph.supportingClauses")}</p>
+                        <small>{formatTranslation(t, "graph.bundledClauses", { count: clause.clause_count || 0 })}</small>
                       </article>
                     ) : (
                       <article key={clause.id} className="clause-card">
-                        <p>{clause.text || nodeLabel(clause)}</p>
+                        <p>{clause.text || nodeLabel(clause, t)}</p>
                         <small>{[clause.clause_type, clause.location, clause.source_file].filter(Boolean).join(" • ")}</small>
                       </article>
                     )
-                  )) : <div className="muted">No clause evidence in current scope.</div>}
+                  )) : <div className="muted">{t("graph.noClauseEvidence")}</div>}
                 </div>
                 <div className="drawer-section">
-                  <p className="label-caps">Validation Warnings</p>
+                  <p className="label-caps">{t("graph.validationWarnings")}</p>
                   {relatedWarnings.length ? relatedWarnings.map((warning) => (
                     <article key={warning.id} className="clause-card warning">
-                      <p>{warning.message || nodeLabel(warning)}</p>
+                      <p>{translateValidationMessage(warning.message, t) || nodeLabel(warning, t)}</p>
                       <small>{String(warning.severity || "info").toUpperCase()}</small>
                     </article>
-                  )) : <div className="muted">No warning edges in current scope.</div>}
+                  )) : <div className="muted">{t("graph.noWarningEdges")}</div>}
                 </div>
                 {queryResult ? (
                   <div className="drawer-section">
-                    <p className="label-caps">Query Result</p>
+                    <p className="label-caps">{t("graph.queryResult")}</p>
                     <pre className="json-block compact">{JSON.stringify(queryResult, null, 2)}</pre>
                   </div>
                 ) : null}
               </div>
               <div className="graph-drawer-footer">
-                <button type="button" className="ghost-button" onClick={viewDetails}>View Details</button>
-                <button type="button" onClick={() => setPage("query")}>Run Query</button>
+                <button type="button" className="ghost-button" onClick={viewDetails}>{t("common.viewDetails")}</button>
+                <button type="button" onClick={() => setPage("query")}>{t("common.runQuery")}</button>
               </div>
             </>
           ) : null}

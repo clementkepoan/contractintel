@@ -50,7 +50,7 @@ def clause_type_from_field_name(field_name: str) -> str:
 
 
 def clause_location(citation: Citation) -> str:
-    return f"para {citation.para_start}-{citation.para_end}, page ~{citation.page_estimate}"
+    return f"段落 {citation.para_start}-{citation.para_end}，頁面約 {citation.page_estimate}"
 
 
 def excerpt_text(value: str | None, limit: int = 280) -> str | None:
@@ -78,9 +78,9 @@ def contract_overview_for(contract_id: str) -> tuple[str | None, str | None]:
         body = excerpt_text(body, 360)
         if not body:
             continue
-        if kind == "wiki_llm_summary" and label in {"At A Glance", "契約目的"}:
+        if kind == "wiki_llm_summary" and label in {"At A Glance", "快速總覽", "契約目的"}:
             preferred.append((body, label))
-        elif kind == "wiki_contract_summary" and label in {"At A Glance", "契約目的"}:
+        elif kind == "wiki_contract_summary" and label in {"At A Glance", "快速總覽", "契約目的"}:
             fallback.append((body, label))
         elif kind in {"wiki_llm_summary", "wiki_contract_summary"}:
             fallback.append((body, label))

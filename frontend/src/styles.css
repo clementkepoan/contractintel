@@ -3331,7 +3331,7 @@ td strong, td small {
 /* Workflow */
 
 .workflow-screen {
-  gap: 18px;
+  gap: 12px;
 }
 
 .workflow-headline {
@@ -3421,6 +3421,12 @@ td strong, td small {
   background: #f3f6f9;
 }
 
+.workflow-row.active strong,
+.workflow-row.active small,
+.workflow-row.active .workflow-row-action {
+  color: #0f172a;
+}
+
 .workflow-row-copy {
   display: grid;
   gap: 6px;
@@ -3429,10 +3435,11 @@ td strong, td small {
 .workflow-row-copy strong,
 .workflow-row-copy small {
   display: block;
+  color: #0f172a;
 }
 
 .workflow-row-action {
-  color: #475569;
+  color: #0f172a;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -3463,7 +3470,13 @@ td strong, td small {
 }
 
 .selected-milestone-card.modern {
+  background: #f8fafc;
   border-radius: 18px;
+}
+
+.selected-milestone-card.modern strong,
+.selected-milestone-card.modern small {
+  color: #0f172a;
 }
 
 .workflow-step-card {
@@ -3579,6 +3592,14 @@ td strong, td small {
   min-height: 40px;
   padding: 0 12px;
   width: min(300px, 100%);
+}
+
+.workflow-layout {
+  align-items: start;
+}
+
+.workflow-sidecard {
+  align-self: start;
 }
 
 .workflow-screen .label-caps,

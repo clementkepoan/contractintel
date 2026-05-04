@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BookOpen, FileJson, Network, TriangleAlert } from "lucide-react";
 import { api, formatDate, formatMoney } from "../api/client.js";
-import { useI18n } from "../i18n.jsx";
+import { translateContractType, translateValidationMessage, useI18n } from "../i18n.jsx";
 import { CitationButton } from "../components/CitationDrawer.jsx";
 import { EmptyBlock, ErrorBlock, LoadingBlock } from "../components/Ui.jsx";
 import { StatusBadge } from "../components/StatusBadge.jsx";
@@ -9,7 +9,7 @@ import { StatusBadge } from "../components/StatusBadge.jsx";
 function metadataRows(contract, t) {
   return [
     [t("detail.partiesInvolved"), contract.source_file],
-    [t("detail.documentCategory"), String(contract.doc_category || "-").toUpperCase()],
+    [t("detail.documentCategory"), translateContractType(contract.doc_category || contract.contract_type, t)],
     [t("detail.executionWindow"), formatDate(contract.created_at || null)],
     [t("detail.targetCompletion"), formatDate(contract.updated_at || null)],
   ];
@@ -86,10 +86,10 @@ export function ContractDetailPage({ contractId, setSelectedContractId, setSelec
               <div className="contract-submeta">
                 <span>{contract.source_file}</span>
                 <span>{formatMoney(contract.total_amount, contract.currency)}</span>
-                <span>{String(contract.doc_category || contract.contract_type || "contract")}</span>
+                <span>{translateContractType(contract.doc_category || contract.contract_type || "contract", t)}</span>
               </div>
             </div>
-            {contract.validation?.length ? <div className="validation-header-pill"><TriangleAlert size={16} /> Validation Warning</div> : null}
+            {contract.validation?.length ? <div className="validation-header-pill"><TriangleAlert size={16} /> {t("detail.validationWarnings")}</div> : null}
           </section>
           <section className="warning-board">
             <div className="warning-board-header">
@@ -100,10 +100,10 @@ export function ContractDetailPage({ contractId, setSelectedContractId, setSelec
                 <article className="warning-card" key={`${warning.code}-${index}`}>
                   <div className="warning-dot" />
                   <div className="warning-copy">
-                    <strong>Code {warning.code || `V${index + 1}`}: {warning.message}</strong>
+                    <strong>{warning.code || `V${index + 1}`}: {translateValidationMessage(warning.message, t)}</strong>
                     <div className="warning-actions">
                       <CitationButton citations={warning.citations || []} onOpen={setCitation} />
-                      <span>{warning.citations?.[0]?.text_snippet || "View source clause context"}</span>
+                      <span>{warning.citations?.[0]?.text_snippet || t("milestone.sourceText")}</span>
                     </div>
                   </div>
                 </article>
@@ -121,11 +121,11 @@ export function ContractDetailPage({ contractId, setSelectedContractId, setSelec
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Milestone Name</th>
-                    <th>Amount</th>
+                    <th>{t("milestone.selectedMilestone")}</th>
+                    <th>{t("milestone.amount")}</th>
                     <th>%</th>
-                    <th>Payment Condition</th>
-                    <th>Status</th>
+                    <th>{t("milestone.paymentConditions")}</th>
+                    <th>{t("graph.status")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -172,9 +172,9 @@ export function ContractDetailPage({ contractId, setSelectedContractId, setSelec
           <div className="meta-section">
             <p className="label-caps">{t("detail.recentAuditActivity")}</p>
             <div className="timeline-rail">
-              <div className="timeline-entry"><strong>{t("detail.automatedValidationRun")}</strong><span>System · {formatDate(contract.updated_at || null)}</span></div>
+              <div className="timeline-entry"><strong>{t("detail.automatedValidationRun")}</strong><span>{t("shell.localMode")} · {formatDate(contract.updated_at || null)}</span></div>
               {(contract.validation || []).slice(0, 2).map((warning, index) => (
-                <div className="timeline-entry" key={`${warning.code}-${index}`}><strong>{warning.code || t("status.warning")} {t("detail.flagged")}</strong><span>Risk Engine · {warning.severity || "warning"}</span></div>
+                <div className="timeline-entry" key={`${warning.code}-${index}`}><strong>{warning.code || t("status.warning")} {t("detail.flagged")}</strong><span>{t("detail.validationWarnings")} · {warning.severity || "warning"}</span></div>
               ))}
             </div>
           </div>

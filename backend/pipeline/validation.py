@@ -22,7 +22,7 @@ def validate_contract_data(extracted: dict[str, Any]) -> list[dict[str, Any]]:
                 {
                     "code": "amount_sum_mismatch",
                     "severity": "ERROR",
-                    "message": f"Milestone amounts sum to {milestone_sum}, contract total is {total_amount}, delta = {delta:+}.",
+                    "message": f"里程碑金額合計為 {milestone_sum}；合約總金額為 {total_amount}；差額為 {delta:+}。",
                     "citations": citations[:8],
                 }
             )
@@ -34,7 +34,7 @@ def validate_contract_data(extracted: dict[str, Any]) -> list[dict[str, Any]]:
                 {
                     "code": "percentage_sum_mismatch",
                     "severity": "ERROR",
-                    "message": f"Milestone percentages sum to {percent_sum}, expected 100.",
+                    "message": f"里程碑百分比合計為 {percent_sum}；應為 100。",
                     "citations": [],
                 }
             )
@@ -44,7 +44,7 @@ def validate_contract_data(extracted: dict[str, Any]) -> list[dict[str, Any]]:
             {
                 "code": "installment_count_mismatch",
                 "severity": "WARNING",
-                "message": f"Document declares {declared_installment_count} payment installments but {len(milestones)} milestones were extracted.",
+                "message": f"文件宣告 {declared_installment_count} 期付款，但系統抽取到 {len(milestones)} 個里程碑。",
                 "citations": [],
             }
         )
@@ -61,7 +61,7 @@ def validate_contract_data(extracted: dict[str, Any]) -> list[dict[str, Any]]:
                     {
                         "code": "percentage_amount_inconsistency",
                         "severity": "ERROR",
-                        "message": f'Milestone "{milestone["name"]}" states {percentage}% (expected {expected_amount}) but amount is {amount} (= {implied_percentage}%).',
+                        "message": f'里程碑「{milestone["name"]}」標示 {percentage}%（預期金額 {expected_amount}），但抽取金額為 {amount}（換算 {implied_percentage}%）。',
                         "citations": milestone["citations"][:4],
                     }
                 )
@@ -74,7 +74,7 @@ def validate_contract_data(extracted: dict[str, Any]) -> list[dict[str, Any]]:
                 {
                     "code": "duplicate_milestone_order",
                     "severity": "WARNING",
-                    "message": f"Duplicate milestone order detected for order {order}.",
+                    "message": f"偵測到重複的里程碑順序：{order}。",
                     "citations": milestone["citations"][:2],
                 }
             )
@@ -84,7 +84,7 @@ def validate_contract_data(extracted: dict[str, Any]) -> list[dict[str, Any]]:
                 {
                     "code": "missing_milestone_citation",
                     "severity": "ERROR",
-                    "message": f'Milestone "{milestone["name"]}" is missing citations.',
+                    "message": f'里程碑「{milestone["name"]}」缺少引用來源。',
                     "citations": [],
                 }
             )
@@ -93,7 +93,7 @@ def validate_contract_data(extracted: dict[str, Any]) -> list[dict[str, Any]]:
                 {
                     "code": "missing_work_items",
                     "severity": "INFO",
-                    "message": f'Milestone "{milestone["name"]}" has no extracted work items.',
+                    "message": f'里程碑「{milestone["name"]}」未抽取到工作項目。',
                     "citations": milestone["citations"][:2],
                 }
             )

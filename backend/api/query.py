@@ -16,6 +16,15 @@ from backend.pipeline.service import get_all_contracts
 router = APIRouter(prefix="/api", tags=["query"])
 
 
+def model_name_for_answer_method(answer_method: str | None, stored_model_name: str | None = None) -> str | None:
+    method = str(answer_method or "").lower()
+    if method.startswith("gate_model_") or method == "gate_only":
+        return settings.local_gate_model_name
+    if method == "retrieval_only":
+        return None
+    return stored_model_name
+
+
 def dedupe_filed_queries(rows: list[FiledQuery]) -> list[FiledQuery]:
     deduped: list[FiledQuery] = []
     seen: set[tuple[str, int | None, int | None, str, str]] = set()
@@ -168,7 +177,7 @@ def get_latest_query(chat_session_id: str) -> dict | None:
             "wiki_path": row.wiki_path or None,
             "answer_method": row.answer_method,
             "retrieval_mode": row.retrieval_mode,
-            "model_name": settings.local_query_model_name,
+            "model_name": model_name_for_answer_method(row.answer_method, settings.local_query_model_name),
             "contract_id": contract_scope[0] if contract_scope else None,
             "created_at": row.created_at,
         }
@@ -196,7 +205,7 @@ def get_chat_turns(chat_session_id: str) -> list[dict]:
                     "wiki_path": row.wiki_path or None,
                     "answer_method": row.answer_method,
                     "retrieval_mode": row.retrieval_mode,
-                    "model_name": settings.local_query_model_name,
+                    "model_name": model_name_for_answer_method(row.answer_method, settings.local_query_model_name),
                     "contract_id": contract_scope[0] if contract_scope else None,
                     "created_at": row.created_at,
                 }

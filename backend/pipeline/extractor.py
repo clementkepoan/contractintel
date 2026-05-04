@@ -1018,29 +1018,29 @@ def build_initial_validation(
 ) -> list[dict[str, Any]]:
     validation: list[dict[str, Any]] = []
     if total_amount is None:
-        validation.append({"code": "missing_total_amount", "severity": "WARNING", "message": "No total contract amount found; document may be an RFP or pre-award document.", "citations": []})
+        validation.append({"code": "missing_total_amount", "severity": "WARNING", "message": "未找到合約總金額；此文件可能是招標文件或得標前文件。", "citations": []})
     if not milestones:
-        validation.append({"code": "missing_milestones", "severity": "WARNING", "message": "No milestone blocks were extracted.", "citations": []})
+        validation.append({"code": "missing_milestones", "severity": "WARNING", "message": "未抽取到里程碑區塊。", "citations": []})
     if not total_citations and total_amount is not None:
-        validation.append({"code": "missing_total_citation", "severity": "ERROR", "message": "Total amount lacks a traceable citation.", "citations": []})
+        validation.append({"code": "missing_total_citation", "severity": "ERROR", "message": "合約總金額缺少可追溯引用。", "citations": []})
     milestone_terms = {term for paragraph in active_paragraphs if is_payment_header(paragraph["text"]) and (term := milestone_term_type(paragraph["text"]))}
     if len(milestone_terms) > 1:
         validation.append(
             {
                 "code": "milestone_terminology_inconsistency",
                 "severity": "INFO",
-                "message": f"Milestone terminology inconsistency detected: document uses {len(milestone_terms)} naming conventions; normalized by ordinal position.",
+                "message": f"偵測到里程碑用語不一致：文件使用 {len(milestone_terms)} 種命名方式；已依序號位置正規化。",
                 "citations": [],
             }
         )
     if currency == "MULTI" and not any("rate" in item for item in currency_breakdown):
-        validation.append({"code": "multi_currency_missing_rate", "severity": "WARNING", "message": "Multi-currency contract: exchange rate assumption required.", "citations": []})
+        validation.append({"code": "multi_currency_missing_rate", "severity": "WARNING", "message": "多幣別合約需要補充匯率假設。", "citations": []})
     if progress_checkpoints and payment_type.startswith("single"):
         validation.append(
             {
                 "code": "progress_checkpoints_not_payment_milestones",
                 "severity": "INFO",
-                "message": f"{len(progress_checkpoints)} progress checkpoints found; these do not trigger payment.",
+                "message": f"找到 {len(progress_checkpoints)} 個進度查驗點；這些查驗點不會觸發付款。",
                 "citations": [cite for checkpoint in progress_checkpoints for cite in checkpoint["citations"]][:4],
             }
         )
@@ -1049,7 +1049,7 @@ def build_initial_validation(
             {
                 "code": "version_conflict_detected",
                 "severity": "WARNING",
-                "message": "Version conflict detected: deprecated clauses were excluded from primary extraction and stored as superseded content.",
+                "message": "偵測到版本衝突：已廢止條款未納入主要抽取結果，並保留為被取代內容。",
                 "citations": [build_citation(source_file, paragraph, paragraph["text"][:120], "deprecated_clause", None) for paragraph in retired_paragraphs[:4]],
             }
         )
@@ -1440,7 +1440,7 @@ def merge_llm_extraction(
             {
                 "code": "llm_partial_schedule_fallback",
                 "severity": "WARNING",
-                "message": f"LLM extracted only {len(llm_milestone_map)} milestones while regex extracted {len(regex_milestones)}; regex schedule completeness was preserved.",
+                "message": f"LLM 僅抽取到 {len(llm_milestone_map)} 個里程碑，但規則抽取到 {len(regex_milestones)} 個；已保留規則抽取的完整付款表。",
                 "citations": [],
             }
         )
@@ -1449,7 +1449,7 @@ def merge_llm_extraction(
             {
                 "code": "llm_unmatched_milestones_ignored",
                 "severity": "WARNING",
-                "message": f"LLM returned unmatched milestone orders {ignored_llm_orders}; they were ignored because regex already defined the milestone schedule.",
+                "message": f"LLM 回傳未匹配的里程碑順序 {ignored_llm_orders}；因規則已定義里程碑付款表，已忽略這些結果。",
                 "citations": [],
             }
         )
@@ -1474,7 +1474,7 @@ def merge_llm_extraction(
                 {
                     "code": "llm_regex_amount_disagreement",
                     "severity": "WARNING",
-                    "message": f'Milestone "{fallback.get("name") or item["name"]}" LLM amount {item["amount"]} disagreed with regex amount {fallback["amount"]}; regex value was used.',
+                    "message": f'里程碑「{fallback.get("name") or item["name"]}」的 LLM 金額 {item["amount"]} 與規則金額 {fallback["amount"]} 不一致；已採用規則值。',
                     "citations": fallback.get("citations", [])[:2],
                 }
             )
@@ -1483,7 +1483,7 @@ def merge_llm_extraction(
                 {
                     "code": "llm_regex_percentage_disagreement",
                     "severity": "WARNING",
-                    "message": f'Milestone "{fallback.get("name") or item["name"]}" LLM percentage {item["percentage"]} disagreed with regex percentage {fallback["percentage"]}; regex value was used.',
+                    "message": f'里程碑「{fallback.get("name") or item["name"]}」的 LLM 百分比 {item["percentage"]} 與規則百分比 {fallback["percentage"]} 不一致；已採用規則值。',
                     "citations": fallback.get("citations", [])[:2],
                 }
             )

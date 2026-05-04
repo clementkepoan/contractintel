@@ -152,6 +152,46 @@ def format_money(value: int | None, currency: str) -> str:
     return f"{value:,} {currency}" if value is not None else f"N/A {currency}"
 
 
+DOC_CATEGORY_LABELS = {
+    "contract": "合約",
+    "rfp": "招標 / RFP 文件",
+    "spec_rfp": "規格 / 招標文件",
+    "construction_instruction": "施工說明書",
+    "instruction_manual": "施工說明書",
+    "mixed": "混合文件",
+}
+
+STATUS_LABELS = {
+    "active": "現行",
+    "superseded": "已取代",
+    "pending_acceptance": "待驗收",
+    "accepted": "已驗收",
+    "payment_requested": "已請款",
+    "paid": "已付款",
+    "draft": "草稿",
+}
+
+
+def zh_doc_category(value: str | None) -> str:
+    key = str(value or "contract").lower()
+    return DOC_CATEGORY_LABELS.get(key, key.replace("_", " "))
+
+
+def zh_status(value: str | None) -> str:
+    key = str(value or "").lower()
+    return STATUS_LABELS.get(key, key or "-")
+
+
+def zh_payment_type(value: str | None) -> str:
+    key = str(value or "unknown").lower()
+    return {
+        "installment": "分期付款",
+        "single": "單次付款",
+        "single_payment": "單次付款",
+        "unknown": "未知",
+    }.get(key, key.replace("_", " "))
+
+
 def unique_lines(items: list[str | None], limit: int = 8) -> list[str]:
     seen: set[str] = set()
     result: list[str] = []
@@ -184,7 +224,19 @@ def sentence_trim(value: str | None, limit: int = 160) -> str:
 
 
 def normalize_warning_message(value: str) -> str:
-    return sentence_trim(value.replace("Milestone ", "").replace("contract total", "total"))
+    return sentence_trim(zh_warning_message(value).replace("Milestone ", "").replace("contract total", "total"))
+
+
+def zh_warning_message(value: str | None) -> str:
+    text = str(value or "")
+    return {
+        "No total contract amount found; document may be an RFP or pre-award document.": "未找到合約總金額；此文件可能是招標文件或得標前文件。",
+        "No milestone blocks were extracted.": "未抽取到里程碑區塊。",
+        "Total amount lacks a traceable citation.": "合約總金額缺少可追溯引用。",
+        "Multi-currency contract: exchange rate assumption required.": "多幣別合約需要補充匯率假設。",
+        "Version conflict detected: deprecated clauses were excluded from primary extraction and stored as superseded content.": "偵測到版本衝突：已廢止條款未納入主要抽取結果，並保留為被取代內容。",
+        "Validation passed without warnings.": "驗證通過，沒有警示。",
+    }.get(text, text)
 
 
 def strip_clause_prefix(value: str | None) -> str:
@@ -314,12 +366,12 @@ def looks_like_change_order_clause(value: str | None) -> bool:
 
 def citation_display_label(field_name: str) -> str:
     return {
-        "milestone.name": "Milestone Name Evidence",
-        "milestone.amount": "Amount Evidence",
-        "milestone.percentage": "Percentage Evidence",
-        "milestone.payment_condition": "Payment Condition Evidence",
-        "milestone.acceptance_criteria": "Acceptance Criteria Evidence",
-        "milestone.work_items": "Work Item Evidence",
+        "milestone.name": "里程碑名稱證據",
+        "milestone.amount": "金額證據",
+        "milestone.percentage": "比例證據",
+        "milestone.payment_condition": "付款條件證據",
+        "milestone.acceptance_criteria": "驗收條件證據",
+        "milestone.work_items": "工作項目證據",
     }.get(field_name, field_name)
 
 
@@ -418,18 +470,18 @@ def normalize_summary_fragment(value: str | None, limit: int = 100) -> str:
 
 
 def humanize_contract_purpose(facts: dict[str, Any], intro_notes: list[str]) -> str:
-    source_file = facts.get("source_file", "source")
-    contract_name = facts.get("contract_name", "this contract")
+    source_file = facts.get("source_file", "來源文件")
+    contract_name = facts.get("contract_name", "本合約")
     intro = intro_notes[0] if intro_notes else ""
     if "機電工程" in intro and "系統整合" in intro:
-        return f"`{source_file}` is an engineering contract for `{contract_name}` covering system integration / access-control work within the project MEP scope."
+        return f"`{source_file}` 是 `{contract_name}` 的工程合約，涵蓋專案機電範圍內的系統整合 / 門禁相關工作。"
     if "機電工程" in intro:
-        return f"`{source_file}` is an engineering contract for `{contract_name}` within the project MEP scope."
+        return f"`{source_file}` 是 `{contract_name}` 的工程合約，屬於專案機電工程範圍。"
     if "委託" in intro and "承攬" in intro:
-        return f"`{source_file}` records that the project owner side commissions the contractor to undertake `{contract_name}`."
+        return f"`{source_file}` 記錄業主方委託承攬方執行 `{contract_name}`。"
     if facts.get("doc_category") == "rfp":
-        return f"`{source_file}` is an RFP / pre-award source describing `{contract_name}`."
-    return f"`{source_file}` is the active `{facts.get('doc_category', 'contract')}` source for `{contract_name}`."
+        return f"`{source_file}` 是描述 `{contract_name}` 的招標 / 得標前文件。"
+    return f"`{source_file}` 是 `{contract_name}` 目前採用的 `{zh_doc_category(facts.get('doc_category'))}` 來源。"
 
 
 def derive_scope_context(facts: dict[str, Any], filtered_scope: list[str], intro_notes: list[str]) -> str:
@@ -493,10 +545,10 @@ def build_contract_summary_facts(
 def render_contract_summary(facts: dict[str, Any]) -> list[str]:
     milestone_lines = []
     for item in facts["milestones"]:
-        line = f"- {item['order']}. {item['name']} | {format_money(item['amount'], facts['currency'])} | {format_percentage(item['percentage'])} | `{item['status']}`"
+        line = f"- {item['order']}. {item['name']} | {format_money(item['amount'], facts['currency'])} | {format_percentage(item['percentage'])} | `{zh_status(item['status'])}`"
         milestone_lines.append(line)
     if not milestone_lines:
-        milestone_lines = ["- No milestone schedule was extracted."]
+        milestone_lines = ["- 未抽取到里程碑付款表。"]
 
     intro_notes = summarize_intro_preview(facts.get("raw_text_preview"), facts["contract_name"])
     filtered_scope = collect_filtered_lines(
@@ -515,22 +567,21 @@ def render_contract_summary(facts: dict[str, Any]) -> list[str]:
         if len(objective_lines) >= 2:
             break
 
-    overview_lines = []
-    overview_lines = [f"- Contract purpose: {humanize_contract_purpose(facts, intro_notes)}"]
+    overview_lines = [f"- 合約目的：{humanize_contract_purpose(facts, intro_notes)}"]
     scope_context = derive_scope_context(facts, filtered_scope, intro_notes)
     if scope_context:
-        overview_lines.append(f"- Scope context: {scope_context}")
+        overview_lines.append(f"- 範圍脈絡：{scope_context}")
     overview_lines.extend(
         [
-            f"- Commercial structure: `{facts['contract_type']}` / payment mode `{facts['payment_type'] or 'unknown'}` / current value {format_money(facts['total_amount'], facts['currency'])}.",
-            f"- Active milestone count: {len(facts['milestones'])}.",
+            f"- 商務結構：`{zh_doc_category(facts['contract_type'])}` / 付款模式 `{zh_payment_type(facts['payment_type'])}` / 目前金額 {format_money(facts['total_amount'], facts['currency'])}。",
+            f"- 目前里程碑數量：{len(facts['milestones'])}。",
         ]
     )
     progress_sentence = build_milestone_progress_sentence(facts["milestones"])
     if progress_sentence:
-        overview_lines.append(f"- Milestone progression: {progress_sentence}.")
+        overview_lines.append(f"- 里程碑順序：{progress_sentence}。")
     if facts["progress_checkpoints"]:
-        overview_lines.append(f"- Progress checkpoints mentioned: {', '.join(facts['progress_checkpoints'])}.")
+        overview_lines.append(f"- 文件提及的進度查驗點：{', '.join(facts['progress_checkpoints'])}。")
 
     delivery_notes: list[str] = []
     for milestone in facts["milestones"][:4]:
@@ -557,9 +608,9 @@ def render_contract_summary(facts: dict[str, Any]) -> list[str]:
             break
         if looks_like_change_order_clause(item):
             continue
-        delivery_notes.append(f"- Contract-level acceptance note: {normalize_summary_fragment(item, 130)}")
+        delivery_notes.append(f"- 合約層級驗收注意事項：{normalize_summary_fragment(item, 130)}")
     if not delivery_notes:
-        delivery_notes = ["- No structured delivery or acceptance notes were extracted."]
+        delivery_notes = ["- 未抽取到結構化交付或驗收注意事項。"]
 
     payment_notes: list[str] = []
     for milestone in facts["milestones"][:4]:
@@ -582,19 +633,19 @@ def render_contract_summary(facts: dict[str, Any]) -> list[str]:
     )
     for item in global_payment_notes:
         if item not in payment_notes and not is_placeholder_clause(item):
-            payment_notes.append(f"- Global procedure: {normalize_summary_fragment(item, 140)}")
+            payment_notes.append(f"- 通用程序：{normalize_summary_fragment(item, 140)}")
     if facts["retention"]:
         payment_notes.append(
-            f"- Retention: {format_money(facts['retention'].get('amount'), facts['currency'])} / {format_percentage(facts['retention'].get('percentage'))}."
+            f"- 保留款：{format_money(facts['retention'].get('amount'), facts['currency'])} / {format_percentage(facts['retention'].get('percentage'))}。"
         )
     if not payment_notes:
-        payment_notes = ["- No structured payment conditions were extracted."]
+        payment_notes = ["- 未抽取到結構化付款條件。"]
 
     risk_notes: list[str] = []
     for item in facts["warnings"][:4]:
         risk_notes.append(f"- {item}")
     for item in facts["conflicts"][:2]:
-        risk_notes.append(f"- Version note: {sentence_trim(item)}")
+        risk_notes.append(f"- 版本注意事項：{sentence_trim(item)}")
     warranty_notes = collect_filtered_lines(
         facts["warranty_requirements"],
         include=("保固", "履約保證金", "保固保證金", "瑕疵", "修繕"),
@@ -605,7 +656,7 @@ def render_contract_summary(facts: dict[str, Any]) -> list[str]:
     for item in warranty_notes:
         if is_placeholder_clause(item):
             continue
-        risk_notes.append(f"- Warranty / security: {item}")
+        risk_notes.append(f"- 保固 / 保證金：{item}")
     if not risk_notes:
         safety_notes = collect_filtered_lines(
             facts["safety_requirements"],
@@ -615,25 +666,25 @@ def render_contract_summary(facts: dict[str, Any]) -> list[str]:
             sentence_limit=140,
         )
         for item in safety_notes:
-            risk_notes.append(f"- Execution risk: {item}")
+            risk_notes.append(f"- 履約風險：{item}")
     if not risk_notes:
-        risk_notes = ["- No active validation warnings or version conflicts are open."]
+        risk_notes = ["- 目前沒有未結的驗證警示或版本衝突。"]
 
     return [
-        "## Contract Summary",
-        "### At A Glance",
+        "## 合約摘要",
+        "### 快速總覽",
         *overview_lines,
         "",
-        "### Milestone And Payment Structure",
+        "### 里程碑與付款結構",
         *milestone_lines,
         "",
-        "### Delivery And Acceptance",
+        "### 交付與驗收",
         *delivery_notes,
         "",
-        "### Payment Procedures And Commercial Notes",
+        "### 付款程序與商務注意事項",
         *payment_notes,
         "",
-        "### Risks And Open Issues",
+        "### 風險與待確認事項",
         *risk_notes,
     ]
 
@@ -692,17 +743,19 @@ def build_llm_summary_prompt(facts: dict[str, Any]) -> str:
 
 def render_llm_contract_summary(facts: dict[str, Any]) -> list[str]:
     if not llm_available():
-        return ["## LLM Summary", "- Local LLM unavailable; no comparative LLM summary was generated."]
+        return ["## LLM 摘要", "- 本機 LLM 目前不可用，因此未產生補充摘要。"]
     prompt = build_llm_summary_prompt(facts)
     response = query_local_llm_detailed(prompt, timeout=180.0)
     content = (response.get("response") or "").strip()
     if not content:
-        return [f"## LLM Summary", f"- LLM summary generation failed: `{response.get('error') or 'empty_response'}`."]
+        return ["## LLM 摘要", f"- LLM 摘要產生失敗：`{response.get('error') or 'empty_response'}`。"]
     lines = [line.rstrip() for line in content.splitlines() if line.strip()]
     if not lines:
-        return ["## LLM Summary", "- LLM returned an empty summary."]
-    if lines[0] != "## LLM Summary":
-        lines = ["## LLM Summary", *lines]
+        return ["## LLM 摘要", "- LLM 回傳空白摘要。"]
+    if lines[0] not in {"## LLM Summary", "## LLM 摘要"}:
+        lines = ["## LLM 摘要", *lines]
+    elif lines[0] == "## LLM Summary":
+        lines[0] = "## LLM 摘要"
     return lines
 
 
@@ -767,14 +820,14 @@ def generate_contract_page(contract_key: str, contracts: list[Contract], session
     for contract in sorted(contracts, key=lambda item: item.version_number, reverse=True):
         source_path = source_page_path(contract)
         source_rows.append(
-            f"| {contract.source_file} | v{contract.version_number} | {contract.doc_category} | {'active' if not contract.is_superseded else 'superseded'} | "
+            f"| {contract.source_file} | v{contract.version_number} | {zh_doc_category(contract.doc_category)} | {zh_status('active' if not contract.is_superseded else 'superseded')} | "
             f"{markdown_link(target_path, source_path, contract.contract_id)} |"
         )
         raw_payload = load_raw_payload(contract)
         for conflict in raw_payload.get("version_conflicts", []):
-            conflict_lines.append(f"- v{contract.version_number} `{conflict['field']}` changed from `{conflict['old']}` to `{conflict['new']}`.")
+            conflict_lines.append(f"- v{contract.version_number} `{conflict['field']}` 由 `{conflict['old']}` 變更為 `{conflict['new']}`。")
         for warning in load_validation_rows(session, contract.contract_id):
-            warning_lines.append(f"- v{contract.version_number} [{warning.severity}] {warning.message}")
+            warning_lines.append(f"- v{contract.version_number} [{warning.severity}] {zh_warning_message(warning.message)}")
 
     milestone_rows = []
     for milestone in active_milestones:
@@ -784,7 +837,7 @@ def generate_contract_page(contract_key: str, contracts: list[Contract], session
         milestone_rows.append(
             f"| {milestone.source_order} | {markdown_link(target_path, milestone_path, milestone.name)} | "
             f"{format_money(raw_milestone.get('amount', milestone.amount), active_contract.currency)} | "
-            f"{raw_milestone.get('percentage', milestone.percentage) or 'N/A'} | {milestone.status} |"
+            f"{raw_milestone.get('percentage', milestone.percentage) or 'N/A'} | {zh_status(milestone.status)} |"
         )
 
     metadata = build_frontmatter(
@@ -814,33 +867,33 @@ def generate_contract_page(contract_key: str, contracts: list[Contract], session
             "",
             f"# {active_contract.contract_name}",
             "",
-            "## Snapshot",
-            f"- Contract key: `{contract_key}`",
-            f"- Current version: `v{active_contract.version_number}`",
-            f"- Source documents tracked: {len(contracts)}",
-            f"- Active source: `{active_contract.source_file}`",
-            f"- Current total amount: {format_money(active_contract.total_amount, active_contract.currency)}",
-            f"- Active milestone count: {len(active_milestones)}",
+            "## 快照",
+            f"- 合約鍵：`{contract_key}`",
+            f"- 目前版本：`v{active_contract.version_number}`",
+            f"- 已追蹤來源文件數：{len(contracts)}",
+            f"- 現行來源：`{active_contract.source_file}`",
+            f"- 目前總金額：{format_money(active_contract.total_amount, active_contract.currency)}",
+            f"- 目前里程碑數量：{len(active_milestones)}",
             "",
-            "## Source Timeline",
-            "| Source | Version | Type | State | Page |",
+            "## 來源時間軸",
+            "| 來源 | 版本 | 類型 | 狀態 | 頁面 |",
             "|---|---|---|---|---|",
             *(source_rows or ["| - | - | - | - | - |"]),
             "",
-            "## Current Milestones",
-            "| # | Milestone | Amount | % | Status |",
+            "## 目前里程碑",
+            "| # | 里程碑 | 金額 | % | 狀態 |",
             "|---|---|---|---|---|",
-            *(milestone_rows or ["| - | No milestone schedule extracted from the active source. | - | - | - |"]),
+            *(milestone_rows or ["| - | 現行來源未抽取到里程碑付款表。 | - | - | - |"]),
             "",
-            "## Contradictions And Version Changes",
-            *(unique_lines(conflict_lines) or ["- No version conflicts have been recorded yet."]),
+            "## 矛盾與版本變更",
+            *(unique_lines(conflict_lines) or ["- 目前尚未記錄版本衝突。"]),
             "",
             *deterministic_summary,
             "",
             *llm_summary,
             "",
-            "## Open Questions",
-            *(unique_lines(warning_lines) or ["- No validation warnings are currently open."]),
+            "## 待確認問題",
+            *(unique_lines(warning_lines) or ["- 目前沒有未結的驗證警示。"]),
         ]
     )
 
@@ -854,14 +907,14 @@ def generate_source_page(contract: Contract, milestones: list[Milestone], warnin
     raw_payload = load_raw_payload(contract)
     notes = []
     for section_name, label in (
-        ("scope_items", "Scope"),
-        ("acceptance_requirements", "Acceptance"),
-        ("safety_requirements", "Safety"),
-        ("warranty_requirements", "Warranty"),
+        ("scope_items", "範圍"),
+        ("acceptance_requirements", "驗收"),
+        ("safety_requirements", "安全"),
+        ("warranty_requirements", "保固"),
     ):
         notes.extend(f"- **{label}:** {item}" for item in unique_lines(raw_payload.get(section_name, []), limit=4))
-    validation_lines = [f"- [{warning.severity}] {warning.message}" for warning in warnings]
-    conflict_lines = [f"- `{item['field']}` changed from `{item['old']}` to `{item['new']}`" for item in raw_payload.get("version_conflicts", [])]
+    validation_lines = [f"- [{warning.severity}] {zh_warning_message(warning.message)}" for warning in warnings]
+    conflict_lines = [f"- `{item['field']}` 由 `{item['old']}` 變更為 `{item['new']}`" for item in raw_payload.get("version_conflicts", [])]
     milestone_lines = [f"- {markdown_link(target_path, milestone_page_path(contract.contract_key, item.milestone_key), item.name)}" for item in milestones]
     metadata = build_frontmatter(
         {
@@ -881,27 +934,27 @@ def generate_source_page(contract: Contract, milestones: list[Milestone], warnin
         [
             metadata,
             "",
-            f"# Source: {contract.source_file}",
+            f"# 來源：{contract.source_file}",
             "",
-            "## Metadata",
-            f"- Contract: {markdown_link(target_path, contract_path, contract.contract_name)}",
-            f"- Version snapshot: {markdown_link(target_path, version_path, f'v{contract.version_number}')}",
-            f"- Contract ID: `{contract.contract_id}`",
-            f"- Source hash: `{contract.source_hash}`",
-            f"- Document type: `{contract.doc_category}`",
-            f"- Total amount: {format_money(contract.total_amount, contract.currency)}",
+            "## 中繼資料",
+            f"- 合約：{markdown_link(target_path, contract_path, contract.contract_name)}",
+            f"- 版本快照：{markdown_link(target_path, version_path, f'v{contract.version_number}')}",
+            f"- 合約 ID：`{contract.contract_id}`",
+            f"- 來源雜湊：`{contract.source_hash}`",
+            f"- 文件類型：`{zh_doc_category(contract.doc_category)}`",
+            f"- 總金額：{format_money(contract.total_amount, contract.currency)}",
             "",
-            "## Extracted Milestones",
-            *(milestone_lines or ["- No milestone schedule was extracted from this source."]),
+            "## 抽取出的里程碑",
+            *(milestone_lines or ["- 此來源未抽取到里程碑付款表。"]),
             "",
-            "## Version Notes",
-            *(conflict_lines or ["- This source did not introduce a tracked contradiction."]),
+            "## 版本註記",
+            *(conflict_lines or ["- 此來源未引入已追蹤的矛盾。"]),
             "",
-            "## Validation",
-            *(validation_lines or ["- Validation passed without warnings."]),
+            "## 驗證",
+            *(validation_lines or ["- 驗證通過，沒有警示。"]),
             "",
-            "## Notes",
-            *(notes or ["- No structured technical notes were extracted from this source."]),
+            "## 補充註記",
+            *(notes or ["- 此來源未抽取到結構化技術註記。"]),
         ]
     )
 
@@ -939,7 +992,7 @@ def generate_milestone_page(contract: Contract, milestone: Milestone, *, snapsho
         for citation in grouped_citations[field_name]:
             snippet = normalize_citation_snippet(citation.get("text_snippet")) or citation.get("text_snippet", "")
             citation_lines.append(f"- {snippet}")
-            citation_lines.append(f"  *{citation['source_file']}, paragraph {citation['para_start']}, page ~{citation['page_estimate']}*")
+            citation_lines.append(f"  *{citation['source_file']}，段落 {citation['para_start']}，頁面約 {citation['page_estimate']}*")
         citation_lines.append("")
     work_items = raw_milestone.get("work_items") or json.loads(milestone.work_items_json)
     amount = raw_milestone.get("amount", milestone.amount)
@@ -968,24 +1021,24 @@ def generate_milestone_page(contract: Contract, milestone: Milestone, *, snapsho
             "",
             f"# {milestone.name}",
             "",
-            "## Context",
-            f"- Contract: {markdown_link(target_path, contract_path, contract.contract_name)}",
-            f"- Source: {markdown_link(target_path, source_path, contract.source_file)}",
-            f"- Milestone key: `{milestone.milestone_key}`",
-            f"- Version: `v{contract.version_number}`",
-            f"- Amount: {format_money(amount, contract.currency)}",
-            f"- Percentage: {percentage or 'N/A'}",
-            f"- Status: `{milestone.status}`",
+            "## 脈絡",
+            f"- 合約：{markdown_link(target_path, contract_path, contract.contract_name)}",
+            f"- 來源：{markdown_link(target_path, source_path, contract.source_file)}",
+            f"- 里程碑鍵：`{milestone.milestone_key}`",
+            f"- 版本：`v{contract.version_number}`",
+            f"- 金額：{format_money(amount, contract.currency)}",
+            f"- 百分比：{percentage or 'N/A'}",
+            f"- 狀態：`{zh_status(milestone.status)}`",
             "",
-            "## Terms",
-            f"- Payment condition: {payment_condition or 'N/A'}",
-            f"- Acceptance criteria: {acceptance_criteria or 'N/A'}",
+            "## 條件",
+            f"- 付款條件：{payment_condition or 'N/A'}",
+            f"- 驗收條件：{acceptance_criteria or 'N/A'}",
             "",
-            "## Work Items",
-            *([f"- {item}" for item in work_items] or ["- No work items were extracted for this milestone."]),
+            "## 工作項目",
+            *([f"- {item}" for item in work_items] or ["- 此里程碑未抽取到工作項目。"]),
             "",
-            "## Citations",
-            *(citation_lines or ["- No citations were stored for this milestone."]),
+            "## 引用來源",
+            *(citation_lines or ["- 此里程碑沒有儲存引用來源。"]),
         ]
     )
 
@@ -994,9 +1047,9 @@ def regenerate_log(session: Any) -> None:
     ingest_events = session.exec(select(IngestEvent).order_by(IngestEvent.created_at)).all()
     filed_queries = session.exec(select(FiledQuery).order_by(FiledQuery.created_at)).all()
     lines = [
-        build_frontmatter({"kind": "log", "title": "Wiki Log", "updated_at": now_label(), "tags": ["log", "wiki"]}),
+        build_frontmatter({"kind": "log", "title": "Wiki 紀錄", "updated_at": now_label(), "tags": ["log", "wiki"]}),
         "",
-        "# Wiki Log",
+        "# Wiki 紀錄",
         "",
     ]
     for event in ingest_events:
@@ -1004,24 +1057,24 @@ def regenerate_log(session: Any) -> None:
         pages = json.loads(event.created_pages_json)
         lines.extend(
             [
-                f"## [{event.created_at.strftime('%Y-%m-%d %H:%M UTC')}] ingest | {event.source_file}",
-                f"- Action: `{event.action}`",
-                f"- Contract key: `{event.contract_key}`",
-                f"- Contract ID: `{event.contract_id or '-'}`",
-                f"- Version: `v{event.version_number}`",
-                f"- Source hash: `{event.source_hash[:12]}`",
-                *(f"- Page: `{page}`" for page in pages[:8]),
-                *(f"- CONTRADICTION: `{item['field']}` {item['old']} -> {item['new']}" for item in diffs),
+                f"## [{event.created_at.strftime('%Y-%m-%d %H:%M UTC')}] 匯入 | {event.source_file}",
+                f"- 動作：`{event.action}`",
+                f"- 合約鍵：`{event.contract_key}`",
+                f"- 合約 ID：`{event.contract_id or '-'}`",
+                f"- 版本：`v{event.version_number}`",
+                f"- 來源雜湊：`{event.source_hash[:12]}`",
+                *(f"- 頁面：`{page}`" for page in pages[:8]),
+                *(f"- 矛盾：`{item['field']}` `{item['old']}` -> `{item['new']}`" for item in diffs),
                 "",
             ]
         )
     for filed in filed_queries:
         lines.extend(
             [
-                f"## [{filed.created_at.strftime('%Y-%m-%d %H:%M UTC')}] query | {filed.query_id}",
-                f"- Chat session: `{filed.chat_session_id}`",
-                f"- Question: {filed.question}",
-                f"- Wiki page: `{filed.wiki_path}`",
+                f"## [{filed.created_at.strftime('%Y-%m-%d %H:%M UTC')}] 查詢 | {filed.query_id}",
+                f"- 聊天工作階段：`{filed.chat_session_id}`",
+                f"- 問題：{filed.question}",
+                f"- Wiki 頁面：`{filed.wiki_path}`",
                 "",
             ]
         )
@@ -1035,24 +1088,24 @@ def regenerate_index(session: Any) -> None:
         grouped[contract.contract_key].append(contract)
     filed_queries = session.exec(select(FiledQuery).order_by(FiledQuery.created_at.desc())).all()
     lines = [
-        build_frontmatter({"kind": "index", "title": "Repository Index", "updated_at": now_label(), "tags": ["index", "wiki"]}),
+        build_frontmatter({"kind": "index", "title": "知識庫索引", "updated_at": now_label(), "tags": ["index", "wiki"]}),
         "",
-        "# Repository Index",
+        "# 知識庫索引",
         "",
-        "## Contracts",
+        "## 合約",
     ]
     for contract_key, items in grouped.items():
         active = next((item for item in items if not item.is_superseded), items[0])
-        lines.append(f"- [{active.contract_name}](contracts/{contract_key}.md) · `{contract_key}` · {len(items)} versions")
-    lines.extend(["", "## Sources"])
+        lines.append(f"- [{active.contract_name}](contracts/{contract_key}.md) · `{contract_key}` · {len(items)} 個版本")
+    lines.extend(["", "## 來源"])
     for contract in contracts:
-        lines.append(f"- [{contract.source_file}](sources/{contract.contract_key}__v{contract.version_number}.md) · `{contract.contract_key}` · v{contract.version_number} · {contract.doc_category}")
-    lines.extend(["", "## Query Notes"])
+        lines.append(f"- [{contract.source_file}](sources/{contract.contract_key}__v{contract.version_number}.md) · `{contract.contract_key}` · v{contract.version_number} · {zh_doc_category(contract.doc_category)}")
+    lines.extend(["", "## 查詢筆記"])
     if filed_queries:
         lines.extend(f"- [{item.question[:80]}]({item.wiki_path})" for item in filed_queries)
     else:
-        lines.append("- No query notes have been filed yet.")
-    lines.extend(["", "## Operations", "- [Wiki Log](log.md)"])
+        lines.append("- 目前尚未歸檔查詢筆記。")
+    lines.extend(["", "## 操作", "- [Wiki 紀錄](log.md)"])
     write_markdown(settings.wiki_dir / "index.md", "\n".join(lines))
 
 
@@ -1144,7 +1197,7 @@ def append_query_note(
         }
     )
     citation_lines = [
-        f"- `{item.get('source_file')}` · block `{item.get('chunk_id') or item.get('block_id')}` · page ~{item.get('page_estimate')} · {item.get('text_snippet', '')[:180]}"
+        f"- `{item.get('source_file')}` · 區塊 `{item.get('chunk_id') or item.get('block_id')}` · 頁面約 {item.get('page_estimate')} · {item.get('text_snippet', '')[:180]}"
         for item in citations[:8]
     ]
     content = "\n".join(
@@ -1153,15 +1206,15 @@ def append_query_note(
             "",
             f"# {query}",
             "",
-            f"- Chat session: `{chat_session_id}`",
-            f"- Answer method: `{answer_method}`",
-            f"- Retrieval mode: `{retrieval_mode}`",
+            f"- 聊天工作階段：`{chat_session_id}`",
+            f"- 回答方式：`{answer_method}`",
+            f"- 檢索模式：`{retrieval_mode}`",
             "",
-            "## Answer",
+            "## 回答",
             answer,
             "",
-            "## Evidence",
-            *(citation_lines or ["- No evidence was attached."]),
+            "## 證據",
+            *(citation_lines or ["- 沒有附帶證據。"]),
         ]
     )
     write_markdown(path, content)
@@ -1262,22 +1315,22 @@ def run_wiki_lint(session: Any) -> dict[str, Any]:
     for page in manifest:
         for related in page.get("related", []):
             if related not in page_paths:
-                findings.append({"severity": "warning", "page": page["path"], "message": f"Missing related page: {related}"})
+                findings.append({"severity": "warning", "page": page["path"], "message": f"缺少相關頁面：{related}"})
         if page["kind"] in {"contract", "source", "milestone", "query"} and not page.get("related"):
-            findings.append({"severity": "warning", "page": page["path"], "message": "Page has no related links in metadata."})
+            findings.append({"severity": "warning", "page": page["path"], "message": "頁面中繼資料沒有相關連結。"})
     for contract in session.exec(select(Contract)).all():
         expected = wiki_relative(source_page_path(contract))
         if expected not in page_paths:
-            findings.append({"severity": "error", "page": expected, "message": "Missing source page for ingested contract."})
+            findings.append({"severity": "error", "page": expected, "message": "已匯入合約缺少來源頁。"})
     for milestone in session.exec(select(Milestone)).all():
         contract = session.get(Contract, milestone.contract_id)
         if not contract:
             continue
         expected = wiki_relative(milestone_version_page_path(contract.contract_key, milestone.milestone_key, contract.version_number))
         if expected not in page_paths:
-            findings.append({"severity": "error", "page": expected, "message": "Missing milestone version page."})
+            findings.append({"severity": "error", "page": expected, "message": "缺少里程碑版本頁。"})
         if not json.loads(milestone.citations_json):
-            findings.append({"severity": "warning", "page": expected, "message": "Milestone has no citations attached."})
+            findings.append({"severity": "warning", "page": expected, "message": "里程碑沒有附帶引用來源。"})
     return {
         "status": "ok" if not any(item["severity"] == "error" for item in findings) else "warning",
         "findings": findings,

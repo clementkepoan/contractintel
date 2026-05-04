@@ -1,15 +1,26 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BookOpen, Eye, Network, Upload } from "lucide-react";
 import { api, formatDate, formatMoney } from "../api/client.js";
-import { useI18n } from "../i18n.jsx";
+import { normalizeTypeValue, translateContractType, useI18n } from "../i18n.jsx";
 import { EmptyBlock, ErrorBlock, LoadingBlock } from "../components/Ui.jsx";
 import { StatusBadge } from "../components/StatusBadge.jsx";
 
 function workflowTone(milestones = []) {
-  if (milestones.some((item) => item.status === "payment_requested")) return "Active";
-  if (milestones.some((item) => item.status === "accepted")) return "Under Review";
-  if (milestones.length === 0) return "Draft";
-  return "Active";
+  if (milestones.some((item) => item.status === "payment_requested")) return "active";
+  if (milestones.some((item) => item.status === "accepted")) return "underReview";
+  if (milestones.length === 0) return "draft";
+  return "active";
+}
+
+function workflowLabel(workflow, t) {
+  if (workflow === "underReview") return t("overview.workflowUnderReview");
+  if (workflow === "draft") return t("overview.workflowDraft");
+  return t("overview.workflowActive");
+}
+
+function workflowClass(workflow) {
+  if (workflow === "underReview") return "under-review";
+  return workflow;
 }
 
 function UploadProgressBar({ run, requestProgress }) {
@@ -157,7 +168,9 @@ export function OverviewPage({ activeIngestRun, refreshActiveIngestRun, setPage,
   }, [visibleContracts, financials]);
 
   const filtered = visibleContracts.filter((contract) => {
-    const typeOk = typeFilter === "all" || contract.doc_category === typeFilter || contract.contract_type === typeFilter;
+    const docCategory = normalizeTypeValue(contract.doc_category);
+    const contractType = normalizeTypeValue(contract.contract_type);
+    const typeOk = typeFilter === "all" || docCategory === typeFilter || contractType === typeFilter;
     const validationState = contract.validation?.length ? "warning" : "passed";
     const validationOk = validationFilter === "all" || validationFilter === validationState;
     return typeOk && validationOk;
@@ -217,7 +230,9 @@ export function OverviewPage({ activeIngestRun, refreshActiveIngestRun, setPage,
             <option value="all">{t("overview.typeAll")}</option>
             <option value="contract">{t("overview.typeContract")}</option>
             <option value="rfp">{t("overview.typeRfp")}</option>
-            <option value="ci">{t("overview.typeCi")}</option>
+            <option value="construction_instruction">{t("overview.typeCi")}</option>
+            <option value="spec_rfp">{t("overview.typeSpecRfp")}</option>
+            <option value="mixed">{t("overview.typeMixed")}</option>
           </select>
           <select value={validationFilter} onChange={(event) => setValidationFilter(event.target.value)}>
             <option value="all">{t("overview.validationAll")}</option>
@@ -273,11 +288,11 @@ export function OverviewPage({ activeIngestRun, refreshActiveIngestRun, setPage,
                         <strong>{contract.contract_name}</strong>
                         <small>{contract.source_file}</small>
                       </td>
-                      <td>{String(contract.doc_category || contract.contract_type || "contract").toUpperCase()}</td>
+                      <td>{translateContractType(contract.doc_category || contract.contract_type || "contract", t)}</td>
                       <td>{formatMoney(contract.total_amount, contract.currency)}</td>
                       <td>{contract.milestones?.length || 0}</td>
                       <td><StatusBadge status={validationState} /></td>
-                      <td><span className={`workflow-pill ${workflow.toLowerCase().replaceAll(" ", "-")}`}>{workflow}</span></td>
+                      <td><span className={`workflow-pill ${workflowClass(workflow)}`}>{workflowLabel(workflow, t)}</span></td>
                       <td>{formatDate(contract.updated_at || null)}</td>
                       <td>
                         <div className="action-icons">

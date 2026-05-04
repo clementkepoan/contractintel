@@ -1,0 +1,2023 @@
+{
+  "nodes": [
+    {
+      "id": "c_aa78dc4860",
+      "type": "Contract",
+      "name": "XX專案",
+      "status": "passed",
+      "contract_id": "c_aa78dc4860",
+      "source_file": "01XX專案.docx",
+      "doc_category": "rfp",
+      "total_amount": null,
+      "currency": "TWD",
+      "overview": "契約目的 - 建置智慧能源管理系統。 - 透過整合多種物聯網感測裝置，收集並可視化現場負載及能源耗用資訊。",
+      "overview_label": "契約目的"
+    },
+    {
+      "id": "warning_1",
+      "type": "ValidationWarning",
+      "message": "未找到合約總金額；此文件可能是招標文件或得標前文件。",
+      "severity": "warning",
+      "contract_id": "c_aa78dc4860"
+    },
+    {
+      "id": "warning_2",
+      "type": "ValidationWarning",
+      "message": "未抽取到里程碑區塊。",
+      "severity": "warning",
+      "contract_id": "c_aa78dc4860"
+    },
+    {
+      "id": "c_867f0e4dd3",
+      "type": "Contract",
+      "name": "XX專案",
+      "status": "passed",
+      "contract_id": "c_867f0e4dd3",
+      "source_file": "02XX專案.docx",
+      "doc_category": "contract",
+      "total_amount": 23830643,
+      "currency": "TWD",
+      "overview": "契約目的 - 委託乙方執行特定專案的工程與交付工作。 - 規範了工程的實作實算計價與相關的權責義務。",
+      "overview_label": "契約目的"
+    },
+    {
+      "id": "m_69678c12beaa",
+      "type": "Milestone",
+      "name": "第一期：於本契約簽訂後",
+      "status": "pending_acceptance",
+      "amount": 7149193,
+      "contract_id": "c_867f0e4dd3",
+      "source_order": 1,
+      "payment_state": "no_invoice",
+      "invoice_count": 0,
+      "payment_count": 0,
+      "paid_amount": 0
+    },
+    {
+      "id": "work_de057e935a9f2b3e",
+      "type": "WorkItem",
+      "description": "於本契約簽訂",
+      "contract_id": "c_867f0e4dd3",
+      "milestone_id": "m_69678c12beaa"
+    },
+    {
+      "id": "m_1ab15ddce50a",
+      "type": "Milestone",
+      "name": "第二期：於完成本契約約定之項目並進入系統測試後",
+      "status": "pending_acceptance",
+      "amount": 9532257,
+      "contract_id": "c_867f0e4dd3",
+      "source_order": 2,
+      "payment_state": "no_invoice",
+      "invoice_count": 0,
+      "payment_count": 0,
+      "paid_amount": 0
+    },
+    {
+      "id": "work_0fc242b014eedf09",
+      "type": "WorkItem",
+      "description": "完成本契約約定之項目",
+      "contract_id": "c_867f0e4dd3",
+      "milestone_id": "m_1ab15ddce50a"
+    },
+    {
+      "id": "work_3274e3ecb892dd59",
+      "type": "WorkItem",
+      "description": "進入系統測試",
+      "contract_id": "c_867f0e4dd3",
+      "milestone_id": "m_1ab15ddce50a"
+    },
+    {
+      "id": "m_820228e18509",
+      "type": "Milestone",
+      "name": "第三期：於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後",
+      "status": "pending_acceptance",
+      "amount": 7149193,
+      "contract_id": "c_867f0e4dd3",
+      "source_order": 3,
+      "payment_state": "no_invoice",
+      "invoice_count": 0,
+      "payment_count": 0,
+      "paid_amount": 0
+    },
+    {
+      "id": "work_12b4bb5122da35e3",
+      "type": "WorkItem",
+      "description": "完成本契約約定之項目全部功能",
+      "contract_id": "c_867f0e4dd3",
+      "milestone_id": "m_820228e18509"
+    },
+    {
+      "id": "work_2625f8334831d096",
+      "type": "WorkItem",
+      "description": "移交甲方測試兩週",
+      "contract_id": "c_867f0e4dd3",
+      "milestone_id": "m_820228e18509"
+    },
+    {
+      "id": "work_deccf5f60c348651",
+      "type": "WorkItem",
+      "description": "驗收合格正式上線",
+      "contract_id": "c_867f0e4dd3",
+      "milestone_id": "m_820228e18509"
+    },
+    {
+      "id": "clause_f2b85f5eeafeeffe33cd",
+      "type": "Clause",
+      "text": "新臺幣 23,830,643 元",
+      "source_file": "02XX專案.docx",
+      "location": "段落 10-10，頁面約 1",
+      "clause_type": "total_amount",
+      "field_name": "total_amount",
+      "block_id": "02XX專案_block_0010",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_1cab58b8db663b03e1e4",
+      "type": "Clause",
+      "text": "第一期：於本契約簽訂後",
+      "source_file": "02XX專案.docx",
+      "location": "段落 29-29，頁面約 2",
+      "clause_type": "name",
+      "field_name": "milestone.name",
+      "block_id": "02XX專案_block_0029",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_d24567b23cc75d3bfe05",
+      "type": "Clause",
+      "text": "給付7,149,193元",
+      "source_file": "02XX專案.docx",
+      "location": "段落 29-29，頁面約 2",
+      "clause_type": "amount",
+      "field_name": "milestone.amount",
+      "block_id": "02XX專案_block_0029",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_043493de8fdec28c567a",
+      "type": "Clause",
+      "text": "30%",
+      "source_file": "02XX專案.docx",
+      "location": "段落 29-29，頁面約 2",
+      "clause_type": "percentage",
+      "field_name": "milestone.percentage",
+      "block_id": "02XX專案_block_0029",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_bbea9e68e6f1f81c7b2d",
+      "type": "Clause",
+      "text": "第一期：於本契約簽訂後，給付7,149,193元整，佔總金額 30%",
+      "source_file": "02XX專案.docx",
+      "location": "段落 29-29，頁面約 2",
+      "clause_type": "payment_condition",
+      "field_name": "milestone.payment_condition",
+      "block_id": "02XX專案_block_0029",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_f739c67d2fe0a4b9047a",
+      "type": "Clause",
+      "text": "於本契約簽訂後",
+      "source_file": "02XX專案.docx",
+      "location": "段落 29-29，頁面約 2",
+      "clause_type": "acceptance_criteria",
+      "field_name": "milestone.acceptance_criteria",
+      "block_id": "02XX專案_block_0029",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_53e065507a5495889f5a",
+      "type": "Clause",
+      "text": "第一期：於本契約簽訂後，給付7,149,193元整，佔總金額 30%。",
+      "source_file": "02XX專案.docx",
+      "location": "段落 29-29，頁面約 2",
+      "clause_type": "work_items",
+      "field_name": "milestone.work_items",
+      "block_id": "02XX專案_block_0029",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_325ef344dbe4028ca6d7",
+      "type": "Clause",
+      "text": "第二期：於完成本契約約定之項目並進入系統測試後",
+      "source_file": "02XX專案.docx",
+      "location": "段落 30-30，頁面約 3",
+      "clause_type": "name",
+      "field_name": "milestone.name",
+      "block_id": "02XX專案_block_0030",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_659412ffab044e71c4d9",
+      "type": "Clause",
+      "text": "給付9,532,257元",
+      "source_file": "02XX專案.docx",
+      "location": "段落 30-30，頁面約 3",
+      "clause_type": "amount",
+      "field_name": "milestone.amount",
+      "block_id": "02XX專案_block_0030",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_9f83a5b1507d2bd2e7e8",
+      "type": "Clause",
+      "text": "40%",
+      "source_file": "02XX專案.docx",
+      "location": "段落 30-30，頁面約 3",
+      "clause_type": "percentage",
+      "field_name": "milestone.percentage",
+      "block_id": "02XX專案_block_0030",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_678f15e4a3b0c28c28aa",
+      "type": "Clause",
+      "text": "第二期：於完成本契約約定之項目並進入系統測試後，給付9,532,257元整，佔總金額 40%",
+      "source_file": "02XX專案.docx",
+      "location": "段落 30-30，頁面約 3",
+      "clause_type": "payment_condition",
+      "field_name": "milestone.payment_condition",
+      "block_id": "02XX專案_block_0030",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_690c39896123c6131c5c",
+      "type": "Clause",
+      "text": "於完成本契約約定之項目並進入系統測試後",
+      "source_file": "02XX專案.docx",
+      "location": "段落 30-30，頁面約 3",
+      "clause_type": "acceptance_criteria",
+      "field_name": "milestone.acceptance_criteria",
+      "block_id": "02XX專案_block_0030",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_1ce3289722c00437c484",
+      "type": "Clause",
+      "text": "第二期：於完成本契約約定之項目並進入系統測試後，給付9,532,257元整，佔總金額 40%。",
+      "source_file": "02XX專案.docx",
+      "location": "段落 30-30，頁面約 3",
+      "clause_type": "work_items",
+      "field_name": "milestone.work_items",
+      "block_id": "02XX專案_block_0030",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_65ef1f0f19cb67a5de00",
+      "type": "Clause",
+      "text": "第三期：於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後",
+      "source_file": "02XX專案.docx",
+      "location": "段落 31-31，頁面約 3",
+      "clause_type": "name",
+      "field_name": "milestone.name",
+      "block_id": "02XX專案_block_0031",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_6d21e8f3b3b31d1920a0",
+      "type": "Clause",
+      "text": "給付7,149,193元",
+      "source_file": "02XX專案.docx",
+      "location": "段落 31-31，頁面約 3",
+      "clause_type": "amount",
+      "field_name": "milestone.amount",
+      "block_id": "02XX專案_block_0031",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_bb4a645d6f27d830d0aa",
+      "type": "Clause",
+      "text": "30%",
+      "source_file": "02XX專案.docx",
+      "location": "段落 31-31，頁面約 3",
+      "clause_type": "percentage",
+      "field_name": "milestone.percentage",
+      "block_id": "02XX專案_block_0031",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_3b10b68b61a4d42d8170",
+      "type": "Clause",
+      "text": "第三期：於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後，給付7,149,193元整，佔總金額 30%",
+      "source_file": "02XX專案.docx",
+      "location": "段落 31-31，頁面約 3",
+      "clause_type": "payment_condition",
+      "field_name": "milestone.payment_condition",
+      "block_id": "02XX專案_block_0031",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_67a135e1c5c1ce083eea",
+      "type": "Clause",
+      "text": "於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後",
+      "source_file": "02XX專案.docx",
+      "location": "段落 31-31，頁面約 3",
+      "clause_type": "acceptance_criteria",
+      "field_name": "milestone.acceptance_criteria",
+      "block_id": "02XX專案_block_0031",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_ad710b2b7172646cac1e",
+      "type": "Clause",
+      "text": "第三期：於完成本契約約定之項目全部功能且移交甲方測試兩週並驗收合格正式上線後，給付7,149,193元整，佔總金額 30%。",
+      "source_file": "02XX專案.docx",
+      "location": "段落 31-31，頁面約 3",
+      "clause_type": "work_items",
+      "field_name": "milestone.work_items",
+      "block_id": "02XX專案_block_0031",
+      "contract_id": "c_867f0e4dd3",
+      "risk_tags": []
+    },
+    {
+      "id": "c_7064b36b49",
+      "type": "Contract",
+      "name": "施工說明書",
+      "status": "passed",
+      "contract_id": "c_7064b36b49",
+      "source_file": "03XX專案.doc",
+      "doc_category": "construction_instruction",
+      "total_amount": null,
+      "currency": "TWD",
+      "overview": "契約目的 - 建置建築能源管理系統（BEMS）及家庭能源管理系統（HEMS）。 - 旨在達成公共設備節能與社區電力監控功能。",
+      "overview_label": "契約目的"
+    },
+    {
+      "id": "warning_3",
+      "type": "ValidationWarning",
+      "message": "未找到合約總金額；此文件可能是招標文件或得標前文件。",
+      "severity": "warning",
+      "contract_id": "c_7064b36b49"
+    },
+    {
+      "id": "warning_4",
+      "type": "ValidationWarning",
+      "message": "未抽取到里程碑區塊。",
+      "severity": "warning",
+      "contract_id": "c_7064b36b49"
+    },
+    {
+      "id": "c_209fc5c6c2",
+      "type": "Contract",
+      "name": "XX專案",
+      "status": "failed",
+      "contract_id": "c_209fc5c6c2",
+      "source_file": "04XX專案.docx",
+      "doc_category": "contract",
+      "total_amount": 32285563,
+      "currency": "TWD",
+      "overview": "契約目的 - 乙方承攬甲方委託處理的機電工程中的「各項系統整合工程/門禁通關」工作。 - 雙方同意共同遵守本合約的約定條款。",
+      "overview_label": "契約目的"
+    },
+    {
+      "id": "m_c85693c67678",
+      "type": "Milestone",
+      "name": "簽約金",
+      "status": "pending_acceptance",
+      "amount": 6457113,
+      "contract_id": "c_209fc5c6c2",
+      "source_order": 1,
+      "payment_state": "no_invoice",
+      "invoice_count": 0,
+      "payment_count": 0,
+      "paid_amount": 0
+    },
+    {
+      "id": "work_b383096a5d569020",
+      "type": "WorkItem",
+      "description": "簽約金(20%)：本合約簽訂",
+      "contract_id": "c_209fc5c6c2",
+      "milestone_id": "m_c85693c67678"
+    },
+    {
+      "id": "m_c37080635169",
+      "type": "Milestone",
+      "name": "工程設備款",
+      "status": "pending_acceptance",
+      "amount": 6457113,
+      "contract_id": "c_209fc5c6c2",
+      "source_order": 2,
+      "payment_state": "no_invoice",
+      "invoice_count": 0,
+      "payment_count": 0,
+      "paid_amount": 0
+    },
+    {
+      "id": "work_37011942b402b2f4",
+      "type": "WorkItem",
+      "description": "工程設備款(20%)：各項硬體設備及採購單完成下訂並提供PO單證明後，",
+      "contract_id": "c_209fc5c6c2",
+      "milestone_id": "m_c37080635169"
+    },
+    {
+      "id": "m_4c2c4628a337",
+      "type": "Milestone",
+      "name": "設備安裝工程款",
+      "status": "pending_acceptance",
+      "amount": 6457113,
+      "contract_id": "c_209fc5c6c2",
+      "source_order": 3,
+      "payment_state": "no_invoice",
+      "invoice_count": 0,
+      "payment_count": 0,
+      "paid_amount": 0
+    },
+    {
+      "id": "work_d6bcc33ead1d987a",
+      "type": "WorkItem",
+      "description": "設備安裝工程款(20%)：完成報價單項目一至項目六之硬體設備安裝，",
+      "contract_id": "c_209fc5c6c2",
+      "milestone_id": "m_4c2c4628a337"
+    },
+    {
+      "id": "m_9a844ec65490",
+      "type": "Milestone",
+      "name": "功能檢測款",
+      "status": "pending_acceptance",
+      "amount": 6457113,
+      "contract_id": "c_209fc5c6c2",
+      "source_order": 4,
+      "payment_state": "no_invoice",
+      "invoice_count": 0,
+      "payment_count": 0,
+      "paid_amount": 0
+    },
+    {
+      "id": "work_faf1c57affe1a36b",
+      "type": "WorkItem",
+      "description": "完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成",
+      "contract_id": "c_209fc5c6c2",
+      "milestone_id": "m_9a844ec65490"
+    },
+    {
+      "id": "m_17d2254d4423",
+      "type": "Milestone",
+      "name": "功能整合款",
+      "status": "pending_acceptance",
+      "amount": 6457111,
+      "contract_id": "c_209fc5c6c2",
+      "source_order": 5,
+      "payment_state": "no_invoice",
+      "invoice_count": 0,
+      "payment_count": 0,
+      "paid_amount": 0
+    },
+    {
+      "id": "work_7de10d89b76e6456",
+      "type": "WorkItem",
+      "description": "將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件",
+      "contract_id": "c_209fc5c6c2",
+      "milestone_id": "m_17d2254d4423"
+    },
+    {
+      "id": "clause_f52829c0a0255b39ee1b",
+      "type": "Clause",
+      "text": "NT$     32,285,563",
+      "source_file": "04XX專案.docx",
+      "location": "段落 9-9，頁面約 1",
+      "clause_type": "total_amount",
+      "field_name": "total_amount",
+      "block_id": "04XX專案_block_0009",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_0f96a6d37a833637cad1",
+      "type": "Clause",
+      "text": "工程總價 20",
+      "source_file": "04XX專案.docx",
+      "location": "段落 22-22，頁面約 2",
+      "clause_type": "total_amount",
+      "field_name": "total_amount",
+      "block_id": "04XX專案_block_0022",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_e07501c6b5467e1ce251",
+      "type": "Clause",
+      "text": "工程總價20",
+      "source_file": "04XX專案.docx",
+      "location": "段落 23-23，頁面約 2",
+      "clause_type": "total_amount",
+      "field_name": "total_amount",
+      "block_id": "04XX專案_block_0023",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_02be6857c6f2eea4b1fb",
+      "type": "Clause",
+      "text": "工程總價 20",
+      "source_file": "04XX專案.docx",
+      "location": "段落 24-24，頁面約 2",
+      "clause_type": "total_amount",
+      "field_name": "total_amount",
+      "block_id": "04XX專案_block_0024",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_6684db2621fe0a52a7a8",
+      "type": "Clause",
+      "text": "工程總價 20",
+      "source_file": "04XX專案.docx",
+      "location": "段落 25-25，頁面約 2",
+      "clause_type": "total_amount",
+      "field_name": "total_amount",
+      "block_id": "04XX專案_block_0025",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_36498130d3c0ad6544eb",
+      "type": "Clause",
+      "text": "工程總價 20",
+      "source_file": "04XX專案.docx",
+      "location": "段落 26-26，頁面約 2",
+      "clause_type": "total_amount",
+      "field_name": "total_amount",
+      "block_id": "04XX專案_block_0026",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_c55d079bd105a3d2e245",
+      "type": "Clause",
+      "text": "百",
+      "source_file": "04XX專案.docx",
+      "location": "段落 62-62，頁面約 5",
+      "clause_type": "total_amount",
+      "field_name": "total_amount",
+      "block_id": "04XX專案_block_0062",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_fa15e3cc0f0506a1eedb",
+      "type": "Clause",
+      "text": "十九",
+      "source_file": "04XX專案.docx",
+      "location": "段落 93-93，頁面約 7",
+      "clause_type": "total_amount",
+      "field_name": "total_amount",
+      "block_id": "04XX專案_block_0093",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_db045212f02a0d8f586c",
+      "type": "Clause",
+      "text": "簽約金(20%)",
+      "source_file": "04XX專案.docx",
+      "location": "段落 22-22，頁面約 2",
+      "clause_type": "name",
+      "field_name": "milestone.name",
+      "block_id": "04XX專案_block_0022",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_c00d93560ec45a184b64",
+      "type": "Clause",
+      "text": "即 6,457,113 元",
+      "source_file": "04XX專案.docx",
+      "location": "段落 22-22，頁面約 2",
+      "clause_type": "amount",
+      "field_name": "milestone.amount",
+      "block_id": "04XX專案_block_0022",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_3de803415d7b44ab7445",
+      "type": "Clause",
+      "text": "20%",
+      "source_file": "04XX專案.docx",
+      "location": "段落 22-22，頁面約 2",
+      "clause_type": "percentage",
+      "field_name": "milestone.percentage",
+      "block_id": "04XX專案_block_0022",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_041199c1b5cc5e9f8e8b",
+      "type": "Clause",
+      "text": "簽約金(20%)：本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方",
+      "source_file": "04XX專案.docx",
+      "location": "段落 22-22，頁面約 2",
+      "clause_type": "payment_condition",
+      "field_name": "milestone.payment_condition",
+      "block_id": "04XX專案_block_0022",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_2a9de37100991db99afe",
+      "type": "Clause",
+      "text": "簽約金(20%)：本合約簽訂後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+      "source_file": "04XX專案.docx",
+      "location": "段落 22-22，頁面約 2",
+      "clause_type": "work_items",
+      "field_name": "milestone.work_items",
+      "block_id": "04XX專案_block_0022",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_d23e5474ee7bbef3b29c",
+      "type": "Clause",
+      "text": "工程設備款(20%)",
+      "source_file": "04XX專案.docx",
+      "location": "段落 23-23，頁面約 2",
+      "clause_type": "name",
+      "field_name": "milestone.name",
+      "block_id": "04XX專案_block_0023",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_f258df159c3ca599cdf0",
+      "type": "Clause",
+      "text": "即 6,457,113 元",
+      "source_file": "04XX專案.docx",
+      "location": "段落 23-23，頁面約 2",
+      "clause_type": "amount",
+      "field_name": "milestone.amount",
+      "block_id": "04XX專案_block_0023",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_fe5e717665de82f66fbe",
+      "type": "Clause",
+      "text": "20%",
+      "source_file": "04XX專案.docx",
+      "location": "段落 23-23，頁面約 2",
+      "clause_type": "percentage",
+      "field_name": "milestone.percentage",
+      "block_id": "04XX專案_block_0023",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_e97f4bb9fc8484ada1a6",
+      "type": "Clause",
+      "text": "工程設備款(20%)：乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方",
+      "source_file": "04XX專案.docx",
+      "location": "段落 23-23，頁面約 2",
+      "clause_type": "payment_condition",
+      "field_name": "milestone.payment_condition",
+      "block_id": "04XX專案_block_0023",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_501a9ccd8e50ab06a54b",
+      "type": "Clause",
+      "text": "工程設備款(20%)：乙方各項硬體設備及採購單完成下訂並提供PO單證明後，經甲方確認後，甲方應給付工程總價20％即 6,457,113 元（含稅）予乙方。：",
+      "source_file": "04XX專案.docx",
+      "location": "段落 23-23，頁面約 2",
+      "clause_type": "work_items",
+      "field_name": "milestone.work_items",
+      "block_id": "04XX專案_block_0023",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_1be23b1b2dcf4a095694",
+      "type": "Clause",
+      "text": "設備安裝工程款(20%)",
+      "source_file": "04XX專案.docx",
+      "location": "段落 24-24，頁面約 2",
+      "clause_type": "name",
+      "field_name": "milestone.name",
+      "block_id": "04XX專案_block_0024",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_f781a0223c364357050c",
+      "type": "Clause",
+      "text": "即 6,457,113 元",
+      "source_file": "04XX專案.docx",
+      "location": "段落 24-24，頁面約 2",
+      "clause_type": "amount",
+      "field_name": "milestone.amount",
+      "block_id": "04XX專案_block_0024",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_163d0508b2ce25885ee6",
+      "type": "Clause",
+      "text": "20%",
+      "source_file": "04XX專案.docx",
+      "location": "段落 24-24，頁面約 2",
+      "clause_type": "percentage",
+      "field_name": "milestone.percentage",
+      "block_id": "04XX專案_block_0024",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_b113f65d2ba879ed1359",
+      "type": "Clause",
+      "text": "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方",
+      "source_file": "04XX專案.docx",
+      "location": "段落 24-24，頁面約 2",
+      "clause_type": "payment_condition",
+      "field_name": "milestone.payment_condition",
+      "block_id": "04XX專案_block_0024",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_2123b5fbc210dd7b25c2",
+      "type": "Clause",
+      "text": "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後",
+      "source_file": "04XX專案.docx",
+      "location": "段落 24-24，頁面約 2",
+      "clause_type": "acceptance_criteria",
+      "field_name": "milestone.acceptance_criteria",
+      "block_id": "04XX專案_block_0024",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_6d8f29e731af715145b8",
+      "type": "Clause",
+      "text": "設備安裝工程款(20%)：乙方完成報價單項目一至項目六之硬體設備安裝，經甲方及客戶驗收合格後，甲方應給付工程總價 20% 即 6,457,113 元（含稅）予乙方。",
+      "source_file": "04XX專案.docx",
+      "location": "段落 24-24，頁面約 2",
+      "clause_type": "work_items",
+      "field_name": "milestone.work_items",
+      "block_id": "04XX專案_block_0024",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_097f5d317b92d7b01ad6",
+      "type": "Clause",
+      "text": "功能檢測款(20%)",
+      "source_file": "04XX專案.docx",
+      "location": "段落 25-25，頁面約 2",
+      "clause_type": "name",
+      "field_name": "milestone.name",
+      "block_id": "04XX專案_block_0025",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_93d79919e86e7a5793f8",
+      "type": "Clause",
+      "text": "即 6,457,113 元",
+      "source_file": "04XX專案.docx",
+      "location": "段落 25-25，頁面約 2",
+      "clause_type": "amount",
+      "field_name": "milestone.amount",
+      "block_id": "04XX專案_block_0025",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_956a01c66a1593041da5",
+      "type": "Clause",
+      "text": "20%",
+      "source_file": "04XX專案.docx",
+      "location": "段落 25-25，頁面約 2",
+      "clause_type": "percentage",
+      "field_name": "milestone.percentage",
+      "block_id": "04XX專案_block_0025",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_442b412691c14d3ea2cf",
+      "type": "Clause",
+      "text": "功能檢測款(20%)：乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方",
+      "source_file": "04XX專案.docx",
+      "location": "段落 25-25，頁面約 2",
+      "clause_type": "payment_condition",
+      "field_name": "milestone.payment_condition",
+      "block_id": "04XX專案_block_0025",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_7a5348d2cec1e148f3e0",
+      "type": "Clause",
+      "text": "經甲方及客戶驗收合格後",
+      "source_file": "04XX專案.docx",
+      "location": "段落 25-25，頁面約 2",
+      "clause_type": "acceptance_criteria",
+      "field_name": "milestone.acceptance_criteria",
+      "block_id": "04XX專案_block_0025",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_0202495c262749c66084",
+      "type": "Clause",
+      "text": "功能檢測款(20%)：乙方完成附件一報價單項目一至項目六之各單機設備及系統功能測試運轉完成，經甲方及客戶驗收合格後，甲方應給付工程總價 20%即 6,457,113 元（含稅）予乙方。",
+      "source_file": "04XX專案.docx",
+      "location": "段落 25-25，頁面約 2",
+      "clause_type": "work_items",
+      "field_name": "milestone.work_items",
+      "block_id": "04XX專案_block_0025",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_dcba45eab11a6c509444",
+      "type": "Clause",
+      "text": "功能整合款(20%)",
+      "source_file": "04XX專案.docx",
+      "location": "段落 26-26，頁面約 2",
+      "clause_type": "name",
+      "field_name": "milestone.name",
+      "block_id": "04XX專案_block_0026",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_ebaa91e475f2775854fd",
+      "type": "Clause",
+      "text": "即 6,457,111 元",
+      "source_file": "04XX專案.docx",
+      "location": "段落 26-26，頁面約 2",
+      "clause_type": "amount",
+      "field_name": "milestone.amount",
+      "block_id": "04XX專案_block_0026",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_99fc550c43d9c6a54c3b",
+      "type": "Clause",
+      "text": "20%",
+      "source_file": "04XX專案.docx",
+      "location": "段落 26-26，頁面約 2",
+      "clause_type": "percentage",
+      "field_name": "milestone.percentage",
+      "block_id": "04XX專案_block_0026",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_4836d6308593db07a3ed",
+      "type": "Clause",
+      "text": "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方",
+      "source_file": "04XX專案.docx",
+      "location": "段落 26-26，頁面約 2",
+      "clause_type": "payment_condition",
+      "field_name": "milestone.payment_condition",
+      "block_id": "04XX專案_block_0026",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_5487eb2693a31db97a44",
+      "type": "Clause",
+      "text": "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後",
+      "source_file": "04XX專案.docx",
+      "location": "段落 26-26，頁面約 2",
+      "clause_type": "acceptance_criteria",
+      "field_name": "milestone.acceptance_criteria",
+      "block_id": "04XX專案_block_0026",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_a98a499366c25e8b5749",
+      "type": "Clause",
+      "text": "功能整合款(20%)：乙方將附件一報價單「系統名稱」項目一至項目十三之各項系統，整合至智慧建築管理平台，且智慧建築管理平台功能測試完成，並提出測試運轉紀錄文件，經甲方及客戶驗收合格後，甲方應給付工程總價 20％即 6,457,111 元（含稅）予乙方。",
+      "source_file": "04XX專案.docx",
+      "location": "段落 26-26，頁面約 2",
+      "clause_type": "work_items",
+      "field_name": "milestone.work_items",
+      "block_id": "04XX專案_block_0026",
+      "contract_id": "c_209fc5c6c2",
+      "risk_tags": []
+    },
+    {
+      "id": "warning_5",
+      "type": "ValidationWarning",
+      "message": "文件宣告 6 期付款，但系統抽取到 5 個里程碑。",
+      "severity": "warning",
+      "contract_id": "c_209fc5c6c2"
+    },
+    {
+      "id": "warning_6",
+      "type": "ValidationWarning",
+      "message": "里程碑「功能整合款」標示 20.0%（預期金額 6457113），但抽取金額為 6457111（換算 20.0%）。",
+      "severity": "error",
+      "contract_id": "c_209fc5c6c2"
+    },
+    {
+      "id": "c_7dfcdae600",
+      "type": "Contract",
+      "name": "XX專案",
+      "status": "passed",
+      "contract_id": "c_7dfcdae600",
+      "source_file": "05XX專案.docx",
+      "doc_category": "contract",
+      "total_amount": 16695000,
+      "currency": "TWD",
+      "overview": "契約目的 - 乙方需依據甲方提供的設計與範圍，完成工程施工及交付。 - 確立了工程的階段性付款機制及相關的驗收標準與責任歸屬。",
+      "overview_label": "契約目的"
+    },
+    {
+      "id": "m_135aeaac9c39",
+      "type": "Milestone",
+      "name": "第一期：乙方提交細部設計圖經甲方及客戶核定後",
+      "status": "paid",
+      "amount": 3339000,
+      "contract_id": "c_7dfcdae600",
+      "source_order": 1,
+      "payment_state": "partially_paid",
+      "invoice_count": 3,
+      "payment_count": 3,
+      "paid_amount": 148740
+    },
+    {
+      "id": "work_661fa29cc8830677",
+      "type": "WorkItem",
+      "description": "提交細部設計圖",
+      "contract_id": "c_7dfcdae600",
+      "milestone_id": "m_135aeaac9c39"
+    },
+    {
+      "id": "pr_1",
+      "type": "Invoice",
+      "amount": 12313,
+      "date": "2026-05-04 07:56:39.958702",
+      "contract_id": "c_7dfcdae600",
+      "milestone_id": "m_135aeaac9c39"
+    },
+    {
+      "id": "pay_1",
+      "type": "Payment",
+      "amount": 12313,
+      "date": "2026-05-04 07:56:51.954924",
+      "contract_id": "c_7dfcdae600",
+      "milestone_id": "m_135aeaac9c39"
+    },
+    {
+      "id": "pr_2",
+      "type": "Invoice",
+      "amount": 12313,
+      "date": "2026-05-04 07:57:30.672896",
+      "contract_id": "c_7dfcdae600",
+      "milestone_id": "m_135aeaac9c39"
+    },
+    {
+      "id": "pay_2",
+      "type": "Payment",
+      "amount": 12313,
+      "date": "2026-05-04 07:57:41.877460",
+      "contract_id": "c_7dfcdae600",
+      "milestone_id": "m_135aeaac9c39"
+    },
+    {
+      "id": "pr_3",
+      "type": "Invoice",
+      "amount": 123131,
+      "date": "2026-05-04 08:00:52.004876",
+      "contract_id": "c_7dfcdae600",
+      "milestone_id": "m_135aeaac9c39"
+    },
+    {
+      "id": "pay_3",
+      "type": "Payment",
+      "amount": 124114,
+      "date": "2026-05-04 08:00:59.737254",
+      "contract_id": "c_7dfcdae600",
+      "milestone_id": "m_135aeaac9c39"
+    },
+    {
+      "id": "m_6bf62c2104f8",
+      "type": "Milestone",
+      "name": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
+      "status": "pending_acceptance",
+      "amount": 5008500,
+      "contract_id": "c_7dfcdae600",
+      "source_order": 2,
+      "payment_state": "no_invoice",
+      "invoice_count": 0,
+      "payment_count": 0,
+      "paid_amount": 0
+    },
+    {
+      "id": "work_49b54260a313f8d8",
+      "type": "WorkItem",
+      "description": "完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目)",
+      "contract_id": "c_7dfcdae600",
+      "milestone_id": "m_6bf62c2104f8"
+    },
+    {
+      "id": "m_e08b2342d05a",
+      "type": "Milestone",
+      "name": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
+      "status": "pending_acceptance",
+      "amount": 5008500,
+      "contract_id": "c_7dfcdae600",
+      "source_order": 3,
+      "payment_state": "no_invoice",
+      "invoice_count": 0,
+      "payment_count": 0,
+      "paid_amount": 0
+    },
+    {
+      "id": "work_dc9e82056058c5ba",
+      "type": "WorkItem",
+      "description": "軟體(系統)及硬體設備安裝完成",
+      "contract_id": "c_7dfcdae600",
+      "milestone_id": "m_e08b2342d05a"
+    },
+    {
+      "id": "m_962957ee076c",
+      "type": "Milestone",
+      "name": "第四期：本工程全部經甲方及客戶驗收合格後",
+      "status": "pending_acceptance",
+      "amount": 3339000,
+      "contract_id": "c_7dfcdae600",
+      "source_order": 4,
+      "payment_state": "no_invoice",
+      "invoice_count": 0,
+      "payment_count": 0,
+      "paid_amount": 0
+    },
+    {
+      "id": "work_f8f11bd19be69a00",
+      "type": "WorkItem",
+      "description": "本工程全部驗收合格",
+      "contract_id": "c_7dfcdae600",
+      "milestone_id": "m_962957ee076c"
+    },
+    {
+      "id": "clause_aa11900642e5e41350d7",
+      "type": "Clause",
+      "text": "新臺幣 16,695,000 元",
+      "source_file": "05XX專案.docx",
+      "location": "段落 34-34，頁面約 3",
+      "clause_type": "total_amount",
+      "field_name": "total_amount",
+      "block_id": "05XX專案_block_0034",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_dd4c42b68a4b28226bbf",
+      "type": "Clause",
+      "text": "契約總價 30",
+      "source_file": "05XX專案.docx",
+      "location": "段落 58-58，頁面約 4",
+      "clause_type": "total_amount",
+      "field_name": "total_amount",
+      "block_id": "05XX專案_block_0058",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_f4a597923812d15ca549",
+      "type": "Clause",
+      "text": "契約總價 30",
+      "source_file": "05XX專案.docx",
+      "location": "段落 59-59，頁面約 4",
+      "clause_type": "total_amount",
+      "field_name": "total_amount",
+      "block_id": "05XX專案_block_0059",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_16b2e36545605899765d",
+      "type": "Clause",
+      "text": "第一期：乙方提交細部設計圖經甲方及客戶核定後",
+      "source_file": "05XX專案.docx",
+      "location": "段落 56-56，頁面約 4",
+      "clause_type": "name",
+      "field_name": "milestone.name",
+      "block_id": "05XX專案_block_0056",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_6514659fbd246311fdf4",
+      "type": "Clause",
+      "text": "即 3,339,000 元",
+      "source_file": "05XX專案.docx",
+      "location": "段落 57-57，頁面約 4",
+      "clause_type": "amount",
+      "field_name": "milestone.amount",
+      "block_id": "05XX專案_block_0057",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_64cb6ddd3ab6747a66fd",
+      "type": "Clause",
+      "text": "20%",
+      "source_file": "05XX專案.docx",
+      "location": "段落 57-57，頁面約 4",
+      "clause_type": "percentage",
+      "field_name": "milestone.percentage",
+      "block_id": "05XX專案_block_0057",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_e16b03975eb51bb8edf5",
+      "type": "Clause",
+      "text": "第一期：乙方提交細部設計圖經甲方及客戶核定後，甲方應給付本契約總價 20%即 3,339,000 元(含稅)予乙方",
+      "source_file": "05XX專案.docx",
+      "location": "段落 56-56，頁面約 4",
+      "clause_type": "payment_condition",
+      "field_name": "milestone.payment_condition",
+      "block_id": "05XX專案_block_0056",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_5457174cad285407071b",
+      "type": "Clause",
+      "text": "乙方提交細部設計圖經甲方及客戶核定後",
+      "source_file": "05XX專案.docx",
+      "location": "段落 56-56，頁面約 4",
+      "clause_type": "acceptance_criteria",
+      "field_name": "milestone.acceptance_criteria",
+      "block_id": "05XX專案_block_0056",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_6965abb1f444592f0685",
+      "type": "Clause",
+      "text": "第一期：乙方提交細部設計圖經甲方及客戶核定後，甲方應給付本契約總",
+      "source_file": "05XX專案.docx",
+      "location": "段落 56-56，頁面約 4",
+      "clause_type": "work_items",
+      "field_name": "milestone.work_items",
+      "block_id": "05XX專案_block_0056",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_e3f86dc370120d7dfa6d",
+      "type": "Clause",
+      "text": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
+      "source_file": "05XX專案.docx",
+      "location": "段落 58-58，頁面約 4",
+      "clause_type": "name",
+      "field_name": "milestone.name",
+      "block_id": "05XX專案_block_0058",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_6cf1f634d0f160bb3496",
+      "type": "Clause",
+      "text": "即 5,008,500 元",
+      "source_file": "05XX專案.docx",
+      "location": "段落 58-58，頁面約 4",
+      "clause_type": "amount",
+      "field_name": "milestone.amount",
+      "block_id": "05XX專案_block_0058",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_a2c6d94320cad2e973d9",
+      "type": "Clause",
+      "text": "30%",
+      "source_file": "05XX專案.docx",
+      "location": "段落 58-58，頁面約 4",
+      "clause_type": "percentage",
+      "field_name": "milestone.percentage",
+      "block_id": "05XX專案_block_0058",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_94f86d7711ea4ce10853",
+      "type": "Clause",
+      "text": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後， 甲方應給付本契約總價 30% 即 5,008,500 元(含稅)予乙方",
+      "source_file": "05XX專案.docx",
+      "location": "段落 58-58，頁面約 4",
+      "clause_type": "payment_condition",
+      "field_name": "milestone.payment_condition",
+      "block_id": "05XX專案_block_0058",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_32348f6211518d2efdad",
+      "type": "Clause",
+      "text": "乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後",
+      "source_file": "05XX專案.docx",
+      "location": "段落 58-58，頁面約 4",
+      "clause_type": "acceptance_criteria",
+      "field_name": "milestone.acceptance_criteria",
+      "block_id": "05XX專案_block_0058",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_b0ce8b92db0541d7f0c5",
+      "type": "Clause",
+      "text": "第二期：乙方完成設備交貨(即附件五報價單各細項工程「設備交貨項目」之勾選項目) 經甲方及客戶確認後， 甲方應給付本契約總價 30% 即 5,008,500 元(含稅)予乙方。",
+      "source_file": "05XX專案.docx",
+      "location": "段落 58-58，頁面約 4",
+      "clause_type": "work_items",
+      "field_name": "milestone.work_items",
+      "block_id": "05XX專案_block_0058",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_64d1e8e8a856ce277751",
+      "type": "Clause",
+      "text": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
+      "source_file": "05XX專案.docx",
+      "location": "段落 59-59，頁面約 4",
+      "clause_type": "name",
+      "field_name": "milestone.name",
+      "block_id": "05XX專案_block_0059",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_6289d3880d68e54280b0",
+      "type": "Clause",
+      "text": "即 5,008,500 元",
+      "source_file": "05XX專案.docx",
+      "location": "段落 59-59，頁面約 4",
+      "clause_type": "amount",
+      "field_name": "milestone.amount",
+      "block_id": "05XX專案_block_0059",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_4b2504b1af639310446a",
+      "type": "Clause",
+      "text": "30%",
+      "source_file": "05XX專案.docx",
+      "location": "段落 59-59，頁面約 4",
+      "clause_type": "percentage",
+      "field_name": "milestone.percentage",
+      "block_id": "05XX專案_block_0059",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_e2934d07b1a207e900b1",
+      "type": "Clause",
+      "text": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後，甲方應給付本契約總價 30%即 5,008,500 元(含稅)予乙方",
+      "source_file": "05XX專案.docx",
+      "location": "段落 59-59，頁面約 4",
+      "clause_type": "payment_condition",
+      "field_name": "milestone.payment_condition",
+      "block_id": "05XX專案_block_0059",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_fe7799caa46912a43068",
+      "type": "Clause",
+      "text": "軟體(系統)及硬體設備安裝完成經甲方及客戶核定後",
+      "source_file": "05XX專案.docx",
+      "location": "段落 59-59，頁面約 4",
+      "clause_type": "acceptance_criteria",
+      "field_name": "milestone.acceptance_criteria",
+      "block_id": "05XX專案_block_0059",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_ce21eb907a4f50692e21",
+      "type": "Clause",
+      "text": "第三期：軟體(系統)及硬體設備安裝完成經甲方及客戶核定後，甲方應給付本契約總價 30%即 5,008,500 元(含稅)予乙方。",
+      "source_file": "05XX專案.docx",
+      "location": "段落 59-59，頁面約 4",
+      "clause_type": "work_items",
+      "field_name": "milestone.work_items",
+      "block_id": "05XX專案_block_0059",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_d5594f7dd907325ccc94",
+      "type": "Clause",
+      "text": "第四期：本工程全部經甲方及客戶驗收合格後",
+      "source_file": "05XX專案.docx",
+      "location": "段落 60-60，頁面約 5",
+      "clause_type": "name",
+      "field_name": "milestone.name",
+      "block_id": "05XX專案_block_0060",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_57df71a4ee9cc966063c",
+      "type": "Clause",
+      "text": "即 3,339,000 元",
+      "source_file": "05XX專案.docx",
+      "location": "段落 61-61，頁面約 5",
+      "clause_type": "amount",
+      "field_name": "milestone.amount",
+      "block_id": "05XX專案_block_0061",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_cff8d93a55d7849792f2",
+      "type": "Clause",
+      "text": "20%",
+      "source_file": "05XX專案.docx",
+      "location": "段落 61-61，頁面約 5",
+      "clause_type": "percentage",
+      "field_name": "milestone.percentage",
+      "block_id": "05XX專案_block_0061",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_7b7a813e1e364498f97c",
+      "type": "Clause",
+      "text": "第四期：本工程全部經甲方及客戶驗收合格後，甲方應給付本契約總價20%即 3,339,000 元(含稅)予乙方",
+      "source_file": "05XX專案.docx",
+      "location": "段落 60-60，頁面約 5",
+      "clause_type": "payment_condition",
+      "field_name": "milestone.payment_condition",
+      "block_id": "05XX專案_block_0060",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_7263a7b06512b5d0858c",
+      "type": "Clause",
+      "text": "本工程全部經甲方及客戶驗收合格後",
+      "source_file": "05XX專案.docx",
+      "location": "段落 60-60，頁面約 5",
+      "clause_type": "acceptance_criteria",
+      "field_name": "milestone.acceptance_criteria",
+      "block_id": "05XX專案_block_0060",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    },
+    {
+      "id": "clause_7eceabda05df30293e9f",
+      "type": "Clause",
+      "text": "第四期：本工程全部經甲方及客戶驗收合格後，甲方應給付本契約總價",
+      "source_file": "05XX專案.docx",
+      "location": "段落 60-60，頁面約 5",
+      "clause_type": "work_items",
+      "field_name": "milestone.work_items",
+      "block_id": "05XX專案_block_0060",
+      "contract_id": "c_7dfcdae600",
+      "risk_tags": []
+    }
+  ],
+  "edges": [
+    {
+      "source": "warning_1",
+      "target": "c_aa78dc4860",
+      "type": "ATTACHED_TO"
+    },
+    {
+      "source": "warning_2",
+      "target": "c_aa78dc4860",
+      "type": "ATTACHED_TO"
+    },
+    {
+      "source": "c_867f0e4dd3",
+      "target": "m_69678c12beaa",
+      "type": "HAS_MILESTONE",
+      "order": 1
+    },
+    {
+      "source": "c_867f0e4dd3",
+      "target": "m_1ab15ddce50a",
+      "type": "HAS_MILESTONE",
+      "order": 2
+    },
+    {
+      "source": "c_867f0e4dd3",
+      "target": "m_820228e18509",
+      "type": "HAS_MILESTONE",
+      "order": 3
+    },
+    {
+      "source": "m_69678c12beaa",
+      "target": "work_de057e935a9f2b3e",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_1ab15ddce50a",
+      "target": "work_0fc242b014eedf09",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_1ab15ddce50a",
+      "target": "work_3274e3ecb892dd59",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_820228e18509",
+      "target": "work_12b4bb5122da35e3",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_820228e18509",
+      "target": "work_2625f8334831d096",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_820228e18509",
+      "target": "work_deccf5f60c348651",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "clause_f2b85f5eeafeeffe33cd",
+      "target": "c_867f0e4dd3",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "clause_1cab58b8db663b03e1e4",
+      "target": "m_69678c12beaa",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_d24567b23cc75d3bfe05",
+      "target": "m_69678c12beaa",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_043493de8fdec28c567a",
+      "target": "m_69678c12beaa",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_bbea9e68e6f1f81c7b2d",
+      "target": "m_69678c12beaa",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_f739c67d2fe0a4b9047a",
+      "target": "m_69678c12beaa",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_53e065507a5495889f5a",
+      "target": "m_69678c12beaa",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_325ef344dbe4028ca6d7",
+      "target": "m_1ab15ddce50a",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_659412ffab044e71c4d9",
+      "target": "m_1ab15ddce50a",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_9f83a5b1507d2bd2e7e8",
+      "target": "m_1ab15ddce50a",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_678f15e4a3b0c28c28aa",
+      "target": "m_1ab15ddce50a",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_690c39896123c6131c5c",
+      "target": "m_1ab15ddce50a",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_1ce3289722c00437c484",
+      "target": "m_1ab15ddce50a",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_65ef1f0f19cb67a5de00",
+      "target": "m_820228e18509",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_6d21e8f3b3b31d1920a0",
+      "target": "m_820228e18509",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_bb4a645d6f27d830d0aa",
+      "target": "m_820228e18509",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_3b10b68b61a4d42d8170",
+      "target": "m_820228e18509",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_67a135e1c5c1ce083eea",
+      "target": "m_820228e18509",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_ad710b2b7172646cac1e",
+      "target": "m_820228e18509",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "warning_3",
+      "target": "c_7064b36b49",
+      "type": "ATTACHED_TO"
+    },
+    {
+      "source": "warning_4",
+      "target": "c_7064b36b49",
+      "type": "ATTACHED_TO"
+    },
+    {
+      "source": "c_209fc5c6c2",
+      "target": "m_c85693c67678",
+      "type": "HAS_MILESTONE",
+      "order": 1
+    },
+    {
+      "source": "c_209fc5c6c2",
+      "target": "m_c37080635169",
+      "type": "HAS_MILESTONE",
+      "order": 2
+    },
+    {
+      "source": "c_209fc5c6c2",
+      "target": "m_4c2c4628a337",
+      "type": "HAS_MILESTONE",
+      "order": 3
+    },
+    {
+      "source": "c_209fc5c6c2",
+      "target": "m_9a844ec65490",
+      "type": "HAS_MILESTONE",
+      "order": 4
+    },
+    {
+      "source": "c_209fc5c6c2",
+      "target": "m_17d2254d4423",
+      "type": "HAS_MILESTONE",
+      "order": 5
+    },
+    {
+      "source": "m_c85693c67678",
+      "target": "work_b383096a5d569020",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_c37080635169",
+      "target": "work_37011942b402b2f4",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_4c2c4628a337",
+      "target": "work_d6bcc33ead1d987a",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_9a844ec65490",
+      "target": "work_faf1c57affe1a36b",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_17d2254d4423",
+      "target": "work_7de10d89b76e6456",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "clause_f52829c0a0255b39ee1b",
+      "target": "c_209fc5c6c2",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "clause_0f96a6d37a833637cad1",
+      "target": "c_209fc5c6c2",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "clause_e07501c6b5467e1ce251",
+      "target": "c_209fc5c6c2",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "clause_02be6857c6f2eea4b1fb",
+      "target": "c_209fc5c6c2",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "clause_6684db2621fe0a52a7a8",
+      "target": "c_209fc5c6c2",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "clause_36498130d3c0ad6544eb",
+      "target": "c_209fc5c6c2",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "clause_c55d079bd105a3d2e245",
+      "target": "c_209fc5c6c2",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "clause_fa15e3cc0f0506a1eedb",
+      "target": "c_209fc5c6c2",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "clause_db045212f02a0d8f586c",
+      "target": "m_c85693c67678",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_c00d93560ec45a184b64",
+      "target": "m_c85693c67678",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_3de803415d7b44ab7445",
+      "target": "m_c85693c67678",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_041199c1b5cc5e9f8e8b",
+      "target": "m_c85693c67678",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_2a9de37100991db99afe",
+      "target": "m_c85693c67678",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_d23e5474ee7bbef3b29c",
+      "target": "m_c37080635169",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_f258df159c3ca599cdf0",
+      "target": "m_c37080635169",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_fe5e717665de82f66fbe",
+      "target": "m_c37080635169",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_e97f4bb9fc8484ada1a6",
+      "target": "m_c37080635169",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_501a9ccd8e50ab06a54b",
+      "target": "m_c37080635169",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_1be23b1b2dcf4a095694",
+      "target": "m_4c2c4628a337",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_f781a0223c364357050c",
+      "target": "m_4c2c4628a337",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_163d0508b2ce25885ee6",
+      "target": "m_4c2c4628a337",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_b113f65d2ba879ed1359",
+      "target": "m_4c2c4628a337",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_2123b5fbc210dd7b25c2",
+      "target": "m_4c2c4628a337",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_6d8f29e731af715145b8",
+      "target": "m_4c2c4628a337",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_097f5d317b92d7b01ad6",
+      "target": "m_9a844ec65490",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_93d79919e86e7a5793f8",
+      "target": "m_9a844ec65490",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_956a01c66a1593041da5",
+      "target": "m_9a844ec65490",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_442b412691c14d3ea2cf",
+      "target": "m_9a844ec65490",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_7a5348d2cec1e148f3e0",
+      "target": "m_9a844ec65490",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_0202495c262749c66084",
+      "target": "m_9a844ec65490",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_dcba45eab11a6c509444",
+      "target": "m_17d2254d4423",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_ebaa91e475f2775854fd",
+      "target": "m_17d2254d4423",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_99fc550c43d9c6a54c3b",
+      "target": "m_17d2254d4423",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_4836d6308593db07a3ed",
+      "target": "m_17d2254d4423",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_5487eb2693a31db97a44",
+      "target": "m_17d2254d4423",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_a98a499366c25e8b5749",
+      "target": "m_17d2254d4423",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "warning_5",
+      "target": "c_209fc5c6c2",
+      "type": "ATTACHED_TO"
+    },
+    {
+      "source": "warning_6",
+      "target": "c_209fc5c6c2",
+      "type": "ATTACHED_TO"
+    },
+    {
+      "source": "c_7dfcdae600",
+      "target": "m_135aeaac9c39",
+      "type": "HAS_MILESTONE",
+      "order": 1
+    },
+    {
+      "source": "c_7dfcdae600",
+      "target": "m_6bf62c2104f8",
+      "type": "HAS_MILESTONE",
+      "order": 2
+    },
+    {
+      "source": "c_7dfcdae600",
+      "target": "m_e08b2342d05a",
+      "type": "HAS_MILESTONE",
+      "order": 3
+    },
+    {
+      "source": "c_7dfcdae600",
+      "target": "m_962957ee076c",
+      "type": "HAS_MILESTONE",
+      "order": 4
+    },
+    {
+      "source": "m_135aeaac9c39",
+      "target": "work_661fa29cc8830677",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_135aeaac9c39",
+      "target": "pr_1",
+      "type": "TRIGGERS_PAYMENT"
+    },
+    {
+      "source": "m_135aeaac9c39",
+      "target": "pr_2",
+      "type": "TRIGGERS_PAYMENT"
+    },
+    {
+      "source": "m_135aeaac9c39",
+      "target": "pr_3",
+      "type": "TRIGGERS_PAYMENT"
+    },
+    {
+      "source": "pr_1",
+      "target": "pay_1",
+      "type": "SETTLED_BY"
+    },
+    {
+      "source": "pr_2",
+      "target": "pay_2",
+      "type": "SETTLED_BY"
+    },
+    {
+      "source": "pr_3",
+      "target": "pay_3",
+      "type": "SETTLED_BY"
+    },
+    {
+      "source": "m_6bf62c2104f8",
+      "target": "work_49b54260a313f8d8",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_e08b2342d05a",
+      "target": "work_dc9e82056058c5ba",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "m_962957ee076c",
+      "target": "work_f8f11bd19be69a00",
+      "type": "HAS_WORKITEM"
+    },
+    {
+      "source": "clause_aa11900642e5e41350d7",
+      "target": "c_7dfcdae600",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "clause_dd4c42b68a4b28226bbf",
+      "target": "c_7dfcdae600",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "clause_f4a597923812d15ca549",
+      "target": "c_7dfcdae600",
+      "type": "GOVERNS"
+    },
+    {
+      "source": "clause_16b2e36545605899765d",
+      "target": "m_135aeaac9c39",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_6514659fbd246311fdf4",
+      "target": "m_135aeaac9c39",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_64cb6ddd3ab6747a66fd",
+      "target": "m_135aeaac9c39",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_e16b03975eb51bb8edf5",
+      "target": "m_135aeaac9c39",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_5457174cad285407071b",
+      "target": "m_135aeaac9c39",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_6965abb1f444592f0685",
+      "target": "m_135aeaac9c39",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_e3f86dc370120d7dfa6d",
+      "target": "m_6bf62c2104f8",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_6cf1f634d0f160bb3496",
+      "target": "m_6bf62c2104f8",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_a2c6d94320cad2e973d9",
+      "target": "m_6bf62c2104f8",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_94f86d7711ea4ce10853",
+      "target": "m_6bf62c2104f8",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_32348f6211518d2efdad",
+      "target": "m_6bf62c2104f8",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_b0ce8b92db0541d7f0c5",
+      "target": "m_6bf62c2104f8",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_64d1e8e8a856ce277751",
+      "target": "m_e08b2342d05a",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_6289d3880d68e54280b0",
+      "target": "m_e08b2342d05a",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_4b2504b1af639310446a",
+      "target": "m_e08b2342d05a",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_e2934d07b1a207e900b1",
+      "target": "m_e08b2342d05a",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_fe7799caa46912a43068",
+      "target": "m_e08b2342d05a",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_ce21eb907a4f50692e21",
+      "target": "m_e08b2342d05a",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_d5594f7dd907325ccc94",
+      "target": "m_962957ee076c",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_57df71a4ee9cc966063c",
+      "target": "m_962957ee076c",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_cff8d93a55d7849792f2",
+      "target": "m_962957ee076c",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_7b7a813e1e364498f97c",
+      "target": "m_962957ee076c",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_7263a7b06512b5d0858c",
+      "target": "m_962957ee076c",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "clause_7eceabda05df30293e9f",
+      "target": "m_962957ee076c",
+      "type": "SUPPORTS"
+    }
+  ]
+}

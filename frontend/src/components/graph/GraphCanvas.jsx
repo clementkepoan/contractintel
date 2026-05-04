@@ -4,6 +4,7 @@ import { forceCenter, forceCollide, forceManyBody, forceX, forceY } from "d3-for
 import { AlertTriangle, Boxes, CircleDollarSign, FileText, Flag, Network, ReceiptText, ScanSearch, Scale, RotateCcw, ZoomIn, ZoomOut } from "lucide-react";
 
 import { formatDate, formatMoney } from "../../api/client.js";
+import { formatTranslation, translateGraphNodeType, translatePaymentState, useI18n } from "../../i18n.jsx";
 
 const typeToIcon = {
   Contract: FileText,
@@ -27,15 +28,9 @@ const TYPE_DIMENSIONS = {
   ValidationWarning: { width: 224, height: 82 },
 };
 
-const PAYMENT_STATE_LABELS = {
-  no_invoice: "No invoice",
-  invoiced_unpaid: "Invoiced, unpaid",
-  partially_paid: "Partially paid",
-  fully_paid: "Fully paid",
-};
-
-function nodeLabel(node) {
-  return node?.name || node?.description || node?.message || node?.text || node?.id || "Unknown";
+function nodeLabel(node, t) {
+  if (node?.type === "ClauseBundle") return t("graph.supportingClauses");
+  return node?.name || node?.description || node?.message || node?.text || node?.id || t("common.unknown");
 }
 
 function nodeDimensions(node) {
@@ -87,12 +82,12 @@ function textColor(node) {
   return node.type === "Contract" ? "#f8fafc" : "#0f172a";
 }
 
-function metaForNode(node) {
+function metaForNode(node, t) {
   if (node.type === "Milestone") {
-    return [PAYMENT_STATE_LABELS[node.payment_state] || node.payment_state, node.amount ? formatMoney(node.amount, "TWD") : null].filter(Boolean).join(" • ");
+    return [translatePaymentState(node.payment_state, t), node.amount ? formatMoney(node.amount, "TWD") : null].filter(Boolean).join(" • ");
   }
-  if (node.type === "Clause") return node.clause_type || "clause";
-  if (node.type === "ClauseBundle") return `${node.clause_count || 0} bundled clauses`;
+  if (node.type === "Clause") return node.clause_type || t("graph.clause");
+  if (node.type === "ClauseBundle") return formatTranslation(t, "graph.bundledClauseMeta", { count: node.clause_count || 0 });
   if (node.type === "ValidationWarning") return String(node.severity || "info").toUpperCase();
   if (node.type === "Invoice" || node.type === "Payment") return [node.amount ? formatMoney(node.amount, "TWD") : null, node.date ? formatDate(node.date) : null].filter(Boolean).join(" • ");
   if (node.status) return String(node.status);
@@ -357,6 +352,7 @@ function iconGlyph(node) {
 }
 
 export function GraphCanvas({ graph, layoutNonce, selectedNodeId, highlightIds, onSelectNode, onRelayout, contractId, focusedMilestoneId }) {
+  const { t } = useI18n();
   const graphRef = useRef(null);
   const shellRef = useRef(null);
   const positionsRef = useRef(new Map());
@@ -472,16 +468,16 @@ export function GraphCanvas({ graph, layoutNonce, selectedNodeId, highlightIds, 
     ctx.textBaseline = "top";
     ctx.fillStyle = node.type === "Contract" ? "rgba(248, 250, 252, 0.86)" : "#64748b";
     ctx.font = `${compactNode ? 8 : 10}px Inter, system-ui, sans-serif`;
-    ctx.fillText(String(node.type || "NODE").toUpperCase(), x + paddingX + iconSize + 8, headerY + 2);
+    ctx.fillText(translateGraphNodeType(node.type, t).toUpperCase(), x + paddingX + iconSize + 8, headerY + 2);
 
     ctx.fillStyle = textColor(node);
     ctx.font = `${warningNode ? 9 : compactNode ? 10 : 12}px Inter, system-ui, sans-serif`;
-    const titleLines = wrapLines(ctx, nodeLabel(node), width - paddingX * 2, node.type === "Contract" ? 3 : warningNode ? 3 : 2);
+    const titleLines = wrapLines(ctx, nodeLabel(node, t), width - paddingX * 2, node.type === "Contract" ? 3 : warningNode ? 3 : 2);
     titleLines.forEach((line, index) => {
       ctx.fillText(line, x + paddingX, y + (compactNode ? 34 : 40) + index * (warningNode ? 11 : compactNode ? 12 : 13));
     });
 
-    const meta = metaForNode(node);
+    const meta = metaForNode(node, t);
     if (meta) {
       ctx.fillStyle = node.type === "Contract" ? "rgba(226, 232, 240, 0.86)" : "#475569";
       ctx.font = `${warningNode ? 7.5 : compactNode ? 8 : 9}px Inter, system-ui, sans-serif`;

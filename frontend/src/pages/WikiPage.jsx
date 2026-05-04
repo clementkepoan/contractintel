@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { AlertTriangle, BookOpen, Clock3, FileText, FolderOpen, Network, Search, Sparkles } from "lucide-react";
 import { api } from "../api/client.js";
+import { useI18n } from "../i18n.jsx";
 import { EmptyBlock, ErrorBlock, LoadingBlock } from "../components/Ui.jsx";
 
 function normalizeWikiPath(currentPath, href) {
@@ -48,7 +49,8 @@ function renderInline(text, currentPath, onNavigate) {
 }
 
 function MarkdownView({ content, currentPath, onNavigate }) {
-  if (!content) return <EmptyBlock label="Select a wiki page." />;
+  const { t } = useI18n();
+  if (!content) return <EmptyBlock label={t("wiki.selectPage")} />;
   const lines = content.split("\n");
   const blocks = [];
   let index = 0;
@@ -167,6 +169,7 @@ export function WikiPage({
   setSelectedContractId,
   setSelectedMilestoneId,
 }) {
+  const { t } = useI18n();
   const [manifest, setManifest] = useState({ pages: [], counts: {} });
   const [pageData, setPageData] = useState(null);
   const [lint, setLint] = useState(null);
@@ -229,13 +232,13 @@ export function WikiPage({
       <div className="wiki-sidebar-panel">
         <label className="query-search-shell">
           <Search size={18} />
-          <input type="text" placeholder="Filter wiki pages..." value={search} onChange={(event) => setSearch(event.target.value)} />
+          <input type="text" placeholder={t("wiki.filterPlaceholder")} value={search} onChange={(event) => setSearch(event.target.value)} />
         </label>
         <div className="wiki-tree-card">
           <div className="wiki-tree-header">
             <div>
-              <h3>Repository</h3>
-              <p>{manifest.counts.total || 0} pages</p>
+              <h3>{t("wiki.repository")}</h3>
+              <p>{manifest.counts.total || 0} {t("wiki.pages")}</p>
             </div>
             <button type="button" className="ghost-button square" onClick={async () => setLint(await api.wikiLint())}><Sparkles size={16} /></button>
           </div>
@@ -253,7 +256,7 @@ export function WikiPage({
         </div>
         {lint ? (
           <div className="wiki-tree-card">
-            <h3>Lint</h3>
+            <h3>{t("wiki.lint")}</h3>
             <div className="wiki-lint-stack">
               <span className={`lint-pill ${lint.status}`}>{lint.status}</span>
               {(lint.findings || []).slice(0, 5).map((item, index) => (
@@ -263,7 +266,7 @@ export function WikiPage({
                   <small>{item.page}</small>
                 </article>
               ))}
-              {!lint.findings?.length ? <div className="muted">No lint findings.</div> : null}
+              {!lint.findings?.length ? <div className="muted">{t("wiki.noLintFindings")}</div> : null}
             </div>
           </div>
         ) : null}
@@ -276,11 +279,11 @@ export function WikiPage({
             <div className="wiki-content-head-copy">
               <p className="wiki-page-eyebrow">{metadata.kind || "page"} <span>•</span> {selectedWikiPath || "wiki"}</p>
               <h2>{metadata.title || selectedWikiPath || "Wiki"}</h2>
-              <p className="page-subtitle">{manifest.pages.find((item) => item.path === selectedWikiPath)?.summary || "Persistent, system-maintained markdown knowledge base."}</p>
+              <p className="page-subtitle">{manifest.pages.find((item) => item.path === selectedWikiPath)?.summary || t("wiki.persistentKnowledgeBase")}</p>
               <div className="wiki-meta-inline">
-                {metadata.updated_at ? <span className="wiki-meta-pill">Updated {metadata.updated_at}</span> : null}
-                {metadata.contract_id ? <span className="wiki-meta-pill">Contract {metadata.contract_id}</span> : null}
-                {metadata.milestone_id ? <span className="wiki-meta-pill">Milestone {metadata.milestone_id}</span> : null}
+                {metadata.updated_at ? <span className="wiki-meta-pill">{t("wiki.updated")} {metadata.updated_at}</span> : null}
+                {metadata.contract_id ? <span className="wiki-meta-pill">{t("wiki.contract")} {metadata.contract_id}</span> : null}
+                {metadata.milestone_id ? <span className="wiki-meta-pill">{t("wiki.milestone")} {metadata.milestone_id}</span> : null}
               </div>
             </div>
             <div className="button-row wiki-content-actions">
@@ -292,7 +295,7 @@ export function WikiPage({
                     setSelectedContractId(metadata.contract_id);
                     setPage("detail");
                   }}
-                ><BookOpen size={16} /> Contract</button>
+                ><BookOpen size={16} /> {t("wiki.contract")}</button>
               ) : null}
               {metadata.milestone_id ? (
                 <button
@@ -302,7 +305,7 @@ export function WikiPage({
                     setSelectedMilestoneId(metadata.milestone_id);
                     setPage("milestone");
                   }}
-                ><BookOpen size={16} /> Milestone</button>
+                ><BookOpen size={16} /> {t("wiki.milestone")}</button>
               ) : null}
               {metadata.contract_id ? (
                 <button
@@ -311,7 +314,7 @@ export function WikiPage({
                     setSelectedContractId(metadata.contract_id);
                     setPage("graph");
                   }}
-                ><Network size={16} /> Graph</button>
+                ><Network size={16} /> {t("wiki.graph")}</button>
               ) : null}
             </div>
           </div>
@@ -323,25 +326,25 @@ export function WikiPage({
 
       <aside className="wiki-meta-rail">
         <div className="wiki-meta-card">
-          <div className="wiki-meta-head"><Clock3 size={16} /><h3>Page Metadata</h3></div>
-          <div className="meta-line"><span>Kind</span><strong>{metadata.kind || "-"}</strong></div>
-          <div className="meta-line"><span>Updated</span><strong>{metadata.updated_at || "-"}</strong></div>
-          <div className="meta-line"><span>Contract ID</span><strong>{metadata.contract_id || "-"}</strong></div>
-          <div className="meta-line"><span>Milestone ID</span><strong>{metadata.milestone_id || "-"}</strong></div>
-          <div className="meta-line"><span>Source File</span><strong>{metadata.source_file || "-"}</strong></div>
-          <div className="meta-line"><span>Version</span><strong>{metadata.source_version || "-"}</strong></div>
+          <div className="wiki-meta-head"><Clock3 size={16} /><h3>{t("wiki.pageMetadata")}</h3></div>
+          <div className="meta-line"><span>{t("wiki.kind")}</span><strong>{metadata.kind || "-"}</strong></div>
+          <div className="meta-line"><span>{t("wiki.updated")}</span><strong>{metadata.updated_at || "-"}</strong></div>
+          <div className="meta-line"><span>{t("wiki.contractId")}</span><strong>{metadata.contract_id || "-"}</strong></div>
+          <div className="meta-line"><span>{t("wiki.milestoneId")}</span><strong>{metadata.milestone_id || "-"}</strong></div>
+          <div className="meta-line"><span>{t("wiki.sourceFile")}</span><strong>{metadata.source_file || "-"}</strong></div>
+          <div className="meta-line"><span>{t("wiki.version")}</span><strong>{metadata.source_version || "-"}</strong></div>
         </div>
         <div className="wiki-meta-card">
-          <div className="wiki-meta-head"><Network size={16} /><h3>Related Pages</h3></div>
+          <div className="wiki-meta-head"><Network size={16} /><h3>{t("wiki.relatedPages")}</h3></div>
           <div className="wiki-chip-stack">
             {(metadata.related || []).map((item) => (
               <button key={item} type="button" className="wiki-chip" onClick={() => setSelectedWikiPath(item)}>{item}</button>
             ))}
-            {!(metadata.related || []).length ? <div className="muted">No related pages listed.</div> : null}
+            {!(metadata.related || []).length ? <div className="muted">{t("wiki.noRelatedPages")}</div> : null}
           </div>
         </div>
         <div className="wiki-meta-card">
-          <div className="wiki-meta-head"><AlertTriangle size={16} /><h3>Backlinks</h3></div>
+          <div className="wiki-meta-head"><AlertTriangle size={16} /><h3>{t("wiki.backlinks")}</h3></div>
           <div className="wiki-backlink-list">
             {backlinks.map((item) => (
               <button key={item.path} type="button" className="wiki-row" onClick={() => setSelectedWikiPath(item.path)}>
@@ -349,7 +352,7 @@ export function WikiPage({
                 <small>{item.path}</small>
               </button>
             ))}
-            {!backlinks.length ? <div className="muted">No backlinks found.</div> : null}
+            {!backlinks.length ? <div className="muted">{t("wiki.noBacklinks")}</div> : null}
           </div>
         </div>
       </aside>

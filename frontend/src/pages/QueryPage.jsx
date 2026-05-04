@@ -54,6 +54,13 @@ function MarkdownLite({ text }) {
   return <div className="query-rich-copy">{nodes}</div>;
 }
 
+function modelLabel(turn, fallbackModel) {
+  const method = String(turn?.answer_method || "").toLowerCase();
+  if (method.startsWith("gate_model_") || method === "gate_only") return "Qwen3.5-0.8B-4bit";
+  if (method === "retrieval_only") return "-";
+  return turn?.model_name || fallbackModel || "-";
+}
+
 function EvidencePreview({ citations, setSelectedWikiPath, setPage, expanded, onToggle }) {
   const { t } = useI18n();
   if (!citations?.length) return null;
@@ -336,7 +343,7 @@ export function QueryPage({ contractId, setSelectedContractId, setSelectedWikiPa
                       ) : null}
                       <div className="analysis-meta">
                         <span>Mode: {turn.retrieval_mode || "-"}</span>
-                        <span>Model: {turn.model_name || result?.model_name || "-"}</span>
+                        <span>Model: {modelLabel(turn, result?.model_name)}</span>
                         <span>Session ID: {chatSessionId || "-"}</span>
                         {turn.wiki_path ? (
                           <button type="button" className="ghost-button" onClick={() => { setSelectedWikiPath(turn.wiki_path); setPage("wiki"); }}>

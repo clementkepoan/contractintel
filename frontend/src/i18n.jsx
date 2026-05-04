@@ -31,6 +31,10 @@ const translations = {
     common: {
       loadingData: "Loading data...",
       noData: "No data available.",
+      unknown: "Unknown",
+      allContracts: "All contracts",
+      viewDetails: "View Details",
+      runQuery: "Run Query",
       userQuestion: "User Question",
       aiAnalysis: "AI Analysis",
       retrievedEvidence: "Retrieved Evidence",
@@ -44,6 +48,50 @@ const translations = {
       queued: "Queued",
       done: "Done",
       noContracts: "No contracts imported yet. Upload a .doc or .docx file to begin.",
+    },
+    citation: {
+      none: "No citation",
+      citations: "Citations",
+      source: "Citation Source",
+      unknownSource: "Unknown source",
+      close: "Close citation drawer",
+      field: "Field",
+      page: "Page",
+      paragraph: "Paragraph",
+      block: "Block",
+      offsets: "Offsets",
+      mode: "Mode",
+      method: "Method",
+      pattern: "Pattern",
+      extractedSnippet: "Extracted Snippet",
+      verifiedSourceBlock: "Verified Source Block",
+      noSnippet: "No snippet available.",
+      noSourceText: "No source text available.",
+      loadingSource: "Loading source block...",
+      sourceBlockNotFound: "Source block not found.",
+    },
+    wiki: {
+      selectPage: "Select a wiki page.",
+      filterPlaceholder: "Filter wiki pages...",
+      repository: "Repository",
+      pages: "pages",
+      lint: "Lint",
+      noLintFindings: "No lint findings.",
+      persistentKnowledgeBase: "Persistent, system-maintained markdown knowledge base.",
+      updated: "Updated",
+      contract: "Contract",
+      milestone: "Milestone",
+      graph: "Graph",
+      pageMetadata: "Page Metadata",
+      kind: "Kind",
+      contractId: "Contract ID",
+      milestoneId: "Milestone ID",
+      sourceFile: "Source File",
+      version: "Version",
+      relatedPages: "Related Pages",
+      noRelatedPages: "No related pages listed.",
+      backlinks: "Backlinks",
+      noBacklinks: "No backlinks found.",
     },
     status: {
       ok: "OK",
@@ -62,6 +110,85 @@ const translations = {
       error: "Error",
       unknown: "Unknown",
     },
+    types: {
+      contract: "Contract",
+      rfp: "RFP",
+      spec_rfp: "Specification / RFP",
+      construction_instruction: "Construction Instruction",
+      instruction_manual: "Construction Instruction",
+      mixed: "Mixed Document",
+      ci: "Construction Instruction",
+      unknown: "Unknown",
+    },
+    validationMessages: {
+      passed: "Validation passed without warnings.",
+      noTotalAmount: "No total contract amount was found; this may be an RFP or pre-award document.",
+      noMilestoneBlocks: "No milestone blocks were extracted.",
+      amountSumMismatch: "Milestone amounts total {sum}; contract total is {total}; difference is {delta}.",
+      percentageSumMismatch: "Milestone percentages total {sum}; expected 100.",
+      installmentCountMismatch: "Document declares {declared} payment installments, but {actual} milestones were extracted.",
+      percentageAmountMismatch: "Milestone “{name}” states {percentage}% (expected {expected}), but amount is {amount} (= {implied}%).",
+      duplicateMilestoneOrder: "Duplicate milestone order detected: {order}.",
+      missingMilestoneCitation: "Milestone “{name}” is missing citations.",
+      missingWorkItems: "Milestone “{name}” has no extracted work items.",
+      missingTotalCitation: "Total amount lacks a traceable citation.",
+      multiCurrencyMissingRate: "Multi-currency contract: exchange rate assumption required.",
+      versionConflictDetected: "Version conflict detected: deprecated clauses were excluded from primary extraction and stored as superseded content.",
+    },
+    graph: {
+      acceptedNotFullyPaid: "Accepted but not fully paid",
+      highRiskWarnings: "High-risk warnings",
+      milestoneDependencies: "Milestone Dependencies",
+      fullGraph: "Full graph",
+      backToContractView: "Back to contract view",
+      noOverview: "No contract overview is currently available in the graph payload.",
+      status: "Status",
+      paymentState: "Payment State",
+      financialValue: "Financial Value",
+      invoiced: "Invoiced",
+      date: "Date",
+      overview: "Overview",
+      warningDetail: "Warning Detail",
+      clauseDetail: "Clause Detail",
+      supportingClauses: "Supporting Clauses",
+      supportingClauseCount: "{count} supporting clauses are grouped into this evidence node.",
+      bundledClauses: "{count} clauses bundled for this milestone",
+      directRelationships: "Direct Relationships",
+      relevantClauses: "Relevant Clauses",
+      validationWarnings: "Validation Warnings",
+      queryResult: "Query Result",
+      noDirectRelationships: "No non-evidence relationships in current scope.",
+      noClauseEvidence: "No clause evidence in current scope.",
+      noWarningEdges: "No warning edges in current scope.",
+      clause: "Clause",
+      bundledClauseMeta: "{count} bundled clauses",
+      nodeTypes: {
+        Contract: "Contract",
+        Milestone: "Milestone",
+        WorkItem: "Work Item",
+        Invoice: "Invoice",
+        Payment: "Payment",
+        Clause: "Clause",
+        ClauseBundle: "Supporting Clauses",
+        ValidationWarning: "Validation Warning",
+      },
+      paymentStates: {
+        no_invoice: "No invoice",
+        invoiced_unpaid: "Invoiced, unpaid",
+        partially_paid: "Partially paid",
+        fully_paid: "Fully paid",
+      },
+      edgeTypes: {
+        HAS_MILESTONE: "Has milestone",
+        HAS_WORKITEM: "Has work item",
+        TRIGGERS_PAYMENT: "Triggers payment",
+        SETTLED_BY: "Settled by",
+        SUPPORTS: "Supports",
+        ATTACHED_TO: "Attached to",
+        GOVERNS: "Governs",
+        CONFLICTS_WITH: "Conflicts with",
+      },
+    },
     overview: {
       totalContractValue: "Total Contract Value",
       paymentRequested: "Payment Requested",
@@ -71,7 +198,9 @@ const translations = {
       typeAll: "Type: All Types",
       typeContract: "Type: Contract",
       typeRfp: "Type: RFP",
-      typeCi: "Type: CI",
+      typeCi: "Type: Construction Instruction",
+      typeSpecRfp: "Type: Specification / RFP",
+      typeMixed: "Type: Mixed Document",
       validationAll: "Validation: All Status",
       validationPassed: "Validation: Passed",
       validationWarning: "Validation: Warning",
@@ -90,6 +219,9 @@ const translations = {
       updated: "Updated",
       actions: "Actions",
       uploadStarted: "Upload received. Processing continues in the background.",
+      workflowActive: "Active",
+      workflowUnderReview: "Under Review",
+      workflowDraft: "Draft",
     },
     query: {
       noSessions: "No chat sessions yet.",
@@ -269,6 +401,10 @@ const translations = {
     common: {
       loadingData: "資料載入中...",
       noData: "目前沒有資料。",
+      unknown: "未知",
+      allContracts: "全部合約",
+      viewDetails: "查看明細",
+      runQuery: "執行查詢",
       userQuestion: "使用者問題",
       aiAnalysis: "AI 分析",
       retrievedEvidence: "檢索證據",
@@ -282,6 +418,50 @@ const translations = {
       queued: "排隊中",
       done: "完成",
       noContracts: "目前尚未匯入合約。請先上傳 .doc 或 .docx 文件。",
+    },
+    citation: {
+      none: "沒有引用",
+      citations: "引用來源",
+      source: "引用來源",
+      unknownSource: "未知來源",
+      close: "關閉引用抽屜",
+      field: "欄位",
+      page: "頁面",
+      paragraph: "段落",
+      block: "區塊",
+      offsets: "字元位置",
+      mode: "模式",
+      method: "方法",
+      pattern: "規則",
+      extractedSnippet: "抽取片段",
+      verifiedSourceBlock: "已驗證來源區塊",
+      noSnippet: "沒有片段。",
+      noSourceText: "沒有來源文字。",
+      loadingSource: "來源區塊載入中...",
+      sourceBlockNotFound: "找不到來源區塊。",
+    },
+    wiki: {
+      selectPage: "請選擇 Wiki 頁面。",
+      filterPlaceholder: "篩選 Wiki 頁面...",
+      repository: "知識庫",
+      pages: "頁",
+      lint: "檢查",
+      noLintFindings: "沒有檢查問題。",
+      persistentKnowledgeBase: "由系統維護的持久化 Markdown 知識庫。",
+      updated: "更新",
+      contract: "合約",
+      milestone: "里程碑",
+      graph: "圖譜",
+      pageMetadata: "頁面中繼資料",
+      kind: "類型",
+      contractId: "合約 ID",
+      milestoneId: "里程碑 ID",
+      sourceFile: "來源檔案",
+      version: "版本",
+      relatedPages: "相關頁面",
+      noRelatedPages: "沒有列出相關頁面。",
+      backlinks: "反向連結",
+      noBacklinks: "沒有找到反向連結。",
     },
     status: {
       ok: "正常",
@@ -300,6 +480,85 @@ const translations = {
       error: "錯誤",
       unknown: "未知",
     },
+    types: {
+      contract: "合約",
+      rfp: "招標 / RFP 文件",
+      spec_rfp: "規格 / 招標文件",
+      construction_instruction: "施工說明書",
+      instruction_manual: "施工說明書",
+      mixed: "混合文件",
+      ci: "施工說明書",
+      unknown: "未知類型",
+    },
+    validationMessages: {
+      passed: "驗證通過，沒有警示。",
+      noTotalAmount: "未找到合約總金額；此文件可能是招標文件或得標前文件。",
+      noMilestoneBlocks: "未抽取到里程碑區塊。",
+      amountSumMismatch: "里程碑金額合計為 {sum}；合約總金額為 {total}；差額為 {delta}。",
+      percentageSumMismatch: "里程碑百分比合計為 {sum}；應為 100。",
+      installmentCountMismatch: "文件宣告 {declared} 期付款，但系統抽取到 {actual} 個里程碑。",
+      percentageAmountMismatch: "里程碑「{name}」標示 {percentage}%（預期金額 {expected}），但抽取金額為 {amount}（換算 {implied}%）。",
+      duplicateMilestoneOrder: "偵測到重複的里程碑順序：{order}。",
+      missingMilestoneCitation: "里程碑「{name}」缺少引用來源。",
+      missingWorkItems: "里程碑「{name}」未抽取到工作項目。",
+      missingTotalCitation: "合約總金額缺少可追溯引用。",
+      multiCurrencyMissingRate: "多幣別合約需要補充匯率假設。",
+      versionConflictDetected: "偵測到版本衝突：已廢止條款未納入主要抽取結果，並保留為被取代內容。",
+    },
+    graph: {
+      acceptedNotFullyPaid: "已驗收但未全額付款",
+      highRiskWarnings: "高風險警示",
+      milestoneDependencies: "里程碑關聯",
+      fullGraph: "完整圖譜",
+      backToContractView: "返回合約視圖",
+      noOverview: "目前圖譜資料中沒有合約概要。",
+      status: "狀態",
+      paymentState: "付款狀態",
+      financialValue: "金額",
+      invoiced: "已請款",
+      date: "日期",
+      overview: "概要",
+      warningDetail: "警示內容",
+      clauseDetail: "條款內容",
+      supportingClauses: "支持條款",
+      supportingClauseCount: "此證據節點彙整了 {count} 條支持條款。",
+      bundledClauses: "此里程碑彙整 {count} 條條款",
+      directRelationships: "直接關聯",
+      relevantClauses: "相關條款",
+      validationWarnings: "驗證警示",
+      queryResult: "查詢結果",
+      noDirectRelationships: "目前範圍內沒有非證據類關聯。",
+      noClauseEvidence: "目前範圍內沒有條款證據。",
+      noWarningEdges: "目前範圍內沒有警示關聯。",
+      clause: "條款",
+      bundledClauseMeta: "彙整 {count} 條條款",
+      nodeTypes: {
+        Contract: "合約",
+        Milestone: "里程碑",
+        WorkItem: "工作項目",
+        Invoice: "請款",
+        Payment: "付款",
+        Clause: "條款",
+        ClauseBundle: "支持條款",
+        ValidationWarning: "驗證警示",
+      },
+      paymentStates: {
+        no_invoice: "尚未請款",
+        invoiced_unpaid: "已請款未付款",
+        partially_paid: "部分付款",
+        fully_paid: "已全額付款",
+      },
+      edgeTypes: {
+        HAS_MILESTONE: "包含里程碑",
+        HAS_WORKITEM: "包含工作項目",
+        TRIGGERS_PAYMENT: "觸發請款",
+        SETTLED_BY: "由付款結清",
+        SUPPORTS: "支持",
+        ATTACHED_TO: "附屬於",
+        GOVERNS: "規範",
+        CONFLICTS_WITH: "互相矛盾",
+      },
+    },
     overview: {
       totalContractValue: "合約總金額",
       paymentRequested: "已請款",
@@ -309,7 +568,9 @@ const translations = {
       typeAll: "類型：全部",
       typeContract: "類型：合約",
       typeRfp: "類型：RFP",
-      typeCi: "類型：CI",
+      typeCi: "類型：施工說明書",
+      typeSpecRfp: "類型：規格 / 招標文件",
+      typeMixed: "類型：混合文件",
       validationAll: "驗證：全部",
       validationPassed: "驗證：通過",
       validationWarning: "驗證：警示",
@@ -328,6 +589,9 @@ const translations = {
       updated: "更新時間",
       actions: "操作",
       uploadStarted: "檔案已送達，後台將持續處理。",
+      workflowActive: "進行中",
+      workflowUnderReview: "審查中",
+      workflowDraft: "草稿",
     },
     query: {
       noSessions: "目前沒有查詢工作階段。",
@@ -480,6 +744,104 @@ const translations = {
 };
 
 const I18nContext = createContext(null);
+
+function interpolate(template, values = {}) {
+  return String(template || "").replace(/\{(\w+)\}/g, (_, key) => values[key] ?? "");
+}
+
+export function normalizeTypeValue(value) {
+  return String(value || "unknown").trim().toLowerCase();
+}
+
+export function translateContractType(value, t) {
+  const normalized = normalizeTypeValue(value);
+  const aliases = {
+    ci: "construction_instruction",
+    constructioninstruction: "construction_instruction",
+    construction_instruction: "construction_instruction",
+    instruction_manual: "construction_instruction",
+    spec: "spec_rfp",
+    specification: "spec_rfp",
+  };
+  const key = aliases[normalized] || normalized || "unknown";
+  return t(`types.${key}`, String(value || t("common.unknown")).replaceAll("_", " ").toUpperCase());
+}
+
+export function translateGraphNodeType(value, t) {
+  return t(`graph.nodeTypes.${value}`, value || t("common.unknown"));
+}
+
+export function translateGraphEdgeType(value, t) {
+  return t(`graph.edgeTypes.${value}`, String(value || t("common.unknown")).replaceAll("_", " "));
+}
+
+export function translatePaymentState(value, t) {
+  return t(`graph.paymentStates.${value}`, value || "-");
+}
+
+export function formatTranslation(t, path, values = {}, fallback = "") {
+  return interpolate(t(path, fallback), values);
+}
+
+export function translateValidationMessage(message, t) {
+  const text = String(message || "");
+  if (!text) return "";
+
+  const exact = new Map([
+    ["Validation passed without warnings.", t("validationMessages.passed")],
+    ["No total contract amount found; document may be an RFP or pre-award document.", t("validationMessages.noTotalAmount")],
+    ["No milestone blocks were extracted.", t("validationMessages.noMilestoneBlocks")],
+    ["Total amount lacks a traceable citation.", t("validationMessages.missingTotalCitation")],
+    ["Multi-currency contract: exchange rate assumption required.", t("validationMessages.multiCurrencyMissingRate")],
+    ["Version conflict detected: deprecated clauses were excluded from primary extraction and stored as superseded content.", t("validationMessages.versionConflictDetected")],
+  ]);
+  if (exact.has(text)) return exact.get(text);
+
+  const patterns = [
+    {
+      regex: /^Milestone amounts sum to ([^,]+), contract total is ([^,]+), delta = ([^.]+)\.$/,
+      path: "validationMessages.amountSumMismatch",
+      values: ([, sum, total, delta]) => ({ sum, total, delta }),
+    },
+    {
+      regex: /^Milestone percentages sum to ([^,]+), expected 100\.$/,
+      path: "validationMessages.percentageSumMismatch",
+      values: ([, sum]) => ({ sum }),
+    },
+    {
+      regex: /^Document declares ([^ ]+) payment installments but ([^ ]+) milestones were extracted\.$/,
+      path: "validationMessages.installmentCountMismatch",
+      values: ([, declared, actual]) => ({ declared, actual }),
+    },
+    {
+      regex: /^Milestone "(.+)" states ([^%]+)% \(expected ([^)]+)\) but amount is ([^ ]+) \(= ([^%]+)%\)\.$/,
+      path: "validationMessages.percentageAmountMismatch",
+      values: ([, name, percentage, expected, amount, implied]) => ({ name, percentage, expected, amount, implied }),
+    },
+    {
+      regex: /^Duplicate milestone order detected for order ([^.]+)\.$/,
+      path: "validationMessages.duplicateMilestoneOrder",
+      values: ([, order]) => ({ order }),
+    },
+    {
+      regex: /^Milestone "(.+)" is missing citations\.$/,
+      path: "validationMessages.missingMilestoneCitation",
+      values: ([, name]) => ({ name }),
+    },
+    {
+      regex: /^Milestone "(.+)" has no extracted work items\.$/,
+      path: "validationMessages.missingWorkItems",
+      values: ([, name]) => ({ name }),
+    },
+  ];
+
+  for (const item of patterns) {
+    const match = text.match(item.regex);
+    if (match) return formatTranslation(t, item.path, item.values(match), text);
+  }
+
+  return text;
+}
 
 export function I18nProvider({ children }) {
   const [lang, setLang] = useState(() => window.localStorage.getItem("dashboard-lang") || "en");

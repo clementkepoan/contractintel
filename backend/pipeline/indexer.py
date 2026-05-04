@@ -30,14 +30,23 @@ LOW_SIGNAL_WIKI_HEADINGS = {
     "version notes",
     "source timeline",
     "context",
+    "快照",
+    "來源時間軸",
+    "中繼資料",
+    "版本註記",
+    "脈絡",
     "related pages",
     "page metadata",
 }
 SUMMARY_SECTION_FAMILY_HINTS = {
     "契約目的": [],
+    "快速總覽": [],
     "商務與付款": ["payment", "milestone", "price_adjustment"],
+    "里程碑與付款結構": ["payment", "milestone", "price_adjustment"],
     "交付與驗收": ["acceptance", "warranty"],
+    "付款程序與商務注意事項": ["payment", "price_adjustment"],
     "風險與注意事項": ["damages", "warranty", "price_adjustment", "force_majeure"],
+    "風險與待確認事項": ["damages", "warranty", "price_adjustment", "force_majeure"],
     "At A Glance": [],
     "Milestone And Payment Structure": ["payment", "milestone", "price_adjustment"],
     "Delivery And Acceptance": ["acceptance", "warranty"],
@@ -685,7 +694,7 @@ def build_contract_summary_chunks(extracted: dict[str, Any], *, document_type: s
     except OSError:
         return []
     chunks: list[dict[str, Any]] = []
-    for section_name, kind in [("Contract Summary", "wiki_contract_summary"), ("LLM Summary", "wiki_llm_summary")]:
+    for section_name, kind in [("合約摘要", "wiki_contract_summary"), ("Contract Summary", "wiki_contract_summary"), ("LLM 摘要", "wiki_llm_summary"), ("LLM Summary", "wiki_llm_summary")]:
         section_text = extract_named_markdown_section(text, section_name)
         if not section_text:
             continue
@@ -719,13 +728,13 @@ def summary_injection_base_score(chunk: dict[str, Any], intents: set[str]) -> fl
     label = normalize_space(str(chunk.get("clause_label") or ""))
     kind = chunk.get("structured_kind")
     if "overview" in intents:
-        if label in {"契約目的", "At A Glance"}:
+        if label in {"契約目的", "快速總覽", "At A Glance"}:
             return 0.36
         if kind == "wiki_contract_summary":
             return 0.30
         return 0.24
     if "payment" in intents:
-        if label in {"商務與付款", "Milestone And Payment Structure", "Payment Procedures And Commercial Notes"}:
+        if label in {"商務與付款", "里程碑與付款結構", "付款程序與商務注意事項", "Milestone And Payment Structure", "Payment Procedures And Commercial Notes"}:
             return 0.34
         return 0.22
     if "acceptance" in intents:
@@ -733,11 +742,11 @@ def summary_injection_base_score(chunk: dict[str, Any], intents: set[str]) -> fl
             return 0.34
         return 0.22
     if "price_adjustment" in intents or "force_majeure" in intents:
-        if label in {"風險與注意事項", "Risks And Open Issues", "商務與付款", "Payment Procedures And Commercial Notes"}:
+        if label in {"風險與注意事項", "風險與待確認事項", "Risks And Open Issues", "商務與付款", "付款程序與商務注意事項", "Payment Procedures And Commercial Notes"}:
             return 0.34
         return 0.24
     if "risk" in intents:
-        if label in {"風險與注意事項", "Risks And Open Issues"}:
+        if label in {"風險與注意事項", "風險與待確認事項", "Risks And Open Issues"}:
             return 0.34
         return 0.24
     return 0.18
