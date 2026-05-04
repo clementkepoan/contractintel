@@ -1,7 +1,7 @@
 ---
 kind: index
 title: 知識庫索引
-updated_at: 2026-05-04 08:34 UTC
+updated_at: 2026-05-04 08:45 UTC
 tags:
   - index
   - wiki
@@ -24,6 +24,8 @@ tags:
 - [05XX專案.docx](sources/05xx專案__v1.md) · `05xx專案` · v1 · 合約
 
 ## 查詢筆記
+- [is any of the contracts paid?](queries/query_69546b4a64f1.md)
+- [is any of the payment already paid ? are there any invoices?](queries/query_6d07a73e473d.md)
 - [is any of the payment already paid ? are there any invoices?
 ](queries/query_6b21fb3651cc.md)
 - [who are you?

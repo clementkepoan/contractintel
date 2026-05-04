@@ -9,7 +9,7 @@ from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from sqlmodel import select
 
 from backend.config import settings
-from backend.db.models import ChatMessage, ChatSession, Contract, FiledQuery, ValidationWarning
+from backend.db.models import AcceptanceRecord, ChatMessage, ChatSession, Contract, FiledQuery, Milestone, Payment, PaymentRequest, ValidationWarning
 from backend.pipeline.embeddings import embedding_model_ready
 from backend.pipeline.indexer import hybrid_search_chunks
 from backend.pipeline.llm import llm_available, query_local_messages_detailed, stream_local_messages
@@ -482,6 +482,60 @@ def load_contract_payload(contract: Contract) -> dict[str, Any]:
         return {}
 
 
+def build_live_payment_context(session: Any, contract_ids: list[str]) -> str:
+    sections: list[str] = []
+    for contract_id in contract_ids:
+        contract = session.get(Contract, contract_id)
+        if not contract:
+            continue
+        milestones = session.exec(select(Milestone).where(Milestone.contract_id == contract_id).order_by(Milestone.source_order)).all()
+        if not milestones:
+            continue
+
+        lines = [
+            f"- 合約：{contract.contract_name}",
+            f"- 即時總金額：{contract.total_amount if contract.total_amount is not None else '未明示'} {contract.currency}",
+        ]
+        requested_total = 0
+        paid_total = 0
+        accepted_count = 0
+        requested_count = 0
+        paid_count = 0
+
+        for milestone in milestones:
+            accepted = session.exec(
+                select(AcceptanceRecord).where(AcceptanceRecord.milestone_id == milestone.milestone_id, AcceptanceRecord.passed == True)
+            ).first()  # noqa: E712
+            requests = session.exec(select(PaymentRequest).where(PaymentRequest.milestone_id == milestone.milestone_id)).all()
+            payments = session.exec(select(Payment).where(Payment.milestone_id == milestone.milestone_id)).all()
+            milestone_requested = sum(item.requested_amount for item in requests)
+            milestone_paid = sum(item.paid_amount for item in payments)
+            requested_total += milestone_requested
+            paid_total += milestone_paid
+            if accepted:
+                accepted_count += 1
+            if requests:
+                requested_count += 1
+            if payments:
+                paid_count += 1
+            lines.append(
+                f"- 里程碑 {milestone.source_order}／{milestone.name}："
+                f"驗收={'已通過' if accepted else '未通過或未建立'}；"
+                f"請款={milestone_requested if milestone_requested else '未請款'}；"
+                f"付款={milestone_paid if milestone_paid else '未付款'}；"
+                f"目前狀態={milestone.status}"
+            )
+
+        total_count = len(milestones)
+        lines.append(f"- 即時統計：已驗收 {accepted_count}/{total_count}、已請款 {requested_count}/{total_count}、已付款 {paid_count}/{total_count}。")
+        lines.append(f"- 已請款總額：{requested_total} {contract.currency}")
+        lines.append(f"- 已付款總額：{paid_total} {contract.currency}")
+        lines.append(f"- 未付款餘額：{max((contract.total_amount or 0) - paid_total, 0)} {contract.currency}")
+        sections.append("\n".join(lines))
+
+    return "\n\n".join(sections)
+
+
 def build_structured_context(session: Any, contract_ids: list[str], intents: set[str]) -> str:
     sections: list[str] = []
     for contract_id in contract_ids:
@@ -511,6 +565,9 @@ def build_structured_context(session: Any, contract_ids: list[str], intents: set
                 f"釋放期限（月）：{retention.get('release_after_months') if retention.get('release_after_months') is not None else '未明示'}"
             )
         sections.append("\n".join(lines))
+    live_payment_context = build_live_payment_context(session, contract_ids)
+    if live_payment_context:
+        sections.append("【即時付款工作流】\n" + live_payment_context)
     return "\n\n".join(sections)
 
 
@@ -524,6 +581,7 @@ def build_answer_instructions(intents: set[str], output_language: str) -> str:
         "如果判斷為 RFP、施工說明書、技術規格書、招標需求文件、建議書或其他非正式契約文件，必須明確指出該性質，且只能回答文件中實際寫出的需求、規格、程序或責任；不得把正式工程承攬契約常見條款（如違約金、不可抗力、轉包限制、調價機制）當成當然存在。",
         "如果文件沒有寫明付款、不可抗力、調價、轉包、終止/解除等條款，就直接回答『文件未明確規定／證據不足』，不要延伸討論一般可能做法。",
         "如果問題涉及合約風險、付款、驗收、保固、違約、終止/解除、不可抗力、關稅、轉包/分包、損害賠償，應主動檢查多個相關條款。",
+        "如果問題涉及付款狀態、已請款金額、已付款金額、未付款餘額、某期是否已驗收、或某里程碑是否已進入請款／付款流程，除了檢索證據外，還要優先參考即時付款工作流資料。",
         "對工程承攬契約，優先留意：工程總價、不得追加工程款、付款辦法、驗收標準、遲延罰款、暫停給付、損害賠償、契約終止與解除、不可抗力、保固、轉包限制。",
         f"最終回答語言必須使用：{output_language}。",
         "回答長度應適中：先給直接答案，再列 3 到 6 個最重要重點；除非使用者要求詳細說明，不要寫成長篇報告。",
@@ -1003,6 +1061,7 @@ def answer_with_langchain(
         "除非使用者明確要求一般法律分析，否則不得引入民法、情勢變更、誠信原則、法院可能見解、協商策略、訴訟或仲裁建議。"
         "對於工程承攬契約，應特別檢查：固定總價與不得追加、付款辦法、驗收標準、遲延罰款、暫停給付、損害賠償、契約終止與解除、不可抗力、關稅是否被排除於不可抗力、保固責任、轉包/分包限制。"
         "若問題詢問風險、可採取的行動、可否請款、保固期是否相同、或關稅是否屬不可抗力，通常必須綜合多個條款回答，不可只依賴單一條款。"
+        "若問題詢問付款狀態、請款狀態、付款進度、已付款/未付款金額，或某里程碑是否已經請款／付款，請直接使用即時付款工作流資料判斷，不要只看檢索證據。"
         "不要輸出 Markdown 表格；請使用條列或短段落。"
         "不要輸出 Markdown 水平線（---），不要輸出『相關註記』、『解析說明』、『文件性質判斷』這類前言或後記。"
         "不要輸出 emoji、圖示、流程圖、ASCII 圖、區塊引言或裝飾性符號。"
@@ -1241,6 +1300,7 @@ def stream_answer_with_langchain(
         "除非使用者明確要求一般法律分析，否則不得引入民法、情勢變更、誠信原則、法院可能見解、協商策略、訴訟或仲裁建議。"
         "對於工程承攬契約，應特別檢查：固定總價與不得追加、付款辦法、驗收標準、遲延罰款、暫停給付、損害賠償、契約終止與解除、不可抗力、關稅是否被排除於不可抗力、保固責任、轉包/分包限制。"
         "若問題詢問風險、可採取的行動、可否請款、保固期是否相同、或關稅是否屬不可抗力，通常必須綜合多個條款回答，不可只依賴單一條款。"
+        "若問題詢問付款狀態、請款狀態、付款進度、已付款/未付款金額，或某里程碑是否已經請款／付款，請直接使用即時付款工作流資料判斷，不要只看檢索證據。"
         "不要輸出 Markdown 表格；請使用條列或短段落。"
         "不要輸出 Markdown 水平線（---），不要輸出『相關註記』、『解析說明』、『文件性質判斷』這類前言或後記。"
         "不要輸出 emoji、圖示、流程圖、ASCII 圖、區塊引言或裝飾性符號。"
