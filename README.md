@@ -1,302 +1,323 @@
 # Contract Intel Dashboard
 
-Offline engineering contract ingestion, extraction, validation, wiki generation, workflow tracking, hybrid retrieval, and React dashboard.
+Offline engineering contract intelligence system for the technical assignment.
 
-## Project Status
+This project ingests `.doc` / `.docx` engineering contracts and RFP-style documents, extracts milestone and payment structure with citations, validates amount consistency, tracks acceptance-to-payment workflow, and exposes the result through a web UI, wiki, knowledge graph, and natural-language query page.
 
-- Core backend pipeline: done
-- Wiki and knowledge graph: done
-- Dockerized backend plus frontend: done
-- API-backed React UI: done
-- Final offline embedding cache verification: pending
-- Final demo evidence and submission packaging: pending
+## Submission Scope
 
-Current completion estimate: about 85 percent. The product is functionally complete for the assignment flow, but the last 15 percent is mostly operational validation and deliverable packaging.
+Required assignment scope covered:
+- offline document ingestion and processing
+- automatic extraction of total amount, milestones, milestone amount / percentage, and work items
+- validation warnings for inconsistent amounts or incomplete payment clauses
+- workflow UI for acceptance -> payment request -> payment logging
+- natural-language query with answer basis / citations
+- traceability back to source file and paragraph / block location
 
-## Requirements
+Bonus scope also included:
+- LLM-generated wiki
+- knowledge graph
+- wiki x KG navigation
+- regression runner for retrieval / answer evaluation
 
-- Python 3.11 recommended
-- macOS, Linux, or WSL2
-- Host-installed OpenAI-compatible local model server for local LLM usage
-- Docker for the preferred full-stack runtime
-- Node.js 20+ if running the frontend outside Docker
+## Offline Guarantee
 
-## Local Model Setup
+The system is designed to run without cloud APIs.
 
-Install and start your OpenAI-compatible local model server on the host machine. If you are using oMLX and it exposes the OpenAI API at `http://127.0.0.1:11434/v1`, point the backend there.
+Confirmed:
+- `.doc` and `.docx` ingestion work in the current pipeline
+- document processing, retrieval, embeddings, reranking, and answer generation run through local infrastructure
+- no cloud LLM or cloud embedding API is required by the application architecture
+
+Practical note:
+- local model weights may require a one-time local download into your own model server/cache before disconnecting from the network
+- after those local assets exist, the application flow itself runs offline
+
+## Intended Runtime Model
+
+This repository is **Docker-first for the application stack**.
+
+The intended runtime is:
+- `frontend` in Docker
+- `backend` in Docker
+- `qdrant` in Docker
+- **oMLX / local OpenAI-compatible model server on the host machine**
+
+The local model server is not inside the project containers.
+The backend container talks to the host model server through `host.docker.internal`.
+
+That is the real operator path this repo is built around.
+
+## oMLX / Local Model Server Setup
+
+The backend expects an OpenAI-compatible local endpoint:
+- host runtime: `http://127.0.0.1:11434/v1`
+- Docker backend runtime: `http://host.docker.internal:11434/v1`
+
+This matches the defaults in [backend/config.py](backend/config.py).
+
+### Model names currently used
+
+Current defaults in [backend/config.py](backend/config.py):
+- extraction / general model: `gemma-4-e2b-it-4bit`
+- query model: `Qwen3-4B-Instruct-2507-4bit`
+- embedding model: `harrier-oss-v1-0.6b-MLX-8bit`
+- reranker model: `Qwen3-Reranker-0.6B-mlx-8Bit`
+
+If you want the greeting / lightweight gate model path available in future work, the current intended gate model name is:
+- `Qwen3.5-0.8B-4bit`
+
+### Recommended exported variables
+
+Export these in the shell before starting Docker:
 
 ```bash
 export LOCAL_MODEL_BASE_URL=http://127.0.0.1:11434/v1
 export LOCAL_MODEL_API_KEY=1111
-export LOCAL_MODEL_NAME=lmstudio-community/Qwen3-4B-Instruct-2507-MLX-5bit
+
+export LOCAL_MODEL_NAME=gemma-4-e2b-it-4bit
+export LOCAL_QUERY_MODEL_NAME=Qwen3-4B-Instruct-2507-4bit
+export LOCAL_GATE_MODEL_NAME=Qwen3.5-0.8B-4bit
+
+export EMBEDDING_MODEL_NAME=harrier-oss-v1-0.6b-MLX-8bit
+export EMBEDDING_MODEL_BASE_URL=http://127.0.0.1:11434/v1
+export EMBEDDING_MODEL_API_KEY=1111
+
+export RERANKER_MODEL_NAME=Qwen3-Reranker-0.6B-mlx-8Bit
+export RERANKER_MODEL_BASE_URL=http://127.0.0.1:11434/v1
+export RERANKER_MODEL_API_KEY=1111
 ```
 
-The chat model is always hosted by a **host-native local model server**, not inside Docker. The backend defaults to `LOCAL_MODEL_BASE_URL=http://127.0.0.1:11434/v1`. If you run the backend in Docker, the backend container connects outward to the host endpoint at `http://host.docker.internal:11434/v1`.
+If your oMLX setup uses a different local port, API key, or published model names, replace those values.
 
-The backend also sets context length with `LOCAL_MODEL_NUM_CTX=8192`. This is passed to the OpenAI-compatible chat completion request.
+## Startup Instructions
 
-This server expects both an API key and an explicit model field.
+### 1. Start the host-native oMLX / OpenAI-compatible model server
 
-Configured local model:
+Make sure the host model server is already running before you start Docker.
 
-- `lmstudio-community/Qwen3-4B-Instruct-2507-MLX-5bit`
-
-Examples:
-
-```bash
-export LOCAL_MODEL_NUM_CTX=8192
-```
-
-If your server requires an explicit model name, set `LOCAL_MODEL_NAME` before startup:
-
-```bash
-export LOCAL_MODEL_API_KEY=1111
-export LOCAL_MODEL_NAME=lmstudio-community/Qwen3-4B-Instruct-2507-MLX-5bit
-```
-
-For embeddings, the backend uses `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`. In Docker, the embedding weights are stored in the named volume `huggingface-cache` so the backend container keeps its own persistent embedding cache. This does not apply to the chat model, which remains host-native.
-
-## Installation
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-```
-
-Optional local-only dependency if you run the backend outside Docker:
-
-```bash
-brew install --cask libreoffice
-```
-
-## Run Backend Locally
-
-```bash
-uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
-```
-
-Health check:
-
-```bash
-curl http://localhost:8000/api/health
-```
-
-## Run Frontend Locally
-
-In another terminal:
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Open `http://localhost:5173`. Vite proxies `/api/*` to `http://localhost:8000`.
-
-## Run With Docker
-
-This project dockerizes the frontend, backend, and Qdrant. The chat model does **not** run inside any project container. The model server stays on the host machine, and the backend container calls the host OpenAI-compatible endpoint. LibreOffice and the embedding cache live inside the backend container.
-
-Start the host model server first:
-
-```bash
-export LOCAL_MODEL_BASE_URL=http://127.0.0.1:11434/v1
-```
-
-Build and run the full stack:
+### 2. Start the application stack
 
 ```bash
 docker compose up --build
 ```
 
-Open:
+This starts:
+- frontend
+- backend
+- qdrant
 
+Open:
 - Frontend: `http://localhost:5173`
 - Backend API: `http://localhost:8000`
 - Qdrant dashboard: `http://localhost:6333/dashboard`
 
-## Fresh Start Reset
+## Repository Structure
 
-If you want to test the full flow from ingestion with an empty local state, reset the repo-backed data and wiki files:
-
-```bash
-python scripts/reset_demo_state.py
+```text
+backend/                 FastAPI app, extraction, retrieval, validation, wiki, KG
+frontend/                React + Vite web app
+data/                    runtime DB, extracted JSON, indexes, graph JSON
+wiki/                    generated wiki pages
+Database/                sample assignment documents
+tests/                   automated backend tests
+regression_test/         retrieval and generation evaluation outputs
 ```
 
-Or use the single command:
+## Main Features
 
-```bash
-make reset-demo
-```
+### 1. Document Processing Pipeline
+- ingest `.doc` and `.docx`
+- normalize text and source blocks
+- chunk and index documents
+- hybrid retrieval with BM25 + vectors + reranker
+- extract contract structure into JSON / SQLite / wiki / KG
+- preserve citations on extracted fields
 
-This also bumps the demo reset marker used by the frontend. On the next load of the Regression Runner page, saved regression results/config are cleared automatically.
+### 2. Contract Information Extraction
+Minimum structured output includes:
+- `contract_name`
+- `total_amount`
+- `currency`
+- `milestones[]`
+- `milestone_id`
+- `name`
+- `amount`
+- `percentage`
+- `work_items[]`
+- `acceptance_criteria`
+- `payment_condition`
+- `status`
+- `citations[]`
+- `validation[]`
 
-If you also want to clear Docker volumes for Qdrant and the embedding cache:
+### 3. Validation
+The system checks for:
+- missing total amount
+- missing milestones
+- milestone amount sum mismatch
+- percentage inconsistency
+- installment count mismatch
+- conflicting or incomplete payment clauses
 
-```bash
-docker compose down -v
-python scripts/reset_demo_state.py
-```
+Warnings are stored and surfaced with traceable evidence.
 
-Then restart the stack and ingest documents again from scratch.
+### 4. Acceptance / Payment Workflow
+Each milestone supports:
+- acceptance record creation
+- payment request creation only after a passed acceptance
+- payment logging after request
+- real-time financial rollups for:
+  - total contract amount
+  - requested amount
+  - paid amount
+  - unpaid amount
 
-One-time embedding model cache inside Docker:
+### 5. Query Interface
+- natural-language contract query page
+- streaming answers
+- hybrid retrieval over ingested contracts
+- evidence attached to each response
+- persisted chat/session memory in SQLite
 
-```bash
-docker compose run --rm backend python -m backend.pipeline.cache_embedding_model
-```
+### 6. Wiki and KG Bonus
+- markdown wiki pages for contracts, milestones, source versions, and queries
+- knowledge graph for contracts, milestones, workflow artifacts, validation warnings, and evidence navigation
+- bidirectional flow between operational pages, wiki, and KG
 
-After that, the container keeps the embedding model in the `huggingface-cache` volume and can use hybrid retrieval without re-downloading it.
+## Main UI Pages
 
-Qdrant is included in the compose stack and is exposed at:
+- Contract Overview
+- Contract Detail
+- Milestone Detail
+- Payment Workflow
+- Contract Query
+- Wiki
+- Knowledge Graph
+- Regression Runner
 
-- REST: `http://localhost:6333`
-- Dashboard: `http://localhost:6333/dashboard`
-- gRPC: `localhost:6334`
+## Core API Endpoints
 
-## Verify Retrieval
-
-1. Check backend readiness:
-
-```bash
-curl http://localhost:8000/api/health
-```
-
-You want:
-
-- `local_model_server_reachable: true`
-- `embedding_model_ready: true`
-- `qdrant_ready: true`
-
-2. Ingest a contract:
-
-```bash
-curl -X POST http://localhost:8000/api/ingest \
-  -F "file=@Database/02XX專案.docx"
-```
-
-3. Run a query:
-
-```bash
-curl -X POST http://localhost:8000/api/query \
-  -H "Content-Type: application/json" \
-  -d '{"query":"第一期付款條件是什麼？","top_k":3}'
-```
-
-4. Inspect the response:
-
-- `retrieval_mode: "bm25_only"` means no embedding model is cached yet
-- `retrieval_mode: "hybrid_local"` means embeddings are active but Qdrant is not
-- `retrieval_mode: "hybrid_qdrant"` means embeddings and Qdrant are both active
-
-5. Verify Qdrant collection contents:
-
-```bash
-curl http://localhost:6333/collections
-```
-
-The `contract_chunks` collection should appear after a successful ingest with embeddings enabled.
-
-## Chat Memory
-
-The query endpoint is LangChain-based and persists chat messages in SQLite. The first query creates a session:
-
-```bash
-curl -X POST http://localhost:8000/api/query \
-  -H "Content-Type: application/json" \
-  -d '{"query":"第一期付款條件是什麼？","top_k":3}'
-```
-
-Use the returned `chat_session_id` on follow-up questions:
-
-```bash
-curl -X POST http://localhost:8000/api/query \
-  -H "Content-Type: application/json" \
-  -d '{"query":"那第二期呢？","top_k":3,"chat_session_id":"chat_xxxxx"}'
-```
-
-Inspect stored chat messages:
-
-```bash
-curl http://localhost:8000/api/chat/sessions
-curl http://localhost:8000/api/chat/sessions/chat_xxxxx/messages
-```
-
-## Ingest Documents
-
-Single file:
-
-```bash
-curl -X POST http://localhost:8000/api/ingest \
-  -F "file=@Database/02XX專案.docx"
-```
-
-Batch ingest from `data/uploads/`:
-
-```bash
-python backend/pipeline/batch_ingest.py
-```
-
-## Current Backend Features
-
-- `.docx` parsing and `.doc` conversion through LibreOffice inside the backend image
-- Contract total and milestone extraction with citations
-- Validation warnings for missing totals, missing milestones, amount mismatch, percentage mismatch, installment count mismatch, and missing work items
-- Acceptance, payment request, and payment logging APIs
-- Generated wiki pages in `wiki/`
-- Knowledge graph JSON and SVG endpoints
-- Hybrid retrieval path: BM25 plus Qdrant-backed dense retrieval when the embedding model is cached
-
-## API Surface
-
-- `GET /api/health`
-- `POST /api/ingest`
-- `POST /api/ingest/batch`
+### Contracts and milestones
 - `GET /api/contracts`
 - `GET /api/contracts/{id}`
 - `GET /api/contracts/{id}/financials`
 - `GET /api/contracts/{id}/raw`
 - `GET /api/milestones/{id}`
 - `GET /api/milestones/{id}/status`
+
+### Workflow
 - `POST /api/acceptance`
-- `GET /api/acceptance/{milestone_id}`
 - `GET /api/workflow/{milestone_id}`
 - `POST /api/payment-request`
-- `GET /api/payment-request/{id}`
 - `POST /api/payment`
+
+### Query
 - `POST /api/query`
+- `POST /api/query/stream`
 - `GET /api/chat/sessions`
 - `GET /api/chat/sessions/{chat_session_id}/messages`
+- `GET /api/chat/sessions/{chat_session_id}/turns`
+
+### Wiki / KG
 - `GET /api/wiki`
-- `GET /api/wiki/{path}`
+- `GET /api/wiki/page/{path}`
 - `GET /api/kg/graph`
-- `GET /api/kg/svg`
-- `GET /api/kg/svg/{contract_id}`
 - `GET /api/kg/query/accepted-not-paid`
-- `GET /api/kg/query/high-risk-clauses`
+- `GET /api/kg/query/high-risk-warnings`
 - `GET /api/kg/query/payment-trail/{milestone_id}`
 
-## Architecture Summary
+## Import Example Data
 
-- `backend/pipeline/ingestion.py`: file handling and document normalization
-- `backend/pipeline/extractor.py`: regex-first extraction and citation creation
-- `backend/pipeline/validation.py`: amount and milestone consistency checks
-- `backend/pipeline/indexer.py`: BM25 plus optional embedding retrieval
-- `backend/pipeline/qdrant_store.py`: Qdrant collection management and vector search
-- `backend/pipeline/langchain_query.py`: prompt assembly, retrieval orchestration, OpenAI-compatible chat call, and chat memory persistence
-- `backend/pipeline/llm.py`: local OpenAI-compatible model server client
-- `backend/wiki/generator.py`: Markdown wiki generation and version conflict logging
-- `backend/kg/graph.py`: graph build and SVG rendering
-- `backend/api/`: FastAPI route surface
-- `frontend/src/pages/`: React screens for contracts, milestones, workflow, query, wiki, KG, and health
-- `frontend/src/components/CitationDrawer.jsx`: shared citation drill-down panel
+Single ingest:
 
-## Limitations
+```bash
+curl -X POST http://localhost:8000/api/ingest \
+  -F "file=@Database/02XX專案.docx"
+```
 
-- `.doc` ingestion works in Docker because LibreOffice is bundled in the backend image; local host runs still require host LibreOffice
-- Embedding retrieval requires a one-time model download before fully offline use, even in Docker
-- Qdrant only contributes once embeddings are cached and chunks have been re-ingested or re-indexed
-- Work item extraction is still conservative and misses some contract-specific lists
-- The current query answer generation is lightweight and not yet a full citation-grounded RAG synthesis pipeline
-- Final grading still needs screenshots or short video evidence plus a clean end-to-end Docker verification run
+Batch ingest from runtime upload folder:
+
+```bash
+python backend/pipeline/batch_ingest.py
+```
+
+## Reset Runtime State
+
+Reset repo-backed runtime state:
+
+```bash
+python scripts/reset_demo_state.py
+```
+
+or:
+
+```bash
+make reset-demo
+```
+
+If you also want to clear Docker volumes:
+
+```bash
+docker compose down -v
+python scripts/reset_demo_state.py
+```
+
+## Tests and Verification
+
+Run automated backend tests:
+
+```bash
+pytest -q tests
+```
+
+See:
+- [BackendTestReport.md](BackendTestReport.md)
+
+Current covered cases include:
+- RFP / reference document handling
+- standard contract extraction
+- inconsistent installment validation
+- split-line amount extraction
+- workflow rule enforcement
+- query chat memory persistence
+
+Regression outputs are also included under `regression_test/`.
+
+## Deliverables Present In This Repo
+
+Included:
+- executable source code
+- startup instructions
+- sample assignment documents in `Database/`
+- extracted outputs in `data/extracted/`
+- generated wiki pages in `wiki/`
+- backend test report in [BackendTestReport.md](BackendTestReport.md)
+- UI screenshots / design artifacts in `stitch_contract_intel_dashboard/`
+
+## Known Limitations
+
+Main remaining limitations:
+- work item extraction is still conservative for some layouts
+- non-formal RFP/spec documents are weaker for semantic retrieval than structured contracts
+- answer quality still depends on the local model choice
+- first-time local model / embedding cache preparation remains an operator responsibility
+- KG clause visualization is still evidence-level rather than a fully normalized legal clause ontology
+
+## Suggested Evaluator Demo Flow
+
+1. Start the host-native oMLX/OpenAI-compatible model server
+2. Export the model environment variables
+3. Run `docker compose up --build`
+4. Ingest `Database/02XX專案.docx` and `Database/04XX專案.docx`
+5. Open Contract Overview and inspect totals / warnings
+6. Open a milestone and inspect citations
+7. Record acceptance, request payment, and log payment
+8. Ask a natural-language query in Contract Query
+9. Open the generated wiki note
+10. Open the knowledge graph and inspect workflow / warning relationships
+
+## Summary
+
+This submission meets the assignment’s core requirements and also includes the bonus wiki and KG layers.
+The intended operating model is Docker-first with a host-native oMLX/OpenAI-compatible local model server.

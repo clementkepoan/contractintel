@@ -3,14 +3,14 @@ from __future__ import annotations
 import json
 
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from sqlmodel import select
 
 from backend.db.database import get_session
 from backend.db.models import ChatMessage, ChatSession, FiledQuery
 from backend.config import settings
-from backend.pipeline.langchain_query import answer_with_langchain, retrieve_query_evidence
-from backend.pipeline.llm import llm_available
+from backend.pipeline.langchain_query import answer_with_langchain, retrieve_query_evidence, stream_answer_with_langchain
 from backend.pipeline.service import get_all_contracts
 
 router = APIRouter(prefix="/api", tags=["query"])
@@ -48,12 +48,8 @@ class QueryPayload(BaseModel):
 
 @router.post("/query")
 def query_documents(payload: QueryPayload) -> dict:
-    if not llm_available():
-        raise HTTPException(status_code=503, detail="Local LLM is not ready. Start the configured local model server and load the configured model before using contract query.")
     with get_session() as session:
         contract_ids = [payload.contract_id] if payload.contract_id else [item["contract_id"] for item in get_all_contracts(session)]
-        if not contract_ids:
-            raise HTTPException(status_code=404, detail="No ingested contracts available.")
         return answer_with_langchain(
             session=session,
             query=payload.query,
@@ -64,6 +60,29 @@ def query_documents(payload: QueryPayload) -> dict:
             persist_to_wiki=payload.persist_to_wiki,
             persist_chat=payload.persist_chat,
         )
+
+
+@router.post("/query/stream")
+def query_documents_stream(payload: QueryPayload) -> StreamingResponse:
+    def event_stream():
+        try:
+            with get_session() as session:
+                contract_ids = [payload.contract_id] if payload.contract_id else [item["contract_id"] for item in get_all_contracts(session)]
+                for item in stream_answer_with_langchain(
+                    session=session,
+                    query=payload.query,
+                    contract_ids=contract_ids,
+                    contract_id=payload.contract_id,
+                    top_k=payload.top_k,
+                    chat_session_id=payload.chat_session_id,
+                    persist_to_wiki=payload.persist_to_wiki,
+                    persist_chat=payload.persist_chat,
+                ):
+                    yield f"event: {item['event']}\ndata: {json.dumps(item['data'], ensure_ascii=False)}\n\n"
+        except Exception as exc:  # noqa: BLE001
+            yield "event: error\ndata: " + json.dumps({"detail": str(exc)}, ensure_ascii=False) + "\n\n"
+
+    return StreamingResponse(event_stream(), media_type="text/event-stream")
 
 
 @router.post("/query/retrieval")

@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { ChevronDown, ChevronRight, Send } from "lucide-react";
 import { api, formatDate } from "../api/client.js";
 import { useI18n } from "../i18n.jsx";
@@ -99,6 +99,12 @@ export function QueryPage({ contractId, setSelectedContractId, setSelectedWikiPa
   const [loading, setLoading] = useState(true);
   const [asking, setAsking] = useState(false);
   const [error, setError] = useState(null);
+  const [streamingTurnId, setStreamingTurnId] = useState("");
+  const suppressSessionLoadRef = useRef(false);
+  const activeContract = useMemo(
+    () => contracts.find((item) => item.contract_id === contractId) || null,
+    [contractId, contracts],
+  );
 
   function startNewSession() {
     setChatSessionId("");
@@ -150,6 +156,7 @@ export function QueryPage({ contractId, setSelectedContractId, setSelectedWikiPa
   }, []);
 
   useEffect(() => {
+    if (suppressSessionLoadRef.current) return;
     loadSessionArtifacts(chatSessionId);
   }, [chatSessionId]);
 
@@ -158,27 +165,97 @@ export function QueryPage({ contractId, setSelectedContractId, setSelectedWikiPa
     if (!query.trim()) return;
     setAsking(true);
     setError(null);
+    const question = query;
+    let streamedSessionId = chatSessionId || "";
+    const optimisticTurnId = `pending-${Date.now()}`;
+    const optimisticTurn = {
+      query_id: optimisticTurnId,
+      question,
+      answer: "",
+      citations: [],
+      wiki_path: null,
+      retrieval_mode: null,
+      model_name: null,
+      contract_id: contractId || null,
+    };
+    setTurns((current) => [...current, optimisticTurn]);
+    setStreamingTurnId(optimisticTurnId);
+    suppressSessionLoadRef.current = true;
     try {
-      const payload = await api.query({
-        query,
+      await api.queryStream({
+        query: question,
         top_k: Number(topK),
         contract_id: contractId || null,
         chat_session_id: chatSessionId || null,
         persist_to_wiki: persistToWiki,
+      }, {
+        onEvent: (eventName, data) => {
+          if (eventName === "meta") {
+            if (data.chat_session_id) {
+              streamedSessionId = data.chat_session_id;
+              setChatSessionId(data.chat_session_id);
+            }
+            setTurns((current) => current.map((turn) => (
+              turn.query_id === optimisticTurnId
+                ? { ...turn, citations: data.citations || [], retrieval_mode: data.retrieval_mode, model_name: data.model_name }
+                : turn
+            )));
+            return;
+          }
+          if (eventName === "token") {
+            const delta = data.delta || "";
+            if (!delta) return;
+            setTurns((current) => current.map((turn) => (
+              turn.query_id === optimisticTurnId
+                ? { ...turn, answer: `${turn.answer || ""}${delta}` }
+                : turn
+            )));
+            return;
+          }
+          if (eventName === "done") {
+            setResult(data);
+            if (data.chat_session_id) {
+              streamedSessionId = data.chat_session_id;
+              setChatSessionId(data.chat_session_id);
+            }
+            setTurns((current) => current.map((turn) => (
+              turn.query_id === optimisticTurnId
+                ? {
+                    ...turn,
+                    query_id: data.query_id || optimisticTurnId,
+                    answer: data.answer || turn.answer,
+                    citations: data.citations || [],
+                    wiki_path: data.wiki_path || null,
+                    answer_method: data.answer_method,
+                    retrieval_mode: data.retrieval_mode,
+                    model_name: data.model_name,
+                    contract_id: data.contract_id || turn.contract_id,
+                  }
+                : turn
+            )));
+            setStreamingTurnId("");
+          }
+          if (eventName === "error") {
+            throw new Error(data.detail || "Streaming request failed.");
+          }
+        },
       });
       setQuery("");
-      setChatSessionId(payload.chat_session_id);
-      const [sessionList, turnList, latestQuery] = await Promise.all([
+      const [sessionList, latestQuery] = await Promise.all([
         api.chatSessions(),
-        api.chatSessionTurns(payload.chat_session_id),
-        api.chatSessionLatestQuery(payload.chat_session_id),
+        streamedSessionId ? api.chatSessionLatestQuery(streamedSessionId) : Promise.resolve(null),
       ]);
       setSessions(sessionList);
-      setTurns(turnList);
-      setResult(latestQuery || payload);
+      if (latestQuery) setResult(latestQuery);
+      if (streamedSessionId) {
+        await loadSessionArtifacts(streamedSessionId);
+      }
     } catch (err) {
+      setTurns((current) => current.filter((turn) => turn.query_id !== optimisticTurnId));
+      setStreamingTurnId("");
       setError(err);
     } finally {
+      suppressSessionLoadRef.current = false;
       setAsking(false);
     }
   }
@@ -198,6 +275,16 @@ export function QueryPage({ contractId, setSelectedContractId, setSelectedWikiPa
               {t("query.newSession")}
             </button>
           </div>
+          <div className="query-session-summary">
+            <div>
+              <span className="label-caps">Scope</span>
+              <strong>{activeContract?.source_file || activeContract?.contract_name || t("query.allContracts")}</strong>
+            </div>
+            <div>
+              <span className="label-caps">Sessions</span>
+              <strong>{sessions.length}</strong>
+            </div>
+          </div>
           {sessions.length ? sessions.map((session) => (
             <button
               key={session.chat_session_id}
@@ -212,59 +299,96 @@ export function QueryPage({ contractId, setSelectedContractId, setSelectedWikiPa
         </div>
       </div>
       <div className="query-main-panel">
-        <section className="query-thread">
-          {orderedTurns.length ? orderedTurns.map((turn, index) => {
-            const evidenceOpen = expandedEvidence[index] || false;
-            return (
-              <div className="query-turn" key={`turn-${index}`}>
-                {turn.question ? (
-                  <article className="query-message query-message-user">
-                    <div className="query-message-label">{t("common.userQuestion")}</div>
-                    <div className="query-message-copy">{turn.question}</div>
-                  </article>
-                ) : null}
-                {turn.answer ? (
-                  <article className="query-message query-message-ai">
-                    <div className="query-message-label">{t("common.aiAnalysis")}</div>
-                    <MarkdownLite text={turn.answer} />
-                    <div className="analysis-meta">
-                      <span>Mode: {turn.retrieval_mode || "-"}</span>
-                      <span>Model: {turn.model_name || result?.model_name || "-"}</span>
-                      <span>Session ID: {chatSessionId || "-"}</span>
-                      {turn.wiki_path ? (
-                        <button type="button" className="ghost-button" onClick={() => { setSelectedWikiPath(turn.wiki_path); setPage("wiki"); }}>
-                          {t("common.openWikiNote")}
-                        </button>
-                      ) : null}
-                    </div>
-                    <EvidencePreview
-                      citations={turn.citations || []}
-                      setSelectedWikiPath={setSelectedWikiPath}
-                      setPage={setPage}
-                      expanded={evidenceOpen}
-                      onToggle={() => setExpandedEvidence((state) => ({ ...state, [index]: !state[index] }))}
-                    />
-                  </article>
-                ) : null}
-              </div>
-            );
-          }) : <EmptyBlock label={t("query.startSession")} />}
-        </section>
-        <form className="query-composer" onSubmit={ask}>
-          <div className="composer-toolbar">
-            <select value={contractId || ""} onChange={(event) => setSelectedContractId(event.target.value || "")}>
-              <option value="">{t("query.allContracts")}</option>
-              {contracts.map((item) => (
-                <option key={item.contract_id} value={item.contract_id}>
-                  {item.source_file || item.contract_name}
-                </option>
-              ))}
-            </select>
-            <label>{t("query.topK")}: {topK}<input type="range" min="1" max="12" value={topK} onChange={(event) => setTopK(event.target.value)} /></label>
-            <span className="composer-hybrid">{t("query.llmQuery")}</span>
-            <label className="composer-toggle"><input type="checkbox" checked={persistToWiki} onChange={(event) => setPersistToWiki(event.target.checked)} /> {t("query.fileAnswerToWiki")}</label>
+        <section className="query-thread-shell">
+          <div className="query-thread-shell-head">
+            <div>
+              <span className="label-caps">Conversation</span>
+              <h3>{activeContract?.contract_name || t("query.allContracts")}</h3>
+            </div>
+            <div className="query-thread-head-meta">
+              <span>{activeContract?.source_file || "Cross-contract"}</span>
+              <span>{orderedTurns.length} turns</span>
+            </div>
           </div>
-          <div className="composer-input-row">
+          <section className="query-thread">
+            {orderedTurns.length ? orderedTurns.map((turn, index) => {
+              const evidenceOpen = expandedEvidence[index] || false;
+              const isStreamingTurn = streamingTurnId && turn.query_id === streamingTurnId;
+              return (
+                <div className="query-turn" key={`turn-${index}`}>
+                  {turn.question ? (
+                    <article className="query-message query-message-user">
+                      <div className="query-message-label">{t("common.userQuestion")}</div>
+                      <div className="query-message-copy">{turn.question}</div>
+                    </article>
+                  ) : null}
+                  {turn.answer ? (
+                    <article className="query-message query-message-ai">
+                      <div className="query-message-label">{t("common.aiAnalysis")}</div>
+                      <MarkdownLite text={turn.answer} />
+                      {isStreamingTurn ? (
+                        <div className="query-typing-indicator" aria-live="polite">
+                          <span className="query-typing-dot" />
+                          <span className="query-typing-dot" />
+                          <span className="query-typing-dot" />
+                          <small>Generating answer…</small>
+                        </div>
+                      ) : null}
+                      <div className="analysis-meta">
+                        <span>Mode: {turn.retrieval_mode || "-"}</span>
+                        <span>Model: {turn.model_name || result?.model_name || "-"}</span>
+                        <span>Session ID: {chatSessionId || "-"}</span>
+                        {turn.wiki_path ? (
+                          <button type="button" className="ghost-button" onClick={() => { setSelectedWikiPath(turn.wiki_path); setPage("wiki"); }}>
+                            {t("common.openWikiNote")}
+                          </button>
+                        ) : null}
+                      </div>
+                      <EvidencePreview
+                        citations={turn.citations || []}
+                        setSelectedWikiPath={setSelectedWikiPath}
+                        setPage={setPage}
+                        expanded={evidenceOpen}
+                        onToggle={() => setExpandedEvidence((state) => ({ ...state, [index]: !state[index] }))}
+                      />
+                    </article>
+                  ) : null}
+                </div>
+              );
+            }) : <EmptyBlock label={t("query.startSession")} />}
+          </section>
+        </section>
+
+        <form className="query-composer modern" onSubmit={ask}>
+          <div className="composer-toolbar modern">
+            <div className="composer-control">
+              <span className="label-caps">Contract Scope</span>
+              <select value={contractId || ""} onChange={(event) => setSelectedContractId(event.target.value || "")}>
+                <option value="">{t("query.allContracts")}</option>
+                {contracts.map((item) => (
+                  <option key={item.contract_id} value={item.contract_id}>
+                    {item.source_file || item.contract_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="composer-control compact">
+              <span className="label-caps">{t("query.topK")}</span>
+              <label className="composer-range">
+                <strong>{topK}</strong>
+                <input type="range" min="1" max="12" value={topK} onChange={(event) => setTopK(event.target.value)} />
+              </label>
+            </div>
+            <div className="composer-control compact composer-status">
+              <span className="label-caps">Mode</span>
+              <strong>{t("query.llmQuery")}</strong>
+            </div>
+            <label className="composer-toggle modern">
+              <input type="checkbox" checked={persistToWiki} onChange={(event) => setPersistToWiki(event.target.checked)} />
+              <span>{t("query.fileAnswerToWiki")}</span>
+            </label>
+          </div>
+          <div className="composer-input-row modern">
             <textarea value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t("query.askPlaceholder")} />
             <button type="submit" disabled={asking}><Send size={18} /> {t("query.runQuery")}</button>
           </div>

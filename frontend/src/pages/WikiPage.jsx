@@ -271,45 +271,54 @@ export function WikiPage({
 
       <div className="wiki-content-panel">
         <ErrorBlock error={error} />
-        <div className="wiki-content-head">
-          <div>
-            <p className="label-caps">{metadata.kind || "page"} · {selectedWikiPath || "wiki"}</p>
-            <h2>{metadata.title || selectedWikiPath || "Wiki"}</h2>
-            <p className="page-subtitle">{manifest.pages.find((item) => item.path === selectedWikiPath)?.summary || "Persistent, system-maintained markdown knowledge base."}</p>
+        <div className="wiki-article-card">
+          <div className="wiki-content-head modern">
+            <div className="wiki-content-head-copy">
+              <p className="wiki-page-eyebrow">{metadata.kind || "page"} <span>•</span> {selectedWikiPath || "wiki"}</p>
+              <h2>{metadata.title || selectedWikiPath || "Wiki"}</h2>
+              <p className="page-subtitle">{manifest.pages.find((item) => item.path === selectedWikiPath)?.summary || "Persistent, system-maintained markdown knowledge base."}</p>
+              <div className="wiki-meta-inline">
+                {metadata.updated_at ? <span className="wiki-meta-pill">Updated {metadata.updated_at}</span> : null}
+                {metadata.contract_id ? <span className="wiki-meta-pill">Contract {metadata.contract_id}</span> : null}
+                {metadata.milestone_id ? <span className="wiki-meta-pill">Milestone {metadata.milestone_id}</span> : null}
+              </div>
+            </div>
+            <div className="button-row wiki-content-actions">
+              {metadata.contract_id ? (
+                <button
+                  type="button"
+                  className="ghost-button"
+                  onClick={() => {
+                    setSelectedContractId(metadata.contract_id);
+                    setPage("detail");
+                  }}
+                ><BookOpen size={16} /> Contract</button>
+              ) : null}
+              {metadata.milestone_id ? (
+                <button
+                  type="button"
+                  className="ghost-button"
+                  onClick={() => {
+                    setSelectedMilestoneId(metadata.milestone_id);
+                    setPage("milestone");
+                  }}
+                ><BookOpen size={16} /> Milestone</button>
+              ) : null}
+              {metadata.contract_id ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedContractId(metadata.contract_id);
+                    setPage("graph");
+                  }}
+                ><Network size={16} /> Graph</button>
+              ) : null}
+            </div>
           </div>
-          <div className="button-row">
-            {metadata.contract_id ? (
-              <button
-                type="button"
-                className="ghost-button"
-                onClick={() => {
-                  setSelectedContractId(metadata.contract_id);
-                  setPage("detail");
-                }}
-              ><BookOpen size={16} /> Contract</button>
-            ) : null}
-            {metadata.milestone_id ? (
-              <button
-                type="button"
-                className="ghost-button"
-                onClick={() => {
-                  setSelectedMilestoneId(metadata.milestone_id);
-                  setPage("milestone");
-                }}
-              ><BookOpen size={16} /> Milestone</button>
-            ) : null}
-            {metadata.contract_id ? (
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedContractId(metadata.contract_id);
-                  setPage("graph");
-                }}
-              ><Network size={16} /> Graph</button>
-            ) : null}
+          <div className="wiki-article-body">
+            <MarkdownView content={pageData?.content || ""} currentPath={selectedWikiPath || ""} onNavigate={setSelectedWikiPath} />
           </div>
         </div>
-        <MarkdownView content={pageData?.content || ""} currentPath={selectedWikiPath || ""} onNavigate={setSelectedWikiPath} />
       </div>
 
       <aside className="wiki-meta-rail">

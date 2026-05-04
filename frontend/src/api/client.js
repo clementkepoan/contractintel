@@ -38,6 +38,60 @@ async function apiFetch(path, options = {}) {
   throw new Error("Request failed.");
 }
 
+async function apiStream(path, payload, handlers = {}) {
+  const response = await fetch(path, {
+    method: "POST",
+    headers: jsonHeaders,
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) {
+    const contentType = response.headers.get("content-type") || "";
+    const body = contentType.includes("application/json") ? await response.json() : await response.text();
+    throw new Error(readableError(response.status, body, { method: "POST" }));
+  }
+  if (!response.body) {
+    throw new Error("Streaming response body is not available.");
+  }
+
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  function flushEventBlock(block) {
+    const lines = block.split("\n");
+    let eventName = "message";
+    const dataLines = [];
+    for (const line of lines) {
+      if (line.startsWith("event:")) {
+        eventName = line.slice(6).trim();
+      } else if (line.startsWith("data:")) {
+        dataLines.push(line.slice(5).trim());
+      }
+    }
+    if (!dataLines.length) return;
+    let parsed;
+    try {
+      parsed = JSON.parse(dataLines.join("\n"));
+    } catch {
+      parsed = { raw: dataLines.join("\n") };
+    }
+    handlers.onEvent?.(eventName, parsed);
+  }
+
+  while (true) {
+    const { value, done } = await reader.read();
+    buffer += decoder.decode(value || new Uint8Array(), { stream: !done });
+    let boundary = buffer.indexOf("\n\n");
+    while (boundary >= 0) {
+      const block = buffer.slice(0, boundary).trim();
+      buffer = buffer.slice(boundary + 2);
+      if (block) flushEventBlock(block);
+      boundary = buffer.indexOf("\n\n");
+    }
+    if (done) break;
+  }
+}
+
 export const api = {
   health: () => apiFetch("/api/health"),
   contracts: () => apiFetch("/api/contracts"),
@@ -56,6 +110,7 @@ export const api = {
   graph: () => apiFetch("/api/kg/graph"),
   graphSvg: (contractId) => apiFetch(contractId ? `/api/kg/svg/${contractId}` : "/api/kg/svg"),
   graphAcceptedNotPaid: () => apiFetch("/api/kg/query/accepted-not-paid"),
+  graphHighRiskWarnings: () => apiFetch("/api/kg/query/high-risk-warnings"),
   graphHighRiskClauses: () => apiFetch("/api/kg/query/high-risk-clauses"),
   graphPaymentTrail: (milestoneId) => apiFetch(`/api/kg/query/payment-trail/${milestoneId}`),
   chatSessions: () => apiFetch("/api/chat/sessions"),
@@ -63,6 +118,7 @@ export const api = {
   chatSessionLatestQuery: (chatSessionId) => apiFetch(`/api/chat/sessions/${chatSessionId}/latest-query`),
   chatSessionTurns: (chatSessionId) => apiFetch(`/api/chat/sessions/${chatSessionId}/turns`),
   query: (payload) => apiFetch("/api/query", { method: "POST", headers: jsonHeaders, body: JSON.stringify(payload) }),
+  queryStream: (payload, handlers) => apiStream("/api/query/stream", payload, handlers),
   queryRetrievalOnly: (payload) => apiFetch("/api/query/retrieval", { method: "POST", headers: jsonHeaders, body: JSON.stringify(payload) }),
   accept: (payload) => apiFetch("/api/acceptance", { method: "POST", headers: jsonHeaders, body: JSON.stringify(payload) }),
   requestPayment: (payload) => apiFetch("/api/payment-request", { method: "POST", headers: jsonHeaders, body: JSON.stringify(payload) }),

@@ -249,7 +249,7 @@ export function RegressionPage() {
   if (loading) return <LoadingBlock label={t("common.loadingData")} />;
 
   return (
-    <div className="page-stack">
+    <div className="page-stack regression-screen">
       <ErrorBlock error={error} />
       <div className="panel">
         <div className="panel-header">

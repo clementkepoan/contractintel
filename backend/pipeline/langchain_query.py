@@ -12,7 +12,7 @@ from backend.config import settings
 from backend.db.models import ChatMessage, ChatSession, Contract, FiledQuery, ValidationWarning
 from backend.pipeline.embeddings import embedding_model_ready
 from backend.pipeline.indexer import hybrid_search_chunks
-from backend.pipeline.llm import llm_available, query_local_messages_detailed
+from backend.pipeline.llm import llm_available, query_local_messages_detailed, stream_local_messages
 from backend.pipeline.qdrant_store import qdrant_ready
 from backend.pipeline.reranker import rerank_citations
 from backend.wiki.generator import append_query_note, resolve_contract_wiki_paths
@@ -225,6 +225,22 @@ NONFORMAL_ACTION_DIRECT_TERMS = (
     "暫停付款",
     "另覓廠商",
 )
+QUERY_GATE_GREETING_TERMS = {
+    "hi", "hello", "hey", "yo", "thanks", "thankyou", "ok", "okay",
+    "你好", "您好", "嗨", "哈囉", "哈喽", "早安", "午安", "晚安", "謝謝", "谢谢", "感謝", "好", "好的",
+}
+QUERY_GATE_UNDERSPECIFIED_TERMS = {
+    "help", "what", "why", "explain", "explanation", "?", "？", "幫忙", "帮忙", "說明", "说明", "解釋", "解释",
+}
+QUERY_GATE_CONTRACT_TERMS = (
+    "contract", "payment", "milestone", "acceptance", "delay", "risk", "subcontract", "assignment",
+    "force majeure", "tariff", "price", "clause", "invoice", "warranty", "remedy", "owner", "contractor",
+    "合約", "合同", "契約", "付款", "請款", "工程款", "期款", "里程碑", "驗收", "核定", "進度", "逾期", "遲延",
+    "風險", "違約", "轉包", "分包", "轉讓", "讓與", "不可抗力", "關稅", "保固", "價金", "條款", "款項", "支付",
+    "甲方", "乙方", "廠商", "機關", "業主",
+)
+QUERY_GATE_JSON_RE = re.compile(r"\{.*\}", re.DOTALL)
+QUERY_GATE_SIMPLE_CLEAN_RE = re.compile(r"[\s\.,!?，。！？、:：;；'\"`~()\[\]{}<>/_\-]+")
 
 
 def classify_query_intents(query: str) -> set[str]:
@@ -295,6 +311,168 @@ def detect_output_language(query: str) -> str:
     chinese_chars = len(CHINESE_CHAR_RE.findall(text))
     ascii_letters = len(re.findall(r"[A-Za-z]", text))
     return "繁體中文" if chinese_chars >= ascii_letters else "English"
+
+
+def normalize_gate_query(query: str) -> str:
+    return QUERY_GATE_SIMPLE_CLEAN_RE.sub("", (query or "").strip().lower())
+
+
+def has_contract_signal(query: str) -> bool:
+    lowered = (query or "").lower()
+    return any(term in lowered for term in QUERY_GATE_CONTRACT_TERMS)
+
+
+def rule_based_query_gate(query: str) -> dict[str, str] | None:
+    text = (query or "").strip()
+    if not text:
+        return {"label": "underspecified", "reason": "empty_query", "source": "rule"}
+    normalized = normalize_gate_query(text)
+    if normalized in QUERY_GATE_GREETING_TERMS:
+        return {"label": "small_talk", "reason": "greeting_or_ack", "source": "rule"}
+    if normalized in QUERY_GATE_UNDERSPECIFIED_TERMS:
+        return {"label": "underspecified", "reason": "too_vague", "source": "rule"}
+    if has_contract_signal(text):
+        return {"label": "contract_query", "reason": "contract_keyword", "source": "rule"}
+    token_count = len(re.findall(r"[A-Za-z]+|[\u4e00-\u9fff]+", text))
+    if token_count <= 2 and len(text) <= 12:
+        return {"label": "underspecified", "reason": "short_without_contract_signal", "source": "rule"}
+    return None
+
+
+def parse_gate_json(raw: str) -> dict[str, Any] | None:
+    text = (raw or "").strip()
+    if not text:
+        return None
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        match = QUERY_GATE_JSON_RE.search(text)
+        if not match:
+            return None
+        try:
+            return json.loads(match.group(0))
+        except json.JSONDecodeError:
+            return None
+
+
+def classify_query_gate(query: str) -> dict[str, str]:
+    rule_result = rule_based_query_gate(query)
+    if rule_result is not None:
+        return rule_result
+
+    if llm_available(timeout=0.35):
+        gate_messages = [
+            {
+                "role": "system",
+                "content": (
+                    "You are a bilingual query gate for an offline contract intelligence system. "
+                    "Classify the user input into exactly one label: contract_query, small_talk, underspecified. "
+                    "contract_query means the user is asking about contract content, milestones, payments, acceptance, risk, delay, subcontracting, force majeure, price adjustment, parties, deliverables, clauses, obligations, or asking to summarize/explain a contract document. "
+                    "small_talk means greetings, thanks, acknowledgement, or casual chat. "
+                    "underspecified means the input is too vague, too short, or not specific enough to run contract analysis. "
+                    "Return JSON only in the format {\"label\":\"...\",\"reason\":\"...\"}."
+                ),
+            },
+            {
+                "role": "user",
+                "content": f"Query: {query}",
+            },
+        ]
+        gate_result = query_local_messages_detailed(
+            gate_messages,
+            timeout=8.0,
+            response_format="json",
+            model_name=settings.local_gate_model_name,
+            sampling_overrides={
+                "temperature": 0.1,
+                "top_p": 0.1,
+                "top_k": 5,
+                "presence_penalty": 0.0,
+                "frequency_penalty": 0.0,
+            },
+        )
+        parsed = parse_gate_json(str(gate_result.get("response") or ""))
+        label = str((parsed or {}).get("label") or "").strip().lower()
+        reason = str((parsed or {}).get("reason") or "").strip() or "gate_model"
+        if label in {"contract_query", "small_talk", "underspecified"}:
+            return {"label": label, "reason": reason, "source": "model"}
+
+    text = (query or "").strip()
+    token_count = len(re.findall(r"[A-Za-z]+|[\u4e00-\u9fff]+", text))
+    if has_contract_signal(text):
+        return {"label": "contract_query", "reason": "fallback_contract_keyword", "source": "fallback"}
+    if token_count <= 4 and len(text) <= 24:
+        return {"label": "underspecified", "reason": "fallback_short_query", "source": "fallback"}
+    return {"label": "contract_query", "reason": "fallback_default", "source": "fallback"}
+
+
+def build_query_gate_answer(query: str, gate_label: str) -> tuple[str, str]:
+    """
+    Generate a natural reply for non-contract queries using the gate model.
+    Returns (answer_text, answer_method).
+
+    answer_method values:
+      gate_model_small_talk       — gate model responded to a greeting/ack
+      gate_model_underspecified   — gate model asked for clarification
+      gate_fallback_small_talk    — LLM unavailable, used canned greeting
+      gate_fallback_underspecified — LLM unavailable, used canned clarification prompt
+    """
+    output_language = detect_output_language(query)
+
+    if llm_available(timeout=0.35):
+        if gate_label == "small_talk":
+            system_content = (
+                "You are a friendly assistant for a contract analysis system. "
+                "Respond naturally and briefly to the user's message. "
+                "After responding, let them know you're here to help with contract questions "
+                "(payments, milestones, acceptance, delays, risk, subcontracting, force majeure, clauses). "
+                "Keep it concise — 1 to 2 sentences max. "
+                f"Reply in: {output_language}."
+            )
+        else:  # underspecified
+            system_content = (
+                "You are a friendly assistant for a contract analysis system. "
+                "The user's question is too vague to run contract analysis. "
+                "Politely ask them to be more specific, and give 2 or 3 concrete examples "
+                "of the kinds of contract questions you can answer "
+                "(e.g. payment milestones, acceptance conditions, delay penalties, subcontracting limits). "
+                "Keep it to 2 sentences max. "
+                f"Reply in: {output_language}."
+            )
+
+        result = query_local_messages_detailed(
+            [
+                {"role": "system", "content": system_content},
+                {"role": "user", "content": query},
+            ],
+            timeout=10.0,
+            model_name=settings.local_gate_model_name,
+            sampling_overrides={
+                "temperature": 0.7,
+                "top_p": 0.9,
+                "top_k": 40,
+                "presence_penalty": 0.0,
+                "frequency_penalty": 0.0,
+            },
+        )
+        answer = (result.get("response") or "").strip()
+        if answer:
+            return answer, f"gate_model_{gate_label}"
+
+    # Fallback canned responses if LLM unavailable or returned empty
+    if gate_label == "small_talk":
+        text = (
+            "Hi! I'm a contract analysis assistant. Ask me about payments, milestones, acceptance, delays, risk, or any clause."
+            if output_language == "English"
+            else "你好！我是合約分析助理，請詢問付款、里程碑、驗收、進度風險、條款等合約相關問題。"
+        )
+    else:
+        text = (
+            "Could you be more specific? For example: How many payment milestones? What happens if the contractor delays? Is subcontracting allowed?"
+            if output_language == "English"
+            else "請再具體說明您的問題，例如：有幾期付款？廠商逾期怎麼辦？可以轉包嗎？"
+        )
+    return text, f"gate_fallback_{gate_label}"
 
 
 def load_contract_payload(contract: Contract) -> dict[str, Any]:
@@ -720,6 +898,40 @@ def answer_with_langchain(
     persist_to_wiki: bool = False,
     persist_chat: bool = True,
 ) -> dict[str, Any]:
+    gate_result = classify_query_gate(query)
+    if gate_result["label"] != "contract_query":
+        chat_session = ensure_chat_session(session, chat_session_id, contract_id, query) if persist_chat else None
+        answer, answer_method = build_query_gate_answer(query, gate_result["label"])
+        if persist_chat and chat_session is not None:
+            human_row = append_message(session, chat_session.chat_session_id, "human", query)
+            ai_row = append_message(session, chat_session.chat_session_id, "ai", answer)
+            record_query_result(
+                session=session,
+                chat_session_id=chat_session.chat_session_id,
+                human_message_id=human_row.id,
+                ai_message_id=ai_row.id,
+                contract_id=contract_id,
+                query=query,
+                answer=answer,
+                citations=[],
+                wiki_path="",
+                answer_method=answer_method,
+                retrieval_mode_value="gate_only",
+            )
+        return {
+            "chat_session_id": chat_session.chat_session_id if chat_session is not None else None,
+            "answer": answer,
+            "citations": [],
+            "answer_method": answer_method,
+            "retrieval_mode": "gate_only",
+            "model_name": settings.local_gate_model_name if gate_result["source"] == "model" else None,
+            "reranker_model_name": None,
+            "retrieval_confident": None,
+            "anchor_failure_reason": None,
+            "wiki_path": None,
+            "gate_result": gate_result,
+        }
+
     if not llm_available():
         raise RuntimeError("Local LLM is not ready.")
     chat_session = ensure_chat_session(session, chat_session_id, contract_id, query) if persist_chat else None
@@ -758,6 +970,7 @@ def answer_with_langchain(
             "retrieval_confident": retrieval_confident,
             "anchor_failure_reason": anchor_failure_reason,
             "wiki_path": None,
+            "gate_result": gate_result,
         }
 
     evidence = format_evidence(citations)
@@ -869,4 +1082,256 @@ def answer_with_langchain(
         "retrieval_confident": retrieval_confident,
         "anchor_failure_reason": anchor_failure_reason,
         "wiki_path": wiki_path,
+        "gate_result": gate_result,
+    }
+
+
+def stream_answer_with_langchain(
+    *,
+    session: Any,
+    query: str,
+    contract_ids: list[str],
+    contract_id: str | None,
+    top_k: int,
+    chat_session_id: str | None,
+    persist_to_wiki: bool = False,
+    persist_chat: bool = True,
+):
+    gate_result = classify_query_gate(query)
+    if gate_result["label"] != "contract_query":
+        chat_session = ensure_chat_session(session, chat_session_id, contract_id, query) if persist_chat else None
+        answer, answer_method = build_query_gate_answer(query, gate_result["label"])
+        if persist_chat and chat_session is not None:
+            human_row = append_message(session, chat_session.chat_session_id, "human", query)
+            ai_row = append_message(session, chat_session.chat_session_id, "ai", answer)
+            record_query_result(
+                session=session,
+                chat_session_id=chat_session.chat_session_id,
+                human_message_id=human_row.id,
+                ai_message_id=ai_row.id,
+                contract_id=contract_id,
+                query=query,
+                answer=answer,
+                citations=[],
+                wiki_path="",
+                answer_method=answer_method,
+                retrieval_mode_value="gate_only",
+            )
+        yield {
+            "event": "meta",
+            "data": {
+                "chat_session_id": chat_session.chat_session_id if chat_session is not None else None,
+                "citations": [],
+                "answer_method": answer_method,
+                "retrieval_mode": "gate_only",
+                "model_name": settings.local_gate_model_name if gate_result["source"] == "model" else None,
+                "reranker_model_name": None,
+                "retrieval_confident": None,
+                "anchor_failure_reason": None,
+                "gate_result": gate_result,
+            },
+        }
+        yield {
+            "event": "done",
+            "data": {
+                "chat_session_id": chat_session.chat_session_id if chat_session is not None else None,
+                "answer": answer,
+                "citations": [],
+                "answer_method": answer_method,
+                "retrieval_mode": "gate_only",
+                "model_name": settings.local_gate_model_name if gate_result["source"] == "model" else None,
+                "reranker_model_name": None,
+                "retrieval_confident": None,
+                "anchor_failure_reason": None,
+                "wiki_path": None,
+                "gate_result": gate_result,
+            },
+        }
+        return
+
+    if not llm_available():
+        raise RuntimeError("Local LLM is not ready.")
+    chat_session = ensure_chat_session(session, chat_session_id, contract_id, query) if persist_chat else None
+    retrieval = retrieve_query_evidence(session=session, query=query, contract_ids=contract_ids, top_k=top_k)
+    intents = set(retrieval["intents"])
+    citations = list(retrieval["citations"])
+    retrieval_mode_value = str(retrieval["retrieval_mode"])
+    retrieval_confident = bool(retrieval.get("retrieval_confident"))
+    anchor_failure_reason = retrieval.get("anchor_failure_reason")
+
+    yield {
+        "event": "meta",
+        "data": {
+            "chat_session_id": chat_session.chat_session_id if chat_session is not None else None,
+            "citations": citations,
+            "answer_method": "openai_compatible_chat" if citations else "no_evidence",
+            "retrieval_mode": retrieval_mode_value,
+            "model_name": settings.local_query_model_name,
+            "reranker_model_name": retrieval.get("reranker_model_name"),
+            "retrieval_confident": retrieval_confident,
+            "anchor_failure_reason": anchor_failure_reason,
+            "gate_result": gate_result,
+        },
+    }
+
+    if not citations:
+        answer = "No matching evidence found in the local indexes."
+        wiki_path = None
+        if persist_chat and chat_session is not None:
+            human_row = append_message(session, chat_session.chat_session_id, "human", query)
+            ai_row = append_message(session, chat_session.chat_session_id, "ai", answer)
+            record_query_result(
+                session=session,
+                chat_session_id=chat_session.chat_session_id,
+                human_message_id=human_row.id,
+                ai_message_id=ai_row.id,
+                contract_id=contract_id,
+                query=query,
+                answer=answer,
+                citations=[],
+                wiki_path="",
+                answer_method="no_evidence",
+                retrieval_mode_value=retrieval_mode_value,
+            )
+        yield {
+            "event": "done",
+            "data": {
+                "chat_session_id": chat_session.chat_session_id if chat_session is not None else None,
+                "answer": answer,
+                "citations": [],
+                "answer_method": "no_evidence",
+                "retrieval_mode": retrieval_mode_value,
+                "model_name": settings.local_query_model_name,
+                "reranker_model_name": retrieval.get("reranker_model_name"),
+                "retrieval_confident": retrieval_confident,
+                "anchor_failure_reason": anchor_failure_reason,
+                "wiki_path": wiki_path,
+                "gate_result": gate_result,
+            },
+        }
+        return
+
+    evidence = format_evidence(citations)
+    structured_context = build_structured_context(session, contract_ids, intents)
+    output_language = detect_output_language(query)
+    few_shot_examples = build_few_shot_examples(output_language)
+    nonformal_action_query = is_nonformal_document(citations) and bool({"action", "progress_delay"} & intents)
+    explicit_nonformal_action_basis = has_explicit_nonformal_action_basis(citations) if nonformal_action_query else False
+    effective_low_confidence = (not retrieval_confident) or (nonformal_action_query and not explicit_nonformal_action_basis)
+    answer_instructions = (
+        build_low_confidence_answer_instructions(intents, output_language)
+        if effective_low_confidence
+        else (
+            build_nonformal_action_answer_instructions(output_language)
+            if nonformal_action_query
+            else build_answer_instructions(intents, output_language)
+        )
+    )
+    system_prompt = (
+        "你是一個離線合約分析助理。"
+        "只能根據提供的結構化資料與檢索證據回答。"
+        "先使用原始條款證據。"
+        "對話歷史只能用來理解代稱，不能新增事實。"
+        "如果證據不足，必須明確說明證據不足。"
+        "你正在處理的文件主要是台灣工程承攬契約、里程碑付款契約、RFP 與修訂版本文件。"
+        "回答時要像合約分析師，而不是一般摘要器。"
+        "你必須先判斷文件性質：正式契約、RFP、施工說明書、技術規格書、招標需求文件、修訂版本文件。"
+        "如果文件屬於 RFP、施工說明書、技術規格書或其他非正式契約文件，就只回答文件中實際存在的需求、規格、程序與責任，不得自行補出正式契約常見但未出現的商務或法律條款。"
+        "若文件未明確規定不可抗力、調價、轉包/分包、終止/解除、違約金、付款門檻或驗收標準，就必須直接回答文件未明確規定或證據不足。"
+        "除非使用者明確要求一般法律分析，否則不得引入民法、情勢變更、誠信原則、法院可能見解、協商策略、訴訟或仲裁建議。"
+        "對於工程承攬契約，應特別檢查：固定總價與不得追加、付款辦法、驗收標準、遲延罰款、暫停給付、損害賠償、契約終止與解除、不可抗力、關稅是否被排除於不可抗力、保固責任、轉包/分包限制。"
+        "若問題詢問風險、可採取的行動、可否請款、保固期是否相同、或關稅是否屬不可抗力，通常必須綜合多個條款回答，不可只依賴單一條款。"
+        "不要輸出 Markdown 表格；請使用條列或短段落。"
+        "不要輸出 Markdown 水平線（---），不要輸出『相關註記』、『解析說明』、『文件性質判斷』這類前言或後記。"
+        "不要輸出 emoji、圖示、流程圖、ASCII 圖、區塊引言或裝飾性符號。"
+        "不要輸出 <analysis>、<think>、Thought、Analysis、Reasoning、Draft、內部分析、思考過程、推理過程、草稿、檢查清單或任何自我對話。"
+        "回答應簡短直接；若證據不足，就明確寫『文件未明確規定』或『證據不足』後停止，不要再延伸一般性說明。"
+        "若使用者以中文提問，必須只用繁體中文作答，不可混用簡體中文。"
+        "輸出格式必須穩定、簡潔、可解析，只使用簡單標題與單層條列。"
+        "最終回答必須跟隨使用者問題的主要語言；中文問題用繁體中文回答，英文問題用英文回答。"
+    )
+    confidence_warning = ""
+    if effective_low_confidence:
+        confidence_warning = (
+            "【檢索限制】\n"
+            "目前檢索到的證據可能沒有直接回答此問題。"
+            "若條款未明示，必須直接回答『文件未明確規定』或『證據不足』，不得推論，也不得輸出任何系統原因或內部狀態。\n\n"
+        )
+    user_prompt = (
+        f"【合約結構化資料】\n{structured_context}\n\n"
+        f"{confidence_warning}"
+        f"【檢索證據】\n{evidence}\n\n"
+        f"【回答範例】\n{few_shot_examples}\n\n"
+        f"【回答要求】\n{answer_instructions}\n\n"
+        f"【問題】\n{query}\n\n【回答】"
+    )
+    messages = [{"role": "system", "content": system_prompt}]
+    if persist_chat and chat_session is not None:
+        messages.extend(history_to_messages(load_history(session, chat_session.chat_session_id)))
+    messages.append({"role": "user", "content": user_prompt})
+
+    answer_parts: list[str] = []
+    for item in stream_local_messages(messages, timeout=60.0, model_name=settings.local_query_model_name):
+        if item["type"] == "token":
+            token = str(item.get("content") or "")
+            if token:
+                answer_parts.append(token)
+                yield {"event": "token", "data": {"delta": token}}
+            continue
+        if item["type"] == "error":
+            raise RuntimeError(f"Local model server streaming failed: {item.get('error') or 'request_error'}")
+        if item["type"] == "done":
+            break
+
+    answer = "".join(answer_parts).strip()
+    if not answer:
+        raise RuntimeError("Local model server did not return an answer: empty_response")
+
+    wiki_path = None
+    if persist_chat and chat_session is not None:
+        human_row = append_message(session, chat_session.chat_session_id, "human", query)
+        ai_row = append_message(session, chat_session.chat_session_id, "ai", answer)
+        if persist_to_wiki:
+            wiki_path = append_query_note(
+                session=session,
+                chat_session_id=chat_session.chat_session_id,
+                human_message_id=human_row.id,
+                ai_message_id=ai_row.id,
+                contract_id=contract_id,
+                query=query,
+                answer=answer,
+                citations=citations,
+                answer_method="openai_compatible_chat",
+                retrieval_mode=retrieval_mode_value,
+            )
+        else:
+            record_query_result(
+                session=session,
+                chat_session_id=chat_session.chat_session_id,
+                human_message_id=human_row.id,
+                ai_message_id=ai_row.id,
+                contract_id=contract_id,
+                query=query,
+                answer=answer,
+                citations=citations,
+                wiki_path="",
+                answer_method="openai_compatible_chat",
+                retrieval_mode_value=retrieval_mode_value,
+            )
+
+    yield {
+        "event": "done",
+        "data": {
+            "chat_session_id": chat_session.chat_session_id if chat_session is not None else None,
+            "answer": answer,
+            "citations": citations,
+            "answer_method": "openai_compatible_chat",
+            "retrieval_mode": retrieval_mode_value,
+            "model_name": settings.local_query_model_name,
+            "reranker_model_name": retrieval.get("reranker_model_name"),
+            "retrieval_confident": retrieval_confident,
+            "anchor_failure_reason": anchor_failure_reason,
+            "wiki_path": wiki_path,
+            "gate_result": gate_result,
+        },
     }

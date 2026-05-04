@@ -73,6 +73,7 @@ class Settings(BaseModel):
     default_currency: str = _env_str("DEFAULT_CURRENCY", "TWD")
     local_model_name: str = _env_str("LOCAL_MODEL_NAME", "gemma-4-e2b-it-4bit")
     local_query_model_name: str = _env_str("LOCAL_QUERY_MODEL_NAME", "Qwen3-4B-Instruct-2507-4bit")
+    local_gate_model_name: str = _env_str("LOCAL_GATE_MODEL_NAME", "Qwen3.5-0.8B-4bit")
     local_model_base_url: str = _env_str("LOCAL_MODEL_BASE_URL", _default_local_model_base_url())
     local_model_api_key: str = _env_str("LOCAL_MODEL_API_KEY", "1111")
     local_model_num_ctx: int = _env_int("LOCAL_MODEL_NUM_CTX", 8192)
